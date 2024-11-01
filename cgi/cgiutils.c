@@ -111,6 +111,7 @@ char encoded_url_string[2][MAX_INPUT_BUFFER]; // 2 to be able use url_encode twi
 char *encoded_html_string = NULL;
 size_t encoded_html_string_len = 0;
 
+char   ttf_file[MAX_FILENAME_LENGTH];
 
 /*
  * These function stubs allow us to compile a lot of the
@@ -222,6 +223,8 @@ void reset_cgi_vars(void) {
 	statuswrl_include = NULL;
 
 	ping_syntax = NULL;
+
+	strcpy(ttf_file, "");
 
 	return;
 	}
@@ -445,6 +448,11 @@ int read_cgi_config_file(const char *filename, read_config_callback callback) {
 			tac_cgi_hard_only = (atoi(val) > 0) ? TRUE : FALSE;
 		else if (callback)
 			(*callback)(var,val);
+		else if(!strcmp(var, "ttf_file")) {
+			strncpy(ttf_file, val, sizeof(ttf_file));
+			ttf_file[sizeof(ttf_file)-1] = '\x0';
+			strip(ttf_file);
+			}
 		}
 
 	for(p = illegal_output_chars; p && *p; p++)
@@ -950,6 +958,7 @@ void get_time_string(time_t *raw_time, char *buffer, int buffer_length, int type
 	int month = 0;
 	int day = 0;
 	int year = 0;
+	char *weekdays_mb[7] = {"日", "月", "火", "水", "木", "金", "土"};
 	const char *weekdays[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 	const char *months[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 	const char *tzone = "";
@@ -979,7 +988,7 @@ void get_time_string(time_t *raw_time, char *buffer, int buffer_length, int type
 
 	/* ctime() style */
 	if(type == LONG_DATE_TIME)
-		snprintf(buffer, buffer_length, "%s %s %d %02d:%02d:%02d %s %d", weekdays[tm_ptr->tm_wday], months[tm_ptr->tm_mon], day, hour, minute, second, tzone, year);
+		snprintf(buffer, buffer_length, "%d年%d月%d日(%s) %02d:%02d:%02d", year, tm_ptr->tm_mon + 1, day, weekdays_mb[tm_ptr->tm_wday], hour, minute, second);
 
 	/* short style */
 	else if(type == SHORT_DATE_TIME) {
@@ -1028,7 +1037,7 @@ void get_interval_time_string(double time_units, char *buffer, int buffer_length
 	minutes = (int)total_seconds / 60;
 	total_seconds %= 60;
 	seconds = (int)total_seconds;
-	snprintf(buffer, buffer_length, "%dh %dm %ds", hours, minutes, seconds);
+	snprintf(buffer, buffer_length, "%d時間 %d分 %d秒", hours, minutes, seconds);
 	buffer[buffer_length - 1] = '\x0';
 
 	return;
@@ -1202,7 +1211,6 @@ char * html_encode_with_buffer(char *input, int escape_newlines, char **output, 
 					where_in_tag = WHERE_IN_TAG_IN_ATTRIBUTE_VALUE;
 				}
 				break;
-
 			case WHERE_IN_TAG_IN_ATTRIBUTE_VALUE:
 				if((*incp == 0x20) && (attr_value_start != '"') && (attr_value_start != '\''))
 					where_in_tag = WHERE_IN_TAG_OUTSIDE_ATTRIBUTE;
@@ -1310,7 +1318,6 @@ char * html_encode_with_buffer(char *input, int escape_newlines, char **output, 
 				where_in_tag = WHERE_OUTSIDE_TAG;
 				*incp = 0;
 				break;
-
 			case WHERE_IN_TAG_IN_ATTRIBUTE_VALUE:
 				if((attr_value_start != '"') && (attr_value_start != '\'')) {
 					*outcp++ = *incp;
@@ -1655,27 +1662,30 @@ void display_info_table(const char *title, int refresh, authdata *current_authda
 	time(&current_time);
 	get_time_string(&current_time, date_time, (int)sizeof(date_time), LONG_DATE_TIME);
 
-	printf("Last Updated: %s<BR>\n", date_time);
+	printf("最終更新: %s<BR>\n", date_time);
 	if(refresh == TRUE)
-		printf("Updated every %d seconds<br>\n", refresh_rate);
+		printf("更新間隔：%d秒毎<br>\n", refresh_rate);
 
-	printf("Nagios&reg; Core&trade; %s - <A HREF='https://www.nagios.org' TARGET='_new' REL='nofollow' CLASS='homepageURL'>www.nagios.org</A><BR>\n", PROGRAM_VERSION);
+	printf("Nagios&reg; Core&trade; %s - <A HREF='https://www.nagios.org' TARGET='_new' CLASS='homepageURL'>www.nagios.org</A><BR>\n", PROGRAM_VERSION);
 
 	if(current_authdata != NULL)
-		printf("Logged in as <i>%s</i><BR>\n", (!strcmp(current_authdata->username, "")) ? "?" : current_authdata->username);
+		printf("ログイン名: <i>%s</i><BR>\n", (!strcmp(current_authdata->username, "")) ? "?" : current_authdata->username);
+
+	printf("<BR>\n");
+	printf("Nagios&reg; Core&trade; %s - <A HREF='https://www.nagios.org' TARGET='_new' CLASS='homepageURL'>www.nagios.org</A><BR>\n", PROGRAM_VERSION);
 
 	if(nagios_process_state != STATE_OK)
-		printf("<DIV CLASS='infoBoxBadProcStatus'>Warning: Monitoring process may not be running!<BR>Click <A HREF='%s?type=%d'>here</A> for more info.</DIV>", EXTINFO_CGI, DISPLAY_PROCESS_INFO);
+		printf("<DIV CLASS='infoBoxBadProcStatus'>警告: 監視プロセスが稼働してないようです。<br><A HREF='%s?type=%d'>ここ</A>をク>リックして確認してください。</DIV>", EXTINFO_CGI, DISPLAY_PROCESS_INFO);
 
 	if(result == ERROR)
-		printf("<DIV CLASS='infoBoxBadProcStatus'>Warning: Could not read program status information!</DIV>");
+		printf("<DIV CLASS='infoBoxBadProcStatus'>警告: プログラムのステータス情報が読み込めません。</DIV>");
 
 	else {
 		if(enable_notifications == FALSE)
-			printf("<DIV CLASS='infoBoxBadProcStatus'>- Notifications are disabled</DIV>");
+			printf("<DIV CLASS='infoBoxBadProcStatus'>- 通知機能は無効になっています</DIV>");
 
 		if(execute_service_checks == FALSE)
-			printf("<DIV CLASS='infoBoxBadProcStatus'>- Service checks are disabled</DIV>");
+			printf("<DIV CLASS='infoBoxBadProcStatus'>- サービスチェックは無効になっています</DIV>");
 		}
 
 	printf("</TD></TR>\n");
@@ -1696,24 +1706,24 @@ void display_nav_table(char *url, int archive) {
 		printf("<tr>\n");
 		printf("<td align=center valign=center CLASS='navBoxItem'>\n");
 		if(archive == 0) {
-			printf("Latest Archive<br>");
-			printf("<a href='%sarchive=1'><img src='%s%s' border=0 alt='Latest Archive' title='Latest Archive'></a>", url, url_images_path, LEFT_ARROW_ICON);
+			printf("過去ログ<br>");
+			printf("<a href='%sarchive=1'><img src='%s%s' border=0 alt='過去ログ' title='過去ログ'></a>", url, url_images_path, LEFT_ARROW_ICON);
 			}
 		else {
-			printf("Earlier Archive<br>");
-			printf("<a href='%sarchive=%d'><img src='%s%s' border=0 alt='Earlier Archive' title='Earlier Archive'></a>", url, archive + 1, url_images_path, LEFT_ARROW_ICON);
+			printf("過去ログ<br>");
+			printf("<a href='%sarchive=%d'><img src='%s%s' border=0 alt='過去ログ' title='過去ログ'></a>", url, archive + 1, url_images_path, LEFT_ARROW_ICON);
 			}
 		printf("</td>\n");
 
 		printf("<td width=15></td>\n");
 
 		printf("<td align=center CLASS='navBoxDate'>\n");
-		printf("<DIV CLASS='navBoxTitle'>Log File Navigation</DIV>\n");
+		printf("<DIV CLASS='navBoxTitle'>ログファイルナビ</DIV>\n");
 		get_time_string(&last_scheduled_log_rotation, date_time, (int)sizeof(date_time), LONG_DATE_TIME);
 		printf("%s", date_time);
 		printf("<br>to<br>");
 		if(archive == 0)
-			printf("Present..");
+			printf("現在...");
 		else {
 			get_time_string(&this_scheduled_log_rotation, date_time, (int)sizeof(date_time), LONG_DATE_TIME);
 			printf("%s", date_time);
@@ -1725,12 +1735,12 @@ void display_nav_table(char *url, int archive) {
 
 			printf("<td align=center valign=center CLASS='navBoxItem'>\n");
 			if(archive == 1) {
-				printf("Current Log<br>");
-				printf("<a href='%s'><img src='%s%s' border=0 alt='Current Log' title='Current Log'></a>", url, url_images_path, RIGHT_ARROW_ICON);
+				printf("現在のログ<br>");
+				printf("<a href='%s'><img src='%s%s' border=0 alt='現在のログ' title='現在のログ'></a>", url, url_images_path, RIGHT_ARROW_ICON);
 				}
 			else {
-				printf("More Recent Archive<br>");
-				printf("<a href='%sarchive=%d'><img src='%s%s' border=0 alt='More Recent Archive' title='More Recent Archive'></a>", url, archive - 1, url_images_path, RIGHT_ARROW_ICON);
+				printf("最近の過去ログ<br>");
+				printf("<a href='%sarchive=%d'><img src='%s%s' border=0 alt='最近の過去ログ' title='最近の過去ログ'></a>", url, archive - 1, url_images_path, RIGHT_ARROW_ICON);
 				}
 			printf("</td>\n");
 			}
@@ -1751,7 +1761,7 @@ void display_nav_table(char *url, int archive) {
 		archive_basename = strrchr((char *)&archive_file, '/') + 1;
 
 	/* now it's safe to print the filename */
-	printf("<BR><DIV CLASS='navBoxFile'>File: %s</DIV>\n", archive_basename);
+	printf("<BR><DIV CLASS='navBoxFile'>ファイル: %s</DIV>\n", archive_basename);
 
 	return;
 	}
@@ -1924,10 +1934,10 @@ void include_ssi_file(const char *filename) {
 			case EFAULT: /* Bad address. */
 			case ENOMEM: /* Out of memory (i.e. kernel memory). */
 			case ENAMETOOLONG: /* File name too long. */
-				printf("<br /> A stat call returned %d while looking for the file %s.<br />", errno, filename);
+				printf("<br /> -%d: %s のファイル名が長すぎます<br />", errno, filename);
 				return;
 			case EACCES: /* Permission denied. -- The file should be accessible by nagios. */
-				printf("<br /> A stat call returned a permissions error(%d) while looking for the file %s.<br />", errno, filename);
+				printf("<br /> -%d: %s のパーミッションが正しくありません<br />", errno, filename);
 				return;
 			case ENOENT: /* A component of the path file_name does not exist, or the path is an empty string. Just return if the file doesn't exist. */
 				return;
@@ -1953,25 +1963,25 @@ void include_ssi_file(const char *filename) {
 /* displays an error if CGI config file could not be read */
 void cgi_config_file_error(const char *config_file) {
 
-	printf("<H1>Whoops!</H1>\n");
+	printf("<H1>エラーが発生しました</H1>\n");
 
-	printf("<P><STRONG><FONT COLOR='RED'>Error: Could not open CGI config file '%s' for reading!</FONT></STRONG></P>\n", config_file);
+	printf("<P><STRONG><FONT COLOR='RED'>エラー: CGI設定ファイル '%s' が読めません</FONT></STRONG></P>\n", config_file);
 
 	printf("<P>\n");
-	printf("Here are some things you should check in order to resolve this error:\n");
+	printf("この問題を解決するためにチェックする項目:\n");
 	printf("</P>\n");
 
 	printf("<P>\n");
 	printf("<OL>\n");
 
-	printf("<LI>Make sure you've installed a CGI config file in its proper location.  See the error message about for details on where the CGI is expecting to find the configuration file.  A sample CGI configuration file (named <b>cgi.cfg</b>) can be found in the <b>sample-config/</b> subdirectory of the Nagios source code distribution.\n");
-	printf("<LI>Make sure the user your web server is running as has permission to read the CGI config file.\n");
+	printf("<LI>NagiosのCGI設定ファイルが正しい位置にあるか確認してください。CGIがどこに設定ファイルがあると想定しているか確認するために詳細のエラーメッセージを見てください。サンプルのCGI設定ファイル(<b>cgi.cfg</b>)はNagiosのソースディレクトリ内の<b>sample-config/</b>サブディレクトリにあります。\n");
+	printf("<LI>WebサーバがNagiosのCGI設定ファイルを読むことが出来るようになっているかパーミッションを確認してください。\n");
 
 	printf("</OL>\n");
 	printf("</P>\n");
 
 	printf("<P>\n");
-	printf("Make sure you read the documentation on installing and configuring Nagios thoroughly before continuing.  If all else fails, try sending a message to one of the mailing lists.  More information can be found at <a href='https://www.nagios.org'>https://www.nagios.org</a>.\n");
+	printf("作業を続ける前に徹底的にNagiosのドキュメントの\"Installing and configuration\"を読んでください。もし熟読してもわからない場合、メーリングリストを活用してみてください。詳しい情報は<a href='https://www.nagios.org'>https://www.nagios.org</a>>へどうぞ。\n");
 	printf("</P>\n");
 
 	return;
@@ -1982,25 +1992,25 @@ void cgi_config_file_error(const char *config_file) {
 /* displays an error if main config file could not be read */
 void main_config_file_error(const char *config_file) {
 
-	printf("<H1>Whoops!</H1>\n");
+	printf("<H1>エラーが発生しました</H1>\n");
 
-	printf("<P><STRONG><FONT COLOR='RED'>Error: Could not open main config file '%s' for reading!</FONT></STRONG></P>\n", config_file);
+	printf("<P><STRONG><FONT COLOR='RED'>エラー: 設定ファイル'%s' が読み込めませんでした</FONT></STRONG></P>\n", config_file);
 
 	printf("<P>\n");
-	printf("Here are some things you should check in order to resolve this error:\n");
+	printf("この問題を解決するためにチェックする項目:\n");
 	printf("</P>\n");
 
 	printf("<P>\n");
 	printf("<OL>\n");
 
-	printf("<LI>Make sure you've installed a main config file in its proper location.  See the error message about for details on where the CGI is expecting to find the configuration file.  A sample main configuration file (named <b>nagios.cfg</b>) can be found in the <b>sample-config/</b> subdirectory of the Nagios source code distribution.\n");
-	printf("<LI>Make sure the user your web server is running as has permission to read the main config file.\n");
+	printf("<LI>メインの設定ファイルが正しい位置にあるか確認してください。CGIがどこに設定ファイルがあると想定しているか確認するために詳細のエラーメッセージを見てください。サンプルのCGIコンフィグファイル(<b>nagiso.cfg</b>)はNagiosのソースディレクトリ内の<b>sample-config/</b>サブディレクトリにありますよ。\n");
+	printf("<LI>Webサーバが設定ファイルを読むことが出来るようになっているかパーミッションを確認してください。\n");
 
 	printf("</OL>\n");
 	printf("</P>\n");
 
 	printf("<P>\n");
-	printf("Make sure you read the documentation on installing and configuring Nagios thoroughly before continuing.  If all else fails, try sending a message to one of the mailing lists.  More information can be found at <a href='https://www.nagios.org'>https://www.nagios.org</a>.\n");
+	printf("作業を続ける前に徹底的にNagiosのドキュメントの\"Installing and configuration\"を読んでください。もし熟読してもわからない場合、メーリングリストを活用してみてください。詳しい情報は<a href='https://www.nagios.org'>https://www.nagios.org</a>へどうぞ。\n");
 	printf("</P>\n");
 
 	return;
@@ -2010,25 +2020,25 @@ void main_config_file_error(const char *config_file) {
 /* displays an error if object data could not be read */
 void object_data_error(void) {
 
-	printf("<H1>Whoops!</H1>\n");
+	printf("<H1>エラーが発生しました</H1>\n");
 
-	printf("<P><STRONG><FONT COLOR='RED'>Error: Could not read object configuration data!</FONT></STRONG></P>\n");
+	printf("<P><STRONG><FONT COLOR='RED'>エラー: オブジェクト設定ファイルが読み込めませんでした</FONT></STRONG></P>\n");
 
 	printf("<P>\n");
-	printf("Here are some things you should check in order to resolve this error:\n");
+	printf("この問題を解決するためにチェックする項目:\n");
 	printf("</P>\n");
 
 	printf("<P>\n");
 	printf("<OL>\n");
 
-	printf("<LI>Verify configuration options using the <b>-v</b> command-line option to check for errors.\n");
-	printf("<LI>Check the Nagios log file for messages relating to startup or status data errors.\n");
+	printf("<LI>設定内容が正しいかどうかコマンドライン上で<b>-v</b>オプションをつけてコマンドを実行して確認してください。(例:nagios -v /etc/nagios/nagios.cfg)\n");
+	printf("<LI>Nagiosのログファイルを見て何がエラーを起こしてるのかチェックしてください。\n");
 
 	printf("</OL>\n");
 	printf("</P>\n");
 
 	printf("<P>\n");
-	printf("Make sure you read the documentation on installing, configuring and running Nagios thoroughly before continuing.  If all else fails, try sending a message to one of the mailing lists.  More information can be found at <a href='https://www.nagios.org'>https://www.nagios.org</a>.\n");
+	printf("作業を続ける前に徹底的にNagiosのドキュメントの\"Installing and configuration\"を読んでください。もし熟読してもわからない場合、メーリングリストを活用してみてください。詳しい情報は<a href='https://www.nagios.org'>https://www.nagios.org</a>へどうぞ。\n");
 	printf("</P>\n");
 
 	return;
@@ -2038,29 +2048,29 @@ void object_data_error(void) {
 /* displays an error if status data could not be read */
 void status_data_error(void) {
 
-	printf("<H1>Whoops!</H1>\n");
+	printf("<H1>エラーが発生しました</H1>\n");
 
-	printf("<P><STRONG><FONT COLOR='RED'>Error: Could not read host and service status information!</FONT></STRONG></P>\n");
+	printf("<P><STRONG><FONT COLOR='RED'>エラー: ホストとサービス稼動状況の情報が読み込めませんでした</FONT></STRONG></P>\n");
 
 	printf("<P>\n");
-	printf("The most common cause of this error message (especially for new users), is the fact that Nagios is not actually running.  If Nagios is indeed not running, this is a normal error message.  It simply indicates that the CGIs could not obtain the current status of hosts and services that are being monitored.  If you've just installed things, make sure you read the documentation on starting Nagios.\n");
+	printf("このエラーが表示される最大の原因は正しくNagiosが稼動していないことが考えられます。もしNagiosが実際には動いてない場合、このメッセージは特に意味を持たない単なるエラーになります。これは単純にCGIがホストやサービスの状態をモニタリングできていないことになります。これを解決するにはNagiosのドキュメントの\"starting Nagios\"セクションを熟読してください。\n");
 	printf("</P>\n");
 
 	printf("<P>\n");
-	printf("Some other things you should check in order to resolve this error include:\n");
+	printf("このエラーを回避するためにチェックする箇所:\n");
 	printf("</P>\n");
 
 	printf("<P>\n");
 	printf("<OL>\n");
 
-	printf("<LI>Check the Nagios log file for messages relating to startup or status data errors.\n");
-	printf("<LI>Always verify configuration options using the <b>-v</b> command-line option before starting or restarting Nagios!\n");
+	printf("<LI>Nagiosのログファイルを見てNagios起動時、もしくはステータスデータ取得時のエラーを確認してください。\n");
+	printf("<LI>設定内容が正しいかどうかコマンドライン上で<b>-v</b>オプションをつけてコマンドを実行して確認してください。(例:nagios -v /etc/nagios/nagios.cfg)\n");
 
 	printf("</OL>\n");
 	printf("</P>\n");
 
 	printf("<P>\n");
-	printf("Make sure you read the documentation on installing, configuring and running Nagios thoroughly before continuing.  If all else fails, try sending a message to one of the mailing lists.  More information can be found at <a href='https://www.nagios.org'>https://www.nagios.org</a>.\n");
+	printf("作業を続ける前に徹底的にNagiosのドキュメントの\"Installing and configuration\"を読んでください。もし熟読してもわからない場合、メーリングリストを活用してみてください。詳しい情報は<a href='https://www.nagios.org'>https://www.nagios.org</a>へどうぞ。\n");
 	printf("</P>\n");
 
 	return;

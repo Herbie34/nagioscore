@@ -115,7 +115,7 @@ int main(void) {
 	/* read the CGI configuration file */
 	result = read_cgi_config_file(get_cgi_config_location(), NULL);
 	if(result == ERROR) {
-		printf("<P>Error: Could not open CGI configuration file '%s' for reading!</P>\n", get_cgi_config_location());
+		printf("<P>エラー: CGI設定ファイル'%s'が開けませんでした！</P>\n", get_cgi_config_location());
 		document_footer();
 		return ERROR;
 		}
@@ -123,7 +123,7 @@ int main(void) {
 	/* read the main configuration file */
 	result = read_main_config_file(main_config_file);
 	if(result == ERROR) {
-		printf("<P>Error: Could not open main configuration file '%s' for reading!</P>\n", main_config_file);
+		printf("<P>エラー: メイン設定ファイル'%s'が開けませんでした！</P>\n", main_config_file);
 		document_footer();
 		return ERROR;
 		}
@@ -131,7 +131,7 @@ int main(void) {
 	/* read all object configuration data */
 	result = read_all_object_configuration_data(main_config_file, READ_ALL_OBJECT_DATA);
 	if(result == ERROR) {
-		printf("<P>Error: Could not read some or all object configuration data!</P>\n");
+		printf("<P>エラー: オブジェクト設定ファイルが開けませんでした！</P>\n");
 		document_footer();
 		return ERROR;
 		}
@@ -139,7 +139,7 @@ int main(void) {
 	/* read all status data */
 	result = read_all_status_data(status_file, READ_ALL_STATUS_DATA);
 	if(result == ERROR) {
-		printf("<P>Error: Could not read host and service status information!</P>\n");
+		printf("<P>エラー: ホストおよびサービスのステータス情報が読み込めませんでした！</P>\n");
 		document_footer();
 		free_memory();
 		return ERROR;
@@ -198,7 +198,7 @@ void document_header(void) {
 	get_time_string(&expire_time, date_time, (int)sizeof(date_time), HTTP_DATE_TIME);
 	printf("Expires: %s\r\n", date_time);
 
-	printf("Content-type: text/vnd.wap.wml\r\n\r\n");
+	printf("Content-type: text/vnd.wap.wml; charset=UTF-8\r\n\r\n");
 
 	printf("<?xml version=\"1.0\"?>\n");
 	printf("<!DOCTYPE wml PUBLIC \"-//WAPFORUM//DTD WML 1.1//EN\" \"http://www.wapforum.org/DTD/wml_1.1.xml\">\n");
@@ -206,6 +206,7 @@ void document_header(void) {
 	printf("<wml>\n");
 
 	printf("<head>\n");
+	printf("<meta http-equiv=\"Content-Type\" content=\"text/vnd.wap.wml; charset=UTF-8\"/>");
 	printf("<meta forua=\"true\" http-equiv=\"Cache-Control\" content=\"max-age=0\"/>\n");
 	printf("</head>\n");
 
@@ -228,7 +229,7 @@ int process_cgivars(void) {
 
 	variables = getcgivars();
 
-	for(x = 0; variables[x]; x++) {
+	for(x = 0; variables[x] != NULL; x++) {
 
 		/* do some basic length checking on the variable identifier to prevent buffer overflows */
 		if(strlen(variables[x]) >= MAX_INPUT_BUFFER - 1) {
@@ -346,11 +347,11 @@ int process_cgivars(void) {
 int validate_arguments(void) {
 	int result = OK;
 	if((strcmp(ping_address, "")) && !is_valid_hostip(ping_address)) {
-		printf("<p>Invalid host name/ip</p>\n");
+		printf("<p>不正なホスト名/IP</p>\n");
 		result = ERROR;
 		}
 	if(strcmp(traceroute_address, "") && !is_valid_hostip(traceroute_address)) {
-		printf("<p>Invalid host name/ip</p>\n");
+		printf("<p>不正なホスト名/IP</p>\n");
 		result = ERROR;
 		}
 	return result;
@@ -368,57 +369,57 @@ void display_index(void) {
 
 
 	/**** MAIN MENU SCREEN (CARD 1) ****/
-	printf("<card id='card1' title='Nagios WAP Interface'>\n");
+	printf("<card id='card1' title='WAP インターフェース'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
 
-	printf("<b>Nagios</b><br/><b>WAP Interface</b><br/>\n");
+	printf("<b>Nagios</b><br/><b>WAP インターフェース</b><br/>\n");
 
-	printf("<b><anchor title='Quick Stats'>Quick Stats<go href='%s'><postfield name='style' value='quickstats'/></go></anchor></b><br/>\n", STATUSWML_CGI);
+	printf("<b><anchor title='クイックステータス'>クイックステータス<go href='%s'><postfield name='style' value='quickstats'/></go></anchor></b><br/>\n", STATUSWML_CGI);
 
-	printf("<b><anchor title='Status Summary'>Status Summary<go href='%s'><postfield name='hostgroup' value='all'/><postfield name='style' value='summary'/></go></anchor></b><br/>\n", STATUSWML_CGI);
+	printf("<b><anchor title='ステータスサマリー'>ステータスサマリー<go href='%s'><postfield name='hostgroup' value='all'/><postfield name='style' value='summary'/></go></anchor></b><br/>\n", STATUSWML_CGI);
 
-	printf("<b><anchor title='Status Overview'>Status Overview<go href='%s'><postfield name='hostgroup' value='all'/><postfield name='style' value='overview'/></go></anchor></b><br/>\n", STATUSWML_CGI);
+	printf("<b><anchor title='ステータスオーバービュー'>ステータスオーバービュー<go href='%s'><postfield name='hostgroup' value='all'/><postfield name='style' value='overview'/></go></anchor></b><br/>\n", STATUSWML_CGI);
 
-	printf("<b><anchor title='All Problems'>All Problems<go href='%s'><postfield name='style' value='aprobs'/></go></anchor></b><br/>\n", STATUSWML_CGI);
+	printf("<b><anchor title='全ての障害'>全ての障害<go href='%s'><postfield name='style' value='aprobs'/></go></anchor></b><br/>\n", STATUSWML_CGI);
 
-	printf("<b><anchor title='Unhandled Problems'>Unhandled Problems<go href='%s'><postfield name='style' value='uprobs'/></go></anchor></b><br/>\n", STATUSWML_CGI);
+	printf("<b><anchor title='未解決の障害'>未解決の障害<go href='%s'><postfield name='style' value='uprobs'/></go></anchor></b><br/>\n", STATUSWML_CGI);
 
-	printf("<b><anchor title='Process Info'>Process Info<go href='%s'><postfield name='style' value='processinfo'/></go></anchor></b><br/>\n", STATUSWML_CGI);
+	printf("<b><anchor title='プロセス情報'>プロセス情報<go href='%s'><postfield name='style' value='processinfo'/></go></anchor></b><br/>\n", STATUSWML_CGI);
 
-	printf("<b><anchor title='Network Tools'>Tools<go href='#card2'/></anchor></b><br/>\n");
+	printf("<b><anchor title='ネットワークツール'>ツール<go href='#card2'/></anchor></b><br/>\n");
 
-	printf("<b><anchor title='About'>About<go href='#card3'/></anchor></b><br/>\n");
+	printf("<b><anchor title='このソフトウェアについて'>このソフトウェアについて<go href='#card3'/></anchor></b><br/>\n");
 
 	printf("</p>\n");
 	printf("</card>\n");
 
 
 	/**** TOOLS SCREEN (CARD 2) ****/
-	printf("<card id='card2' title='Network Tools'>\n");
+	printf("<card id='card2' title='ネットワークツール'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
 
-	printf("<b>Network Tools:</b><br/>\n");
+	printf("<b>ネットワークツール:</b><br/>\n");
 
 	printf("<b><anchor title='Ping Host'>Ping<go href='%s'><postfield name='ping' value=''/></go></anchor></b><br/>\n", STATUSWML_CGI);
 	printf("<b><anchor title='Traceroute'>Traceroute<go href='%s'><postfield name='traceroute' value=''/></go></anchor></b><br/>\n", STATUSWML_CGI);
-	printf("<b><anchor title='View Host'>View Host<go href='#card4'/></anchor></b><br/>\n");
-	printf("<b><anchor title='View Hostgroup'>View Hostgroup<go href='#card5'/></anchor></b><br/>\n");
+	printf("<b><anchor title='ホスト情報'>ホスト情報<go href='#card4'/></anchor></b><br/>\n");
+	printf("<b><anchor title='ホストグループ情報'>ホストグループ情報<go href='#card5'/></anchor></b><br/>\n");
 
 	printf("</p>\n");
 	printf("</card>\n");
 
 
 	/**** ABOUT SCREEN (CARD 3) ****/
-	printf("<card id='card3' title='About'>\n");
+	printf("<card id='card3' title='このソフトウェアについて'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>About</b><br/>\n");
+	printf("<b>このソフトウェアについて</b><br/>\n");
 	printf("</p>\n");
 
 	printf("<p align='center' mode='wrap'>\n");
-	printf("<b>Nagios %s</b><br/><b>WAP Interface</b><br/>\n", PROGRAM_VERSION);
+	printf("<b>Nagios %s</b><br/><b>WAP インターフェース</b><br/>\n", PROGRAM_VERSION);
 	printf("Copyright (C) 2001 Ethan Galstad<br/>\n");
 	printf("egalstad@nagios.org<br/><br/>\n");
-	printf("License: <b>GPL</b><br/><br/>\n");
+	printf("ライセンス: <b>GPL</b><br/><br/>\n");
 	printf("Based in part on features found in AskAround's Wireless Network Tools<br/>\n");
 	printf("<b>www.askaround.com</b><br/>\n");
 	printf("</p>\n");
@@ -428,13 +429,13 @@ void display_index(void) {
 
 
 	/**** VIEW HOST SCREEN (CARD 4) ****/
-	printf("<card id='card4' title='View Host'>\n");
+	printf("<card id='card4' title='ホスト情報'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>View Host</b><br/>\n");
+	printf("<b>ホスト情報</b><br/>\n");
 	printf("</p>\n");
 
 	printf("<p align='center' mode='wrap'>\n");
-	printf("<b>Host Name:</b><br/>\n");
+	printf("<b>ホスト名:</b><br/>\n");
 	printf("<input name='hname'/>\n");
 	printf("<do type='accept'>\n");
 	printf("<go href='%s' method='post'><postfield name='host' value='$(hname)'/></go>\n", STATUSWML_CGI);
@@ -446,13 +447,13 @@ void display_index(void) {
 
 
 	/**** VIEW HOSTGROUP SCREEN (CARD 5) ****/
-	printf("<card id='card5' title='View Hostgroup'>\n");
+	printf("<card id='card5' title='ホストグループ情報'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>View Hostgroup</b><br/>\n");
+	printf("<b>ホストグループ情報</b><br/>\n");
 	printf("</p>\n");
 
 	printf("<p align='center' mode='wrap'>\n");
-	printf("<b>Hostgroup Name:</b><br/>\n");
+	printf("<b>ホストグループ名:</b><br/>\n");
 	printf("<input name='gname'/>\n");
 	printf("<do type='accept'>\n");
 	printf("<go href='%s' method='post'><postfield name='hostgroup' value='$(gname)'/><postfield name='style' value='overview'/></go>\n", STATUSWML_CGI);
@@ -471,55 +472,55 @@ void display_process(void) {
 
 
 	/**** MAIN SCREEN (CARD 1) ****/
-	printf("<card id='card1' title='Process Info'>\n");
+	printf("<card id='card1' title='プロセス情報'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>Process Info</b><br/><br/>\n");
+	printf("<b>プロセス情報</b><br/><br/>\n");
 
 	/* check authorization */
 	if(is_authorized_for_system_information(&current_authdata) == FALSE) {
 
-		printf("<b>Error: Not authorized for process info!</b>\n");
+		printf("<b>エラー: プロセス情報の閲覧権限がありません！</b>\n");
 		printf("</p>\n");
 		printf("</card>\n");
 		return;
 		}
 
 	if(nagios_process_state == STATE_OK)
-		printf("Nagios process is running<br/>\n");
+		printf("Nagiosプロセスは稼動しています<br/>\n");
 	else
-		printf("<b>Nagios process may not be running</b><br/>\n");
+		printf("<b>Nagiosプロセスは稼動していないようです</b><br/>\n");
 
 	if(enable_notifications == TRUE)
-		printf("Notifications are enabled<br/>\n");
+		printf("通知は有効です<br/>\n");
 	else
-		printf("<b>Notifications are disabled</b><br/>\n");
+		printf("<b>通知は無効です</b><br/>\n");
 
 	if(execute_service_checks == TRUE)
-		printf("Check execution is enabled<br/>\n");
+		printf("チェックは有効です<br/>\n");
 	else
-		printf("<b>Check execution is disabled</b><br/>\n");
+		printf("<b>チェックは無効です</b><br/>\n");
 
 	printf("<br/>\n");
-	printf("<b><anchor title='Process Commands'>Process Commands<go href='#card2'/></anchor></b>\n");
+	printf("<b><anchor title='プロセスコマンド'>プロセスコマンド<go href='#card2'/></anchor></b>\n");
 	printf("</p>\n");
 
 	printf("</card>\n");
 
 
 	/**** COMMANDS SCREEN (CARD 2) ****/
-	printf("<card id='card2' title='Process Commands'>\n");
+	printf("<card id='card2' title='プロセスコマンド'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>Process Commands</b><br/>\n");
+	printf("<b>プロセスコマンド</b><br/>\n");
 
 	if(enable_notifications == FALSE)
-		printf("<b><anchor title='Enable Notifications'>Enable Notifications<go href='%s' method='post'><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, CMD_ENABLE_NOTIFICATIONS, CMDMODE_COMMIT);
+		printf("<b><anchor title='通知を有効にする'>通知を有効にする<go href='%s' method='post'><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, CMD_ENABLE_NOTIFICATIONS, CMDMODE_COMMIT);
 	else
-		printf("<b><anchor title='Disable Notifications'>Disable Notifications<go href='%s' method='post'><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, CMD_DISABLE_NOTIFICATIONS, CMDMODE_COMMIT);
+		printf("<b><anchor title='通知を無効にする'>通知を無効にする<go href='%s' method='post'><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, CMD_DISABLE_NOTIFICATIONS, CMDMODE_COMMIT);
 
 	if(execute_service_checks == FALSE)
-		printf("<b><anchor title='Enable Check Execution'>Enable Check Execution<go href='%s' method='post'><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, CMD_START_EXECUTING_SVC_CHECKS, CMDMODE_COMMIT);
+		printf("<b><anchor title='チェックを有効にする'>チェックを有効にする<go href='%s' method='post'><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, CMD_START_EXECUTING_SVC_CHECKS, CMDMODE_COMMIT);
 	else
-		printf("<b><anchor title='Disable Check Execution'>Disable Check Execution<go href='%s' method='post'><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, CMD_STOP_EXECUTING_SVC_CHECKS, CMDMODE_COMMIT);
+		printf("<b><anchor title='チェックを無効にする'>チェックを無効にする<go href='%s' method='post'><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, CMD_STOP_EXECUTING_SVC_CHECKS, CMDMODE_COMMIT);
 
 	printf("</p>\n");
 
@@ -549,9 +550,9 @@ void display_quick_stats(void) {
 
 
 	/**** MAIN SCREEN (CARD 1) ****/
-	printf("<card id='card1' title='Quick Stats'>\n");
+	printf("<card id='card1' title='クイックステータス'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>Quick Stats</b><br/>\n");
+	printf("<b>クイックステータス</b><br/>\n");
 	printf("</p>\n");
 
 	/* check all hosts */
@@ -598,20 +599,20 @@ void display_quick_stats(void) {
 
 	printf("<p align='left' mode='nowrap'>\n");
 
-	printf("<b>Host Totals</b>:<br/>\n");
-	printf("%d UP<br/>\n", hosts_up);
-	printf("%d DOWN<br/>\n", hosts_down);
-	printf("%d UNREACHABLE<br/>\n", hosts_unreachable);
-	printf("%d PENDING<br/>\n", hosts_pending);
+	printf("<b>ホストの全体状況</b>:<br/>\n");
+	printf("稼動状態<br/>(UP)<br/>[ %d 件 ]<br/>\n", hosts_up);
+	printf("停止状態<br/>(DOWN)<br/>[ %d 件 ]<br/>\n", hosts_down);
+	printf("未到達状態<br/>(UNREACHABLE)<br/>[ %d 件 ]<br/>\n", hosts_unreachable);
+	printf("保留状態<br/>(PENDING)<br/>[ %d 件 ]<br/>\n", hosts_pending);
 
 	printf("<br/>\n");
 
-	printf("<b>Service Totals:</b><br/>\n");
-	printf("%d OK<br/>\n", services_ok);
-	printf("%d WARNING<br/>\n", services_warning);
-	printf("%d UNKNOWN<br/>\n", services_unknown);
-	printf("%d CRITICAL<br/>\n", services_critical);
-	printf("%d PENDING<br/>\n", services_pending);
+	printf("<b>サービスの全体状況:</b><br/>\n");
+	printf("正常状態<br/>(OK)<br/>[ %d 件 ]<br/>\n", services_ok);
+	printf("警告状態<br/>(WARNING)<br/>[ %d 件 ]<br/>\n", services_warning);
+	printf("不明状態<br/>(UNKNOWN)<br/>[ %d 件 ]<br/>\n", services_unknown);
+	printf("異常状態<br/>(CRITICAL)<br/>[ %d 件 ]<br/>\n", services_critical);
+	printf("保留状態<br/>(PENDING)<br/>[ %d 件 ]<br/>\n", services_pending);
 
 	printf("</p>\n");
 
@@ -631,10 +632,10 @@ void display_hostgroup_overview(void) {
 
 
 	/**** MAIN SCREEN (CARD 1) ****/
-	printf("<card id='card1' title='Status Overview'>\n");
+	printf("<card id='card1' title='ステータスオーバビュー'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
 
-	printf("<b><anchor title='Status Overview'>Status Overview<go href='%s' method='post'><postfield name='hostgroup' value='%s'/><postfield name='style' value='summary'/></go></anchor></b><br/><br/>\n", STATUSWML_CGI, escape_string(hostgroup_name));
+	printf("<b><anchor title='ステータスオーバビュー'>ステータスオーバビュー<go href='%s' method='post'><postfield name='hostgroup' value='%s'/><postfield name='style' value='summary'/></go></anchor></b><br/><br/>\n", STATUSWML_CGI, escape_string(hostgroup_name));
 
 	/* check all hostgroups */
 	for(temp_hostgroup = hostgroup_list; temp_hostgroup != NULL; temp_hostgroup = temp_hostgroup->next) {
@@ -665,15 +666,15 @@ void display_hostgroup_overview(void) {
 
 			printf("<tr><td><anchor title='%s'>", temp_host->name);
 			if(temp_hoststatus->status == SD_HOST_UP)
-				printf("UP");
+				printf("稼動(UP)");
 			else if(temp_hoststatus->status == HOST_PENDING)
-				printf("PND");
+				printf("保留(PND)");
 			else if(temp_hoststatus->status == SD_HOST_DOWN)
-				printf("DWN");
+				printf("停止(DWN)");
 			else if(temp_hoststatus->status == SD_HOST_UNREACHABLE)
-				printf("UNR");
+				printf("未到達(UNR)");
 			else
-				printf("???");
+				printf("未知の状態");
 			printf("<go href='%s' method='post'><postfield name='host' value='%s'/></go></anchor></td>", STATUSWML_CGI, temp_host->name);
 			printf("<td>%s</td></tr>\n", temp_host->name);
 			}
@@ -684,7 +685,7 @@ void display_hostgroup_overview(void) {
 		}
 
 	if(show_all_hostgroups == FALSE)
-		printf("<b><anchor title='View All Hostgroups'>View All Hostgroups<go href='%s' method='post'><postfield name='hostgroup' value='all'/><postfield name='style' value='overview'/></go></anchor></b>\n", STATUSWML_CGI);
+		printf("<b><anchor title='全てのホストグループ'>全てのホストグループ<go href='%s' method='post'><postfield name='hostgroup' value='all'/><postfield name='style' value='overview'/></go></anchor></b>\n", STATUSWML_CGI);
 
 	printf("</p>\n");
 	printf("</card>\n");
@@ -714,10 +715,10 @@ void display_hostgroup_summary(void) {
 
 
 	/**** MAIN SCREEN (CARD 1) ****/
-	printf("<card id='card1' title='Status Summary'>\n");
+	printf("<card id='card1' title='ステータスサマリー'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
 
-	printf("<b><anchor title='Status Summary'>Status Summary<go href='%s' method='post'><postfield name='hostgroup' value='%s'/><postfield name='style' value='overview'/></go></anchor></b><br/><br/>\n", STATUSWML_CGI, escape_string(hostgroup_name));
+	printf("<b><anchor title='ステータスサマリー'>ステータスサマリー<go href='%s' method='post'><postfield name='hostgroup' value='%s'/><postfield name='style' value='overview'/></go></anchor></b><br/><br/>\n", STATUSWML_CGI, escape_string(hostgroup_name));
 
 	/* check all hostgroups */
 	for(temp_hostgroup = hostgroup_list; temp_hostgroup != NULL; temp_hostgroup = temp_hostgroup->next) {
@@ -792,41 +793,43 @@ void display_hostgroup_summary(void) {
 				}
 			}
 
-		printf("<tr><td>Hosts:</td><td>");
+		/* レイアウト変更箇所 */
+		printf("<tr><td>ホスト:</td><td>");
 		found = 0;
 		if(hosts_unreachable > 0) {
-			printf("%d UNR", hosts_unreachable);
+			printf("未到達(UNR): %d件", hosts_unreachable);
 			found = 1;
 			}
 		if(hosts_down > 0) {
-			printf("%s%d DWN", (found == 1) ? ", " : "", hosts_down);
+			printf("%s停止(DWN): %d件", (found == 1) ? ", " : "", hosts_down);
 			found = 1;
 			}
 		if(hosts_pending > 0) {
-			printf("%s%d PND", (found == 1) ? ", " : "", hosts_pending);
+			printf("%s保留(PND): %d件", (found == 1) ? ", " : "", hosts_pending);
 			found = 1;
 			}
-		printf("%s%d UP", (found == 1) ? ", " : "", hosts_up);
+		printf("%s稼動(UP): %d件", (found == 1) ? ", " : "", hosts_up);
 		printf("</td></tr>\n");
-		printf("<tr><td>Services:</td><td>");
+		printf("<tr><td>&nbsp;</td><td>&nbsp;</td></tr>");
+		printf("<tr><td>サービス:</td><td>");
 		found = 0;
 		if(services_critical > 0) {
-			printf("%d CRI", services_critical);
+			printf("異常(CRI): %d件", services_critical);
 			found = 1;
 			}
 		if(services_warning > 0) {
-			printf("%s%d WRN", (found == 1) ? ", " : "", services_warning);
+			printf("%s警告(WRN): %d件", (found == 1) ? ", " : "", services_warning);
 			found = 1;
 			}
 		if(services_unknown > 0) {
-			printf("%s%d UNK", (found == 1) ? ", " : "", services_unknown);
+			printf("%s不明(UNK): %d件", (found == 1) ? ", " : "", services_unknown);
 			found = 1;
 			}
 		if(services_pending > 0) {
-			printf("%s%d PND", (found == 1) ? ", " : "", services_pending);
+			printf("%s保留(PND): %d件", (found == 1) ? ", " : "", services_pending);
 			found = 1;
 			}
-		printf("%s%d OK", (found == 1) ? ", " : "", services_ok);
+		printf("%s正常(OK): %d件", (found == 1) ? ", " : "", services_ok);
 		printf("</td></tr>\n");
 
 		printf("</table>\n");
@@ -835,7 +838,7 @@ void display_hostgroup_summary(void) {
 		}
 
 	if(show_all_hostgroups == FALSE)
-		printf("<b><anchor title='View All Hostgroups'>View All Hostgroups<go href='%s' method='post'><postfield name='hostgroup' value='all'/><postfield name='style' value='summary'/></go></anchor></b>\n", STATUSWML_CGI);
+		printf("<b><anchor title='全てのホストグループ'>全てのホストグループ<go href='%s' method='post'><postfield name='hostgroup' value='all'/><postfield name='style' value='summary'/></go></anchor></b>\n", STATUSWML_CGI);
 
 	printf("</p>\n");
 
@@ -861,16 +864,16 @@ void display_host(void) {
 	int found;
 
 	/**** MAIN SCREEN (CARD 1) ****/
-	printf("<card id='card1' title='Host Status'>\n");
+	printf("<card id='card1' title='ホストステータス'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>Host '%s'</b><br/>\n", host_name);
+	printf("<b>ホスト '%s'</b><br/>\n", host_name);
 
 	/* find the host */
 	temp_host = find_host(host_name);
 	temp_hoststatus = find_hoststatus(host_name);
 	if(temp_host == NULL || temp_hoststatus == NULL) {
 
-		printf("<b>Error: Could not find host!</b>\n");
+		printf("<b>エラー: ホストが見つかりませんでした！</b>\n");
 		printf("</p>\n");
 		printf("</card>\n");
 		return;
@@ -879,7 +882,7 @@ void display_host(void) {
 	/* check authorization */
 	if(is_authorized_for_host(temp_host, &current_authdata) == FALSE) {
 
-		printf("<b>Error: Not authorized for host!</b>\n");
+		printf("<b>エラー: このホストを見る権限がありません！</b>\n");
 		printf("</p>\n");
 		printf("</card>\n");
 		return;
@@ -888,23 +891,23 @@ void display_host(void) {
 
 	printf("<table columns='2' align='LL'>\n");
 
-	printf("<tr><td>Status:</td><td>");
+	printf("<tr><td>状態:</td><td>");
 	if(temp_hoststatus->status == SD_HOST_UP)
-		printf("UP");
+		printf("稼動(UP)");
 	else if(temp_hoststatus->status == HOST_PENDING)
-		printf("PENDING");
+		printf("保留(PENDING)");
 	else if(temp_hoststatus->status == SD_HOST_DOWN)
-		printf("DOWN");
+		printf("停止(DOWN)");
 	else if(temp_hoststatus->status == SD_HOST_UNREACHABLE)
-		printf("UNREACHABLE");
+		printf("未到達(UNREACHABLE)");
 	else
-		printf("?");
+		printf("未知の状態");
 	printf("</td></tr>\n");
 
-	printf("<tr><td>Info:</td><td>%s</td></tr>\n", temp_hoststatus->plugin_output);
+	printf("<tr><td>ステータス情報:</td><td>%s</td></tr>\n", temp_hoststatus->plugin_output);
 
 	get_time_string(&temp_hoststatus->last_check, last_check, sizeof(last_check) - 1, SHORT_DATE_TIME);
-	printf("<tr><td>Last Check:</td><td>%s</td></tr>\n", last_check);
+	printf("<tr><td>最終チェック時刻:</td><td>%s</td></tr>\n", last_check);
 
 	current_time = time(NULL);
 	if(temp_hoststatus->last_state_change == (time_t)0)
@@ -912,25 +915,25 @@ void display_host(void) {
 	else
 		t = current_time - temp_hoststatus->last_state_change;
 	get_time_breakdown((unsigned long)t, &days, &hours, &minutes, &seconds);
-	snprintf(state_duration, sizeof(state_duration) - 1, "%2dd %2dh %2dm %2ds%s", days, hours, minutes, seconds, (temp_hoststatus->last_state_change == (time_t)0) ? "+" : "");
-	printf("<tr><td>Duration:</td><td>%s</td></tr>\n", state_duration);
+	snprintf(state_duration, sizeof(state_duration) - 1, "%2d日間と %2d時間 %2d分 %2d秒%s", days, hours, minutes, seconds, (temp_hoststatus->last_state_change == (time_t)0) ? "+" : "");
+	printf("<tr><td>経過時間:</td><td>%s</td></tr>\n", state_duration);
 
-	printf("<tr><td>Properties:</td><td>");
+	printf("<tr><td>プロパティ:</td><td>");
 	found = 0;
 	if(temp_hoststatus->checks_enabled == FALSE) {
-		printf("%sChecks disabled", (found == 1) ? ", " : "");
+		printf("%sチェック無効", (found == 1) ? ", " : "");
 		found = 1;
 		}
 	if(temp_hoststatus->notifications_enabled == FALSE) {
-		printf("%sNotifications disabled", (found == 1) ? ", " : "");
+		printf("%s通知無効", (found == 1) ? ", " : "");
 		found = 1;
 		}
 	if(temp_hoststatus->problem_has_been_acknowledged == TRUE) {
-		printf("%sProblem acknowledged", (found == 1) ? ", " : "");
+		printf("%s認知済", (found == 1) ? ", " : "");
 		found = 1;
 		}
 	if(temp_hoststatus->scheduled_downtime_depth > 0) {
-		printf("%sIn scheduled downtime", (found == 1) ? ", " : "");
+		printf("%sダウンタイム中", (found == 1) ? ", " : "");
 		found = 1;
 		}
 	if(found == 0)
@@ -939,42 +942,42 @@ void display_host(void) {
 
 	printf("</table>\n");
 	printf("<br/>\n");
-	printf("<b><anchor title='View Services'>View Services<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='style' value='servicedetail'/></go></anchor></b>\n", STATUSWML_CGI, escape_string(host_name));
-	printf("<b><anchor title='Host Commands'>Host Commands<go href='#card2'/></anchor></b>\n");
+	printf("<b><anchor title='サービスを見る'>サービスを見る<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='style' value='servicedetail'/></go></anchor></b>\n", STATUSWML_CGI, escape_string(host_name));
+	printf("<b><anchor title='ホストコマンド'>ホストコマンド<go href='#card2'/></anchor></b>\n");
 	printf("</p>\n");
 
 	printf("</card>\n");
 
 
 	/**** COMMANDS SCREEN (CARD 2) ****/
-	printf("<card id='card2' title='Host Commands'>\n");
+	printf("<card id='card2' title='ホストコマンド'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>Host Commands</b><br/>\n");
+	printf("<b>ホストコマンド</b><br/>\n");
 
 	printf("<b><anchor title='Ping Host'>Ping Host<go href='%s' method='post'><postfield name='ping' value='%s'/></go></anchor></b>\n", STATUSWML_CGI, temp_host->address);
 	printf("<b><anchor title='Traceroute'>Traceroute<go href='%s' method='post'><postfield name='traceroute' value='%s'/></go></anchor></b>\n", STATUSWML_CGI, temp_host->address);
 
 	if(temp_hoststatus->status != SD_HOST_UP && temp_hoststatus->status != HOST_PENDING)
-		printf("<b><anchor title='Acknowledge Problem'>Acknowledge Problem<go href='#card3'/></anchor></b>\n");
+		printf("<b><anchor title='認知済みにする'>認知済みにする<go href='#card3'/></anchor></b>\n");
 
 	if(temp_hoststatus->checks_enabled == FALSE)
-		printf("<b><anchor title='Enable Host Checks'>Enable Host Checks<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_ENABLE_HOST_CHECK, CMDMODE_COMMIT);
+		printf("<b><anchor title='ホストチェックを有効にする'>ホストチェックを有効にする<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_ENABLE_HOST_CHECK, CMDMODE_COMMIT);
 	else
-		printf("<b><anchor title='Disable Host Checks'>Disable Host Checks<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_DISABLE_HOST_CHECK, CMDMODE_COMMIT);
+		printf("<b><anchor title='ホストチェックを無効にする'>ホストチェックを無効にする<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_DISABLE_HOST_CHECK, CMDMODE_COMMIT);
 
 	if(temp_hoststatus->notifications_enabled == FALSE)
-		printf("<b><anchor title='Enable Host Notifications'>Enable Host Notifications<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_ENABLE_HOST_NOTIFICATIONS, CMDMODE_COMMIT);
+		printf("<b><anchor title='ホスト通知を有効にする'>ホスト通知を有効にする<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_ENABLE_HOST_NOTIFICATIONS, CMDMODE_COMMIT);
 	else
-		printf("<b><anchor title='Disable Host Notifications'>Disable Host Notifications<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_DISABLE_HOST_NOTIFICATIONS, CMDMODE_COMMIT);
+		printf("<b><anchor title='ホスト通知を無効にする'>ホスト通知を無効にする<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_DISABLE_HOST_NOTIFICATIONS, CMDMODE_COMMIT);
 
 
-	printf("<b><anchor title='Enable All Service Checks'>Enable All Service Checks<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_ENABLE_HOST_SVC_CHECKS, CMDMODE_COMMIT);
+	printf("<b><anchor title='全サービスチェックを有効にする'>全サービスチェックを有効にする<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_ENABLE_HOST_SVC_CHECKS, CMDMODE_COMMIT);
 
-	printf("<b><anchor title='Disable All Service Checks'>Disable All Service Checks<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_DISABLE_HOST_SVC_CHECKS, CMDMODE_COMMIT);
+	printf("<b><anchor title='全サービスチェックを無効にする'>全サービスチェックを無効にする<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_DISABLE_HOST_SVC_CHECKS, CMDMODE_COMMIT);
 
-	printf("<b><anchor title='Enable All Service Notifications'>Enable All Service Notifications<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_ENABLE_HOST_SVC_NOTIFICATIONS, CMDMODE_COMMIT);
+	printf("<b><anchor title='全サービス通知を有効にする'>全サービス通知を有効にする<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_ENABLE_HOST_SVC_NOTIFICATIONS, CMDMODE_COMMIT);
 
-	printf("<b><anchor title='Disable All Service Notifications'>Disable All Service Notifications<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_DISABLE_HOST_SVC_NOTIFICATIONS, CMDMODE_COMMIT);
+	printf("<b><anchor title='全サービス通知を無効にする'>全サービス通知を無効にする<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", COMMAND_CGI, escape_string(host_name), CMD_DISABLE_HOST_SVC_NOTIFICATIONS, CMDMODE_COMMIT);
 
 	printf("</p>\n");
 
@@ -982,16 +985,16 @@ void display_host(void) {
 
 
 	/**** ACKNOWLEDGEMENT SCREEN (CARD 3) ****/
-	printf("<card id='card3' title='Acknowledge Problem'>\n");
+	printf("<card id='card3' title='認知済みにする'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>Acknowledge Problem</b><br/>\n");
+	printf("<b>認知済みにする</b><br/>\n");
 	printf("</p>\n");
 
 	printf("<p align='center' mode='wrap'>\n");
-	printf("<b>Your Name:</b><br/>\n");
+	printf("<b>記入者:</b><br/>\n");
 	printf("<input name='name' value='%s' /><br/>\n", ((use_ssl_authentication) ? (getenv("SSL_CLIENT_S_DN_CN")) : (getenv("REMOTE_USER"))));
-	printf("<b>Comment:</b><br/>\n");
-	printf("<input name='comment' value='acknowledged by WAP'/>\n");
+	printf("<b>コメント:</b><br/>\n");
+	printf("<input name='comment' value='WAPによって認知しました'/>\n");
 
 	printf("<do type='accept'>\n");
 	printf("<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='com_author' value='$(name)'/><postfield name='com_data' value='$(comment)'/><postfield name='persistent' value=''/><postfield name='send_notification' value=''/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go>\n", COMMAND_CGI, escape_string(host_name), CMD_ACKNOWLEDGE_HOST_PROBLEM, CMDMODE_COMMIT);
@@ -1012,10 +1015,10 @@ void display_host_services(void) {
 	servicestatus *temp_servicestatus;
 
 	/**** MAIN SCREEN (CARD 1) ****/
-	printf("<card id='card1' title='Host Services'>\n");
+	printf("<card id='card1' title='ホストサービス'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>Host <anchor title='%s'>", url_encode(host_name));
-	printf("'%s'<go href='%s' method='post'><postfield name='host' value='%s'/></go></anchor> Services</b><br/>\n", host_name, STATUSWML_CGI, escape_string(host_name));
+	printf("<b>ホスト <anchor title='%s'>", url_encode(host_name));
+	printf("'%s'<go href='%s' method='post'><postfield name='host' value='%s'/></go></anchor> サービス</b><br/>\n", host_name, STATUSWML_CGI, escape_string(host_name));
 
 	printf("<table columns='2' align='LL'>\n");
 
@@ -1034,17 +1037,17 @@ void display_host_services(void) {
 
 		printf("<tr><td><anchor title='%s'>", temp_service->description);
 		if(temp_servicestatus->status == SERVICE_OK)
-			printf("OK");
+			printf("正常(OK)");
 		else if(temp_servicestatus->status == SERVICE_PENDING)
-			printf("PND");
+			printf("保留(PND)");
 		else if(temp_servicestatus->status == SERVICE_WARNING)
-			printf("WRN");
+			printf("警告(WRN)");
 		else if(temp_servicestatus->status == SERVICE_UNKNOWN)
-			printf("UNK");
+			printf("不明(UNK)");
 		else if(temp_servicestatus->status == SERVICE_CRITICAL)
-			printf("CRI");
+			printf("異常(CRI)");
 		else
-			printf("???");
+			printf("未知の状態");
 
 		printf("<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='service' value='%s'/></go></anchor></td>", STATUSWML_CGI, temp_service->host_name, temp_service->description);
 		printf("<td>%s</td></tr>\n", temp_service->description);
@@ -1076,16 +1079,16 @@ void display_service(void) {
 	int found;
 
 	/**** MAIN SCREEN (CARD 1) ****/
-	printf("<card id='card1' title='Service Status'>\n");
+	printf("<card id='card1' title='サービス情報'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>Service '%s' on host '%s'</b><br/>\n", service_desc, host_name);
+	printf("<b>ホスト '%s' 上の '%s' サービス</b><br/>\n", host_name, service_desc);
 
 	/* find the service */
 	temp_service = find_service(host_name, service_desc);
 	temp_servicestatus = find_servicestatus(host_name, service_desc);
 	if(temp_service == NULL || temp_servicestatus == NULL) {
 
-		printf("<b>Error: Could not find service!</b>\n");
+		printf("<b>エラー: サービスが見つかりませんでした！</b>\n");
 		printf("</p>\n");
 		printf("</card>\n");
 		return;
@@ -1094,7 +1097,7 @@ void display_service(void) {
 	/* check authorization */
 	if(is_authorized_for_service(temp_service, &current_authdata) == FALSE) {
 
-		printf("<b>Error: Not authorized for service!</b>\n");
+		printf("<b>エラー: このサービスを見る権限がありません！</b>\n");
 		printf("</p>\n");
 		printf("</card>\n");
 		return;
@@ -1103,25 +1106,25 @@ void display_service(void) {
 
 	printf("<table columns='2' align='LL'>\n");
 
-	printf("<tr><td>Status:</td><td>");
+	printf("<tr><td>ステータス:</td><td>");
 	if(temp_servicestatus->status == SERVICE_OK)
-		printf("OK");
+		printf("正常(OK)");
 	else if(temp_servicestatus->status == SERVICE_PENDING)
-		printf("PENDING");
+		printf("保留(PENDING)");
 	else if(temp_servicestatus->status == SERVICE_WARNING)
-		printf("WARNING");
+		printf("警告(WARNING)");
 	else if(temp_servicestatus->status == SERVICE_UNKNOWN)
-		printf("UNKNOWN");
+		printf("不明(UNKNOWN)");
 	else if(temp_servicestatus->status == SERVICE_CRITICAL)
-		printf("CRITICAL");
+		printf("異常(CRITICAL)");
 	else
-		printf("?");
+		printf("未知の状態");
 	printf("</td></tr>\n");
 
-	printf("<tr><td>Info:</td><td>%s</td></tr>\n", temp_servicestatus->plugin_output);
+	printf("<tr><td>情報:</td><td>%s</td></tr>\n", temp_servicestatus->plugin_output);
 
 	get_time_string(&temp_servicestatus->last_check, last_check, sizeof(last_check) - 1, SHORT_DATE_TIME);
-	printf("<tr><td>Last Check:</td><td>%s</td></tr>\n", last_check);
+	printf("<tr><td>最終チェック時刻:</td><td>%s</td></tr>\n", last_check);
 
 	current_time = time(NULL);
 	if(temp_servicestatus->last_state_change == (time_t)0)
@@ -1129,25 +1132,25 @@ void display_service(void) {
 	else
 		t = current_time - temp_servicestatus->last_state_change;
 	get_time_breakdown((unsigned long)t, &days, &hours, &minutes, &seconds);
-	snprintf(state_duration, sizeof(state_duration) - 1, "%2dd %2dh %2dm %2ds%s", days, hours, minutes, seconds, (temp_servicestatus->last_state_change == (time_t)0) ? "+" : "");
-	printf("<tr><td>Duration:</td><td>%s</td></tr>\n", state_duration);
+	snprintf(state_duration, sizeof(state_duration) - 1, "%2d日間と %2d時間 %2d分 %2d秒%s", days, hours, minutes, seconds, (temp_servicestatus->last_state_change == (time_t)0) ? "+" : "");
+	printf("<tr><td>経過時間:</td><td>%s</td></tr>\n", state_duration);
 
-	printf("<tr><td>Properties:</td><td>");
+	printf("<tr><td>プロパティ:</td><td>");
 	found = 0;
 	if(temp_servicestatus->checks_enabled == FALSE) {
-		printf("%sChecks disabled", (found == 1) ? ", " : "");
+		printf("%sチェック無効", (found == 1) ? ", " : "");
 		found = 1;
 		}
 	if(temp_servicestatus->notifications_enabled == FALSE) {
-		printf("%sNotifications disabled", (found == 1) ? ", " : "");
+		printf("%s通知無効", (found == 1) ? ", " : "");
 		found = 1;
 		}
 	if(temp_servicestatus->problem_has_been_acknowledged == TRUE) {
-		printf("%sProblem acknowledged", (found == 1) ? ", " : "");
+		printf("%s認知済", (found == 1) ? ", " : "");
 		found = 1;
 		}
 	if(temp_servicestatus->scheduled_downtime_depth > 0) {
-		printf("%sIn scheduled downtime", (found == 1) ? ", " : "");
+		printf("%sダウンタイム中", (found == 1) ? ", " : "");
 		found = 1;
 		}
 	if(found == 0)
@@ -1156,39 +1159,39 @@ void display_service(void) {
 
 	printf("</table>\n");
 	printf("<br/>\n");
-	printf("<b><anchor title='View Host'>View Host<go href='%s' method='post'><postfield name='host' value='%s'/></go></anchor></b>\n", STATUSWML_CGI, escape_string(host_name));
-	printf("<b><anchor title='Service Commands'>Svc. Commands<go href='#card2'/></anchor></b>\n");
+	printf("<b><anchor title='ホストを見る'>ホストを見る<go href='%s' method='post'><postfield name='host' value='%s'/></go></anchor></b>\n", STATUSWML_CGI, escape_string(host_name));
+	printf("<b><anchor title='サービスコマンド'>サービスコマンド<go href='#card2'/></anchor></b>\n");
 	printf("</p>\n");
 
 	printf("</card>\n");
 
 
 	/**** COMMANDS SCREEN (CARD 2) ****/
-	printf("<card id='card2' title='Service Commands'>\n");
+	printf("<card id='card2' title='サービスコマンド'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>Service Commands</b><br/>\n");
+	printf("<b>サービスコマンド</b><br/>\n");
 
 	if(temp_servicestatus->status != SERVICE_OK && temp_servicestatus->status != SERVICE_PENDING)
-		printf("<b><anchor title='Acknowledge Problem'>Acknowledge Problem<go href='#card3'/></anchor></b>\n");
+		printf("<b><anchor title='認知済みする'>認知済みする<go href='#card3'/></anchor></b>\n");
 
 	if(temp_servicestatus->checks_enabled == FALSE) {
-		printf("<b><anchor title='Enable Checks'>Enable Checks<go href='%s' method='post'><postfield name='host' value='%s'/>", COMMAND_CGI, escape_string(host_name));
+		printf("<b><anchor title='チェックを有効にする'>チェックを有効にする<go href='%s' method='post'><postfield name='host' value='%s'/>", COMMAND_CGI, escape_string(host_name));
 		printf("<postfield name='service' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", escape_string(service_desc), CMD_ENABLE_SVC_CHECK, CMDMODE_COMMIT);
 		}
 	else {
-		printf("<b><anchor title='Disable Checks'>Disable Checks<go href='%s' method='post'><postfield name='host' value='%s'/>", COMMAND_CGI, escape_string(host_name));
+		printf("<b><anchor title='チェックを無効にする'>チェックを無効にする<go href='%s' method='post'><postfield name='host' value='%s'/>", COMMAND_CGI, escape_string(host_name));
 		printf("<postfield name='service' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", escape_string(service_desc), CMD_DISABLE_SVC_CHECK, CMDMODE_COMMIT);
 
-		printf("<b><anchor title='Schedule Immediate Check'>Schedule Immediate Check<go href='%s' method='post'><postfield name='host' value='%s'/>", COMMAND_CGI, escape_string(host_name));
+		printf("<b><anchor title='すぐにチェック'>すぐにチェック<go href='%s' method='post'><postfield name='host' value='%s'/>", COMMAND_CGI, escape_string(host_name));
 		printf("<postfield name='service' value='%s'/><postfield name='start_time' value='%llu'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", escape_string(service_desc), (unsigned long long)current_time, CMD_SCHEDULE_SVC_CHECK, CMDMODE_COMMIT);
 		}
 
 	if(temp_servicestatus->notifications_enabled == FALSE) {
-		printf("<b><anchor title='Enable Notifications'>Enable Notifications<go href='%s' method='post'><postfield name='host' value='%s'/>", COMMAND_CGI, escape_string(host_name));
+		printf("<b><anchor title='通知を有効にする'>通知を有効にする<go href='%s' method='post'><postfield name='host' value='%s'/>", COMMAND_CGI, escape_string(host_name));
 		printf("<postfield name='service' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", escape_string(service_desc), CMD_ENABLE_SVC_NOTIFICATIONS, CMDMODE_COMMIT);
 		}
 	else {
-		printf("<b><anchor title='Disable Notifications'>Disable Notifications<go href='%s' method='post'><postfield name='host' value='%s'/>", COMMAND_CGI, escape_string(host_name));
+		printf("<b><anchor title='通知を無効にする'>通知を無効にする<go href='%s' method='post'><postfield name='host' value='%s'/>", COMMAND_CGI, escape_string(host_name));
 		printf("<postfield name='service' value='%s'/><postfield name='cmd_typ' value='%d'/><postfield name='cmd_mod' value='%d'/><postfield name='content' value='wml'/></go></anchor></b><br/>\n", escape_string(service_desc), CMD_DISABLE_SVC_NOTIFICATIONS, CMDMODE_COMMIT);
 		}
 
@@ -1198,16 +1201,16 @@ void display_service(void) {
 
 
 	/**** ACKNOWLEDGEMENT SCREEN (CARD 3) ****/
-	printf("<card id='card3' title='Acknowledge Problem'>\n");
+	printf("<card id='card3' title='認知済みする'>\n");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>Acknowledge Problem</b><br/>\n");
+	printf("<b>認知済みする</b><br/>\n");
 	printf("</p>\n");
 
 	printf("<p align='center' mode='wrap'>\n");
-	printf("<b>Your Name:</b><br/>\n");
+	printf("<b>記入者:</b><br/>\n");
 	printf("<input name='name' value='%s' /><br/>\n", ((use_ssl_authentication) ? (getenv("SSL_CLIENT_S_DN_CN")) : (getenv("REMOTE_USER"))));
-	printf("<b>Comment:</b><br/>\n");
-	printf("<input name='comment' value='acknowledged by WAP'/>\n");
+	printf("<b>コメント:</b><br/>\n");
+	printf("<input name='comment' value='WAPによって認知しました'/>\n");
 
 	printf("<do type='accept'>\n");
 	printf("<go href='%s' method='post'><postfield name='host' value='%s'/>", COMMAND_CGI, escape_string(host_name));
@@ -1237,11 +1240,11 @@ void display_ping(void) {
 	if(!strcmp(ping_address, "")) {
 
 		printf("<p align='center' mode='nowrap'>\n");
-		printf("<b>Ping Host</b><br/>\n");
+		printf("<b>指定したホストにPing送信を行います</b><br/>\n");
 		printf("</p>\n");
 
 		printf("<p align='center' mode='wrap'>\n");
-		printf("<b>Host Name/Address:</b><br/>\n");
+		printf("<b>ホスト名/アドレス:</b><br/>\n");
 		printf("<input name='address'/>\n");
 		printf("<do type='accept'>\n");
 		printf("<go href='%s'><postfield name='ping' value='$(address)'/></go>\n", STATUSWML_CGI);
@@ -1252,13 +1255,13 @@ void display_ping(void) {
 	else {
 
 		printf("<p align='center' mode='nowrap'>\n");
-		printf("<b>Results For Ping Of %s:</b><br/>\n", ping_address);
+		printf("<b>%sへのPing結果:</b><br/>\n", ping_address);
 		printf("</p>\n");
 
 		printf("<p mode='nowrap'>\n");
 
 		if(ping_syntax == NULL)
-			printf("ping_syntax in CGI config file is NULL!\n");
+			printf("CGI設定のping_syntaxパラメータが未設定です！\n");
 
 		else {
 
@@ -1308,7 +1311,7 @@ void display_ping(void) {
 					}
 				}
 			else
-				printf("Error executing ping!\n");
+				printf("pingの実行でエラーが発生しました！\n");
 
 			pclose(fp);
 			}
@@ -1334,11 +1337,11 @@ void display_traceroute(void) {
 	if(!strcmp(traceroute_address, "")) {
 
 		printf("<p align='center' mode='nowrap'>\n");
-		printf("<b>Traceroute</b><br/>\n");
+		printf("<b>指定したホストまでのネットワーク経路を調べます</b><br/>\n");
 		printf("</p>\n");
 
 		printf("<p align='center' mode='wrap'>\n");
-		printf("<b>Host Name/Address:</b><br/>\n");
+		printf("<b>ホスト名/アドレス:</b><br/>\n");
 		printf("<input name='address'/>\n");
 		printf("<do type='accept'>\n");
 		printf("<go href='%s'><postfield name='traceroute' value='$(address)'/></go>\n", STATUSWML_CGI);
@@ -1349,7 +1352,7 @@ void display_traceroute(void) {
 	else {
 
 		printf("<p align='center' mode='nowrap'>\n");
-		printf("<b>Results For Traceroute To %s:</b><br/>\n", traceroute_address);
+		printf("<b>%sまでのtracerouteの結果:</b><br/>\n", traceroute_address);
 		printf("</p>\n");
 
 		printf("<p mode='nowrap'>\n");
@@ -1377,7 +1380,7 @@ void display_traceroute(void) {
 				}
 			}
 		else
-			printf("Error executing traceroute!\n");
+			printf("Tracerouteの実行にエラーが発生しました！\n");
 
 		pclose(fp);
 
@@ -1401,11 +1404,11 @@ void display_problems(void) {
 	int total_service_problems = 0;
 
 	/**** MAIN SCREEN (CARD 1) ****/
-	printf("<card id='card1' title='%s Problems'>\n", (display_type == DISPLAY_ALL_PROBLEMS) ? "All" : "Unhandled");
+	printf("<card id='card1' title='%s障害'>\n", (display_type == DISPLAY_ALL_PROBLEMS) ? "全" : "未解決の");
 	printf("<p align='center' mode='nowrap'>\n");
-	printf("<b>%s Problems</b><br/><br/>\n", (display_type == DISPLAY_ALL_PROBLEMS) ? "All" : "Unhandled");
+	printf("<b>%s障害</b><br/><br/>\n", (display_type == DISPLAY_ALL_PROBLEMS) ? "全" : "未解決の");
 
-	printf("<b>Host Problems:</b>\n");
+	printf("<b>ホストの障害:</b>\n");
 
 	printf("<table columns='2' align='LL'>\n");
 
@@ -1435,24 +1438,24 @@ void display_problems(void) {
 
 		printf("<tr><td><anchor title='%s'>", temp_host->name);
 		if(temp_hoststatus->status == SD_HOST_DOWN)
-			printf("DWN");
+			printf("停止(DWN)");
 		else if(temp_hoststatus->status == SD_HOST_UNREACHABLE)
-			printf("UNR");
+			printf("未到達(UNR)");
 		else
-			printf("???");
+			printf("未知の状態");
 		printf("<go href='%s' method='post'><postfield name='host' value='%s'/></go></anchor></td>", STATUSWML_CGI, temp_host->name);
 		printf("<td>%s</td></tr>\n", temp_host->name);
 		}
 
 	if(total_host_problems == 0)
-		printf("<tr><td>No problems</td></tr>\n");
+		printf("<tr><td>障害なし</td></tr>\n");
 
 	printf("</table>\n");
 
 	printf("<br/>\n");
 
 
-	printf("<b>Svc Problems:</b>\n");
+	printf("<b>サービス障害:</b>\n");
 
 	printf("<table columns='2' align='LL'>\n");
 
@@ -1488,11 +1491,11 @@ void display_problems(void) {
 
 		printf("<tr><td><anchor title='%s'>", temp_servicestatus->description);
 		if(temp_servicestatus->status == SERVICE_CRITICAL)
-			printf("CRI");
+			printf("異常(CRI)");
 		else if(temp_servicestatus->status == SERVICE_WARNING)
-			printf("WRN");
+			printf("警告(WRN)");
 		else if(temp_servicestatus->status == SERVICE_UNKNOWN)
-			printf("UNK");
+			printf("未知の状態");
 		else
 			printf("???");
 		printf("<go href='%s' method='post'><postfield name='host' value='%s'/><postfield name='service' value='%s'/></go></anchor></td>", STATUSWML_CGI, temp_service->host_name, temp_service->description);
@@ -1500,7 +1503,7 @@ void display_problems(void) {
 		}
 
 	if(total_service_problems == 0)
-		printf("<tr><td>No problems</td></tr>\n");
+		printf("<tr><td>障害なし</td></tr>\n");
 
 	printf("</table>\n");
 

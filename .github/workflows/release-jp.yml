@@ -1,0 +1,46 @@
+name: Create JP Patch Release
+
+on:
+  push:
+    tags:
+      - "nagios-jp-*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-patch-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version
+        id: vars
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG_NAME#nagios-jp-}"
+          echo "tag=${TAG_NAME}" >> $GITHUB_OUTPUT
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Create patch file
+        run: |
+          VERSION="${{ steps.vars.outputs.version }}"
+          JP_TAG="nagios-jp-${VERSION}"
+          BASE_TAG="nagios-${VERSION}"
+
+          echo "Creating diff: ${BASE_TAG}..${JP_TAG}"
+
+          git diff "${BASE_TAG}" "${JP_TAG}" \
+            | gzip -9 > "nagios-jp-${VERSION}.patch.gz"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.vars.outputs.tag }}
+          name: "${{ steps.vars.outputs.version }}日本語化"
+          files: "nagios-jp-${{ steps.vars.outputs.version }}.patch.gz"
+          generate_release_notes: true

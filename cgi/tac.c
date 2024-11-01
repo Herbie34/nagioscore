@@ -207,7 +207,7 @@ int main(void) {
 
 		/* left column of top table - info box */
 		printf("<td align=left valign=top width=33%%>\n");
-		display_info_table("Tactical Status Overview", TRUE, &current_authdata);
+		display_info_table("総合監視状況", TRUE, &current_authdata);
 		printf("</td>\n");
 
 		/* middle column of top table - log file navigation options */
@@ -292,9 +292,11 @@ void document_header(int use_stylesheet) {
 
 	printf("<HTML>\n");
 	printf("<HEAD>\n");
+	printf("<meta http-equiv='content-type' content='text/html;charset=UTF-8'>\n");
+	printf("<meta http-equiv='Pragma' content='no-cache'>\n");
 	printf("<link rel=\"shortcut icon\" href=\"%sfavicon.ico\" type=\"image/ico\">\n", url_images_path);
 	printf("<TITLE>\n");
-	printf("Nagios Tactical Monitoring Overview\n");
+	printf("総合監視状況\n");
 	printf("</TITLE>\n");
 
 	if(use_stylesheet == TRUE) {
@@ -305,13 +307,12 @@ void document_header(int use_stylesheet) {
 
 	printf("<script type='text/javascript' src='%s%s'></script>\n", url_js_path, JQUERY_JS);
 
-
 	if (enable_page_tour == TRUE) {
 		printf("<script type='text/javascript' src='%s%s'></script>\n", url_js_path, NAGFUNCS_JS);
 
 		printf("<script type='text/javascript'>\nvar vbox, vBoxId='tac', "
 				"vboxText = '<a href=https://www.nagios.com/tours target=_blank>"
-				"Click here to watch the entire Nagios Core 4 Tour!</a>';\n");
+				"Nagiosコア4のツアー全体を見るにはここをクリック！</a>';\n");
 		printf("$(document).ready(function() {\n"
 				"var user = '%s';\nvBoxId += ';' + user;", current_authdata.username);
 		printf("vbox = new vidbox({pos:'lr',"
@@ -900,7 +901,7 @@ void display_tac_overview(void) {
 
 	printf("<table border=0 cellspacing=4 cellpadding=0>\n");
 	printf("<tr>\n");
-	printf("<td class='perfTitle'>&nbsp;<a href='%s?type=%d' class='perfTitle'>Monitoring Performance</a></td>\n", EXTINFO_CGI, DISPLAY_PERFORMANCE);
+	printf("<td class='perfTitle'>&nbsp;<a href='%s?type=%d' class='perfTitle'>パフォーマンス状態</a></td>\n", EXTINFO_CGI, DISPLAY_PERFORMANCE);
 	printf("</tr>\n");
 
 	printf("<tr>\n");
@@ -911,27 +912,27 @@ void display_tac_overview(void) {
 	printf("<td class='perfBox'>\n");
 	printf("<table border=0 cellspacing=4 cellpadding=0>\n");
 	printf("<tr>\n");
-	printf("<td align=left valign=center class='perfItem'><a href='%s?type=%d' class='perfItem'>Service Check Execution Time:</a></td>", EXTINFO_CGI, DISPLAY_PERFORMANCE);
-	printf("<td valign=top class='perfValue' nowrap><a href='%s?type=%d' class='perfValue'>%.2f / %.2f / %.3f sec</a></td>\n", EXTINFO_CGI, DISPLAY_PERFORMANCE, min_service_execution_time, max_service_execution_time, average_service_execution_time);
+	printf("<td align=left valign=center class='perfItem'><a href='%s?type=%d' class='perfItem'>サービスチェック実行時間:</a></td>", EXTINFO_CGI, DISPLAY_PERFORMANCE);
+	printf("<td valign=top class='perfValue' nowrap><a href='%s?type=%d' class='perfValue'>%.2f / %.2f / %.3f 秒</a></td>\n", EXTINFO_CGI, DISPLAY_PERFORMANCE, min_service_execution_time, max_service_execution_time, average_service_execution_time);
 	printf("</tr>\n");
 	printf("<tr>\n");
-	printf("<td align=left valign=center class='perfItem'><a href='%s?type=%d' class='perfItem'>Service Check Latency:</a></td>", EXTINFO_CGI, DISPLAY_PERFORMANCE);
-	printf("<td valign=top class='perfValue' nowrap><a href='%s?type=%d' class='perfValue'>%.2f / %.2f / %.3f sec</a></td>\n", EXTINFO_CGI, DISPLAY_PERFORMANCE, min_service_latency, max_service_latency, average_service_latency);
+	printf("<td align=left valign=center class='perfItem'><a href='%s?type=%d' class='perfItem'>サービスチェック遅延:</a></td>", EXTINFO_CGI, DISPLAY_PERFORMANCE);
+	printf("<td valign=top class='perfValue' nowrap><a href='%s?type=%d' class='perfValue'>%.2f / %.2f / %.3f 秒</a></td>\n", EXTINFO_CGI, DISPLAY_PERFORMANCE, min_service_latency, max_service_latency, average_service_latency);
 	printf("</tr>\n");
 	printf("<tr>\n");
-	printf("<td align=left valign=center class='perfItem'><a href='%s?type=%d' class='perfItem'>Host Check Execution Time:</a></td>", EXTINFO_CGI, DISPLAY_PERFORMANCE);
-	printf("<td valign=top class='perfValue' nowrap><a href='%s?type=%d' class='perfValue'>%.2f / %.2f / %.3f sec</a></td>\n", EXTINFO_CGI, DISPLAY_PERFORMANCE, min_host_execution_time, max_host_execution_time, average_host_execution_time);
+	printf("<td align=left valign=center class='perfItem'><a href='%s?type=%d' class='perfItem'>ホストチェック実行時間:</a></td>", EXTINFO_CGI, DISPLAY_PERFORMANCE);
+	printf("<td valign=top class='perfValue' nowrap><a href='%s?type=%d' class='perfValue'>%.2f / %.2f / %.3f 秒</a></td>\n", EXTINFO_CGI, DISPLAY_PERFORMANCE, min_host_execution_time, max_host_execution_time, average_host_execution_time);
 	printf("</tr>\n");
 	printf("<tr>\n");
-	printf("<td align=left valign=center class='perfItem'><a href='%s?type=%d' class='perfItem'>Host Check Latency:</a></td>", EXTINFO_CGI, DISPLAY_PERFORMANCE);
-	printf("<td valign=top class='perfValue' nowrap><a href='%s?type=%d' class='perfValue'>%.2f / %.2f / %2.3f sec</a></td>\n", EXTINFO_CGI, DISPLAY_PERFORMANCE, min_host_latency, max_host_latency, average_host_latency);
+	printf("<td align=left valign=center class='perfItem'><a href='%s?type=%d' class='perfItem'>ホストチェック遅延:</a></td>", EXTINFO_CGI, DISPLAY_PERFORMANCE);
+	printf("<td valign=top class='perfValue' nowrap><a href='%s?type=%d' class='perfValue'>%.2f / %.2f / %2.3f 秒</a></td>\n", EXTINFO_CGI, DISPLAY_PERFORMANCE, min_host_latency, max_host_latency, average_host_latency);
 	printf("</tr>\n");
 	printf("<tr>\n");
-	printf("<td align=left valign=center class='perfItem'><a href='%s?host=all&serviceprops=%d' class='perfItem'># Active Host / Service Checks:</a></td>", STATUS_CGI, SERVICE_ACTIVE_CHECK);
+	printf("<td align=left valign=center class='perfItem'><a href='%s?host=all&serviceprops=%d' class='perfItem'>アクティブ[ホスト/サービス]チェック:</a></td>", STATUS_CGI, SERVICE_ACTIVE_CHECK);
 	printf("<td valign=top class='perfValue' nowrap><a href='%s?hostgroup=all&hostprops=%d&style=hostdetail' class='perfValue'>%d</a> / <a href='%s?host=all&serviceprops=%d' class='perfValue'>%d</a></td>\n", STATUS_CGI, HOST_ACTIVE_CHECK, total_active_host_checks, STATUS_CGI, SERVICE_ACTIVE_CHECK, total_active_service_checks);
 	printf("</tr>\n");
 	printf("<tr>\n");
-	printf("<td align=left valign=center class='perfItem'><a href='%s?host=all&serviceprops=%d' class='perfItem'># Passive Host / Service Checks:</a></td>", STATUS_CGI, SERVICE_PASSIVE_CHECK);
+	printf("<td align=left valign=center class='perfItem'><a href='%s?host=all&serviceprops=%d' class='perfItem'>パッシブ[ホスト/サービス]チェック:</a></td>", STATUS_CGI, SERVICE_PASSIVE_CHECK);
 	printf("<td valign=top class='perfValue' nowrap><a href='%s?hostgroup=all&hostprops=%d&style=hostdetail' class='perfValue'>%d</a> / <a href='%s?host=all&serviceprops=%d' class='perfValue'>%d</a></td>\n", STATUS_CGI, HOST_PASSIVE_CHECK, total_passive_host_checks, STATUS_CGI, SERVICE_PASSIVE_CHECK, total_passive_service_checks);
 	printf("</tr>\n");
 	printf("</table>\n");
@@ -970,14 +971,23 @@ void display_tac_overview(void) {
 
 	printf("<table class='tac' width=125 cellspacing=4 cellpadding=0 border=0>\n");
 
-	printf("<tr><td colspan=1 height=20 class='outageTitle'>&nbsp;Network Outages</td></tr>\n");
+	printf("<tr><td colspan=1 height=20 class='outageTitle'>&nbsp;ネットワーク障害</td></tr>\n");
 
 	printf("<tr>\n");
-	printf("<td class='outageHeader' width=125><a href='%s' class='outageHeader'>", OUTAGES_CGI);
-	if(is_authorized_for_all_hosts(&current_authdata) == FALSE)
+	if(total_blocking_outages == 0) {
+		printf("<td class='outageHeader' width=125><a href='%s' class='outageHeader'>", OUTAGES_CGI);
+	} else {
+		printf("<td class='outageHeader alert' width=125><a href='%s' class='outageHeader'>", OUTAGES_CGI);
+	}
+	if(is_authorized_for_all_hosts(&current_authdata) == FALSE) {
 		printf("N/A");
-	else
-		printf("%d Outages", total_blocking_outages);
+	} else {
+		if(total_blocking_outages == 0) {
+			printf("現時点では確認されていません");
+		} else {
+			printf("%d 箇所で障害が発生しています", total_blocking_outages);
+		}
+	}
 	printf("</a></td>\n");
 	printf("</tr>\n");
 
@@ -993,7 +1003,7 @@ void display_tac_overview(void) {
 	printf("<table border=0 width=100%%>\n");
 
 	if(total_blocking_outages > 0)
-		printf("<tr><td width=100%% class='outageImportantProblem'><a href='%s'>%d Blocking Outages</a></td></tr>\n", OUTAGES_CGI, total_blocking_outages);
+		printf("<tr><td width=100%% class='outageImportantProblem'><a href='%s'>%d ネットワーク障害</a></td></tr>\n", OUTAGES_CGI, total_blocking_outages);
 
 	/*
 	if(total_nonblocking_outages>0)
@@ -1041,7 +1051,7 @@ void display_tac_overview(void) {
 
 	printf("<table border=0 cellspacing=4 cellpadding=0>\n");
 	printf("<tr>\n");
-	printf("<td class='healthTitle'>&nbsp;Network Health</td>\n");
+	printf("<td class='healthTitle'>&nbsp;ネットワーク診断状態</td>\n");
 	printf("</tr>\n");
 
 	printf("<tr>\n");
@@ -1052,12 +1062,12 @@ void display_tac_overview(void) {
 	printf("<td class='healthBox'>\n");
 	printf("<table border=0 cellspacing=4 cellpadding=0>\n");
 	printf("<tr>\n");
-	printf("<td align=left valign=center class='healthItem'>Host Health:</td>");
-	printf("<td valign=top width=100 class='healthBar'><img src='%s%s' border=0 width=%d height=20 alt='%2.1f%% Health' title='%2.1f%% Health'></td>\n", url_images_path, host_health_image, (percent_host_health < 5.0) ? 5 : (int)percent_host_health, percent_host_health, percent_host_health);
+	printf("<td align=left valign=center class='healthItem'>ホストの診断状態:</td>");
+	printf("<td valign=top width=100 class='healthBar'><img src='%s%s' border=0 width=%d height=20 alt='正常率: %2.1f%%' title='正常率: %2.1f%%'></td>\n", url_images_path, host_health_image, (percent_host_health < 5.0) ? 5 : (int)percent_host_health, percent_host_health, percent_host_health);
 	printf("</tr>\n");
 	printf("<tr>\n");
-	printf("<td align=left valign=center class='healthItem'>Service Health:</td>");
-	printf("<td valign=top width=100 class='healthBar'><img src='%s%s' border=0 width=%d height=20 alt='%2.1f%% Health' title='%2.1f%% Health'></td>\n", url_images_path, service_health_image, (percent_service_health < 5.0) ? 5 : (int)percent_service_health, percent_service_health, percent_service_health);
+	printf("<td align=left valign=center class='healthItem'>サービスの診断状態:</td>");
+	printf("<td valign=top width=100 class='healthBar'><img src='%s%s' border=0 width=%d height=20 alt='正常率: %2.1f%%' title='正常率: %2.1f%%'></td>\n", url_images_path, service_health_image, (percent_service_health < 5.0) ? 5 : (int)percent_service_health, percent_service_health, percent_service_health);
 	printf("</tr>\n");
 	printf("</table>\n");
 	printf("</td>\n");
@@ -1087,13 +1097,13 @@ void display_tac_overview(void) {
 
 	printf("<table class='tac' width=516 cellspacing=4 cellpadding=0 border=0>\n");
 
-	printf("<tr><td colspan=4 height=20 class='hostTitle'>&nbsp;Hosts</td></tr>\n");
+	printf("<tr><td colspan=4 height=20 class='hostTitle'>&nbsp;ホストの稼動状態</td></tr>\n");
 
 	printf("<tr>\n");
-	printf("<td class='hostHeader' width=125><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d' class='hostHeader'>%d Down</a></td>\n", STATUS_CGI, SD_HOST_DOWN, hosts_down);
-	printf("<td class='hostHeader' width=125><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d' class='hostHeader'>%d Unreachable</a></td>\n", STATUS_CGI, SD_HOST_UNREACHABLE, hosts_unreachable);
-	printf("<td class='hostHeader' width=125><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d' class='hostHeader'>%d Up</a></td>\n", STATUS_CGI, SD_HOST_UP, hosts_up);
-	printf("<td class='hostHeader' width=125><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d' class='hostHeader'>%d Pending</a></td>\n", STATUS_CGI, HOST_PENDING, hosts_pending);
+	printf("<td class='hostHeader' width=125><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d' class='hostHeader'>停止状態: %d 件</a></td>\n", STATUS_CGI, SD_HOST_DOWN, hosts_down);
+	printf("<td class='hostHeader' width=125><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d' class='hostHeader'>未到達状態: %d 件</a></td>\n", STATUS_CGI, SD_HOST_UNREACHABLE, hosts_unreachable);
+	printf("<td class='hostHeader' width=125><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d' class='hostHeader'>正常状態: %d 件</a></td>\n", STATUS_CGI, SD_HOST_UP, hosts_up);
+	printf("<td class='hostHeader' width=125><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d' class='hostHeader'>保留状態: %d 件</a></td>\n", STATUS_CGI, HOST_PENDING, hosts_pending);
 	printf("</tr>\n");
 
 	printf("<tr>\n");
@@ -1109,16 +1119,16 @@ void display_tac_overview(void) {
 	printf("<table border=0 width=100%%>\n");
 
 	if(hosts_down_unacknowledged > 0)
-		printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Unhandled Problems</a></td></tr>\n", STATUS_CGI, SD_HOST_DOWN, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_down_unacknowledged);
+		printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>未認知状態: %d 件</a></td></tr>\n", STATUS_CGI, SD_HOST_DOWN, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_down_unacknowledged);
 
 	if(hosts_down_scheduled > 0)
-		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, SD_HOST_DOWN, HOST_SCHEDULED_DOWNTIME, hosts_down_scheduled);
+		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>メンテナンス中: %d 件</a></td></tr>\n", STATUS_CGI, SD_HOST_DOWN, HOST_SCHEDULED_DOWNTIME, hosts_down_scheduled);
 
 	if(hosts_down_acknowledged > 0)
-		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, SD_HOST_DOWN, HOST_STATE_ACKNOWLEDGED, hosts_down_acknowledged);
+		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>認知済み: %d 件</a></td></tr>\n", STATUS_CGI, SD_HOST_DOWN, HOST_STATE_ACKNOWLEDGED, hosts_down_acknowledged);
 
 	if(hosts_down_disabled > 0)
-		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, SD_HOST_DOWN, HOST_CHECKS_DISABLED, hosts_down_disabled);
+		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>無効設定: %d 件</a></td></tr>\n", STATUS_CGI, SD_HOST_DOWN, HOST_CHECKS_DISABLED, hosts_down_disabled);
 
 	printf("</table>\n");
 	printf("</td>\n");
@@ -1140,16 +1150,16 @@ void display_tac_overview(void) {
 	printf("<table border=0 width=100%%>\n");
 
 	if(hosts_unreachable_unacknowledged > 0)
-		printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Unhandled Problems</a></td></tr>\n", STATUS_CGI, SD_HOST_UNREACHABLE, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_unreachable_unacknowledged);
+		printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>未認知状態: %d 件</a></td></tr>\n", STATUS_CGI, SD_HOST_UNREACHABLE, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_unreachable_unacknowledged);
 
 	if(hosts_unreachable_scheduled > 0)
-		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, SD_HOST_UNREACHABLE, HOST_SCHEDULED_DOWNTIME, hosts_unreachable_scheduled);
+		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>メンテナンス中: %d 件</a></td></tr>\n", STATUS_CGI, SD_HOST_UNREACHABLE, HOST_SCHEDULED_DOWNTIME, hosts_unreachable_scheduled);
 
 	if(hosts_unreachable_acknowledged > 0)
-		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, SD_HOST_UNREACHABLE, HOST_STATE_ACKNOWLEDGED, hosts_unreachable_acknowledged);
+		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>認知済み: %d 件</a></td></tr>\n", STATUS_CGI, SD_HOST_UNREACHABLE, HOST_STATE_ACKNOWLEDGED, hosts_unreachable_acknowledged);
 
 	if(hosts_unreachable_disabled > 0)
-		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, SD_HOST_UNREACHABLE, HOST_CHECKS_DISABLED, hosts_unreachable_disabled);
+		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>無効設定: %d 件</a></td></tr>\n", STATUS_CGI, SD_HOST_UNREACHABLE, HOST_CHECKS_DISABLED, hosts_unreachable_disabled);
 
 	printf("</table>\n");
 	printf("</td>\n");
@@ -1171,7 +1181,7 @@ void display_tac_overview(void) {
 	printf("<table border=0 width=100%%>\n");
 
 	if(hosts_up_disabled > 0)
-		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, SD_HOST_UP, HOST_CHECKS_DISABLED, hosts_up_disabled);
+		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>無効設定: %d 件</a></td></tr>\n", STATUS_CGI, SD_HOST_UP, HOST_CHECKS_DISABLED, hosts_up_disabled);
 
 	printf("</table>\n");
 	printf("</td>\n");
@@ -1193,7 +1203,7 @@ void display_tac_overview(void) {
 	printf("<table border=0 width=100%%>\n");
 
 	if(hosts_pending_disabled > 0)
-		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, HOST_PENDING, HOST_CHECKS_DISABLED, hosts_pending_disabled);
+		printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=all&style=hostdetail&hoststatustypes=%d&hostprops=%d'>無効設定: %d 件</a></td></tr>\n", STATUS_CGI, HOST_PENDING, HOST_CHECKS_DISABLED, hosts_pending_disabled);
 
 	printf("</table>\n");
 	printf("</td>\n");
@@ -1229,14 +1239,14 @@ void display_tac_overview(void) {
 
 	printf("<table class='tac' width=641 cellspacing=4 cellpadding=0 border=0>\n");
 
-	printf("<tr><td colspan=5 height=20 class='serviceTitle'>&nbsp;Services</td></tr>\n");
+	printf("<tr><td colspan=5 height=20 class='serviceTitle'>&nbsp;サービスの稼動状態</td></tr>\n");
 
 	printf("<tr>\n");
-	printf("<td class='serviceHeader' width=125><a href='%s?host=all&style=detail&servicestatustypes=%d' class='serviceHeader'>%d Critical</a></td>\n", STATUS_CGI, SERVICE_CRITICAL, services_critical);
-	printf("<td class='serviceHeader' width=125><a href='%s?host=all&style=detail&servicestatustypes=%d' class='serviceHeader'>%d Warning</a></td>\n", STATUS_CGI, SERVICE_WARNING, services_warning);
-	printf("<td class='serviceHeader' width=125><a href='%s?host=all&style=detail&servicestatustypes=%d' class='serviceHeader'>%d Unknown</a></td>\n", STATUS_CGI, SERVICE_UNKNOWN, services_unknown);
-	printf("<td class='serviceHeader' width=125><a href='%s?host=all&style=detail&servicestatustypes=%d' class='serviceHeader'>%d Ok</a></td>\n", STATUS_CGI, SERVICE_OK, services_ok);
-	printf("<td class='serviceHeader' width=125><a href='%s?host=all&style=detail&servicestatustypes=%d' class='serviceHeader'>%d Pending</a></td>\n", STATUS_CGI, SERVICE_PENDING, services_pending);
+	printf("<td class='serviceHeader' width=125><a href='%s?host=all&style=detail&servicestatustypes=%d' class='serviceHeader'>異常状態: %d 件</a></td>\n", STATUS_CGI, SERVICE_CRITICAL, services_critical);
+	printf("<td class='serviceHeader' width=125><a href='%s?host=all&style=detail&servicestatustypes=%d' class='serviceHeader'>警告状態: %d 件</a></td>\n", STATUS_CGI, SERVICE_WARNING, services_warning);
+	printf("<td class='serviceHeader' width=125><a href='%s?host=all&style=detail&servicestatustypes=%d' class='serviceHeader'>不明状態: %d 件</a></td>\n", STATUS_CGI, SERVICE_UNKNOWN, services_unknown);
+	printf("<td class='serviceHeader' width=125><a href='%s?host=all&style=detail&servicestatustypes=%d' class='serviceHeader'>正常状態: %d 件</a></td>\n", STATUS_CGI, SERVICE_OK, services_ok);
+	printf("<td class='serviceHeader' width=125><a href='%s?host=all&style=detail&servicestatustypes=%d' class='serviceHeader'>保留状態: %d 件</a></td>\n", STATUS_CGI, SERVICE_PENDING, services_pending);
 	printf("</tr>\n");
 
 	printf("<tr>\n");
@@ -1252,19 +1262,19 @@ void display_tac_overview(void) {
 	printf("<table border=0 width=100%%>\n");
 
 	if(services_critical_unacknowledged > 0)
-		printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>%d Unhandled Problems</a></td></tr>\n", STATUS_CGI, SERVICE_CRITICAL, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_critical_unacknowledged);
+		printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>未認知状態: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_CRITICAL, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_critical_unacknowledged);
 
 	if(services_critical_host_problem > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d'>%d on Problem Hosts</a></td></tr>\n", STATUS_CGI, SERVICE_CRITICAL, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_critical_host_problem);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d'>ホスト側の問題: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_CRITICAL, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_critical_host_problem);
 
 	if(services_critical_scheduled > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, SERVICE_CRITICAL, SERVICE_SCHEDULED_DOWNTIME, services_critical_scheduled);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>メンテナンス中: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_CRITICAL, SERVICE_SCHEDULED_DOWNTIME, services_critical_scheduled);
 
 	if(services_critical_acknowledged > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, SERVICE_CRITICAL, SERVICE_STATE_ACKNOWLEDGED, services_critical_acknowledged);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>認知済み: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_CRITICAL, SERVICE_STATE_ACKNOWLEDGED, services_critical_acknowledged);
 
 	if(services_critical_disabled > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, SERVICE_CRITICAL, SERVICE_CHECKS_DISABLED, services_critical_disabled);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>無効設定: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_CRITICAL, SERVICE_CHECKS_DISABLED, services_critical_disabled);
 
 	printf("</table>\n");
 	printf("</td>\n");
@@ -1287,19 +1297,19 @@ void display_tac_overview(void) {
 	printf("<table border=0 width=100%%>\n");
 
 	if(services_warning_unacknowledged > 0)
-		printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>%d Unhandled Problems</a></td></tr>\n", STATUS_CGI, SERVICE_WARNING, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_warning_unacknowledged);
+		printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>未認知状態: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_WARNING, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_warning_unacknowledged);
 
 	if(services_warning_host_problem > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d'>%d on Problem Hosts</a></td></tr>\n", STATUS_CGI, SERVICE_WARNING, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_warning_host_problem);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d'>ホスト側の問題: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_WARNING, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_warning_host_problem);
 
 	if(services_warning_scheduled > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, SERVICE_WARNING, SERVICE_SCHEDULED_DOWNTIME, services_warning_scheduled);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>メンテナンス中: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_WARNING, SERVICE_SCHEDULED_DOWNTIME, services_warning_scheduled);
 
 	if(services_warning_acknowledged > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, SERVICE_WARNING, SERVICE_STATE_ACKNOWLEDGED, services_warning_acknowledged);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>認知済み: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_WARNING, SERVICE_STATE_ACKNOWLEDGED, services_warning_acknowledged);
 
 	if(services_warning_disabled > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, SERVICE_WARNING, SERVICE_CHECKS_DISABLED, services_warning_disabled);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>無効設定: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_WARNING, SERVICE_CHECKS_DISABLED, services_warning_disabled);
 
 	printf("</table>\n");
 	printf("</td>\n");
@@ -1322,19 +1332,19 @@ void display_tac_overview(void) {
 	printf("<table border=0 width=100%%>\n");
 
 	if(services_unknown_unacknowledged > 0)
-		printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>%d Unhandled Problems</a></td></tr>\n", STATUS_CGI, SERVICE_UNKNOWN, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_unknown_unacknowledged);
+		printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>未認知状態: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_UNKNOWN, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_unknown_unacknowledged);
 
 	if(services_unknown_host_problem > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d'>%d on Problem Hosts</a></td></tr>\n", STATUS_CGI, SERVICE_UNKNOWN, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_unknown_host_problem);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&hoststatustypes=%d'>ホスト側の問題: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_UNKNOWN, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_unknown_host_problem);
 
 	if(services_unknown_scheduled > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, SERVICE_UNKNOWN, SERVICE_SCHEDULED_DOWNTIME, services_unknown_scheduled);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>メンテナンス中: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_UNKNOWN, SERVICE_SCHEDULED_DOWNTIME, services_unknown_scheduled);
 
 	if(services_unknown_acknowledged > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, SERVICE_UNKNOWN, SERVICE_STATE_ACKNOWLEDGED, services_unknown_acknowledged);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>認知済み: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_UNKNOWN, SERVICE_STATE_ACKNOWLEDGED, services_unknown_acknowledged);
 
 	if(services_unknown_disabled > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, SERVICE_UNKNOWN, SERVICE_CHECKS_DISABLED, services_unknown_disabled);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>無効設定: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_UNKNOWN, SERVICE_CHECKS_DISABLED, services_unknown_disabled);
 
 	printf("</table>\n");
 	printf("</td>\n");
@@ -1356,7 +1366,7 @@ void display_tac_overview(void) {
 	printf("<table border=0 width=100%%>\n");
 
 	if(services_ok_disabled > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, SERVICE_OK, SERVICE_CHECKS_DISABLED, services_ok_disabled);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>無効設定: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_OK, SERVICE_CHECKS_DISABLED, services_ok_disabled);
 
 	printf("</table>\n");
 	printf("</td>\n");
@@ -1377,7 +1387,7 @@ void display_tac_overview(void) {
 	printf("<table border=0 width=100%%>\n");
 
 	if(services_pending_disabled > 0)
-		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, SERVICE_PENDING, SERVICE_CHECKS_DISABLED, services_pending_disabled);
+		printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?host=all&type=detail&servicestatustypes=%d&serviceprops=%d'>無効設定: %d 件</a></td></tr>\n", STATUS_CGI, SERVICE_PENDING, SERVICE_CHECKS_DISABLED, services_pending_disabled);
 
 	printf("</table>\n");
 	printf("</td>\n");
@@ -1408,14 +1418,14 @@ void display_tac_overview(void) {
 
 	printf("<table class='tac' cellspacing=4 cellpadding=0 border=0>\n");
 
-	printf("<tr><td colspan=5 height=20 class='featureTitle'>&nbsp;Monitoring Features</td></tr>\n");
+	printf("<tr><td colspan=5 height=20 class='featureTitle'>&nbsp;監視機能の設定状態</td></tr>\n");
 
 	printf("<tr>\n");
-	printf("<td class='featureHeader' width=135>Flap Detection</td>\n");
-	printf("<td class='featureHeader' width=135>Notifications</td>\n");
-	printf("<td class='featureHeader' width=135>Event Handlers</td>\n");
-	printf("<td class='featureHeader' width=135>Active Checks</td>\n");
-	printf("<td class='featureHeader' width=135>Passive Checks</td>\n");
+	printf("<td class='featureHeader' width=135>フラップ検知</td>\n");
+	printf("<td class='featureHeader' width=135>通知</td>\n");
+	printf("<td class='featureHeader' width=135>イベントハンドラ</td>\n");
+	printf("<td class='featureHeader' width=135>アクティブチェック</td>\n");
+	printf("<td class='featureHeader' width=135>パッシブチェック</td>\n");
 	printf("</tr>\n");
 
 	printf("<tr>\n");
@@ -1423,31 +1433,31 @@ void display_tac_overview(void) {
 	printf("<td valign=top>\n");
 	printf("<table border=0 width=135 cellspacing=0 cellpadding=0>\n");
 	printf("<tr>\n");
-	printf("<td valign=top><a href='%s?cmd_typ=%d'><img src='%s%s' border=0 alt='Flap Detection %s' title='Flap Detection %s'></a></td>\n", COMMAND_CGI, (enable_flap_detection == TRUE) ? CMD_DISABLE_FLAP_DETECTION : CMD_ENABLE_FLAP_DETECTION, url_images_path, (enable_flap_detection == TRUE) ? TAC_ENABLED_ICON : TAC_DISABLED_ICON, (enable_flap_detection == TRUE) ? "Enabled" : "Disabled", (enable_flap_detection == TRUE) ? "Enabled" : "Disabled");
+	printf("<td valign=top><a href='%s?cmd_typ=%d'><img src='%s%s' border=0 alt='フラップ検知: %s' title='フラップ検知: %s'></a></td>\n", COMMAND_CGI, (enable_flap_detection == TRUE) ? CMD_DISABLE_FLAP_DETECTION : CMD_ENABLE_FLAP_DETECTION, url_images_path, (enable_flap_detection == TRUE) ? TAC_ENABLED_ICON : TAC_DISABLED_ICON, (enable_flap_detection == TRUE) ? "有効" : "無効", (enable_flap_detection == TRUE) ? "有効" : "無効");
 	printf("<Td width=10>&nbsp;</td>\n");
 	if(enable_flap_detection == TRUE) {
 		printf("<Td valign=top width=100%% class='featureEnabledFlapDetection'>\n");
 		printf("<table border=0 width=100%%>\n");
 
 		if(flap_disabled_services > 0)
-			printf("<tr><td width=100%% class='featureItemDisabledServiceFlapDetection'><a href='%s?host=all&type=detail&serviceprops=%d'>%d Service%s Disabled</a></td></tr>\n", STATUS_CGI, SERVICE_FLAP_DETECTION_DISABLED, flap_disabled_services, (flap_disabled_services == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemDisabledServiceFlapDetection'><a href='%s?host=all&type=detail&serviceprops=%d'>%d サービスが無効</a></td></tr>\n", STATUS_CGI, SERVICE_FLAP_DETECTION_DISABLED, flap_disabled_services);
 		else
-			printf("<tr><td width=100%% class='featureItemEnabledServiceFlapDetection'>All Services Enabled</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemEnabledServiceFlapDetection'>全サービス有効</td></tr>\n");
 
 		if(flapping_services > 0)
-			printf("<tr><td width=100%% class='featureItemServicesFlapping'><a href='%s?host=all&type=detail&serviceprops=%d'>%d Service%s Flapping</a></td></tr>\n", STATUS_CGI, SERVICE_IS_FLAPPING, flapping_services, (flapping_services == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemServicesFlapping'><a href='%s?host=all&type=detail&serviceprops=%d'>%d サービスがフラップ中</a></td></tr>\n", STATUS_CGI, SERVICE_IS_FLAPPING, flapping_services);
 		else
-			printf("<tr><td width=100%% class='featureItemServicesNotFlapping'>No Services Flapping</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemServicesNotFlapping'>フラップ中のサービスはありません</td></tr>\n");
 
 		if(flap_disabled_hosts > 0)
-			printf("<tr><td width=100%% class='featureItemDisabledHostFlapDetection'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d Host%s Disabled</a></td></tr>\n", STATUS_CGI, HOST_FLAP_DETECTION_DISABLED, flap_disabled_hosts, (flap_disabled_hosts == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemDisabledHostFlapDetection'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d ホストが無効</a></td></tr>\n", STATUS_CGI, HOST_FLAP_DETECTION_DISABLED, flap_disabled_hosts);
 		else
-			printf("<tr><td width=100%% class='featureItemEnabledHostFlapDetection'>All Hosts Enabled</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemEnabledHostFlapDetection'>全ホスト有効</td></tr>\n");
 
 		if(flapping_hosts > 0)
-			printf("<tr><td width=100%% class='featureItemHostsFlapping'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d Host%s Flapping</a></td></tr>\n", STATUS_CGI, HOST_IS_FLAPPING, flapping_hosts, (flapping_hosts == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemHostsFlapping'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d ホストがフラップ中</a></td></tr>\n", STATUS_CGI, HOST_IS_FLAPPING, flapping_hosts);
 		else
-			printf("<tr><td width=100%% class='featureItemHostsNotFlapping'>No Hosts Flapping</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemHostsNotFlapping'>フラップ中のホストはありません</td></tr>\n");
 
 		printf("</table>\n");
 		printf("</td>\n");
@@ -1464,21 +1474,21 @@ void display_tac_overview(void) {
 	printf("<td valign=top>\n");
 	printf("<table border=0 width=135 cellspacing=0 cellpadding=0>\n");
 	printf("<tr>\n");
-	printf("<td valign=top><a href='%s?cmd_typ=%d'><img src='%s%s' border=0 alt='Notifications %s' title='Notifications %s'></a></td>\n", COMMAND_CGI, (enable_notifications == TRUE) ? CMD_DISABLE_NOTIFICATIONS : CMD_ENABLE_NOTIFICATIONS, url_images_path, (enable_notifications == TRUE) ? TAC_ENABLED_ICON : TAC_DISABLED_ICON, (enable_notifications == TRUE) ? "Enabled" : "Disabled", (enable_notifications == TRUE) ? "Enabled" : "Disabled");
+	printf("<td valign=top><a href='%s?cmd_typ=%d'><img src='%s%s' border=0 alt='通知機能: %s' title='通知機能: %s'></a></td>\n", COMMAND_CGI, (enable_notifications == TRUE) ? CMD_DISABLE_NOTIFICATIONS : CMD_ENABLE_NOTIFICATIONS, url_images_path, (enable_notifications == TRUE) ? TAC_ENABLED_ICON : TAC_DISABLED_ICON, (enable_notifications == TRUE) ? "有効" : "無効", (enable_notifications == TRUE) ? "有効" : "無効");
 	printf("<Td width=10>&nbsp;</td>\n");
 	if(enable_notifications == TRUE) {
 		printf("<Td valign=top width=100%% class='featureEnabledNotifications'>\n");
 		printf("<table border=0 width=100%%>\n");
 
 		if(notification_disabled_services > 0)
-			printf("<tr><td width=100%% class='featureItemDisabledServiceNotifications'><a href='%s?host=all&type=detail&serviceprops=%d'>%d Service%s Disabled</a></td></tr>\n", STATUS_CGI, SERVICE_NOTIFICATIONS_DISABLED, notification_disabled_services, (notification_disabled_services == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemDisabledServiceNotifications'><a href='%s?host=all&type=detail&serviceprops=%d'>%d サービスが無効</a></td></tr>\n", STATUS_CGI, SERVICE_NOTIFICATIONS_DISABLED, notification_disabled_services);
 		else
-			printf("<tr><td width=100%% class='featureItemEnabledServiceNotifications'>All Services Enabled</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemEnabledServiceNotifications'>全サービス有効</td></tr>\n");
 
 		if(notification_disabled_hosts > 0)
-			printf("<tr><td width=100%% class='featureItemDisabledHostNotifications'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d Host%s Disabled</a></td></tr>\n", STATUS_CGI, HOST_NOTIFICATIONS_DISABLED, notification_disabled_hosts, (notification_disabled_hosts == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemDisabledHostNotifications'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d ホストが無効</a></td></tr>\n", STATUS_CGI, HOST_NOTIFICATIONS_DISABLED, notification_disabled_hosts);
 		else
-			printf("<tr><td width=100%% class='featureItemEnabledHostNotifications'>All Hosts Enabled</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemEnabledHostNotifications'>全ホスト有効</td></tr>\n");
 
 		printf("</table>\n");
 		printf("</td>\n");
@@ -1496,21 +1506,21 @@ void display_tac_overview(void) {
 	printf("<td valign=top>\n");
 	printf("<table border=0 width=135 cellspacing=0 cellpadding=0>\n");
 	printf("<tr>\n");
-	printf("<td valign=top><a href='%s?cmd_typ=%d'><img src='%s%s' border=0 alt='Event Handlers %s' title='Event Handlers %s'></a></td>\n", COMMAND_CGI, (enable_event_handlers == TRUE) ? CMD_DISABLE_EVENT_HANDLERS : CMD_ENABLE_EVENT_HANDLERS, url_images_path, (enable_event_handlers == TRUE) ? TAC_ENABLED_ICON : TAC_DISABLED_ICON, (enable_event_handlers == TRUE) ? "Enabled" : "Disabled", (enable_event_handlers == TRUE) ? "Enabled" : "Disabled");
+	printf("<td valign=top><a href='%s?cmd_typ=%d'><img src='%s%s' border=0 alt='イベントハンドラ: %s' title='イベントハンドラ: %s'></a></td>\n", COMMAND_CGI, (enable_event_handlers == TRUE) ? CMD_DISABLE_EVENT_HANDLERS : CMD_ENABLE_EVENT_HANDLERS, url_images_path, (enable_event_handlers == TRUE) ? TAC_ENABLED_ICON : TAC_DISABLED_ICON, (enable_event_handlers == TRUE) ? "有効" : "無効", (enable_event_handlers == TRUE) ? "有効" : "無効");
 	printf("<Td width=10>&nbsp;</td>\n");
 	if(enable_event_handlers == TRUE) {
 		printf("<Td valign=top width=100%% class='featureEnabledHandlers'>\n");
 		printf("<table border=0 width=100%%>\n");
 
 		if(event_handler_disabled_services > 0)
-			printf("<tr><td width=100%% class='featureItemDisabledServiceHandlers'><a href='%s?host=all&type=detail&serviceprops=%d'>%d Service%s Disabled</a></td></tr>\n", STATUS_CGI, SERVICE_EVENT_HANDLER_DISABLED, event_handler_disabled_services, (event_handler_disabled_services == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemDisabledServiceHandlers'><a href='%s?host=all&type=detail&serviceprops=%d'>%d サービスが無効</a></td></tr>\n", STATUS_CGI, SERVICE_EVENT_HANDLER_DISABLED, event_handler_disabled_services);
 		else
-			printf("<tr><td width=100%% class='featureItemEnabledServiceHandlers'>All Services Enabled</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemEnabledServiceHandlers'>全サービス有効</td></tr>\n");
 
 		if(event_handler_disabled_hosts > 0)
-			printf("<tr><td width=100%% class='featureItemDisabledHostHandlers'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d Host%s Disabled</a></td></tr>\n", STATUS_CGI, HOST_EVENT_HANDLER_DISABLED, event_handler_disabled_hosts, (event_handler_disabled_hosts == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemDisabledHostHandlers'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d ホストが無効</a></td></tr>\n", STATUS_CGI, HOST_EVENT_HANDLER_DISABLED, event_handler_disabled_hosts);
 		else
-			printf("<tr><td width=100%% class='featureItemEnabledHostHandlers'>All Hosts Enabled</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemEnabledHostHandlers'>全ホスト有効</td></tr>\n");
 
 		printf("</table>\n");
 		printf("</td>\n");
@@ -1528,21 +1538,21 @@ void display_tac_overview(void) {
 	printf("<td valign=top>\n");
 	printf("<table border=0 width=135 cellspacing=0 cellpadding=0>\n");
 	printf("<tr>\n");
-	printf("<td valign=top><a href='%s?type=%d'><img src='%s%s' border='0' alt='Active Checks %s' title='Active Checks %s'></a></td>\n", EXTINFO_CGI, DISPLAY_PROCESS_INFO, url_images_path, (execute_service_checks == TRUE) ? TAC_ENABLED_ICON : TAC_DISABLED_ICON, (execute_service_checks == TRUE) ? "Enabled" : "Disabled", (execute_service_checks == TRUE) ? "Enabled" : "Disabled");
+	printf("<td valign=top><a href='%s?type=%d'><img src='%s%s' border='0' alt='アクティブチェック: %s' title='アクティブチェック: %s'></a></td>\n", EXTINFO_CGI, DISPLAY_PROCESS_INFO, url_images_path, (execute_service_checks == TRUE) ? TAC_ENABLED_ICON : TAC_DISABLED_ICON, (execute_service_checks == TRUE) ? "有効" : "無効", (execute_service_checks == TRUE) ? "有効" : "無効");
 	printf("<Td width=10>&nbsp;</td>\n");
 	if(execute_service_checks == TRUE) {
 		printf("<Td valign=top width=100%% class='featureEnabledActiveChecks'>\n");
 		printf("<table border=0 width=100%%>\n");
 
 		if(active_checks_disabled_services > 0)
-			printf("<tr><td width=100%% class='featureItemDisabledActiveServiceChecks'><a href='%s?host=all&type=detail&serviceprops=%d'>%d Service%s Disabled</a></td></tr>\n", STATUS_CGI, SERVICE_CHECKS_DISABLED, active_checks_disabled_services, (active_checks_disabled_services == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemDisabledActiveServiceChecks'><a href='%s?host=all&type=detail&serviceprops=%d'>%d サービスが無効</a></td></tr>\n", STATUS_CGI, SERVICE_CHECKS_DISABLED, active_checks_disabled_services);
 		else
-			printf("<tr><td width=100%% class='featureItemEnabledActiveServiceChecks'>All Services Enabled</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemEnabledActiveServiceChecks'>全サービス有効</td></tr>\n");
 
 		if(active_checks_disabled_hosts > 0)
-			printf("<tr><td width=100%% class='featureItemDisabledActiveHostChecks'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d Host%s Disabled</a></td></tr>\n", STATUS_CGI, HOST_CHECKS_DISABLED, active_checks_disabled_hosts, (active_checks_disabled_hosts == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemDisabledActiveHostChecks'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d ホストが無効</a></td></tr>\n", STATUS_CGI, HOST_CHECKS_DISABLED, active_checks_disabled_hosts);
 		else
-			printf("<tr><td width=100%% class='featureItemEnabledActiveHostChecks'>All Hosts Enabled</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemEnabledActiveHostChecks'>全ホスト有効</td></tr>\n");
 
 		printf("</table>\n");
 		printf("</td>\n");
@@ -1560,7 +1570,7 @@ void display_tac_overview(void) {
 	printf("<td valign=top>\n");
 	printf("<table border=0 width=135 cellspacing=0 cellpadding=0>\n");
 	printf("<tr>\n");
-	printf("<td valign=top><a href='%s?type=%d'><img src='%s%s' border='0' alt='Passive Checks %s' title='Passive Checks %s'></a></td>\n", EXTINFO_CGI, DISPLAY_PROCESS_INFO, url_images_path, (accept_passive_service_checks == TRUE) ? TAC_ENABLED_ICON : TAC_DISABLED_ICON, (accept_passive_service_checks == TRUE) ? "Enabled" : "Disabled", (accept_passive_service_checks == TRUE) ? "Enabled" : "Disabled");
+	printf("<td valign=top><a href='%s?type=%d'><img src='%s%s' border='0' alt='パッシブチェック: %s' title='パッシブチェック: %s'></a></td>\n", EXTINFO_CGI, DISPLAY_PROCESS_INFO, url_images_path, (accept_passive_service_checks == TRUE) ? TAC_ENABLED_ICON : TAC_DISABLED_ICON, (accept_passive_service_checks == TRUE) ? "有効" : "無効", (accept_passive_service_checks == TRUE) ? "有効" : "無効");
 	printf("<Td width=10>&nbsp;</td>\n");
 	if(accept_passive_service_checks == TRUE) {
 
@@ -1568,14 +1578,14 @@ void display_tac_overview(void) {
 		printf("<table border=0 width=100%%>\n");
 
 		if(passive_checks_disabled_services > 0)
-			printf("<tr><td width=100%% class='featureItemDisabledPassiveServiceChecks'><a href='%s?host=all&type=detail&serviceprops=%d'>%d Service%s Disabled</a></td></tr>\n", STATUS_CGI, SERVICE_PASSIVE_CHECKS_DISABLED, passive_checks_disabled_services, (passive_checks_disabled_services == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemDisabledPassiveServiceChecks'><a href='%s?host=all&type=detail&serviceprops=%d'>%d サービスが無効</a></td></tr>\n", STATUS_CGI, SERVICE_PASSIVE_CHECKS_DISABLED, passive_checks_disabled_services);
 		else
-			printf("<tr><td width=100%% class='featureItemEnabledPassiveServiceChecks'>All Services Enabled</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemEnabledPassiveServiceChecks'>全サービス有効</td></tr>\n");
 
 		if(passive_checks_disabled_hosts > 0)
-			printf("<tr><td width=100%% class='featureItemDisabledPassiveHostChecks'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d Host%s Disabled</a></td></tr>\n", STATUS_CGI, HOST_PASSIVE_CHECKS_DISABLED, passive_checks_disabled_hosts, (passive_checks_disabled_hosts == 1) ? "" : "s");
+			printf("<tr><td width=100%% class='featureItemDisabledPassiveHostChecks'><a href='%s?hostgroup=all&style=hostdetail&hostprops=%d'>%d ホストが無効</a></td></tr>\n", STATUS_CGI, HOST_PASSIVE_CHECKS_DISABLED, passive_checks_disabled_hosts);
 		else
-			printf("<tr><td width=100%% class='featureItemEnabledPassiveHostChecks'>All Hosts Enabled</td></tr>\n");
+			printf("<tr><td width=100%% class='featureItemEnabledPassiveHostChecks'>全ホスト有効</td></tr>\n");
 
 		printf("</table>\n");
 		printf("</td>\n");

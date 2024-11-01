@@ -436,13 +436,13 @@ int register_downtime(int type, unsigned long downtime_id) {
 	minutes = ((temp_downtime->duration - (hours * 3600)) / 60);
 	seconds = temp_downtime->duration - (hours * 3600) - (minutes * 60);
 	if(temp_downtime->type == HOST_DOWNTIME)
-		type_string = "host";
+		type_string = "ホスト";
 	else
-		type_string = "service";
+		type_string = "サービス";
 	if(temp_downtime->fixed == TRUE)
-		asprintf(&temp_buffer, "This %s has been scheduled for fixed downtime from %s to %s.  Notifications for the %s will not be sent out during that time period.", type_string, start_time_string, end_time_string, type_string);
+		asprintf(&temp_buffer, "この %s は %s から %s まで固定した故障時間としてスケジュールされました。また、%s に関する通知はその期間には送られません。", type_string, start_time_string, end_time_string, type_string);
 	else
-		asprintf(&temp_buffer, "This %s has been scheduled for flexible downtime starting between %s and %s and lasting for a period of %d hours and %d minutes.  Notifications for the %s will not be sent out during that time period.", type_string, start_time_string, end_time_string, hours, minutes, type_string);
+		asprintf(&temp_buffer, "この %s は %s から %s までの間に障害が発生し %d 時間 %d 分 継続してるため非固定の故障時間としてスケジュールされました。また、%s に関する通知はその期間には送られません。", type_string, start_time_string, end_time_string, hours, minutes, type_string);
 
 
 	log_debug_info(DEBUGL_DOWNTIME, 0, "Scheduled Downtime Details:\n");

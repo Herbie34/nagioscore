@@ -314,50 +314,50 @@ int main(void) {
 		printf("<td align=left valign=top width=33%%>\n");
 
 		/* info table */
-		display_info_table("Current Network Status", TRUE, &current_authdata);
+		display_info_table("現在のネットワーク状態", TRUE, &current_authdata);
 
 		printf("<table class='linkBox'>\n");
 		printf("<tr><td class='linkBox'>\n");
 
 		if(display_type == DISPLAY_HOSTS) {
-			printf("<a href='%s?host=%s'>View History For %s</a><br>\n", HISTORY_CGI, (show_all_hosts == TRUE) ? "all" : url_encode(host_name), (show_all_hosts == TRUE) ? "all hosts" : "This Host");
-			printf("<a href='%s?host=%s'>View Notifications For %s</a>\n", NOTIFICATIONS_CGI, (show_all_hosts == TRUE) ? "all" : url_encode(host_name), (show_all_hosts == TRUE) ? "All Hosts" : "This Host");
+			printf("<a href='%s?host=%s'>%sの履歴を見る</a><br>\n", HISTORY_CGI, (show_all_hosts == TRUE) ? "all" : url_encode(host_name), (show_all_hosts == TRUE) ? "全ホスト" : "このホスト");
+			printf("<a href='%s?host=%s'>%sの通知履歴を見る</a>\n", NOTIFICATIONS_CGI, (show_all_hosts == TRUE) ? "all" : url_encode(host_name), (show_all_hosts == TRUE) ? "全ホスト" : "このホスト");
 			if(show_all_hosts == FALSE)
-				printf("<br /><a href='%s?host=all'>View Service Status Detail For All Hosts</a>\n", STATUS_CGI);
+				printf("<br /><a href='%s?host=all'>全ホストのサービス稼動状態を見る</a>\n", STATUS_CGI);
 			else
-				printf("<br /><a href='%s?hostgroup=all&style=hostdetail'>View Host Status Detail For All Hosts</a>\n", STATUS_CGI);
+				printf("<br /><a href='%s?hostgroup=all&style=hostdetail'>全ホストのホスト稼動状態を見る</a>\n", STATUS_CGI);
 			}
 		else if(display_type == DISPLAY_SERVICEGROUPS) {
 			if(show_all_servicegroups == FALSE) {
 
 				if(group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_GRID || group_style_type == STYLE_SUMMARY)
-					printf("<a href='%s?servicegroup=%s&style=detail'>View Service Status Detail For This Service Group</a><br>\n", STATUS_CGI, url_encode(servicegroup_name));
+					printf("<a href='%s?servicegroup=%s&style=detail'>このサービスグループのサービス稼動状態を見る</a><br>\n", STATUS_CGI, url_encode(servicegroup_name));
 				if(group_style_type == STYLE_DETAIL || group_style_type == STYLE_GRID || group_style_type == STYLE_SUMMARY)
-					printf("<a href='%s?servicegroup=%s&style=overview'>View Status Overview For This Service Group</a><br>\n", STATUS_CGI, url_encode(servicegroup_name));
+					printf("<a href='%s?servicegroup=%s&style=overview'>このサービスグループのステータスオーバービューを見る</a><br>\n", STATUS_CGI, url_encode(servicegroup_name));
 				if(group_style_type == STYLE_DETAIL || group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_GRID)
-					printf("<a href='%s?servicegroup=%s&style=summary'>View Status Summary For This Service Group</a><br>\n", STATUS_CGI, url_encode(servicegroup_name));
+					printf("<a href='%s?servicegroup=%s&style=summary'>このサービスグループのステータスサマリを見る</a><br>\n", STATUS_CGI, url_encode(servicegroup_name));
 				if(group_style_type == STYLE_DETAIL || group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_SUMMARY)
-					printf("<a href='%s?servicegroup=%s&style=grid'>View Service Status Grid For This Service Group</a><br>\n", STATUS_CGI, url_encode(servicegroup_name));
+					printf("<a href='%s?servicegroup=%s&style=grid'>このサービスグループのステータスグリッドを見る</a><br>\n", STATUS_CGI, url_encode(servicegroup_name));
 
 				if(group_style_type == STYLE_DETAIL)
-					printf("<a href='%s?servicegroup=all&style=detail'>View Service Status Detail For All Service Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?servicegroup=all&style=detail'>全ホストグループのサービス稼動状態を見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_OVERVIEW)
-					printf("<a href='%s?servicegroup=all&style=overview'>View Status Overview For All Service Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?servicegroup=all&style=overview'>全サービスグループのサービス稼動状態を見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_SUMMARY)
-					printf("<a href='%s?servicegroup=all&style=summary'>View Status Summary For All Service Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?servicegroup=all&style=summary'>全サービスグループのステータスサマリを見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_GRID)
-					printf("<a href='%s?servicegroup=all&style=grid'>View Service Status Grid For All Service Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?servicegroup=all&style=grid'>全サービスグループのステータスグリッドを見る</a><br>\n", STATUS_CGI);
 
 				}
 			else {
 				if(group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_GRID || group_style_type == STYLE_SUMMARY)
-					printf("<a href='%s?servicegroup=all&style=detail'>View Service Status Detail For All Service Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?servicegroup=all&style=detail'>全サービスグループのサービス稼動状態を見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_DETAIL || group_style_type == STYLE_GRID || group_style_type == STYLE_SUMMARY)
-					printf("<a href='%s?servicegroup=all&style=overview'>View Status Overview For All Service Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?servicegroup=all&style=overview'>全サービスグループのステータスオーバービューを見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_DETAIL || group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_GRID)
-					printf("<a href='%s?servicegroup=all&style=summary'>View Status Summary For All Service Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?servicegroup=all&style=summary'>全サービスグループのステータスサマリを見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_DETAIL || group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_SUMMARY)
-					printf("<a href='%s?servicegroup=all&style=grid'>View Service Status Grid For All Service Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?servicegroup=all&style=grid'>全サービスグループのステータスグリッドを見る</a><br>\n", STATUS_CGI);
 				}
 
 			}
@@ -365,38 +365,38 @@ int main(void) {
 			if(show_all_hostgroups == FALSE) {
 
 				if(group_style_type == STYLE_DETAIL)
-					printf("<a href='%s?hostgroup=all&style=detail'>View Service Status Detail For All Host Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?hostgroup=all&style=detail'>全ホストグループのサービス稼動状態を見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_HOST_DETAIL)
-					printf("<a href='%s?hostgroup=all&style=hostdetail'>View Host Status Detail For All Host Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?hostgroup=all&style=hostdetail'>全ホストグループのホスト稼動状態を見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_OVERVIEW)
-					printf("<a href='%s?hostgroup=all&style=overview'>View Status Overview For All Host Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?hostgroup=all&style=overview'>全ホストグループのステータスオーバービューを見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_SUMMARY)
-					printf("<a href='%s?hostgroup=all&style=summary'>View Status Summary For All Host Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?hostgroup=all&style=summary'>全ホストグループのステータスサマリを見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_GRID)
-					printf("<a href='%s?hostgroup=all&style=grid'>View Status Grid For All Host Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?hostgroup=all&style=grid'>全ホストグループのステータスグリッドを見る</a><br>\n", STATUS_CGI);
 
 				if(group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_SUMMARY || group_style_type == STYLE_GRID || group_style_type == STYLE_HOST_DETAIL)
-					printf("<a href='%s?hostgroup=%s&style=detail'>View Service Status Detail For This Host Group</a><br>\n", STATUS_CGI, url_encode(hostgroup_name));
+					printf("<a href='%s?hostgroup=%s&style=detail'>このホストグループサービス稼動状態を見る</a><br>\n", STATUS_CGI, url_encode(hostgroup_name));
 				if(group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_DETAIL || group_style_type == STYLE_SUMMARY || group_style_type == STYLE_GRID)
-					printf("<a href='%s?hostgroup=%s&style=hostdetail'>View Host Status Detail For This Host Group</a><br>\n", STATUS_CGI, url_encode(hostgroup_name));
+					printf("<a href='%s?hostgroup=%s&style=hostdetail'>このホストグループのホスト稼動状態を見る</a><br>\n", STATUS_CGI, url_encode(hostgroup_name));
 				if(group_style_type == STYLE_DETAIL || group_style_type == STYLE_SUMMARY || group_style_type == STYLE_GRID || group_style_type == STYLE_HOST_DETAIL)
-					printf("<a href='%s?hostgroup=%s&style=overview'>View Status Overview For This Host Group</a><br>\n", STATUS_CGI, url_encode(hostgroup_name));
+					printf("<a href='%s?hostgroup=%s&style=overview'>このホストグループのステータスオーバービューを見る</a><br>\n", STATUS_CGI, url_encode(hostgroup_name));
 				if(group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_DETAIL || group_style_type == STYLE_GRID || group_style_type == STYLE_HOST_DETAIL)
-					printf("<a href='%s?hostgroup=%s&style=summary'>View Status Summary For This Host Group</a><br>\n", STATUS_CGI, url_encode(hostgroup_name));
+					printf("<a href='%s?hostgroup=%s&style=summary'>このホストグループのステータスサマリを見る</a><br>\n", STATUS_CGI, url_encode(hostgroup_name));
 				if(group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_DETAIL || group_style_type == STYLE_SUMMARY || group_style_type == STYLE_HOST_DETAIL)
-					printf("<a href='%s?hostgroup=%s&style=grid'>View Status Grid For This Host Group</a><br>\n", STATUS_CGI, url_encode(hostgroup_name));
+					printf("<a href='%s?hostgroup=%s&style=grid'>このホストグループのステータスグリッドを見る</a><br>\n", STATUS_CGI, url_encode(hostgroup_name));
 				}
 			else {
 				if(group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_SUMMARY || group_style_type == STYLE_GRID || group_style_type == STYLE_HOST_DETAIL)
-					printf("<a href='%s?hostgroup=all&style=detail'>View Service Status Detail For All Host Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?hostgroup=all&style=detail'>全ホストグループのサービス稼動状態を見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_DETAIL || group_style_type == STYLE_SUMMARY || group_style_type == STYLE_GRID)
-					printf("<a href='%s?hostgroup=all&style=hostdetail'>View Host Status Detail For All Host Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?hostgroup=all&style=hostdetail'>全ホストグループのホスト稼動状態を見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_DETAIL || group_style_type == STYLE_SUMMARY || group_style_type == STYLE_GRID || group_style_type == STYLE_HOST_DETAIL)
-					printf("<a href='%s?hostgroup=all&style=overview'>View Status Overview For All Host Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?hostgroup=all&style=overview'>全ホストグループのステータスオーバービューを見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_DETAIL || group_style_type == STYLE_GRID || group_style_type == STYLE_HOST_DETAIL)
-					printf("<a href='%s?hostgroup=all&style=summary'>View Status Summary For All Host Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?hostgroup=all&style=summary'>全ホストグループのステータスサマリを見る</a><br>\n", STATUS_CGI);
 				if(group_style_type == STYLE_OVERVIEW || group_style_type == STYLE_DETAIL || group_style_type == STYLE_SUMMARY || group_style_type == STYLE_HOST_DETAIL)
-					printf("<a href='%s?hostgroup=all&style=grid'>View Status Grid For All Host Groups</a><br>\n", STATUS_CGI);
+					printf("<a href='%s?hostgroup=all&style=grid'>全ホストグループのステータスグリッドを見る</a><br>\n", STATUS_CGI);
 				}
 			}
 
@@ -539,9 +539,11 @@ void document_header(int use_stylesheet) {
 
 	printf("<html>\n");
 	printf("<head>\n");
+	printf("<meta http-equiv='content-type' content='text/html;charset=UTF-8'>\n");
+	printf("<meta http-equiv='Pragma' content='no-cache'>\n");
 	printf("<link rel=\"shortcut icon\" href=\"%sfavicon.ico\" type=\"image/ico\">\n", url_images_path);
 	printf("<title>\n");
-	printf("Current Network Status\n");
+	printf("現在のサービス稼動状態\n");
 	printf("</title>\n");
 
 	if(use_stylesheet == TRUE) {
@@ -558,7 +560,7 @@ void document_header(int use_stylesheet) {
 	if (enable_page_tour == TRUE) {
 		printf("var vbox, vBoxId='status%d%d', vboxText = "
 				"'<a href=https://www.nagios.com/tours target=_blank>"
-				"Click here to watch the entire Nagios Core 4 Tour!</a>';\n",
+				"Nagiosコア4のツアー全体を見るにはここをクリック！</a>';\n",
 				display_type, group_style_type);
 		printf("$(document).ready(function() {\n"
 				"$('#top_page_numbers').append($('#bottom_page_numbers').html() );\n");
@@ -577,7 +579,7 @@ void document_header(int use_stylesheet) {
 		}
 		if (vidurl) {
 			printf("var user = '%s';\nvBoxId += ';' + user;",
-				 current_authdata.username);
+				current_authdata.username);
 			printf("vbox = new vidbox({pos:'lr',vidurl:'%s',text:vboxText,"
 					"vidid:vBoxId});\n", vidurl);
 		}
@@ -937,7 +939,7 @@ void show_service_status_totals(void) {
 	total_problems = total_unknown + total_warning + total_critical;
 
 
-	printf("<div class='serviceTotals'>Service Status Totals</div>\n");
+	printf("<div class='serviceTotals'>サービス稼動状態の概況</div>\n");
 
 	printf("<table border='0' cellspacing='0' cellpadding='0'>\n");
 	printf("<tr><td>\n");
@@ -960,7 +962,7 @@ void show_service_status_totals(void) {
 		printf("hostgroup=%s&style=detail", url_encode(hostgroup_name));
 	printf("&servicestatustypes=%d", SERVICE_OK);
 	printf("&hoststatustypes=%d'>", host_status_types);
-	printf("Ok</a></th>\n");
+	printf("正常(OK)</a></th>\n");
 
 	printf("<th class='serviceTotals'>");
 	printf("<a class='serviceTotals' href='%s?", STATUS_CGI);
@@ -977,7 +979,7 @@ void show_service_status_totals(void) {
 		printf("hostgroup=%s&style=detail", url_encode(hostgroup_name));
 	printf("&servicestatustypes=%d", SERVICE_WARNING);
 	printf("&hoststatustypes=%d'>", host_status_types);
-	printf("Warning</a></th>\n");
+	printf("警告(WARNING)</a></th>\n");
 
 	printf("<th class='serviceTotals'>");
 	printf("<a class='serviceTotals' href='%s?", STATUS_CGI);
@@ -994,7 +996,7 @@ void show_service_status_totals(void) {
 		printf("hostgroup=%s&style=detail", url_encode(hostgroup_name));
 	printf("&servicestatustypes=%d", SERVICE_UNKNOWN);
 	printf("&hoststatustypes=%d'>", host_status_types);
-	printf("Unknown</a></th>\n");
+	printf("不明(UNKNOWN)</a></th>\n");
 
 	printf("<th class='serviceTotals'>");
 	printf("<a class='serviceTotals' href='%s?", STATUS_CGI);
@@ -1011,7 +1013,7 @@ void show_service_status_totals(void) {
 		printf("hostgroup=%s&style=detail", url_encode(hostgroup_name));
 	printf("&servicestatustypes=%d", SERVICE_CRITICAL);
 	printf("&hoststatustypes=%d'>", host_status_types);
-	printf("Critical</a></th>\n");
+	printf("異常(CRITICAL)</a></th>\n");
 
 	printf("<th class='serviceTotals'>");
 	printf("<a class='serviceTotals' href='%s?", STATUS_CGI);
@@ -1028,7 +1030,7 @@ void show_service_status_totals(void) {
 		printf("hostgroup=%s&style=detail", url_encode(hostgroup_name));
 	printf("&servicestatustypes=%d", SERVICE_PENDING);
 	printf("&hoststatustypes=%d'>", host_status_types);
-	printf("Pending</a></th>\n");
+	printf("未解決(PENDING)</a></th>\n");
 
 	printf("</tr>\n");
 
@@ -1074,7 +1076,7 @@ void show_service_status_totals(void) {
 		printf("hostgroup=%s&style=detail", url_encode(hostgroup_name));
 	printf("&servicestatustypes=%d", SERVICE_UNKNOWN | SERVICE_WARNING | SERVICE_CRITICAL);
 	printf("&hoststatustypes=%d'>", host_status_types);
-	printf("<em>All Problems</em></a></th>\n");
+	printf("<em>全障害</em></a></th>\n");
 
 	printf("<th class='serviceTotals'>");
 	printf("<a class='serviceTotals' href='%s?", STATUS_CGI);
@@ -1090,7 +1092,7 @@ void show_service_status_totals(void) {
 	else
 		printf("hostgroup=%s&style=detail", url_encode(hostgroup_name));
 	printf("&hoststatustypes=%d'>", host_status_types);
-	printf("<em>All Types</em></a></th>\n");
+	printf("<em>全タイプ</em></a></th>\n");
 
 
 	printf("</tr><tr>\n");
@@ -1194,7 +1196,7 @@ void show_host_status_totals(void) {
 	num_hosts = total_hosts;
 	total_problems = total_down + total_unreachable;
 
-	printf("<div class='hostTotals'>Host Status Totals</div>\n");
+	printf("<div class='hostTotals'>ホスト稼動状態の概況</div>\n");
 
 	printf("<table border=0 cellspacing=0 cellpadding=0>\n");
 	printf("<tr><td>\n");
@@ -1224,7 +1226,7 @@ void show_host_status_totals(void) {
 	if(service_status_types != all_service_status_types)
 		printf("&servicestatustypes=%d", service_status_types);
 	printf("&hoststatustypes=%d'>", SD_HOST_UP);
-	printf("Up</a></th>\n");
+	printf("稼働(UP)</a></th>\n");
 
 	printf("<th class='hostTotals'>");
 	printf("<a class='hostTotals' href='%s?", STATUS_CGI);
@@ -1247,7 +1249,7 @@ void show_host_status_totals(void) {
 	if(service_status_types != all_service_status_types)
 		printf("&servicestatustypes=%d", service_status_types);
 	printf("&hoststatustypes=%d'>", SD_HOST_DOWN);
-	printf("Down</a></th>\n");
+	printf("停止(DOWN)</a></th>\n");
 
 	printf("<th class='hostTotals'>");
 	printf("<a class='hostTotals' href='%s?", STATUS_CGI);
@@ -1270,7 +1272,7 @@ void show_host_status_totals(void) {
 	if(service_status_types != all_service_status_types)
 		printf("&servicestatustypes=%d", service_status_types);
 	printf("&hoststatustypes=%d'>", SD_HOST_UNREACHABLE);
-	printf("Unreachable</a></th>\n");
+	printf("未到達(UNREACHABLE)</a></th>\n");
 
 	printf("<th class='hostTotals'>");
 	printf("<a class='hostTotals' href='%s?", STATUS_CGI);
@@ -1293,7 +1295,7 @@ void show_host_status_totals(void) {
 	if(service_status_types != all_service_status_types)
 		printf("&servicestatustypes=%d", service_status_types);
 	printf("&hoststatustypes=%d'>", HOST_PENDING);
-	printf("Pending</a></th>\n");
+	printf("未解決(PENDING)</a></th>\n");
 
 	printf("</tr>\n");
 
@@ -1341,7 +1343,7 @@ void show_host_status_totals(void) {
 	if(service_status_types != all_service_status_types)
 		printf("&servicestatustypes=%d", service_status_types);
 	printf("&hoststatustypes=%d'>", SD_HOST_DOWN | SD_HOST_UNREACHABLE);
-	printf("<em>All Problems</em></a></th>\n");
+	printf("<em>全障害</em></a></th>\n");
 
 	printf("<th class='hostTotals'>");
 	printf("<a class='hostTotals' href='%s?", STATUS_CGI);
@@ -1364,7 +1366,7 @@ void show_host_status_totals(void) {
 	if(service_status_types != all_service_status_types)
 		printf("&servicestatustypes=%d", service_status_types);
 	printf("'>");
-	printf("<em>All Types</em></a></th>\n");
+	printf("<em>全タイプ</em></a></th>\n");
 
 	printf("</tr><tr>\n");
 
@@ -1449,47 +1451,47 @@ void show_service_detail(void) {
 
 	printf("<td valign=top align=center width=33%%>\n");
 
-	printf("<div align='center' class='statusTitle'>Service Status Details For ");
+	printf("<div align='center' class='statusTitle'>");
 	if(display_type == DISPLAY_HOSTS) {
 		if(show_all_hosts == TRUE)
-			printf("All Hosts");
+			printf("全ホスト");
 		else
-			printf("Host '%s'", host_name);
+			printf("ホスト '%s'", host_name);
 		}
 	else if(display_type == DISPLAY_SERVICEGROUPS) {
 		if(show_all_servicegroups == TRUE)
-			printf("All Service Groups");
+			printf("全サービスグループ");
 		else
-			printf("Service Group '%s'", url_encode(servicegroup_name));
+			printf("サービスグループ '%s'", url_encode(servicegroup_name));
 		}
 	else {
 		if(show_all_hostgroups == TRUE)
-			printf("All Host Groups");
+			printf("全ホストグループ");
 		else
-			printf("Host Group '%s'", hostgroup_name);
+			printf("ホストグループ '%s'", hostgroup_name);
 		}
-	printf("</div>\n");
+	printf("の稼動状態</div>\n");
 
 	if(use_sort == TRUE) {
-		printf("<div align='center' class='statusSort'>Entries sorted by <b>");
+		printf("<div align='center' class='statusSort'>エントリの並び替え順:<b>");
 		if(sort_option == SORT_HOSTNAME)
-			printf("host name");
+			printf("ホスト名");
 		else if(sort_option == SORT_SERVICENAME)
-			printf("service name");
+			printf("サービス名");
 		else if(sort_option == SORT_SERVICESTATUS)
-			printf("service status");
+			printf("サービスの状態");
 		else if(sort_option == SORT_LASTCHECKTIME)
-			printf("last check time");
+			printf("最終チェック時刻");
 		else if(sort_option == SORT_CURRENTATTEMPT)
-			printf("attempt number");
+			printf("警告数");
 		else if(sort_option == SORT_STATEDURATION)
-			printf("state duration");
-		printf("</b> (%s)\n", (sort_type == SORT_ASCENDING) ? "ascending" : "descending");
+			printf("経過時間");
+		printf("</b> (%s)\n", (sort_type == SORT_ASCENDING) ? "昇順" : "降順");
 		printf("</div>\n");
 		}
 
 	if(service_filter != NULL)
-		printf("<div align='center' class='statusSort'>Filtered By Services Matching \'%s\'</div>", service_filter);
+		printf("<div align='center' class='statusSort'>サービス名に \'%s\' を含むサービスを表示しています</div>", service_filter);
 
 	printf("<br>");
 
@@ -1570,19 +1572,21 @@ void show_service_detail(void) {
 	printf("<table border=0 width=100%% class='status'>\n");
 	printf("<tr>\n");
 
-	printf("<th class='status'>Host&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by host name (ascending)' TITLE='Sort by host name (ascending)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by host name (descending)' TITLE='Sort by host name (descending)'></a></th>", temp_url, SORT_ASCENDING, SORT_HOSTNAME, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_HOSTNAME, url_images_path, DOWN_ARROW_ICON);
+	printf("<th class='status'>ホスト名&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='ホスト名で並び替え(昇順)' TITLE='ホスト名で並び替え(昇順)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='ホスト名で並び替え(降順)' TITLE='ホスト名で並び替え(降順)'></a></th>", temp_url, SORT_ASCENDING, SORT_HOSTNAME, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_HOSTNAME, url_images_path, DOWN_ARROW_ICON);
+	/* sato */
+	printf("<TH CLASS='status'>エイリアス</TH>\n");
 
-	printf("<th class='status'>Service&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by service name (ascending)' TITLE='Sort by service name (ascending)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by service name (descending)' TITLE='Sort by service name (descending)'></a></th>", temp_url, SORT_ASCENDING, SORT_SERVICENAME, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_SERVICENAME, url_images_path, DOWN_ARROW_ICON);
+	printf("<th class='status'>サービス名&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='サービス名で並び替え(昇順)' TITLE='サービス名で並び替え(昇順)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='サービス名で並び替え(降順)' TITLE='サービス名で並び替え(降順)'></a></th>", temp_url, SORT_ASCENDING, SORT_SERVICENAME, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_SERVICENAME, url_images_path, DOWN_ARROW_ICON);
 
-	printf("<th class='status'>Status&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by service status (ascending)' TITLE='Sort by service status (ascending)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by service status (descending)' TITLE='Sort by service status (descending)'></a></th>", temp_url, SORT_ASCENDING, SORT_SERVICESTATUS, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_SERVICESTATUS, url_images_path, DOWN_ARROW_ICON);
+	printf("<th class='status'>状態&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='サービス稼動状態で並び替え(昇順)' TITLE='サービス稼動状態で並び替え(昇順)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='サービス稼動状態で並び替え(降順)' TITLE='サービス稼動状態で並び替え(降順)'></a></th>", temp_url, SORT_ASCENDING, SORT_SERVICESTATUS, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_SERVICESTATUS, url_images_path, DOWN_ARROW_ICON);
 
-	printf("<th class='status'>Last Check&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by last check time (ascending)' TITLE='Sort by last check time (ascending)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by last check time (descending)' TITLE='Sort by last check time (descending)'></a></th>", temp_url, SORT_ASCENDING, SORT_LASTCHECKTIME, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_LASTCHECKTIME, url_images_path, DOWN_ARROW_ICON);
+	printf("<th class='status'>最終チェック時刻&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='最終チェック時刻で並び替え(昇順)' TITLE='最終チェック時刻で並び替え(昇順)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='最終チェック時刻で並び替え(降順)' TITLE='最終チェック時刻で並び替え(降順)'></a></th>", temp_url, SORT_ASCENDING, SORT_LASTCHECKTIME, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_LASTCHECKTIME, url_images_path, DOWN_ARROW_ICON);
 
-	printf("<th class='status'>Duration&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by state duration (ascending)' TITLE='Sort by state duration (ascending)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by state duration time (descending)' TITLE='Sort by state duration time (descending)'></a></th>", temp_url, SORT_ASCENDING, SORT_STATEDURATION, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_STATEDURATION, url_images_path, DOWN_ARROW_ICON);
+	printf("<th class='status'>経過時間&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='経過時間で並び替え(昇順)' TITLE='経過時間で並び替え(昇順)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='経過時間で並び替え(降順)' TITLE='経過時間で並び替え(降順)'></a></th>", temp_url, SORT_ASCENDING, SORT_STATEDURATION, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_STATEDURATION, url_images_path, DOWN_ARROW_ICON);
 
-	printf("<th class='status'>Attempt&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by current attempt (ascending)' TITLE='Sort by current attempt (ascending)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by current attempt (descending)' TITLE='Sort by current attempt (descending)'></a></th>", temp_url, SORT_ASCENDING, SORT_CURRENTATTEMPT, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_CURRENTATTEMPT, url_images_path, DOWN_ARROW_ICON);
+	printf("<th class='status'>試行回数&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='試行回数で並び替え(昇順)' TITLE='試行回数で並び替え(昇順)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='試行回数で並び替え(降順)' TITLE='試行回数で並び替え(降順)'></a></th>", temp_url, SORT_ASCENDING, SORT_CURRENTATTEMPT, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_CURRENTATTEMPT, url_images_path, DOWN_ARROW_ICON);
 
-	printf("<th class='status'>Status Information</th>\n");
+	printf("<th class='status'>ステータス情報</th>\n");
 	printf("</tr>\n");
 
 
@@ -1731,17 +1735,17 @@ void show_service_detail(void) {
 				strcpy(date_time, "N/A");
 
 			if(temp_status->status == SERVICE_PENDING) {
-				strncpy(status, "PENDING", sizeof(status));
+				strncpy(status, "未解決(PENDING)", sizeof(status));
 				status_class = "PENDING";
 				status_bg_class = (odd) ? "Even" : "Odd";
 				}
 			else if(temp_status->status == SERVICE_OK) {
-				strncpy(status, "OK", sizeof(status));
+				strncpy(status, "正常(OK)", sizeof(status));
 				status_class = "OK";
 				status_bg_class = (odd) ? "Even" : "Odd";
 				}
 			else if(temp_status->status == SERVICE_WARNING) {
-				strncpy(status, "WARNING", sizeof(status));
+				strncpy(status, "警告(WARNING)", sizeof(status));
 				status_class = "WARNING";
 				if(temp_status->problem_has_been_acknowledged == TRUE)
 					status_bg_class = "BGWARNINGACK";
@@ -1751,7 +1755,7 @@ void show_service_detail(void) {
 					status_bg_class = "BGWARNING";
 				}
 			else if(temp_status->status == SERVICE_UNKNOWN) {
-				strncpy(status, "UNKNOWN", sizeof(status));
+				strncpy(status, "不明(UNKNOWN)", sizeof(status));
 				status_class = "UNKNOWN";
 				if(temp_status->problem_has_been_acknowledged == TRUE)
 					status_bg_class = "BGUNKNOWNACK";
@@ -1761,7 +1765,7 @@ void show_service_detail(void) {
 					status_bg_class = "BGUNKNOWN";
 				}
 			else if(temp_status->status == SERVICE_CRITICAL) {
-				strncpy(status, "CRITICAL", sizeof(status));
+				strncpy(status, "異常(CRITICAL)", sizeof(status));
 				if(temp_status->problem_has_been_acknowledged == TRUE) {
 					status_class = "CRITICALACK";
 					status_bg_class = "BGCRITICALACK";
@@ -1819,7 +1823,7 @@ void show_service_detail(void) {
 				printf("<tr>\n");
 				total_comments = number_of_host_comments(temp_host->name);
 				if(temp_hoststatus->problem_has_been_acknowledged == TRUE) {
-					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s#comments'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This host problem has been acknowledged' TITLE='This host problem has been acknowledged'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, ACKNOWLEDGEMENT_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s#comments'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストの問題は認知済みです' TITLE='このホストの問題は認知済みです'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, ACKNOWLEDGEMENT_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 					}
 				/* only show comments if this is a non-read-only user */
 				if(is_authorized_for_read_only(&current_authdata) == FALSE) {
@@ -1827,19 +1831,19 @@ void show_service_detail(void) {
 						printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s#comments'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This host has %d comment%s associated with it' TITLE='This host has %d comment%s associated with it'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, COMMENT_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, total_comments, (total_comments == 1) ? "" : "s", total_comments, (total_comments == 1) ? "" : "s");
 					}
 				if(temp_hoststatus->notifications_enabled == FALSE) {
-					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='Notifications for this host have been disabled' TITLE='Notifications for this host have been disabled'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, NOTIFICATIONS_DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストの通知機能は無効になっています' TITLE='このホストの通知機能は無効になっています'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, NOTIFICATIONS_DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 					}
 				if(temp_hoststatus->checks_enabled == FALSE && temp_hoststatus->accept_passive_checks == FALSE) {
-					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='Active and passive checks of this host have been disabled' TITLE='Checks of this host have been disabled'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストのアクティブ/パッシブチェックは無効になってます' TITLE='このホストのチェックは無効になってます'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 					}
 				else if (temp_hoststatus->checks_enabled == FALSE) {
-					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='Active checks of this host have been disabled - only passive checks are being accepted' TITLE='Checks of this host have been disabled'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, PASSIVE_ONLY_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストのチェックは無効になってます - パッシブチェックのみ許可されています' TITLE='このホストのチェックは無効になってます'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, PASSIVE_ONLY_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 					}
 				if(temp_hoststatus->is_flapping == TRUE) {
-					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This host is flapping between states' TITLE='This host is flapping between states'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, FLAPPING_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストは状態がフラップしてます' TITLE='このホストは状態がフラップしてます'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, FLAPPING_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 					}
 				if(temp_hoststatus->scheduled_downtime_depth > 0) {
-					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This host is currently in a period of scheduled downtime' TITLE='This host is currently in a period of scheduled downtime'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, SCHEDULED_DOWNTIME_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストは現在ダウンタイム中です' TITLE='このホストは現在ダウンタイム中です'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, SCHEDULED_DOWNTIME_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 					}
 				if(temp_host->notes_url != NULL) {
 					printf("<td align=center valign=center>");
@@ -1848,7 +1852,7 @@ void show_service_detail(void) {
 					printf("%s", processed_string);
 					free(processed_string);
 					printf("' TARGET='%s'>", (notes_url_target == NULL) ? "_blank" : notes_url_target);
-					printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "View Extra Host Notes", "View Extra Host Notes");
+					printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "詳細なホスト情報を見る", "詳細なホスト情報を見る");
 					printf("</a>");
 					printf("</td>\n");
 					}
@@ -1859,7 +1863,7 @@ void show_service_detail(void) {
 					printf("%s", processed_string);
 					free(processed_string);
 					printf("' TARGET='%s'>", (action_url_target == NULL) ? "_blank" : action_url_target);
-					printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "Perform Extra Host Actions", "Perform Extra Host Actions");
+					printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "ホストの対応情報を見る", "ホストの対応情報を見る");
 					printf("</a>");
 					printf("</td>\n");
 					}
@@ -1887,6 +1891,9 @@ void show_service_detail(void) {
 			/* grab macros */
 			grab_service_macros_r(mac, temp_service);
 
+			/* alias column by sato */
+			printf("<TD CLASS='status%s'>%s</TD>", status_bg_class, temp_host->alias);
+
 			/* service name column */
 			printf("<td class='status%s'>", status_bg_class);
 			printf("<table border=0 WIDTH='100%%' cellspacing=0 cellpadding=0>");
@@ -1908,32 +1915,32 @@ void show_service_detail(void) {
 			if(is_authorized_for_read_only(&current_authdata) == FALSE) {
 				if(total_comments > 0) {
 					printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s", EXTINFO_CGI, DISPLAY_SERVICE_INFO, url_encode(temp_status->host_name));
-					printf("&service=%s#comments'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This service has %d comment%s associated with it' TITLE='This service has %d comment%s associated with it'></a></td>", url_encode(temp_status->description), url_images_path, COMMENT_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, total_comments, (total_comments == 1) ? "" : "s", total_comments, (total_comments == 1) ? "" : "s");
+					printf("&service=%s#comments'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このサービスには %d 個のコメントがあります' TITLE='このサービスには %d 個のコメントがあります'></a></td>", url_encode(temp_status->description), url_images_path, COMMENT_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, total_comments, total_comments);
 					}
 				}
 			if(temp_status->problem_has_been_acknowledged == TRUE) {
 				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s", EXTINFO_CGI, DISPLAY_SERVICE_INFO, url_encode(temp_status->host_name));
-				printf("&service=%s#comments'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This service problem has been acknowledged' TITLE='This service problem has been acknowledged'></a></td>", url_encode(temp_status->description), url_images_path, ACKNOWLEDGEMENT_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("&service=%s#comments'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このサービスの問題は認知済みです' TITLE='このサービスの問題は認知済みです'></a></td>", url_encode(temp_status->description), url_images_path, ACKNOWLEDGEMENT_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			if(temp_status->checks_enabled == FALSE && temp_status->accept_passive_checks == FALSE) {
 				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s", EXTINFO_CGI, DISPLAY_SERVICE_INFO, url_encode(temp_status->host_name));
-				printf("&service=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='Active and passive checks have been disabled for this service' TITLE='Active and passive checks have been disabled for this service'></a></td>", url_encode(temp_status->description), url_images_path, DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("&service=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このサービスはアクティブ、パッシブの両チェックが無効です' TITLE='このサービスはアクティブ、パッシブの両チェックが無効です'></a></td>", url_encode(temp_status->description), url_images_path, DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			else if(temp_status->checks_enabled == FALSE) {
 				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s", EXTINFO_CGI, DISPLAY_SERVICE_INFO, url_encode(temp_status->host_name));
-				printf("&service=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='Active checks of the service have been disabled - only passive checks are being accepted' TITLE='Active checks of the service have been disabled - only passive checks are being accepted'></a></td>", url_encode(temp_status->description), url_images_path, PASSIVE_ONLY_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("&service=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='アクティブチェックは無効です - パッシブチェックのみ有効です' TITLE='アクティブチェックは無効です - パッシブチェックのみ有効です'></a></td>", url_encode(temp_status->description), url_images_path, PASSIVE_ONLY_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			if(temp_status->notifications_enabled == FALSE) {
 				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s", EXTINFO_CGI, DISPLAY_SERVICE_INFO, url_encode(temp_status->host_name));
-				printf("&service=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='Notifications for this service have been disabled' TITLE='Notifications for this service have been disabled'></a></td>", url_encode(temp_status->description), url_images_path, NOTIFICATIONS_DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("&service=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このサービスの通知機能は無効です' TITLE='このサービスの通知機能は無効です'></a></td>", url_encode(temp_status->description), url_images_path, NOTIFICATIONS_DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			if(temp_status->is_flapping == TRUE) {
 				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s", EXTINFO_CGI, DISPLAY_SERVICE_INFO, url_encode(temp_status->host_name));
-				printf("&service=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This service is flapping between states' TITLE='This service is flapping between states'></a></td>", url_encode(temp_status->description), url_images_path, FLAPPING_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("&service=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このサービスは状態がフラップしています' TITLE='このサービスは状態がフラップしています'></a></td>", url_encode(temp_status->description), url_images_path, FLAPPING_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			if(temp_status->scheduled_downtime_depth > 0) {
 				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s", EXTINFO_CGI, DISPLAY_SERVICE_INFO, url_encode(temp_status->host_name));
-				printf("&service=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This service is currently in a period of scheduled downtime' TITLE='This service is currently in a period of scheduled downtime'></a></td>", url_encode(temp_status->description), url_images_path, SCHEDULED_DOWNTIME_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("&service=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このサービスは現在ダウンタイム中です' TITLE='このサービスは現在ダウンタイム中です'></a></td>", url_encode(temp_status->description), url_images_path, SCHEDULED_DOWNTIME_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			if(temp_service->notes_url != NULL) {
 				printf("<td align=center valign=center>");
@@ -1942,7 +1949,7 @@ void show_service_detail(void) {
 				printf("%s", processed_string);
 				free(processed_string);
 				printf("' TARGET='%s'>", (notes_url_target == NULL) ? "_blank" : notes_url_target);
-				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "View Extra Service Notes", "View Extra Service Notes");
+				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "サービスの追加情報を見る", "サービスの追加情報を見る");
 				printf("</a>");
 				printf("</td>\n");
 				}
@@ -1953,7 +1960,7 @@ void show_service_detail(void) {
 				printf("%s", processed_string);
 				free(processed_string);
 				printf("' TARGET='%s'>", (action_url_target == NULL) ? "_blank" : action_url_target);
-				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "Perform Extra Service Actions", "Perform Extra Service Actions");
+				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "サービスの対応情報を見る", "サービスの対応情報を見る");
 				printf("</a>");
 				printf("</td>\n");
 				}
@@ -2000,7 +2007,7 @@ void show_service_detail(void) {
 			if(duration_error == TRUE)
 				snprintf(state_duration, sizeof(state_duration) - 1, "???");
 			else
-				snprintf(state_duration, sizeof(state_duration) - 1, "%2dd %2dh %2dm %2ds%s", days, hours, minutes, seconds, (temp_status->last_state_change == (time_t)0) ? "+" : "");
+				snprintf(state_duration, sizeof(state_duration) - 1, "%2d日間と %2d時間 %2d分 %2d秒%s", days, hours, minutes, seconds, (temp_status->last_state_change == (time_t)0) ? "+" : "");
 			state_duration[sizeof(state_duration) - 1] = '\x0';
 
 			/* the rest of the columns... */
@@ -2031,13 +2038,12 @@ void show_service_detail(void) {
 	if(user_has_seen_something == FALSE) {
 
 		if(servicestatus_list != NULL) {
-			printf("<P><div class='errorMessage'>It appears as though you do not have permission to view information for any of the services you requested...</div></P>\n");
-			printf("<P><div class='errorDescription'>If you believe this is an error, check the HTTP server authentication requirements for accessing this CGI<br>");
-			printf("and check the authorization options in your CGI configuration file.</div></P>\n");
+			printf("<P><div class='errorMessage'>要求したサービスを閲覧する権限が無いようです。</div></P>\n");
+			printf("<P><div class='errorDescription'>このメッセージが何らかのエラーである場合はHTTPサーバのこのCGIに対するアクセス権限の設定かNagiosのCGI用設定ファイルの認証に関するオプションを調べてみてください</div></P>\n");
 			}
 		else {
-			printf("<p><div class='infoMessage'>There doesn't appear to be any service status information in the status log...<br><br>\n");
-			printf("Make sure that Nagios is running and that you have specified the location of you status log correctly in the configuration files.</div></p>\n");
+			printf("<p><div class='infoMessage'>ステータスログにサービスの情報がありません...<br><br>\n");
+			printf("Nagiosが正常に稼働して、ステータス情報を収集しているか確認してください。</div></p>\n");
 			}
 		}
 	else {
@@ -2111,28 +2117,28 @@ void show_host_detail(void) {
 
 	printf("<td valign=top align=center width=33%%>\n");
 
-	printf("<div align='center' class='statusTitle'>Host Status Details For ");
+	printf("<div align='center' class='statusTitle'>");
 	if(show_all_hostgroups == TRUE)
-		printf("All Host Groups");
+		printf("全ホストグループ");
 	else
-		printf("Host Group '%s'", hostgroup_name);
-	printf("</div>\n");
+		printf("ホストグループ '%s'", hostgroup_name);
+	printf("のホスト稼動状態</div>\n");
 
 	if(use_sort == TRUE) {
-		printf("<div align='center' class='statusSort'>Entries sorted by <b>");
+		printf("<div align='center' class='statusSort'>エントリの並び替え順<b>");
 		if(sort_option == SORT_HOSTNAME)
-			printf("host name");
+			printf("ホスト名");
 		else if(sort_option == SORT_HOSTSTATUS)
-			printf("host status");
+			printf("ホストの状態");
 		else if(sort_option == SORT_HOSTURGENCY)
-			printf("host urgency");
+			printf("ホストの緊急性");
 		else if(sort_option == SORT_LASTCHECKTIME)
-			printf("last check time");
+			printf("最終チェック時刻");
 		else if(sort_option == SORT_CURRENTATTEMPT)
-			printf("attempt number");
+			printf("警告数");
 		else if(sort_option == SORT_STATEDURATION)
-			printf("state duration");
-		printf("</b> (%s)\n", (sort_type == SORT_ASCENDING) ? "ascending" : "descending");
+			printf("経過時間");
+		printf("</b> (%s)\n", (sort_type == SORT_ASCENDING) ? "昇順" : "降順");
 		printf("</div>\n");
 		}
 
@@ -2202,15 +2208,17 @@ void show_host_detail(void) {
 	printf("<table border=0 class='status' width='100%%'>\n");
 	printf("<tr>\n");
 
-	printf("<th class='status'>Host&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by host name (ascending)' TITLE='Sort by host name (ascending)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by host name (descending)' TITLE='Sort by host name (descending)'></a></th>", temp_url, SORT_ASCENDING, SORT_HOSTNAME, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_HOSTNAME, url_images_path, DOWN_ARROW_ICON);
+	printf("<th class='status'>ホスト&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='ホスト名で並び替え(昇順)' TITLE='ホスト名で並び替え(昇順)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='ホスト名で並び替え(降順)' TITLE='ホスト名で並び替え(降順)'></a></th>", temp_url, SORT_ASCENDING, SORT_HOSTNAME, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_HOSTNAME, url_images_path, DOWN_ARROW_ICON);
 
-	printf("<th class='status'>Status&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by host status (ascending)' TITLE='Sort by host status (ascending)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by host status (descending)' TITLE='Sort by host status (descending)'></a></th>", temp_url, SORT_ASCENDING, SORT_HOSTSTATUS, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_HOSTSTATUS, url_images_path, DOWN_ARROW_ICON);
+	printf("<TH CLASS='status'>エイリアス&nbsp;</TH>");
 
-	printf("<th class='status'>Last Check&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by last check time (ascending)' TITLE='Sort by last check time (ascending)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by last check time (descending)' TITLE='Sort by last check time (descending)'></a></th>", temp_url, SORT_ASCENDING, SORT_LASTCHECKTIME, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_LASTCHECKTIME, url_images_path, DOWN_ARROW_ICON);
+	printf("<th class='status'>状態&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='ホスト稼動状態で並び替え(昇順)' TITLE='ホスト稼動状態で並び替え(昇順)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='ホスト稼動状態で並び替え(降順)' TITLE='ホスト稼動状態で並び替え(降順)'></a></th>", temp_url, SORT_ASCENDING, SORT_HOSTSTATUS, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_HOSTSTATUS, url_images_path, DOWN_ARROW_ICON);
 
-	printf("<th class='status'>Duration&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by state duration (ascending)' TITLE='Sort by state duration (ascending)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='Sort by state duration time (descending)' TITLE='Sort by state duration time (descending)'></a></th>", temp_url, SORT_ASCENDING, SORT_STATEDURATION, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_STATEDURATION, url_images_path, DOWN_ARROW_ICON);
+	printf("<th class='status'>最終チェック&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='最終チェック時刻で並び替え(昇順)' TITLE='最終チェック時刻で並び替え(昇順)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='最終チェック時刻で並び替え(降順)' TITLE='最終チェック時刻で並び替え(降順)'></a></th>", temp_url, SORT_ASCENDING, SORT_LASTCHECKTIME, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_LASTCHECKTIME, url_images_path, DOWN_ARROW_ICON);
 
-	printf("<th class='status'>Status Information</th>\n");
+	printf("<th class='status'>経過時間&nbsp;<a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='経過時間で並び替え(昇順)' TITLE='経過時間で並び替え(昇順)'></a><a href='%s&sorttype=%d&sortoption=%d'><IMG SRC='%s%s' border=0 ALT='経過時間で並び替え(降順)' TITLE='経過時間で並び替え(降順)'></a></th>", temp_url, SORT_ASCENDING, SORT_STATEDURATION, url_images_path, UP_ARROW_ICON, temp_url, SORT_DESCENDING, SORT_STATEDURATION, url_images_path, DOWN_ARROW_ICON);
+
+	printf("<th class='status'>ステータス情報</th>\n");
 	printf("</tr>\n");
 
 
@@ -2311,17 +2319,17 @@ void show_host_detail(void) {
 				strcpy(date_time, "N/A");
 
 			if(temp_status->status == HOST_PENDING) {
-				strncpy(status, "PENDING", sizeof(status));
+				strncpy(status, "未解決(PENDING)", sizeof(status));
 				status_class = "PENDING";
 				status_bg_class = (odd) ? "Even" : "Odd";
 				}
 			else if(temp_status->status == SD_HOST_UP) {
-				strncpy(status, "UP", sizeof(status));
+				strncpy(status, "稼働(UP)", sizeof(status));
 				status_class = "HOSTUP";
 				status_bg_class = (odd) ? "Even" : "Odd";
 				}
 			else if(temp_status->status == SD_HOST_DOWN) {
-				strncpy(status, "DOWN", sizeof(status));
+				strncpy(status, "停止(DOWN)", sizeof(status));
 				status_class = "HOSTDOWN";
 				if(temp_status->problem_has_been_acknowledged == TRUE)
 					status_bg_class = "BGDOWNACK";
@@ -2331,7 +2339,7 @@ void show_host_detail(void) {
 					status_bg_class = "BGDOWN";
 				}
 			else if(temp_status->status == SD_HOST_UNREACHABLE) {
-				strncpy(status, "UNREACHABLE", sizeof(status));
+				strncpy(status, "未到達(UNREACHABLE)", sizeof(status));
 				status_class = "HOSTUNREACHABLE";
 				if(temp_status->problem_has_been_acknowledged == TRUE)
 					status_bg_class = "BGUNREACHABLEACK";
@@ -2364,26 +2372,26 @@ void show_host_detail(void) {
 			printf("<tr>\n");
 			total_comments = number_of_host_comments(temp_host->name);
 			if(temp_status->problem_has_been_acknowledged == TRUE) {
-				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s#comments'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This host problem has been acknowledged' TITLE='This host problem has been acknowledged'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, ACKNOWLEDGEMENT_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s#comments'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストの問題は認知済みです' TITLE='このホストの問題は認知済みです'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, ACKNOWLEDGEMENT_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			if(total_comments > 0)
-				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s#comments'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This host has %d comment%s associated with it' TITLE='This host has %d comment%s associated with it'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, COMMENT_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, total_comments, (total_comments == 1) ? "" : "s", total_comments, (total_comments == 1) ? "" : "s");
+				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s#comments'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストには %d 個のコメントがあります' TITLE='このホストには %d 個のコメントがあります'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, COMMENT_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, total_comments, total_comments);
 			if(temp_status->notifications_enabled == FALSE) {
-				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='Notifications for this host have been disabled' TITLE='Notifications for this host have been disabled'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, NOTIFICATIONS_DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストの通知機能は無効になっています' TITLE='このホストの通知機能は無効になっています'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, NOTIFICATIONS_DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			if(temp_status->checks_enabled == FALSE && temp_status->accept_passive_checks == FALSE) {
 				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name));
-				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='Active and passive checks have been disabled for this host' TITLE='Active and passive checks have been disabled for this host'></a></td>", url_images_path, DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストのチェックは無効になっています' TITLE='このホストのチェックは無効になっています'></a></td>", url_images_path, DISABLED_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			else if(temp_status->checks_enabled == FALSE) {
 				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name));
-				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='Active checks of this host have been disabled - only passive checks are being accepted' TITLE='Active checks of this host have been disabled - only passive checks are being accepted'></a></td>", url_images_path, PASSIVE_ONLY_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストのチェックは無効になっています - パッシブチェックのみ受け付けられています' TITLE='このホストのチェックは無効になっています - パッシブチェックのみ受け付けられています'></a></td>", url_images_path, PASSIVE_ONLY_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			if(temp_status->is_flapping == TRUE) {
-				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This host is flapping between states' TITLE='This host is flapping between states'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, FLAPPING_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストは状態がフラップしてます' TITLE='このホストは状態がフラップしてます'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, FLAPPING_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			if(temp_status->scheduled_downtime_depth > 0) {
-				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='This host is currently in a period of scheduled downtime' TITLE='This host is currently in a period of scheduled downtime'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, SCHEDULED_DOWNTIME_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
+				printf("<td ALIGN=center valign=center><a href='%s?type=%d&host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='このホストは現在ダウンタイム中です' TITLE='このホストは現在ダウンタイム中です'></a></td>", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_status->host_name), url_images_path, SCHEDULED_DOWNTIME_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT);
 				}
 			if(temp_host->notes_url != NULL) {
 				printf("<td align=center valign=center>");
@@ -2392,7 +2400,7 @@ void show_host_detail(void) {
 				printf("%s", processed_string);
 				free(processed_string);
 				printf("' TARGET='%s'>", (notes_url_target == NULL) ? "_blank" : notes_url_target);
-				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "View Extra Host Notes", "View Extra Host Notes");
+				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "詳細なホスト情報を見る", "詳細なホスト情報を見る");
 				printf("</a>");
 				printf("</td>\n");
 				}
@@ -2403,7 +2411,7 @@ void show_host_detail(void) {
 				printf("%s", processed_string);
 				free(processed_string);
 				printf("' TARGET='%s'>", (action_url_target == NULL) ? "_blank" : action_url_target);
-				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "Perform Extra Host Actions", "Perform Extra Host Actions");
+				printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "ホストの対応情報を見る", "ホストの対応情報を見る");
 				printf("</a>");
 				printf("</td>\n");
 				}
@@ -2424,7 +2432,7 @@ void show_host_detail(void) {
 				printf("</td>\n");
 				}
 			printf("<td>");
-			printf("<a href='%s?host=%s'><img src='%s%s' border=0 alt='View Service Details For This Host' title='View Service Details For This Host'></a>", STATUS_CGI, url_encode(temp_status->host_name), url_images_path, STATUS_DETAIL_ICON);
+			printf("<a href='%s?host=%s'><img src='%s%s' border=0 alt='このホストのサービス詳細を見る' title='このホストのサービス詳細を見る'></a>", STATUS_CGI, url_encode(temp_status->host_name), url_images_path, STATUS_DETAIL_ICON);
 			printf("</td>\n");
 			printf("</tr>\n");
 			printf("</table>\n");
@@ -2434,6 +2442,8 @@ void show_host_detail(void) {
 
 			printf("</td>\n");
 
+			/* alias column by sato  */
+			printf("<TD CLASS='status%s'>%s</TD>", status_bg_class, temp_host->alias);
 
 			/* state duration calculation... */
 			t = 0;
@@ -2454,7 +2464,7 @@ void show_host_detail(void) {
 			if(duration_error == TRUE)
 				snprintf(state_duration, sizeof(state_duration) - 1, "???");
 			else
-				snprintf(state_duration, sizeof(state_duration) - 1, "%2dd %2dh %2dm %2ds%s", days, hours, minutes, seconds, (temp_status->last_state_change == (time_t)0) ? "+" : "");
+				snprintf(state_duration, sizeof(state_duration) - 1, "%2d日間と %2d時間 %2d分 %2d秒%s", days, hours, minutes, seconds, (temp_status->last_state_change == (time_t)0) ? "+" : "");
 			state_duration[sizeof(state_duration) - 1] = '\x0';
 
 			/* the rest of the columns... */
@@ -2481,13 +2491,12 @@ void show_host_detail(void) {
 	if(user_has_seen_something == FALSE) {
 
 		if(hoststatus_list != NULL) {
-			printf("<P><div class='errorMessage'>It appears as though you do not have permission to view information for any of the hosts you requested...</div></P>\n");
-			printf("<P><div class='errorDescription'>If you believe this is an error, check the HTTP server authentication requirements for accessing this CGI<br>");
-			printf("and check the authorization options in your CGI configuration file.</div></P>\n");
+			printf("<P><div class='errorMessage'>要求したサービスを閲覧する権限が無いようです...</div></P>\n");
+			printf("<P><div class='errorDescription'>このメッセージが何らかのエラーである場合はHTTPサーバのこのCGIに対するアクセス権限の設定かNagiosのCGI用設定ファイルの認証に関するオプションを調べてみてください</div></P>\n");
 			}
 		else {
-			printf("<P><div class='infoMessage'>There doesn't appear to be any host status information in the status log...<br><br>\n");
-			printf("Make sure that Nagios is running and that you have specified the location of you status log correctly in the configuration files.</div></P>\n");
+			printf("<P><div class='infoMessage'>ステータスログにサービスの情報がありません...<br><br>\n");
+			printf("Nagiosが正常に稼働して、ステータス情報を収集しているか確認してください。</div></P>\n");
 			}
 		}
 
@@ -2522,12 +2531,12 @@ void show_servicegroup_overviews(void) {
 
 	printf("<td valign=top align=center width=33%%>\n");
 
-	printf("<div align='center' class='statusTitle'>Service Overview For ");
+	printf("<div align='center' class='statusTitle'>");
 	if(show_all_servicegroups == TRUE)
-		printf("All Service Groups");
+		printf("全サービスグループ");
 	else
-		printf("Service Group '%s'", servicegroup_name);
-	printf("</div>\n");
+		printf("サービスグループ '%s'", servicegroup_name);
+	printf("のサービスオーバービュー</div>\n");
 
 	printf("<br>");
 
@@ -2608,7 +2617,7 @@ void show_servicegroup_overviews(void) {
 			//printf("</P>\n");
 			}
 		else {
-			printf("<div class='errorMessage'>Sorry, but service group '%s' doesn't seem to exist...</div>", servicegroup_name);
+			printf("<div class='errorMessage'>'%s' というサービスグループは存在しないようです...</div>", servicegroup_name);
 			servicegroup_error = TRUE;
 			}
 		}
@@ -2620,12 +2629,11 @@ void show_servicegroup_overviews(void) {
 		printf("<div align='center'>\n");
 
 		if(servicegroup_list != NULL) {
-			printf("<div class='errorMessage'>It appears as though you do not have permission to view information for any of the hosts you requested...</div>\n");
-			printf("<div class='errorDescription'>If you believe this is an error, check the HTTP server authentication requirements for accessing this CGI<br>");
-			printf("and check the authorization options in your CGI configuration file.</div>\n");
+			printf("<div class='errorMessage'>要求したサービスを閲覧する権限が無いようです...</div>\n");
+			printf("<div class='errorDescription'>このメッセージが何らかのエラーである場合はHTTPサーバのこのCGIに対するアクセス権限の設定かNagiosのCGI用設定ファイルの認証に関するオプションを調べてみてください</div>\n");
 			}
 		else {
-			printf("<div class='errorMessage'>There are no service groups defined.</div>\n");
+			printf("<div class='errorMessage'>定義されたサービスグループはありません。</div>\n");
 			}
 
 		printf("</div>\n");
@@ -2655,7 +2663,7 @@ void show_servicegroup_overview(servicegroup *temp_servicegroup) {
 	printf("<table class='status'>\n");
 
 	printf("<tr>\n");
-	printf("<th class='status'>Host</th><th class='status'>Status</th><th class='status'>Services</th><th class='status'>Actions</th>\n");
+	printf("<th class='status'>ホスト名</th><TH CLASS='status'>エイリアス名</TH><th class='status'>状態</th><th class='status'サービス名</th><th class='status'>アクション</th>\n");
 	printf("</tr>\n");
 
 	/* find all hosts that have services that are members of the servicegroup */
@@ -2727,12 +2735,12 @@ void show_servicegroup_summaries(void) {
 
 	printf("<td valign=top align=center width=33%%>\n");
 
-	printf("<div align='center' class='statusTitle'>Status Summary For ");
+	printf("<div align='center' class='statusTitle'>");
 	if(show_all_servicegroups == TRUE)
-		printf("All Service Groups");
+		printf("全サービスグループ");
 	else
-		printf("Service Group '%s'", servicegroup_name);
-	printf("</div>\n");
+		printf("サービスグループ '%s'", servicegroup_name);
+	printf("のステータスサマリ</div>\n");
 
 	printf("<br>");
 
@@ -2750,7 +2758,7 @@ void show_servicegroup_summaries(void) {
 	printf("<table class='status'>\n");
 
 	printf("<tr>\n");
-	printf("<th class='status'>Service Group</th><th class='status'>Host Status Summary</th><th class='status'>Service Status Summary</th>\n");
+	printf("<th class='status'>サービスグループ名</th><th class='status'>ホスト稼動状態の概況</th><th class='status'>サービス稼動状態の概況</th>\n");
 	printf("</tr>\n");
 
 	/* display status summary for all servicegroups */
@@ -2796,12 +2804,11 @@ void show_servicegroup_summaries(void) {
 		printf("<P><div align='center'>\n");
 
 		if(servicegroup_list != NULL) {
-			printf("<div class='errorMessage'>It appears as though you do not have permission to view information for any of the hosts you requested...</div>\n");
-			printf("<div class='errorDescription'>If you believe this is an error, check the HTTP server authentication requirements for accessing this CGI<br>");
-			printf("and check the authorization options in your CGI configuration file.</div>\n");
+			printf("<div class='errorMessage'>要求したサービスを閲覧する権限が無いようです...</div>\n");
+			printf("<div class='errorDescription'>このメッセージが何らかのエラーである場合はHTTPサーバのこのCGIに対するアクセス権限の設定かNagiosのCGI用設定ファイルの認証に関するオプションを調べてみてください</div>\n");
 			}
 		else {
-			printf("<div class='errorMessage'>There are no service groups defined.</div>\n");
+			printf("<div class='errorMessage'>定義されたサービスグループはありません。</div>\n");
 			}
 
 		printf("</div></P>\n");
@@ -2810,7 +2817,7 @@ void show_servicegroup_summaries(void) {
 	/* we couldn't find the servicegroup */
 	else if(servicegroup_error == TRUE) {
 		printf("<P><div align='center'>\n");
-		printf("<div class='errorMessage'>Sorry, but servicegroup '%s' doesn't seem to exist...</div>\n", servicegroup_name);
+		printf("<div class='errorMessage'>'%s' というサービスグループは存在しないようです...</div>\n", servicegroup_name);
 		printf("</div></P>\n");
 		}
 
@@ -2948,7 +2955,7 @@ void show_servicegroup_host_totals_summary(servicegroup *temp_servicegroup) {
 
 	if(hosts_up > 0) {
 		printf("<tr>");
-		printf("<td class='miniStatusUP'><a href='%s?servicegroup=%s&style=detail&&hoststatustypes=%d&hostprops=%lu'>%d UP</a></td>", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UP, host_properties, hosts_up);
+		printf("<td class='miniStatusUP'><a href='%s?servicegroup=%s&style=detail&&hoststatustypes=%d&hostprops=%lu'>正常状態: %d 件</a></td>", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UP, host_properties, hosts_up);
 		printf("</tr>\n");
 		}
 
@@ -2957,21 +2964,21 @@ void show_servicegroup_host_totals_summary(servicegroup *temp_servicegroup) {
 		printf("<td class='miniStatusDOWN'><table border='0'>\n");
 		printf("<tr>\n");
 
-		printf("<td class='miniStatusDOWN'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%lu'>%d DOWN</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_DOWN, host_properties, hosts_down);
+		printf("<td class='miniStatusDOWN'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%lu'>停止状態: %d 件</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_DOWN, host_properties, hosts_down);
 
 		printf("<td><table border='0'>\n");
 
 		if(hosts_down_unacknowledged > 0)
-			printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>%d Unhandled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_DOWN, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_down_unacknowledged);
+			printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>未解決: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_DOWN, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_down_unacknowledged);
 
 		if(hosts_down_scheduled > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_DOWN, HOST_SCHEDULED_DOWNTIME, hosts_down_scheduled);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>スケジュール済: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_DOWN, HOST_SCHEDULED_DOWNTIME, hosts_down_scheduled);
 
 		if(hosts_down_acknowledged > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_DOWN, HOST_STATE_ACKNOWLEDGED, hosts_down_acknowledged);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>認知済: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_DOWN, HOST_STATE_ACKNOWLEDGED, hosts_down_acknowledged);
 
 		if(hosts_down_disabled > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_DOWN, HOST_CHECKS_DISABLED, hosts_down_disabled);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>無効: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_DOWN, HOST_CHECKS_DISABLED, hosts_down_disabled);
 
 		printf("</table></td>\n");
 
@@ -2985,21 +2992,21 @@ void show_servicegroup_host_totals_summary(servicegroup *temp_servicegroup) {
 		printf("<td class='miniStatusUNREACHABLE'><table border='0'>\n");
 		printf("<tr>\n");
 
-		printf("<td class='miniStatusUNREACHABLE'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%lu'>%d UNREACHABLE</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UNREACHABLE, host_properties, hosts_unreachable);
+		printf("<td class='miniStatusUNREACHABLE'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%lu'>未到達状態: %d 件</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UNREACHABLE, host_properties, hosts_unreachable);
 
 		printf("<td><table border='0'>\n");
 
 		if(hosts_unreachable_unacknowledged > 0)
-			printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>%d Unhandled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UNREACHABLE, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_unreachable_unacknowledged);
+			printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>未解決: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UNREACHABLE, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_unreachable_unacknowledged);
 
 		if(hosts_unreachable_scheduled > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UNREACHABLE, HOST_SCHEDULED_DOWNTIME, hosts_unreachable_scheduled);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>スケジュール済: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UNREACHABLE, HOST_SCHEDULED_DOWNTIME, hosts_unreachable_scheduled);
 
 		if(hosts_unreachable_acknowledged > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UNREACHABLE, HOST_STATE_ACKNOWLEDGED, hosts_unreachable_acknowledged);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>認知済: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UNREACHABLE, HOST_STATE_ACKNOWLEDGED, hosts_unreachable_acknowledged);
 
 		if(hosts_unreachable_disabled > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UNREACHABLE, HOST_CHECKS_DISABLED, hosts_unreachable_disabled);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%d'>無効: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SD_HOST_UNREACHABLE, HOST_CHECKS_DISABLED, hosts_unreachable_disabled);
 
 		printf("</table></td>\n");
 
@@ -3009,12 +3016,12 @@ void show_servicegroup_host_totals_summary(servicegroup *temp_servicegroup) {
 		}
 
 	if(hosts_pending > 0)
-		printf("<tr><td class='miniStatusPENDING'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%lu'>%d PENDING</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), HOST_PENDING, host_properties, hosts_pending);
+		printf("<tr><td class='miniStatusPENDING'><a href='%s?servicegroup=%s&style=detail&hoststatustypes=%d&hostprops=%lu'>保留状態: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), HOST_PENDING, host_properties, hosts_pending);
 
 	printf("</table>\n");
 
 	if((hosts_up + hosts_down + hosts_unreachable + hosts_pending) == 0)
-		printf("No matching hosts");
+		printf("該当するホストはありません");
 
 	return;
 	return;
@@ -3178,31 +3185,31 @@ void show_servicegroup_service_totals_summary(servicegroup *temp_servicegroup) {
 	printf("<table border=0>\n");
 
 	if(services_ok > 0)
-		printf("<tr><td class='miniStatusOK'><a href='%s?servicegroup=%s&style=detail&&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d OK</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_OK, host_status_types, service_properties, host_properties, services_ok);
+		printf("<tr><td class='miniStatusOK'><a href='%s?servicegroup=%s&style=detail&&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>正常状態: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_OK, host_status_types, service_properties, host_properties, services_ok);
 
 	if(services_warning > 0) {
 		printf("<tr>\n");
 		printf("<td class='miniStatusWARNING'><table border='0'>\n");
 		printf("<tr>\n");
 
-		printf("<td class='miniStatusWARNING'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d WARNING</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, host_status_types, service_properties, host_properties, services_warning);
+		printf("<td class='miniStatusWARNING'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>警告状態: %d 件<BR>(WARNING)</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, host_status_types, service_properties, host_properties, services_warning);
 
 		printf("<td><table border='0'>\n");
 
 		if(services_warning_unacknowledged > 0)
-			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>%d Unhandled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_warning_unacknowledged);
+			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>未解決: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_warning_unacknowledged);
 
 		if(services_warning_host_problem > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>%d on Problem Hosts</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_warning_host_problem);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>ホスト側の問題: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_warning_host_problem);
 
 		if(services_warning_scheduled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, SERVICE_SCHEDULED_DOWNTIME, services_warning_scheduled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>スケジュール済: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, SERVICE_SCHEDULED_DOWNTIME, services_warning_scheduled);
 
 		if(services_warning_acknowledged > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, SERVICE_STATE_ACKNOWLEDGED, services_warning_acknowledged);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>認知済: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, SERVICE_STATE_ACKNOWLEDGED, services_warning_acknowledged);
 
 		if(services_warning_disabled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, SERVICE_CHECKS_DISABLED, services_warning_disabled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>無効: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_WARNING, SERVICE_CHECKS_DISABLED, services_warning_disabled);
 
 		printf("</table></td>\n");
 
@@ -3216,24 +3223,24 @@ void show_servicegroup_service_totals_summary(servicegroup *temp_servicegroup) {
 		printf("<td class='miniStatusUNKNOWN'><table border='0'>\n");
 		printf("<tr>\n");
 
-		printf("<td class='miniStatusUNKNOWN'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d UNKNOWN</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, host_status_types, service_properties, host_properties, services_unknown);
+		printf("<td class='miniStatusUNKNOWN'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>不明状態: %d 件<BR>(UNKNOWN)</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, host_status_types, service_properties, host_properties, services_unknown);
 
 		printf("<td><table border='0'>\n");
 
 		if(services_unknown_unacknowledged > 0)
-			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>%d Unhandled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_unknown_unacknowledged);
+			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>未解決: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_unknown_unacknowledged);
 
 		if(services_unknown_host_problem > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>%d on Problem Hosts</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_unknown_host_problem);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>ホスト側の問題: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_unknown_host_problem);
 
 		if(services_unknown_scheduled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, SERVICE_SCHEDULED_DOWNTIME, services_unknown_scheduled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>スケジュール済: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, SERVICE_SCHEDULED_DOWNTIME, services_unknown_scheduled);
 
 		if(services_unknown_acknowledged > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, SERVICE_STATE_ACKNOWLEDGED, services_unknown_acknowledged);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>認知済: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, SERVICE_STATE_ACKNOWLEDGED, services_unknown_acknowledged);
 
 		if(services_unknown_disabled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, SERVICE_CHECKS_DISABLED, services_unknown_disabled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>無効: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_UNKNOWN, SERVICE_CHECKS_DISABLED, services_unknown_disabled);
 
 		printf("</table></td>\n");
 
@@ -3247,24 +3254,24 @@ void show_servicegroup_service_totals_summary(servicegroup *temp_servicegroup) {
 		printf("<td class='miniStatusCRITICAL'><table border='0'>\n");
 		printf("<tr>\n");
 
-		printf("<td class='miniStatusCRITICAL'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d CRITICAL</a>&nbsp;</td>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, host_status_types, service_properties, host_properties, services_critical);
+		printf("<td class='miniStatusCRITICAL'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>異常状態: %d 件<BR>(CRITICAL)</a>&nbsp;</td>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, host_status_types, service_properties, host_properties, services_critical);
 
 		printf("<td><table border='0'>\n");
 
 		if(services_critical_unacknowledged > 0)
-			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>%d Unhandled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_critical_unacknowledged);
+			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>未解決: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_critical_unacknowledged);
 
 		if(services_critical_host_problem > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>%d on Problem Hosts</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_critical_host_problem);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>ホスト側の問題: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_critical_host_problem);
 
 		if(services_critical_scheduled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, SERVICE_SCHEDULED_DOWNTIME, services_critical_scheduled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>スケジュール済: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, SERVICE_SCHEDULED_DOWNTIME, services_critical_scheduled);
 
 		if(services_critical_acknowledged > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, SERVICE_STATE_ACKNOWLEDGED, services_critical_acknowledged);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>認知済: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, SERVICE_STATE_ACKNOWLEDGED, services_critical_acknowledged);
 
 		if(services_critical_disabled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, SERVICE_CHECKS_DISABLED, services_critical_disabled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>無効: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_CRITICAL, SERVICE_CHECKS_DISABLED, services_critical_disabled);
 
 		printf("</table></td>\n");
 
@@ -3274,12 +3281,12 @@ void show_servicegroup_service_totals_summary(servicegroup *temp_servicegroup) {
 		}
 
 	if(services_pending > 0)
-		printf("<tr><td class='miniStatusPENDING'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d PENDING</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_PENDING, host_status_types, service_properties, host_properties, services_pending);
+		printf("<tr><td class='miniStatusPENDING'><a href='%s?servicegroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>保留状態: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_servicegroup->group_name), SERVICE_PENDING, host_status_types, service_properties, host_properties, services_pending);
 
 	printf("</table>\n");
 
 	if((services_ok + services_warning + services_unknown + services_critical + services_pending) == 0)
-		printf("No matching services");
+		printf("該当するサービスはありません");
 
 	return;
 	}
@@ -3307,12 +3314,12 @@ void show_servicegroup_grids(void) {
 
 	printf("<td valign=top align=center width=33%%>\n");
 
-	printf("<div align='center' class='statusTitle'>Status Grid For ");
+	printf("<div align='center' class='statusTitle'>");
 	if(show_all_servicegroups == TRUE)
-		printf("All Service Groups");
+		printf("全サービスグループ");
 	else
-		printf("Service Group '%s'", servicegroup_name);
-	printf("</div>\n");
+		printf("サービスグループ '%s'", servicegroup_name);
+	printf("のステータスグリッド</div>\n");
 
 	printf("<br>");
 
@@ -3366,12 +3373,11 @@ void show_servicegroup_grids(void) {
 		printf("<P><div align='center'>\n");
 
 		if(servicegroup_list != NULL) {
-			printf("<div class='errorMessage'>It appears as though you do not have permission to view information for any of the hosts you requested...</div>\n");
-			printf("<div class='errorDescription'>If you believe this is an error, check the HTTP server authentication requirements for accessing this CGI<br>");
-			printf("and check the authorization options in your CGI configuration file.</div>\n");
+			printf("<div class='errorMessage'>要求したサービスを閲覧する権限が無いようです...</div>\n");
+			printf("<div class='errorDescription'>このメッセージが何らかのエラーである場合はHTTPサーバのこのCGIに対するアクセス権限の設定かNagiosのCGI用設定ファイルの認証に関するオプションを調べてみてください</div>\n");
 			}
 		else {
-			printf("<div class='errorMessage'>There are no service groups defined.</div>\n");
+			printf("<div class='errorMessage'>定義されたサービスグループはありません。</div>\n");
 			}
 
 		printf("</div></P>\n");
@@ -3380,7 +3386,7 @@ void show_servicegroup_grids(void) {
 	/* we couldn't find the servicegroup */
 	else if(servicegroup_error == TRUE) {
 		printf("<P><div align='center'>\n");
-		printf("<div class='errorMessage'>Sorry, but servicegroup '%s' doesn't seem to exist...</div>\n", servicegroup_name);
+		printf("<div class='errorMessage'>'%s' というサービスグループは存在しないようです...</div>\n", servicegroup_name);
 		printf("</div></P>\n");
 		}
 
@@ -3411,7 +3417,7 @@ void show_servicegroup_grid(servicegroup *temp_servicegroup) {
 	printf(" (<a href='%s?type=%d&servicegroup=%s'>%s</a>)</div>", EXTINFO_CGI, DISPLAY_SERVICEGROUP_INFO, url_encode(temp_servicegroup->group_name), temp_servicegroup->group_name);
 
 	printf("<table class='status' align='center'>\n");
-	printf("<tr><th class='status'>Host</th><th class='status'>Services</a></th><th class='status'>Actions</th></tr>\n");
+	printf("<tr><th class='status'>ホスト名</th><th class='status'>エイリアス名</th><th class='status'>サービス名</a></th><th class='status'>アクション</th></tr>\n");
 
 	/* find all hosts that have services that are members of the servicegroup */
 	last_host = NULL;
@@ -3490,6 +3496,8 @@ void show_servicegroup_grid(servicegroup *temp_servicegroup) {
 
 		printf("</td>\n");
 
+		printf("<td class='status%s'>%s</td>\n", status_bg_class, temp_host->alias);
+
 		printf("<td class='status%s'>", host_status_class);
 
 		/* display all services on the host that are part of the hostgroup */
@@ -3533,7 +3541,7 @@ void show_servicegroup_grid(servicegroup *temp_servicegroup) {
 		grab_host_macros_r(mac, temp_host);
 
 		printf("<a href='%s?type=%d&host=%s'>\n", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_host->name));
-		printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, DETAIL_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "View Extended Information For This Host", "View Extended Information For This Host");
+		printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, DETAIL_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "このホストの追加情報を見る", "このホストの追加情報を見る");
 		printf("</a>");
 
 		if(temp_host->notes_url != NULL) {
@@ -3542,7 +3550,7 @@ void show_servicegroup_grid(servicegroup *temp_servicegroup) {
 			printf("%s", processed_string);
 			free(processed_string);
 			printf("' TARGET='%s'>", (notes_url_target == NULL) ? "_blank" : notes_url_target);
-			printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "View Extra Host Notes", "View Extra Host Notes");
+			printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "詳細なホスト情報を見る", "詳細なホスト情報を見る");
 			printf("</a>");
 			}
 		if(temp_host->action_url != NULL) {
@@ -3551,14 +3559,14 @@ void show_servicegroup_grid(servicegroup *temp_servicegroup) {
 			printf("%s", processed_string);
 			free(processed_string);
 			printf("' TARGET='%s'>", (action_url_target == NULL) ? "blank" : action_url_target);
-			printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "Perform Extra Host Actions", "Perform Extra Host Actions");
+			printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "ホストの対応情報を見る", "ホストの対応情報を見る");
 			printf("</a>");
 			}
 
-		printf("<a href='%s?host=%s'><img src='%s%s' border=0 alt='View Service Details For This Host' title='View Service Details For This Host'></a>\n", STATUS_CGI, url_encode(temp_host->name), url_images_path, STATUS_DETAIL_ICON);
+		printf("<a href='%s?host=%s'><img src='%s%s' border=0 alt='このホストのサービス詳細を見る' title='このホストのサービス詳細を見る'></a>\n", STATUS_CGI, url_encode(temp_host->name), url_images_path, STATUS_DETAIL_ICON);
 
 #ifdef USE_STATUSMAP
-		printf("<a href='%s?host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'></a>", STATUSMAP_CGI, url_encode(temp_host->name), url_images_path, STATUSMAP_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "Locate Host On Map", "Locate Host On Map");
+		printf("<a href='%s?host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'></a>", STATUSMAP_CGI, url_encode(temp_host->name), url_images_path, STATUSMAP_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "マップ上のホストの位置を見る", "マップ上のホストの位置を見る");
 #endif
 		printf("</td>\n");
 		printf("</tr>\n");
@@ -3596,12 +3604,12 @@ void show_hostgroup_overviews(void) {
 
 	printf("<td valign=top align=center width=33%%>\n");
 
-	printf("<div align='center' class='statusTitle'>Service Overview For ");
+	printf("<div align='center' class='statusTitle'>");
 	if(show_all_hostgroups == TRUE)
-		printf("All Host Groups");
+		printf("全ホストグループ");
 	else
-		printf("Host Group '%s'", hostgroup_name);
-	printf("</div>\n");
+		printf("ホストグループ '%s'", hostgroup_name);
+	printf("のサービスオーバービュー</div>\n");
 
 	printf("<br>");
 
@@ -3682,7 +3690,7 @@ void show_hostgroup_overviews(void) {
 			printf("</P>\n");
 			}
 		else {
-			printf("<div class='errorMessage'>Sorry, but host group '%s' doesn't seem to exist...</div>", hostgroup_name);
+			printf("<div class='errorMessage'>'%s' というホストグループは存在しないようです...</div>", hostgroup_name);
 			hostgroup_error = TRUE;
 			}
 		}
@@ -3694,12 +3702,11 @@ void show_hostgroup_overviews(void) {
 		printf("<div align='center'>\n");
 
 		if(hostgroup_list != NULL) {
-			printf("<div class='errorMessage'>It appears as though you do not have permission to view information for any of the hosts you requested...</div>\n");
-			printf("<div class='errorDescription'>If you believe this is an error, check the HTTP server authentication requirements for accessing this CGI<br>");
-			printf("and check the authorization options in your CGI configuration file.</div>\n");
+			printf("<div class='errorMessage'>要求したサービスを閲覧する権限が無いようです...</div>\n");
+			printf("<div class='errorDescription'>このメッセージが何らかのエラーである場合はHTTPサーバのこのCGIに対するアクセス権限の設定かNagiosのCGI用設定ファイルの認証に関するオプションを調べてみてください</div>\n");
 		}
 		else {
-			printf("<div class='errorMessage'>There are no host groups defined.</div>\n");
+			printf("<div class='errorMessage'>定義されたホストグループはありません。</div>\n");
 		}
 
 		printf("</div>\n");
@@ -3731,7 +3738,7 @@ void show_hostgroup_overview(hostgroup *hstgrp) {
 	printf("<table class='status'>\n");
 
 	printf("<tr>\n");
-	printf("<th class='status'>Host</th><th class='status'>Status</th><th class='status'>Services</th><th class='status'>Actions</th>\n");
+	printf("<th class='status'>ホスト名</th><th class='status'>エイリアス名</th><th class='status'>状態</th><th class='status'>サービス名</th><th class='status'>アクション</th>\n");
 	printf("</tr>\n");
 
 	/* find all the hosts that belong to the hostgroup */
@@ -3789,22 +3796,22 @@ void show_servicegroup_hostgroup_member_overview(hoststatus *hststatus, int odd,
 	grab_host_macros_r(mac, temp_host);
 
 	if(hststatus->status == HOST_PENDING) {
-		strncpy(status, "PENDING", sizeof(status));
+		strncpy(status, "保留(PENDING)", sizeof(status));
 		status_class = "HOSTPENDING";
 		status_bg_class = (odd) ? "Even" : "Odd";
 		}
 	else if(hststatus->status == SD_HOST_UP) {
-		strncpy(status, "UP", sizeof(status));
+		strncpy(status, "稼働(UP)", sizeof(status));
 		status_class = "HOSTUP";
 		status_bg_class = (odd) ? "Even" : "Odd";
 		}
 	else if(hststatus->status == SD_HOST_DOWN) {
-		strncpy(status, "DOWN", sizeof(status));
+		strncpy(status, "停止(DOWN)", sizeof(status));
 		status_class = "HOSTDOWN";
 		status_bg_class = "HOSTDOWN";
 		}
 	else if(hststatus->status == SD_HOST_UNREACHABLE) {
-		strncpy(status, "UNREACHABLE", sizeof(status));
+		strncpy(status, "未到達(UNREACHABLE)", sizeof(status));
 		status_class = "HOSTUNREACHABLE";
 		status_bg_class = "HOSTUNREACHABLE";
 		}
@@ -3812,6 +3819,9 @@ void show_servicegroup_hostgroup_member_overview(hoststatus *hststatus, int odd,
 	status[sizeof(status) - 1] = '\x0';
 
 	printf("<tr class='status%s'>\n", status_bg_class);
+
+	/* find host infomation for this host by sato */
+	temp_host = find_host(hststatus->host_name);
 
 	printf("<td class='status%s'>\n", status_bg_class);
 
@@ -3835,6 +3845,9 @@ void show_servicegroup_hostgroup_member_overview(hoststatus *hststatus, int odd,
 	printf("</table>\n");
 	printf("</td>\n");
 
+	/* add alias by sato */
+	printf("<td class='status%s'>%s</td>\n", status_bg_class, temp_host->alias);
+
 	printf("<td class='status%s'>%s</td>\n", status_class, status);
 
 	printf("<td class='status%s'>\n", status_bg_class);
@@ -3842,14 +3855,14 @@ void show_servicegroup_hostgroup_member_overview(hoststatus *hststatus, int odd,
 	printf("</td>\n");
 
 	printf("<td valign=center class='status%s'>", status_bg_class);
-	printf("<a href='%s?type=%d&host=%s'><img src='%s%s' border=0 alt='View Extended Information For This Host' title='View Extended Information For This Host'></a>\n", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(hststatus->host_name), url_images_path, DETAIL_ICON);
+	printf("<a href='%s?type=%d&host=%s'><img src='%s%s' border=0 alt='このホストの追加情報を見る' title='このホストの追加情報を見る'></a>\n", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(hststatus->host_name), url_images_path, DETAIL_ICON);
 	if(temp_host->notes_url != NULL) {
 		printf("<a href='");
 		process_macros_r(mac, temp_host->notes_url, &processed_string, 0);
 		printf("%s", processed_string);
 		free(processed_string);
 		printf("' TARGET='%s'>", (notes_url_target == NULL) ? "_blank" : notes_url_target);
-		printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "View Extra Host Notes", "View Extra Host Notes");
+		printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "詳細なホスト情報を見る", "詳細なホスト情報を見る");
 		printf("</a>");
 		}
 	if(temp_host->action_url != NULL) {
@@ -3858,12 +3871,12 @@ void show_servicegroup_hostgroup_member_overview(hoststatus *hststatus, int odd,
 		printf("%s", processed_string);
 		free(processed_string);
 		printf("' TARGET='%s'>", (action_url_target == NULL) ? "_blank" : action_url_target);
-		printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "Perform Extra Host Actions", "Perform Extra Host Actions");
+		printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "ホストの対応情報を見る", "ホストの対応情報を見る");
 		printf("</a>");
 		}
-	printf("<a href='%s?host=%s'><img src='%s%s' border=0 alt='View Service Details For This Host' title='View Service Details For This Host'></a>\n", STATUS_CGI, url_encode(hststatus->host_name), url_images_path, STATUS_DETAIL_ICON);
+	printf("<a href='%s?host=%s'><img src='%s%s' border=0 alt='このホストのサービス詳細を見る' title='このホストのサービス詳細を見る'></a>\n", STATUS_CGI, url_encode(hststatus->host_name), url_images_path, STATUS_DETAIL_ICON);
 #ifdef USE_STATUSMAP
-	printf("<a href='%s?host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'></a>", STATUSMAP_CGI, url_encode(hststatus->host_name), url_images_path, STATUSMAP_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "Locate Host On Map", "Locate Host On Map");
+	printf("<a href='%s?host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'></a>", STATUSMAP_CGI, url_encode(hststatus->host_name), url_images_path, STATUSMAP_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "マップ上のホストの位置を見る", "マップ上のホストの位置を見る");
 #endif
 	printf("</td>");
 
@@ -3939,20 +3952,20 @@ void show_servicegroup_hostgroup_member_service_status_totals(char *hst_name, vo
 	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
 
 	if(total_ok > 0)
-		printf("<tr><td class='miniStatusOK'><a href='%s?%s&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d OK</a></td></tr>\n", STATUS_CGI, temp_buffer, SERVICE_OK, host_status_types, service_properties, host_properties, total_ok);
+		printf("<tr><td class='miniStatusOK'><a href='%s?%s&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>正常状態: %d 件<BR>(OK)</a></td></tr>\n", STATUS_CGI, temp_buffer, SERVICE_OK, host_status_types, service_properties, host_properties, total_ok);
 	if(total_warning > 0)
-		printf("<tr><td class='miniStatusWARNING'><a href='%s?%s&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d WARNING</a></td></tr>\n", STATUS_CGI, temp_buffer, SERVICE_WARNING, host_status_types, service_properties, host_properties, total_warning);
+		printf("<tr><td class='miniStatusWARNING'><a href='%s?%s&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>警告状態: %d 件<BR>(WARNING)</a></td></tr>\n", STATUS_CGI, temp_buffer, SERVICE_WARNING, host_status_types, service_properties, host_properties, total_warning);
 	if(total_unknown > 0)
-		printf("<tr><td class='miniStatusUNKNOWN'><a href='%s?%s&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d UNKNOWN</a></td></tr>\n", STATUS_CGI, temp_buffer, SERVICE_UNKNOWN, host_status_types, service_properties, host_properties, total_unknown);
+		printf("<tr><td class='miniStatusUNKNOWN'><a href='%s?%s&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>不明状態: %d 件<BR>(UNKNOWN)</a></td></tr>\n", STATUS_CGI, temp_buffer, SERVICE_UNKNOWN, host_status_types, service_properties, host_properties, total_unknown);
 	if(total_critical > 0)
-		printf("<tr><td class='miniStatusCRITICAL'><a href='%s?%s&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d CRITICAL</a></td></tr>\n", STATUS_CGI, temp_buffer, SERVICE_CRITICAL, host_status_types, service_properties, host_properties, total_critical);
+		printf("<tr><td class='miniStatusCRITICAL'><a href='%s?%s&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>異常状態: %d 件<BR>(CRITICAL)</a></td></tr>\n", STATUS_CGI, temp_buffer, SERVICE_CRITICAL, host_status_types, service_properties, host_properties, total_critical);
 	if(total_pending > 0)
-		printf("<tr><td class='miniStatusPENDING'><a href='%s?%s&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d PENDING</a></td></tr>\n", STATUS_CGI, temp_buffer, SERVICE_PENDING, host_status_types, service_properties, host_properties, total_pending);
+		printf("<tr><td class='miniStatusPENDING'><a href='%s?%s&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>保留状態: %d 件<BR>(PENDING)</a></td></tr>\n", STATUS_CGI, temp_buffer, SERVICE_PENDING, host_status_types, service_properties, host_properties, total_pending);
 
 	printf("</table>\n");
 
 	if((total_ok + total_warning + total_unknown + total_critical + total_pending) == 0)
-		printf("No matching services");
+		printf("該当するサービスはありません");
 
 	return;
 	}
@@ -3980,12 +3993,12 @@ void show_hostgroup_summaries(void) {
 
 	printf("<td valign=top align=center width=33%%>\n");
 
-	printf("<div align='center' class='statusTitle'>Status Summary For ");
+	printf("<div align='center' class='statusTitle'>");
 	if(show_all_hostgroups == TRUE)
-		printf("All Host Groups");
+		printf("全ホストグループ");
 	else
-		printf("Host Group '%s'", hostgroup_name);
-	printf("</div>\n");
+		printf("ホストグループ '%s'", hostgroup_name);
+	printf("のステータスサマリ</div>\n");
 
 	printf("<br>");
 
@@ -4003,7 +4016,7 @@ void show_hostgroup_summaries(void) {
 	printf("<table class='status'>\n");
 
 	printf("<tr>\n");
-	printf("<th class='status'>Host Group</th><th class='status'>Host Status Summary</th><th class='status'>Service Status Summary</th>\n");
+	printf("<th class='status'>ホストグループ</th><th class='status'>ホスト稼動状態の概況</th><th class='status'>サービス稼動状態の概況</th>\n");
 	printf("</tr>\n");
 
 	/* display status summary for all hostgroups */
@@ -4049,13 +4062,12 @@ void show_hostgroup_summaries(void) {
 		printf("<P><div align='center'>\n");
 
 		if(hoststatus_list != NULL) {
-			printf("<div class='errorMessage'>It appears as though you do not have permission to view information for any of the hosts you requested...</div>\n");
-			printf("<div class='errorDescription'>If you believe this is an error, check the HTTP server authentication requirements for accessing this CGI<br>");
-			printf("and check the authorization options in your CGI configuration file.</div>\n");
+			printf("<div class='errorMessage'>要求したサービスを閲覧する権限が無いようです...</div>\n");
+			printf("<div class='errorDescription'>このメッセージが何らかのエラーである場合はHTTPサーバのこのCGIに対するアクセス権限の設定かNagiosのCGI用設定ファイルの認証に関するオプションを調べてみてください</div>\n");
 			}
 		else {
-			printf("<div class='infoMessage'>There doesn't appear to be any host status information in the status log...<br><br>\n");
-			printf("Make sure that Nagios is running and that you have specified the location of you status log correctly in the configuration files.</div>\n");
+			printf("<div class='infoMessage'>ステータスログにサービスの情報がまったくありません...<br><br>\n");
+			printf("Nagiosが正常に稼働して、ステータス情報を収集しているか確認してください。</div>\n");
 			}
 
 		printf("</div></P>\n");
@@ -4064,7 +4076,7 @@ void show_hostgroup_summaries(void) {
 	/* we couldn't find the hostgroup */
 	else if(hostgroup_error == TRUE) {
 		printf("<P><div align='center'>\n");
-		printf("<div class='errorMessage'>Sorry, but hostgroup '%s' doesn't seem to exist...</div>\n", hostgroup_name);
+		printf("<div class='errorMessage'>'%s' というホストグループは存在しないようです...</div>\n", hostgroup_name);
 		printf("</div></P>\n");
 		}
 
@@ -4195,7 +4207,7 @@ void show_hostgroup_host_totals_summary(hostgroup *temp_hostgroup) {
 
 	if(hosts_up > 0) {
 		printf("<tr>");
-		printf("<td class='miniStatusUP'><a href='%s?hostgroup=%s&style=hostdetail&&hoststatustypes=%d&hostprops=%lu'>%d UP</a></td>", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UP, host_properties, hosts_up);
+		printf("<td class='miniStatusUP'><a href='%s?hostgroup=%s&style=hostdetail&&hoststatustypes=%d&hostprops=%lu'>稼動状態: %d 件<br>(UP)</a></td>", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UP, host_properties, hosts_up);
 		printf("</tr>\n");
 		}
 
@@ -4204,21 +4216,21 @@ void show_hostgroup_host_totals_summary(hostgroup *temp_hostgroup) {
 		printf("<td class='miniStatusDOWN'><table border='0'>\n");
 		printf("<tr>\n");
 
-		printf("<td class='miniStatusDOWN'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%lu'>%d DOWN</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_DOWN, host_properties, hosts_down);
+		printf("<td class='miniStatusDOWN'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%lu'>停止状態: %d 件<BR>(DOWN)</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_DOWN, host_properties, hosts_down);
 
 		printf("<td><table border='0'>\n");
 
 		if(hosts_down_unacknowledged > 0)
-			printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Unhandled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_DOWN, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_down_unacknowledged);
+			printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>未解決: %d 件<BR>(Unhandled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_DOWN, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_down_unacknowledged);
 
 		if(hosts_down_scheduled > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_DOWN, HOST_SCHEDULED_DOWNTIME, hosts_down_scheduled);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>スケジュール済: %d 件<BR>(Scheduled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_DOWN, HOST_SCHEDULED_DOWNTIME, hosts_down_scheduled);
 
 		if(hosts_down_acknowledged > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_DOWN, HOST_STATE_ACKNOWLEDGED, hosts_down_acknowledged);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>認知済: %d 件<BR>(Acknowledged)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_DOWN, HOST_STATE_ACKNOWLEDGED, hosts_down_acknowledged);
 
 		if(hosts_down_disabled > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_DOWN, HOST_CHECKS_DISABLED, hosts_down_disabled);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>無効: %d 件<BR>(Disabled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_DOWN, HOST_CHECKS_DISABLED, hosts_down_disabled);
 
 		printf("</table></td>\n");
 
@@ -4232,21 +4244,21 @@ void show_hostgroup_host_totals_summary(hostgroup *temp_hostgroup) {
 		printf("<td class='miniStatusUNREACHABLE'><table border='0'>\n");
 		printf("<tr>\n");
 
-		printf("<td class='miniStatusUNREACHABLE'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%lu'>%d UNREACHABLE</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UNREACHABLE, host_properties, hosts_unreachable);
+		printf("<td class='miniStatusUNREACHABLE'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%lu'>未到達状態: %d 件<BR>(UNREACHABLE)</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UNREACHABLE, host_properties, hosts_unreachable);
 
 		printf("<td><table border='0'>\n");
 
 		if(hosts_unreachable_unacknowledged > 0)
-			printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Unhandled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UNREACHABLE, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_unreachable_unacknowledged);
+			printf("<tr><td width=100%% class='hostImportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>未解決: %d 件<BR>(Unhandled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UNREACHABLE, HOST_NO_SCHEDULED_DOWNTIME | HOST_STATE_UNACKNOWLEDGED | HOST_CHECKS_ENABLED, hosts_unreachable_unacknowledged);
 
 		if(hosts_unreachable_scheduled > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UNREACHABLE, HOST_SCHEDULED_DOWNTIME, hosts_unreachable_scheduled);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>スケジュール済: %d 件<BR>(Scheduled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UNREACHABLE, HOST_SCHEDULED_DOWNTIME, hosts_unreachable_scheduled);
 
 		if(hosts_unreachable_acknowledged > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UNREACHABLE, HOST_STATE_ACKNOWLEDGED, hosts_unreachable_acknowledged);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>認知済: %d 件<BR>(Acknowledged)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UNREACHABLE, HOST_STATE_ACKNOWLEDGED, hosts_unreachable_acknowledged);
 
 		if(hosts_unreachable_disabled > 0)
-			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UNREACHABLE, HOST_CHECKS_DISABLED, hosts_unreachable_disabled);
+			printf("<tr><td width=100%% class='hostUnimportantProblem'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%d'>無効: %d 件<BR>(Disabled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SD_HOST_UNREACHABLE, HOST_CHECKS_DISABLED, hosts_unreachable_disabled);
 
 		printf("</table></td>\n");
 
@@ -4256,12 +4268,12 @@ void show_hostgroup_host_totals_summary(hostgroup *temp_hostgroup) {
 		}
 
 	if(hosts_pending > 0)
-		printf("<tr><td class='miniStatusPENDING'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%lu'>%d PENDING</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), HOST_PENDING, host_properties, hosts_pending);
+		printf("<tr><td class='miniStatusPENDING'><a href='%s?hostgroup=%s&style=hostdetail&hoststatustypes=%d&hostprops=%lu'>保留状態: %d 件<BR>(PENDING)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), HOST_PENDING, host_properties, hosts_pending);
 
 	printf("</table>\n");
 
 	if((hosts_up + hosts_down + hosts_unreachable + hosts_pending) == 0)
-		printf("No matching hosts");
+		printf("該当するホストはありません");
 
 	return;
 	}
@@ -4420,31 +4432,31 @@ void show_hostgroup_service_totals_summary(hostgroup *temp_hostgroup) {
 	printf("<table border=0>\n");
 
 	if(services_ok > 0)
-		printf("<tr><td class='miniStatusOK'><a href='%s?hostgroup=%s&style=detail&&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d OK</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_OK, host_status_types, service_properties, host_properties, services_ok);
+		printf("<tr><td class='miniStatusOK'><a href='%s?hostgroup=%s&style=detail&&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>正常状態: %d 件<BR>(OK)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_OK, host_status_types, service_properties, host_properties, services_ok);
 
 	if(services_warning > 0) {
 		printf("<tr>\n");
 		printf("<td class='miniStatusWARNING'><table border='0'>\n");
 		printf("<tr>\n");
 
-		printf("<td class='miniStatusWARNING'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d WARNING</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, host_status_types, service_properties, host_properties, services_warning);
+		printf("<td class='miniStatusWARNING'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>警告状態: %d 件<BR>(WARNING)</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, host_status_types, service_properties, host_properties, services_warning);
 
 		printf("<td><table border='0'>\n");
 
 		if(services_warning_unacknowledged > 0)
-			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>%d Unhandled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_warning_unacknowledged);
+			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>未解決: %d 件<BR>(Unhandled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_warning_unacknowledged);
 
 		if(services_warning_host_problem > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>%d on Problem Hosts</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_warning_host_problem);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>ホスト側の問題: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_warning_host_problem);
 
 		if(services_warning_scheduled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, SERVICE_SCHEDULED_DOWNTIME, services_warning_scheduled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>スケジュール済: %d 件<BR>(Scheduled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, SERVICE_SCHEDULED_DOWNTIME, services_warning_scheduled);
 
 		if(services_warning_acknowledged > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, SERVICE_STATE_ACKNOWLEDGED, services_warning_acknowledged);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>認知済: %d 件<BR>(Acknowledged)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, SERVICE_STATE_ACKNOWLEDGED, services_warning_acknowledged);
 
 		if(services_warning_disabled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, SERVICE_CHECKS_DISABLED, services_warning_disabled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>無効: %d 件<BR>(Disabled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_WARNING, SERVICE_CHECKS_DISABLED, services_warning_disabled);
 
 		printf("</table></td>\n");
 
@@ -4458,24 +4470,24 @@ void show_hostgroup_service_totals_summary(hostgroup *temp_hostgroup) {
 		printf("<td class='miniStatusUNKNOWN'><table border='0'>\n");
 		printf("<tr>\n");
 
-		printf("<td class='miniStatusUNKNOWN'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d UNKNOWN</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, host_status_types, service_properties, host_properties, services_unknown);
+		printf("<td class='miniStatusUNKNOWN'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>不明状態: %d 件<BR>(UNKNOWN)</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, host_status_types, service_properties, host_properties, services_unknown);
 
 		printf("<td><table border='0'>\n");
 
 		if(services_unknown_unacknowledged > 0)
-			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>%d Unhandled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_unknown_unacknowledged);
+			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>未解決: %d 件<BR>(Unhandled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_unknown_unacknowledged);
 
 		if(services_unknown_host_problem > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>%d on Problem Hosts</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_unknown_host_problem);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>ホスト側の問題: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_unknown_host_problem);
 
 		if(services_unknown_scheduled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, SERVICE_SCHEDULED_DOWNTIME, services_unknown_scheduled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>スケジュール済: %d 件<BR>(Scheduled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, SERVICE_SCHEDULED_DOWNTIME, services_unknown_scheduled);
 
 		if(services_unknown_acknowledged > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, SERVICE_STATE_ACKNOWLEDGED, services_unknown_acknowledged);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>認知済: %d 件<BR>(Acknowledged)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, SERVICE_STATE_ACKNOWLEDGED, services_unknown_acknowledged);
 
 		if(services_unknown_disabled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, SERVICE_CHECKS_DISABLED, services_unknown_disabled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>無効: %d 件<BR>(Disabled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_UNKNOWN, SERVICE_CHECKS_DISABLED, services_unknown_disabled);
 
 		printf("</table></td>\n");
 
@@ -4489,24 +4501,24 @@ void show_hostgroup_service_totals_summary(hostgroup *temp_hostgroup) {
 		printf("<td class='miniStatusCRITICAL'><table border='0'>\n");
 		printf("<tr>\n");
 
-		printf("<td class='miniStatusCRITICAL'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d CRITICAL</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, host_status_types, service_properties, host_properties, services_critical);
+		printf("<td class='miniStatusCRITICAL'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>異常状態: %d 件<BR>(CRITICAL)</a>&nbsp;:</td>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, host_status_types, service_properties, host_properties, services_critical);
 
 		printf("<td><table border='0'>\n");
 
 		if(services_critical_unacknowledged > 0)
-			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>%d Unhandled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_critical_unacknowledged);
+			printf("<tr><td width=100%% class='serviceImportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%d'>未解決: %d 件<BR>(Unhandled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, SD_HOST_UP | HOST_PENDING, SERVICE_NO_SCHEDULED_DOWNTIME | SERVICE_STATE_UNACKNOWLEDGED | SERVICE_CHECKS_ENABLED, services_critical_unacknowledged);
 
 		if(services_critical_host_problem > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>%d on Problem Hosts</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_critical_host_problem);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d'>ホスト側の問題: %d 件</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, SD_HOST_DOWN | SD_HOST_UNREACHABLE, services_critical_host_problem);
 
 		if(services_critical_scheduled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Scheduled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, SERVICE_SCHEDULED_DOWNTIME, services_critical_scheduled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>スケジュール済: %d 件<BR>(Scheduled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, SERVICE_SCHEDULED_DOWNTIME, services_critical_scheduled);
 
 		if(services_critical_acknowledged > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Acknowledged</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, SERVICE_STATE_ACKNOWLEDGED, services_critical_acknowledged);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>認知済: %d 件<BR>(Acknowledged)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, SERVICE_STATE_ACKNOWLEDGED, services_critical_acknowledged);
 
 		if(services_critical_disabled > 0)
-			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>%d Disabled</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, SERVICE_CHECKS_DISABLED, services_critical_disabled);
+			printf("<tr><td width=100%% class='serviceUnimportantProblem'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&serviceprops=%d'>無効: %d 件<BR>(Disabled)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_CRITICAL, SERVICE_CHECKS_DISABLED, services_critical_disabled);
 
 		printf("</table></td>\n");
 
@@ -4516,12 +4528,12 @@ void show_hostgroup_service_totals_summary(hostgroup *temp_hostgroup) {
 		}
 
 	if(services_pending > 0)
-		printf("<tr><td class='miniStatusPENDING'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>%d PENDING</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_PENDING, host_status_types, service_properties, host_properties, services_pending);
+		printf("<tr><td class='miniStatusPENDING'><a href='%s?hostgroup=%s&style=detail&servicestatustypes=%d&hoststatustypes=%d&serviceprops=%lu&hostprops=%lu'>保留状態: %d 件<BR>(PENDING)</a></td></tr>\n", STATUS_CGI, url_encode(temp_hostgroup->group_name), SERVICE_PENDING, host_status_types, service_properties, host_properties, services_pending);
 
 	printf("</table>\n");
 
 	if((services_ok + services_warning + services_unknown + services_critical + services_pending) == 0)
-		printf("No matching services");
+		printf("該当するサービスはありません");
 
 	return;
 	}
@@ -4549,12 +4561,12 @@ void show_hostgroup_grids(void) {
 
 	printf("<td valign=top align=center width=33%%>\n");
 
-	printf("<div align='center' class='statusTitle'>Status Grid For ");
+	printf("<div align='center' class='statusTitle'>");
 	if(show_all_hostgroups == TRUE)
-		printf("All Host Groups");
+		printf("全ホストグループ");
 	else
-		printf("Host Group '%s'", hostgroup_name);
-	printf("</div>\n");
+		printf("ホストグループ '%s'", hostgroup_name);
+	printf("のステータスグリッド</div>\n");
 
 	printf("<br>");
 
@@ -4608,13 +4620,12 @@ void show_hostgroup_grids(void) {
 		printf("<P><div align='center'>\n");
 
 		if(hoststatus_list != NULL) {
-			printf("<div class='errorMessage'>It appears as though you do not have permission to view information for any of the hosts you requested...</div>\n");
-			printf("<div class='errorDescription'>If you believe this is an error, check the HTTP server authentication requirements for accessing this CGI<br>");
-			printf("and check the authorization options in your CGI configuration file.</div>\n");
+			printf("<div class='errorMessage'>要求したサービスを閲覧する権限が無いようです...</div>\n");
+			printf("<div class='errorDescription'>このメッセージが何らかのエラーである場合はHTTPサーバのこのCGIに対するアクセス権限の設定かNagiosのCGI用設定ファイルの認証に関するオプションを調べてみてください</div>\n");
 			}
 		else {
-			printf("<div class='infoMessage'>There doesn't appear to be any host status information in the status log...<br><br>\n");
-			printf("Make sure that Nagios is running and that you have specified the location of you status log correctly in the configuration files.</div>\n");
+			printf("<div class='infoMessage'>ステータスログにサービスの情報がありません...<br><br>\n");
+			printf("Nagiosが正常に稼働して、ステータス情報を収集しているか確認してください。</div>\n");
 			}
 
 		printf("</div></P>\n");
@@ -4623,7 +4634,7 @@ void show_hostgroup_grids(void) {
 	/* we couldn't find the hostgroup */
 	else if(hostgroup_error == TRUE) {
 		printf("<P><div align='center'>\n");
-		printf("<div class='errorMessage'>Sorry, but hostgroup '%s' doesn't seem to exist...</div>\n", hostgroup_name);
+		printf("<div class='errorMessage'>'%s' というホストグループは存在しないようです...</div>\n", hostgroup_name);
 		printf("</div></P>\n");
 		}
 
@@ -4653,7 +4664,7 @@ void show_hostgroup_grid(hostgroup *temp_hostgroup) {
 	printf(" (<a href='%s?type=%d&hostgroup=%s'>%s</a>)</div>", EXTINFO_CGI, DISPLAY_HOSTGROUP_INFO, url_encode(temp_hostgroup->group_name), temp_hostgroup->group_name);
 
 	printf("<table class='status' align='center'>\n");
-	printf("<tr><th class='status'>Host</th><th class='status'>Services</a></th><th class='status'>Actions</th></tr>\n");
+	printf("<tr><th class='status'>ホスト名</th><th class='status'>エイリアス名</th><th class='status'>サービス名</a></th><th class='status'>アクション</th></tr>\n");
 
 	/* find all the hosts that belong to the hostgroup */
 	for(temp_member = temp_hostgroup->members; temp_member != NULL; temp_member = temp_member->next) {
@@ -4732,6 +4743,9 @@ void show_hostgroup_grid(hostgroup *temp_hostgroup) {
 
 		printf("</td>\n");
 
+		/* dispay Alias by sato  */
+		printf("<TD>%s</td>", temp_host->alias);
+
 		printf("<td class='status%s'>", host_status_class);
 
 		/* display all services on the host */
@@ -4777,7 +4791,7 @@ void show_hostgroup_grid(hostgroup *temp_hostgroup) {
 		printf("<td class='status%s'>", host_status_class);
 
 		printf("<a href='%s?type=%d&host=%s'>\n", EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_host->name));
-		printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, DETAIL_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "View Extended Information For This Host", "View Extended Information For This Host");
+		printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, DETAIL_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "このホストの追加情報を見る", "このホストの追加情報を見る");
 		printf("</a>");
 
 		if(temp_host->notes_url != NULL) {
@@ -4786,7 +4800,7 @@ void show_hostgroup_grid(hostgroup *temp_hostgroup) {
 			printf("%s", processed_string);
 			free(processed_string);
 			printf("' TARGET='%s'>", (notes_url_target == NULL) ? "_blank" : notes_url_target);
-			printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "View Extra Host Notes", "View Extra Host Notes");
+			printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, NOTES_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "詳細なホスト情報を見る", "詳細なホスト情報を見る");
 			printf("</a>");
 			}
 		if(temp_host->action_url != NULL) {
@@ -4795,13 +4809,13 @@ void show_hostgroup_grid(hostgroup *temp_hostgroup) {
 			printf("%s", processed_string);
 			free(processed_string);
 			printf("' TARGET='%s'>", (action_url_target == NULL) ? "_blank" : action_url_target);
-			printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "Perform Extra Host Actions", "Perform Extra Host Actions");
+			printf("<IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'>", url_images_path, ACTION_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "ホストの対応情報を見る", "ホストの対応情報を見る");
 			printf("</a>");
 			}
 
-		printf("<a href='%s?host=%s'><img src='%s%s' border=0 alt='View Service Details For This Host' title='View Service Details For This Host'></a>\n", STATUS_CGI, url_encode(temp_host->name), url_images_path, STATUS_DETAIL_ICON);
+		printf("<a href='%s?host=%s'><img src='%s%s' border=0 alt='このホストのサービス詳細を見る' title='このホストのサービス詳細を見る'></a>\n", STATUS_CGI, url_encode(temp_host->name), url_images_path, STATUS_DETAIL_ICON);
 #ifdef USE_STATUSMAP
-		printf("<a href='%s?host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'></a>", STATUSMAP_CGI, url_encode(temp_host->name), url_images_path, STATUSMAP_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "Locate Host On Map", "Locate Host On Map");
+		printf("<a href='%s?host=%s'><IMG SRC='%s%s' border=0 WIDTH=%d HEIGHT=%d ALT='%s' TITLE='%s'></a>", STATUSMAP_CGI, url_encode(temp_host->name), url_images_path, STATUSMAP_ICON, STATUS_ICON_WIDTH, STATUS_ICON_HEIGHT, "マップ上のホストの位置を見る", "マップ上のホストの位置を見る");
 #endif
 		printf("</td>\n");
 
@@ -5308,115 +5322,115 @@ void show_filters(void) {
 		printf("<table class='filter'>\n");
 		printf("<tr><td class='filter'>\n");
 		printf("<table border=0 cellspacing=2 cellpadding=0>\n");
-		printf("<tr><td colspan=2 valign=top align=left class='filterTitle'>Display Filters:</td></tr>");
-		printf("<tr><td valign=top align=left class='filterName'>Host Status Types:</td>");
+		printf("<tr><td colspan=2 valign=top align=left class='filterTitle'>表示フィルタ:</td></tr>");
+		printf("<tr><td valign=top align=left class='filterName'>ホスト状態の種類:</td>");
 		printf("<td valign=top align=left class='filterValue'>");
 		if(host_status_types == all_host_status_types)
-			printf("All");
+			printf("全て");
 		else if(host_status_types == all_host_problems)
-			printf("All problems");
+			printf("全障害");
 		else {
 			found = 0;
 			if(host_status_types & HOST_PENDING) {
-				printf(" Pending");
+				printf(" 保留状態(PENDING)");
 				found = 1;
 				}
 			if(host_status_types & SD_HOST_UP) {
-				printf("%s Up", (found == 1) ? " |" : "");
+				printf("%s 稼働状態(UP)", (found == 1) ? " |" : "");
 				found = 1;
 				}
 			if(host_status_types & SD_HOST_DOWN) {
-				printf("%s Down", (found == 1) ? " |" : "");
+				printf("%s 停止状態(DOWN)", (found == 1) ? " |" : "");
 				found = 1;
 				}
 			if(host_status_types & SD_HOST_UNREACHABLE)
-				printf("%s Unreachable", (found == 1) ? " |" : "");
+				printf("%s 未到達状態(UNREACHABLE)", (found == 1) ? " |" : "");
 			}
 		printf("</td></tr>");
-		printf("<tr><td valign=top align=left class='filterName'>Host Properties:</td>");
+		printf("<tr><td valign=top align=left class='filterName'>ホストプロパティ:</td>");
 		printf("<td valign=top align=left class='filterValue'>");
 		if(host_properties == 0)
-			printf("Any");
+			printf("全て");
 		else {
 			found = 0;
 			if(host_properties & HOST_SCHEDULED_DOWNTIME) {
-				printf(" In Scheduled Downtime");
+				printf(" 現在ダウンタイム中のもの");
 				found = 1;
 				}
 			if(host_properties & HOST_NO_SCHEDULED_DOWNTIME) {
-				printf("%s Not In Scheduled Downtime", (found == 1) ? " &amp;" : "");
+				printf("%s ダウンタイムではないもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_STATE_ACKNOWLEDGED) {
-				printf("%s Has Been Acknowledged", (found == 1) ? " &amp;" : "");
+				printf("%s 認知済みなもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_STATE_UNACKNOWLEDGED) {
-				printf("%s Has Not Been Acknowledged", (found == 1) ? " &amp;" : "");
+				printf("%s 認知済みではないもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_CHECKS_DISABLED) {
-				printf("%s Checks Disabled", (found == 1) ? " &amp;" : "");
+				printf("%s チェックが無効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_CHECKS_ENABLED) {
-				printf("%s Checks Enabled", (found == 1) ? " &amp;" : "");
+				printf("%s チェックが有効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_EVENT_HANDLER_DISABLED) {
-				printf("%s Event Handler Disabled", (found == 1) ? " &amp;" : "");
+				printf("%s イベントハンドラが無効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_EVENT_HANDLER_ENABLED) {
-				printf("%s Event Handler Enabled", (found == 1) ? " &amp;" : "");
+				printf("%s イベントハンドラが有効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_FLAP_DETECTION_DISABLED) {
-				printf("%s Flap Detection Disabled", (found == 1) ? " &amp;" : "");
+				printf("%s フラップ検知が無効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_FLAP_DETECTION_ENABLED) {
-				printf("%s Flap Detection Enabled", (found == 1) ? " &amp;" : "");
+				printf("%s フラップ検知が有効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_IS_FLAPPING) {
-				printf("%s Is Flapping", (found == 1) ? " &amp;" : "");
+				printf("%s フラップしているもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_IS_NOT_FLAPPING) {
-				printf("%s Is Not Flapping", (found == 1) ? " &amp;" : "");
+				printf("%s フラップしていないもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_NOTIFICATIONS_DISABLED) {
-				printf("%s Notifications Disabled", (found == 1) ? " &amp;" : "");
+				printf("%s 通知が無効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_NOTIFICATIONS_ENABLED) {
-				printf("%s Notifications Enabled", (found == 1) ? " &amp;" : "");
+				printf("%s 通知が有効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_PASSIVE_CHECKS_DISABLED) {
-				printf("%s Passive Checks Disabled", (found == 1) ? " &amp;" : "");
+				printf("%s パッシブチェックが無効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_PASSIVE_CHECKS_ENABLED) {
-				printf("%s Passive Checks Enabled", (found == 1) ? " &amp;" : "");
+				printf("%s パッシブチェックが有効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_PASSIVE_CHECK) {
-				printf("%s Passive Checks", (found == 1) ? " &amp;" : "");
+				printf("%s パッシブチェックしているもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_ACTIVE_CHECK) {
-				printf("%s Active Checks", (found == 1) ? " &amp;" : "");
+				printf("%s アクティブチェックしているもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_HARD_STATE) {
-				printf("%s In Hard State", (found == 1) ? " &amp;" : "");
+				printf("%s ハード状態のもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(host_properties & HOST_SOFT_STATE) {
-				printf("%s In Soft State", (found == 1) ? " &amp;" : "");
+				printf("%s ソフト状態のもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			}
@@ -5424,120 +5438,120 @@ void show_filters(void) {
 		printf("</tr>\n");
 
 
-		printf("<tr><td valign=top align=left class='filterName'>Service Status Types:</td>");
+		printf("<tr><td valign=top align=left class='filterName'>サービス状態の種類:</td>");
 		printf("<td valign=top align=left class='filterValue'>");
 		if(service_status_types == all_service_status_types)
-			printf("All");
+			printf("全て");
 		else if(service_status_types == all_service_problems)
-			printf("All Problems");
+			printf("全障害");
 		else {
 			found = 0;
 			if(service_status_types & SERVICE_PENDING) {
-				printf(" Pending");
+				printf(" 保留状態(PENDING)");
 				found = 1;
 				}
 			if(service_status_types & SERVICE_OK) {
-				printf("%s Ok", (found == 1) ? " |" : "");
+				printf("%s 正常状態(OK)", (found == 1) ? " |" : "");
 				found = 1;
 				}
 			if(service_status_types & SERVICE_UNKNOWN) {
-				printf("%s Unknown", (found == 1) ? " |" : "");
+				printf("%s 不明状態(UNKNOWN)", (found == 1) ? " |" : "");
 				found = 1;
 				}
 			if(service_status_types & SERVICE_WARNING) {
-				printf("%s Warning", (found == 1) ? " |" : "");
+				printf("%s 警告状態(WARNING)", (found == 1) ? " |" : "");
 				found = 1;
 				}
 			if(service_status_types & SERVICE_CRITICAL) {
-				printf("%s Critical", (found == 1) ? " |" : "");
+				printf("%s 異常状態(CRITICAL)", (found == 1) ? " |" : "");
 				found = 1;
 				}
 			}
 		printf("</td></tr>");
-		printf("<tr><td valign=top align=left class='filterName'>Service Properties:</td>");
+		printf("<tr><td valign=top align=left class='filterName'>サービスプロパティ:</td>");
 		printf("<td valign=top align=left class='filterValue'>");
 		if(service_properties == 0)
-			printf("Any");
+			printf("全て");
 		else {
 			found = 0;
 			if(service_properties & SERVICE_SCHEDULED_DOWNTIME) {
-				printf(" In Scheduled Downtime");
+				printf(" 現在ダウンタイム中なもの");
 				found = 1;
 				}
 			if(service_properties & SERVICE_NO_SCHEDULED_DOWNTIME) {
-				printf("%s Not In Scheduled Downtime", (found == 1) ? " &amp;" : "");
+				printf("%s ダウンタイム中ではないもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_STATE_ACKNOWLEDGED) {
-				printf("%s Has Been Acknowledged", (found == 1) ? " &amp;" : "");
+				printf("%s 認知済みなもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_STATE_UNACKNOWLEDGED) {
-				printf("%s Has Not Been Acknowledged", (found == 1) ? " &amp;" : "");
+				printf("%s 認知済みではないもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_CHECKS_DISABLED) {
-				printf("%s Active Checks Disabled", (found == 1) ? " &amp;" : "");
+				printf("%s アクティブチェックが無効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_CHECKS_ENABLED) {
-				printf("%s Active Checks Enabled", (found == 1) ? " &amp;" : "");
+				printf("%s アクティブチェックが有効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_EVENT_HANDLER_DISABLED) {
-				printf("%s Event Handler Disabled", (found == 1) ? " &amp;" : "");
+				printf("%s イベントハンドラが無効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_EVENT_HANDLER_ENABLED) {
-				printf("%s Event Handler Enabled", (found == 1) ? " &amp;" : "");
+				printf("%s イベントハンドラが有効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_FLAP_DETECTION_DISABLED) {
-				printf("%s Flap Detection Disabled", (found == 1) ? " &amp;" : "");
+				printf("%s フラップ検知が無効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_FLAP_DETECTION_ENABLED) {
-				printf("%s Flap Detection Enabled", (found == 1) ? " &amp;" : "");
+				printf("%s フラップ検知が有効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_IS_FLAPPING) {
-				printf("%s Is Flapping", (found == 1) ? " &amp;" : "");
+				printf("%s フラップしているもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_IS_NOT_FLAPPING) {
-				printf("%s Is Not Flapping", (found == 1) ? " &amp;" : "");
+				printf("%s フラップしていないもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_NOTIFICATIONS_DISABLED) {
-				printf("%s Notifications Disabled", (found == 1) ? " &amp;" : "");
+				printf("%s 通知が無効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_NOTIFICATIONS_ENABLED) {
-				printf("%s Notifications Enabled", (found == 1) ? " &amp;" : "");
+				printf("%s 通知が有効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_PASSIVE_CHECKS_DISABLED) {
-				printf("%s Passive Checks Disabled", (found == 1) ? " &amp;" : "");
+				printf("%s パッシブチェックが無効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_PASSIVE_CHECKS_ENABLED) {
-				printf("%s Passive Checks Enabled", (found == 1) ? " &amp;" : "");
+				printf("%s パッシブチェックが有効なもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_PASSIVE_CHECK) {
-				printf("%s Passive Checks", (found == 1) ? " &amp;" : "");
+				printf("%s パッシブチェックしているもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_ACTIVE_CHECK) {
-				printf("%s Active Checks", (found == 1) ? " &amp;" : "");
+				printf("%s アクティブチェックしているもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_HARD_STATE) {
-				printf("%s In Hard State", (found == 1) ? " &amp;" : "");
+				printf("%s ハード状態のもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			if(service_properties & SERVICE_SOFT_STATE) {
-				printf("%s In Soft State", (found == 1) ? " &amp;" : "");
+				printf("%s ソフト状態のもの", (found == 1) ? " &amp;" : "");
 				found = 1;
 				}
 			}
@@ -5567,32 +5581,32 @@ void create_pagenumbers(int total_entries,char *temp_url,int type_service) {
 		previous_page = (page_start-result_limit) > 0 ? (page_start-result_limit) : 0;
 		printf("<div id='bottom_page_numbers'>\n");
 		printf("<div class='inner_numbers'>\n");
-		printf("<a href='%s&start=0&limit=%i' class='pagenumber' title='First Page'><img src='%s%s' height='15' width='15' alt='<<' /></a>\n",temp_url,result_limit,url_images_path,FIRST_PAGE_ICON);
-		printf("<a href='%s&start=%i&limit=%i' class='pagenumber' title='Previous Page'><img src='%s%s' height='15' width='10' alt='<' /></a>\n",temp_url,previous_page,result_limit,url_images_path,PREVIOUS_PAGE_ICON);
+		printf("<a href='%s&start=0&limit=%i' class='pagenumber' title='最初のページ'><img src='%s%s' height='15' width='15' alt='<<' /></a>\n",temp_url,result_limit,url_images_path,FIRST_PAGE_ICON);
+		printf("<a href='%s&start=%i&limit=%i' class='pagenumber' title='前のページ'><img src='%s%s' height='15' width='10' alt='<' /></a>\n",temp_url,previous_page,result_limit,url_images_path,PREVIOUS_PAGE_ICON);
 
 		for(i = 0; i < last_page; i++) {
 			tmp_start = (i * result_limit);
 			if(tmp_start == page_start)
 				printf("<div class='pagenumber current_page'> %i </div>\n",(i+1));
 			else
-				printf("<a class='pagenumber' href='%s&start=%i&limit=%i' title='Page %i'> %i </a>\n",temp_url,tmp_start,result_limit,(i+1),(i+1));
+				printf("<a class='pagenumber' href='%s&start=%i&limit=%i' title='ページ %i'> %i </a>\n",temp_url,tmp_start,result_limit,(i+1),(i+1));
 			}
 
-		printf("<a href='%s&start=%i&limit=%i' class='pagenumber' title='Next Page'><img src='%s%s' height='15' width='10' alt='>' /></a>\n",temp_url,(page_start+result_limit),result_limit,url_images_path,NEXT_PAGE_ICON);
-		printf("<a href='%s&start=%i&limit=%i' class='pagenumber' title='Last Page'><img src='%s%s' height='15' width='15' alt='>>' /></a>\n",temp_url,((pages)*result_limit),result_limit,url_images_path,LAST_PAGE_ICON);
+		printf("<a href='%s&start=%i&limit=%i' class='pagenumber' title='次のページ'><img src='%s%s' height='15' width='10' alt='>' /></a>\n",temp_url,(page_start+result_limit),result_limit,url_images_path,NEXT_PAGE_ICON);
+		printf("<a href='%s&start=%i&limit=%i' class='pagenumber' title='最後のページ'><img src='%s%s' height='15' width='15' alt='>>' /></a>\n",temp_url,((pages)*result_limit),result_limit,url_images_path,LAST_PAGE_ICON);
 		printf("</div> <!-- end inner_page_numbers div -->\n");
 		if(type_service == TRUE)
-			printf("<br /><div class='itemTotalsTitle'>Results %i - %i of %d Matching Services</div>\n</div>\n",page_start,((page_start+result_limit) > total_entries ? total_entries :(page_start+result_limit) ),total_entries );
+			printf("<br /><div class='itemTotalsTitle'>%d 件中 %i から %i のサービスを表示中</div>\n</div>\n", total_entries, page_start, ((page_start + result_limit) > total_entries ? total_entries : (page_start + result_limit)));
 		else
-			printf("<br /><div class='itemTotalsTitle'>Results %i - %i of %d Matching Hosts</div>\n\n",page_start,((page_start+result_limit) > total_entries ? total_entries :(page_start+result_limit) ),total_entries );
+			printf("<br /><div class='itemTotalsTitle'>%d 件中 %i から %i のホストを表示中</div>\n\n", total_entries, page_start, ((page_start + result_limit) > total_entries ? total_entries : (page_start + result_limit)));
 
 		printf("</div> <!-- end bottom_page_numbers div -->\n\n");
 		}
 	else {
 		if(type_service == TRUE)
-			printf("<br /><div class='itemTotalsTitle'>Results %i - %i of %d Matching Services</div>\n</div>\n",1,total_entries,total_entries);
+			printf("<br /><div class='itemTotalsTitle'>%d 件中 %i から %i のサービスを表示中</div>\n</div>\n", total_entries, 1, total_entries);
 		else
-			printf("<br /><div class='itemTotalsTitle'>Results %i - %i of %d Matching Hosts</div>\n\n",1,total_entries,total_entries);
+			printf("<br /><div class='itemTotalsTitle'>%d 件中 %i から %i のホストを表示中</div>\n\n", total_entries, 1, total_entries);
 
 		}
 
@@ -5605,14 +5619,14 @@ void create_page_limiter(int limit,char *temp_url) {
 
 	/*  Result Limit Select Box   */
 	printf("<div id='pagelimit'>\n<div id='result_limit'>\n");
-	printf("<label for='limit'>Limit Results: </label>\n");
+	printf("<label for='limit'>表示制限: </label>\n");
 	printf("<select onchange='set_limit(\"%s\")' name='limit' id='limit'>\n",temp_url);
 	printf("<option %s value='50'>50</option>\n",( (limit==50) ? "selected='selected'" : "") );
 	printf("<option %s value='100'>100</option>\n",( (limit==100) ? "selected='selected'" : "") );
 	printf("<option %s value='250'>250</option>\n",( (limit==250) ? "selected='selected'" : "") );
 	printf("<option %s value='1000'>1000</option>\n",( (limit==1000) ? "selected='selected'" : "") );
-	printf("<option %s value='0'>All</option>\n",(limit==0) ? "selected='selected'" : "");
-	printf("</select></div>\n");
+	printf("<option %s value='0'>全</option>\n",(limit==0) ? "selected='selected'" : "");
+	printf("</select>件</div>\n");
 	printf("<div id='top_page_numbers'></div>\n</div>\n");
 	//page numbers
 	}
