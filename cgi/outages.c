@@ -116,7 +116,7 @@ int main(void) {
 
 		/* left column of the first row */
 		printf("<td align=left valign=top width=33%%>\n");
-		display_info_table("Network Outages", TRUE, &current_authdata);
+		display_info_table("ネットワーク障害", TRUE, &current_authdata);
 		printf("</td>\n");
 
 		/* middle column of top row */
@@ -178,9 +178,10 @@ void document_header(int use_stylesheet) {
 
 	printf("<html>\n");
 	printf("<head>\n");
+	printf("<meta http-equiv='content-type' content='text/html;charset=UTF-8'>\n");
 	printf("<link rel=\"shortcut icon\" href=\"%sfavicon.ico\" type=\"image/ico\">\n", url_images_path);
 	printf("<title>\n");
-	printf("Network Outages\n");
+	printf("ネットワーク障害\n");
 	printf("</title>\n");
 
 	if(use_stylesheet == TRUE) {
@@ -268,6 +269,8 @@ void display_network_outages(void) {
 	int odd = 0;
 	const char *bg_class = "";
 	const char *status = "";
+	/* ステータスを日本語表記にするために追加 sato */
+	const char *string = "";
 	int days;
 	int hours;
 	int minutes;
@@ -282,9 +285,8 @@ void display_network_outages(void) {
 /*
 	if(is_authorized_for_all_hosts(&current_authdata) == FALSE) {
 
-		printf("<P><DIV CLASS='errorMessage'>It appears as though you do not have permission to view information you requested...</DIV></P>\n");
-		printf("<P><DIV CLASS='errorDescription'>If you believe this is an error, check the HTTP server authentication requirements for accessing this CGI<br>");
-		printf("and check the authorization options in your CGI configuration file.</DIV></P>\n");
+		printf("<P><DIV CLASS='errorMessage'>要求したリクエストを閲覧する権限が無いようです。</DIV></P>\n");
+		printf("<P><DIV CLASS='errorDescription'>このメッセージが何らかのエラーである場合はHTTPサーバのこのCGIに対するアクセス権限の設定かNagiosのCGI用設定ファイルの認証に関するオプションを調べてみてください。</DIV></P>\n");
 
 		return;
 		}
@@ -301,11 +303,11 @@ void display_network_outages(void) {
 
 	/* display the problem hosts... */
 	printf("<P><DIV ALIGN=CENTER>\n");
-	printf("<DIV CLASS='dataTitle'>Blocking Outages</DIV>\n");
+	printf("<DIV CLASS='dataTitle'>ネットワーク障害</DIV>\n");
 
 	printf("<TABLE BORDER=0 CLASS='data'>\n");
 	printf("<TR>\n");
-	printf("<TH CLASS='data'>Severity</TH><TH CLASS='data'>Host</TH><TH CLASS='data'>State</TH><TH CLASS='data'>Notes</TH><TH CLASS='data'>State Duration</TH><TH CLASS='data'># Hosts Affected</TH><TH CLASS='data'># Services Affected</TH><TH CLASS='data'>Actions</TH>\n");
+	printf("<TH CLASS='data'>障害規模</TH><TH CLASS='data'>ホスト</TH><TH CLASS='data'>ステータス</TH><TH CLASS='data'>メモ</TH><TH CLASS='data'>経過時間</TH><TH CLASS='data'>影響するホスト数</TH><TH CLASS='data'>影響するサービス数</TH><TH CLASS='data'>アクション</TH>\n");
 	printf("</TR>\n");
 
 	for(temp_hostoutagesort = hostoutagesort_list; temp_hostoutagesort != NULL; temp_hostoutagesort = temp_hostoutagesort->next) {
@@ -337,20 +339,26 @@ void display_network_outages(void) {
 			bg_class = "dataEven";
 			}
 
-		if(temp_hoststatus->status == SD_HOST_UNREACHABLE)
+		if(temp_hoststatus->status == SD_HOST_UNREACHABLE) {
 			status = "UNREACHABLE";
-		else if(temp_hoststatus->status == SD_HOST_DOWN)
+			/* sato */
+			string = "未到達(UNREACHABLE)";
+		}
+		else if(temp_hoststatus->status == SD_HOST_DOWN) {
 			status = "DOWN";
+			/* sato */
+			string = "停止(DOWN)";
+		}
 
 		printf("<TR CLASS='%s'>\n", bg_class);
 
 		printf("<TD CLASS='%s'>%d</TD>\n", bg_class, temp_hostoutage->severity);
 		printf("<TD CLASS='%s'><A HREF='%s?type=%d&host=%s'>%s</A></TD>\n", bg_class, EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_hostoutage->hst->name), temp_hostoutage->hst->name);
-		printf("<TD CLASS='host%s'>%s</TD>\n", status, status);
+		printf("<TD CLASS='host%s'>%s</TD>\n", status, string);
 
 		total_comments = number_of_host_comments(temp_hostoutage->hst->name);
 		if(total_comments > 0) {
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "This host has %d comment%s associated with it", total_comments, (total_comments == 1) ? "" : "s");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "このホストには%d個のコメントがあります", total_comments);
 			temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
 			printf("<TD CLASS='%s'><A HREF='%s?type=%d&host=%s#comments'><IMG SRC='%s%s' BORDER=0 ALT='%s' TITLE='%s'></A></TD>\n", bg_class, EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_hostoutage->hst->name), url_images_path, COMMENT_ICON, temp_buffer, temp_buffer);
 			}
@@ -365,7 +373,7 @@ void display_network_outages(void) {
 		else
 			t = current_time - temp_hoststatus->last_state_change;
 		get_time_breakdown((unsigned long)t, &days, &hours, &minutes, &seconds);
-		snprintf(state_duration, sizeof(state_duration) - 1, "%2dd %2dh %2dm %2ds%s", days, hours, minutes, seconds, (temp_hoststatus->last_state_change == (time_t)0) ? "+" : "");
+		snprintf(state_duration, sizeof(state_duration) - 1, "%2d日間と %2d時間 %2d分 %2d秒%s", days, hours, minutes, seconds, (temp_hoststatus->last_state_change == (time_t)0) ? "+" : "");
 		state_duration[sizeof(state_duration) - 1] = '\x0';
 		printf("<TD CLASS='%s'>%s</TD>\n", bg_class, state_duration);
 
@@ -373,18 +381,18 @@ void display_network_outages(void) {
 		printf("<TD CLASS='%s'>%d</TD>\n", bg_class, temp_hostoutage->affected_child_services);
 
 		printf("<TD CLASS='%s'>", bg_class);
-		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='View status detail for this host' TITLE='View status detail for this host'></A>\n", STATUS_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, STATUS_DETAIL_ICON);
+		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='このホストのステータス詳細を見る' TITLE='このホストのステータス詳細を見る'></A>\n", STATUS_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, STATUS_DETAIL_ICON);
 #ifdef USE_STATUSMAP
-		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='View status map for this host and its children' TITLE='View status map for this host and its children'></A>\n", STATUSMAP_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, STATUSMAP_ICON);
+		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='このホスト及び、下位ホストのステータスマップを見る' TITLE='このホスト及び、下位ホストのステータスマップを見る'></A>\n", STATUSMAP_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, STATUSMAP_ICON);
 #endif
 #ifdef USE_STATUSWRL
-		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='View 3-D status map for this host and its children' TITLE='View 3-D status map for this host and its children'></A>\n", STATUSWORLD_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, STATUSWORLD_ICON);
+		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='このホスト及び、下位ホストの3-Dステータスマップを見る' TITLE='このホスト及び、下位ホストの3-Dステータスマップを見る'></A>\n", STATUSWORLD_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, STATUSWORLD_ICON);
 #endif
 #ifdef USE_TRENDS
-		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='View trends for this host' TITLE='View trends for this host'></A>\n", TRENDS_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, TRENDS_ICON);
+		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='このホストの傾向を見る' TITLE='このホストの傾向を見る'></A>\n", TRENDS_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, TRENDS_ICON);
 #endif
-		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='View alert history for this host' TITLE='View alert history for this host'></A>\n", HISTORY_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, HISTORY_ICON);
-		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='View notifications for this host' TITLE='View notifications for this host'></A>\n", NOTIFICATIONS_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, NOTIFICATION_ICON);
+		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='このホストの警報履歴を見る' TITLE='このホストの警報履歴を見る'></A>\n", HISTORY_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, HISTORY_ICON);
+		printf("<A HREF='%s?host=%s'><IMG SRC='%s%s' BORDER=0 ALT='このホストの通知履歴を見る' TITLE='このホストの通知履歴を見る'></A>\n", NOTIFICATIONS_CGI, url_encode(temp_hostoutage->hst->name), url_images_path, NOTIFICATION_ICON);
 		printf("</TD>\n");
 
 		printf("</TR>\n");
@@ -395,7 +403,7 @@ void display_network_outages(void) {
 	printf("</DIV></P>\n");
 
 	if(total_entries == 0)
-		printf("<DIV CLASS='itemTotalsTitle'>%d Blocking Outages Displayed</DIV>\n", total_entries);
+		printf("<DIV CLASS='itemTotalsTitle'>%d件のネットワーク障害を表示しています</DIV>\n", total_entries);
 
 	/* free memory allocated to the host outage list */
 	free_hostoutage_list();

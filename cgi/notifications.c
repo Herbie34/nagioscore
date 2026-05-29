@@ -104,34 +104,34 @@ int main(void) {
 		printf("<td align=left valign=top width=33%%>\n");
 
 		if(query_type == FIND_SERVICE)
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Service Notifications");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "サービスの通知履歴");
 		else if(query_type == FIND_HOST) {
 			if(find_all == TRUE)
-				snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Notifications");
+				snprintf(temp_buffer, sizeof(temp_buffer) - 1, "通知履歴");
 			else
-				snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Host Notifications");
+				snprintf(temp_buffer, sizeof(temp_buffer) - 1, "ホストの通知履歴");
 			}
 		else
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Contact Notifications");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "通知先の通知履歴");
 		display_info_table(temp_buffer, FALSE, &current_authdata);
 
 		if(query_type == FIND_HOST || query_type == FIND_SERVICE) {
 			printf("<TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 CLASS='linkBox'>\n");
 			printf("<TR><TD CLASS='linkBox'>\n");
 			if(query_type == FIND_HOST) {
-				printf("<A HREF='%s?host=%s'>View Status Detail For %s</A><BR>\n", STATUS_CGI, (find_all == TRUE) ? "all" : url_encode(query_host_name), (find_all == TRUE) ? "All Hosts" : "This Host");
-				printf("<A HREF='%s?host=%s'>View History For %s</A><BR>\n", HISTORY_CGI, (find_all == TRUE) ? "all" : url_encode(query_host_name), (find_all == TRUE) ? "All Hosts" : "This Host");
+				printf("<A HREF='%s?host=%s'>%sのステータス詳細を見る</A><BR>\n", STATUS_CGI, (find_all == TRUE) ? "all" : url_encode(query_host_name), (find_all == TRUE) ? "全ホスト" : "このホスト");
+				printf("<A HREF='%s?host=%s'>%sの履歴を見る</A><BR>\n", HISTORY_CGI, (find_all == TRUE) ? "all" : url_encode(query_host_name), (find_all == TRUE) ? "全ホスト" : "このホスト");
 #ifdef USE_TRENDS
 				if(find_all == FALSE)
-					printf("<A HREF='%s?host=%s'>View Trends For This Host</A><BR>\n", TRENDS_CGI, url_encode(query_host_name));
+					printf("<A HREF='%s?host=%s'>このホストの傾向を見る</A><BR>\n", TRENDS_CGI, url_encode(query_host_name));
 #endif
 				}
 			else if(query_type == FIND_SERVICE) {
 				printf("<A HREF='%s?host=%s&", HISTORY_CGI, (find_all == TRUE) ? "all" : url_encode(query_host_name));
-				printf("service=%s'>View History For This Service</A><BR>\n", url_encode(query_svc_description));
+				printf("service=%s'>このサービスの履歴を見る</A><BR>\n", url_encode(query_svc_description));
 #ifdef USE_TRENDS
 				printf("<A HREF='%s?host=%s&", TRENDS_CGI, (find_all == TRUE) ? "all" : url_encode(query_host_name));
-				printf("service=%s'>View Trends For This Service</A><BR>\n", url_encode(query_svc_description));
+				printf("service=%s'>このサービスの傾向を見る</A><BR>\n", url_encode(query_svc_description));
 #endif
 				}
 			printf("</TD></TR>\n");
@@ -146,18 +146,18 @@ int main(void) {
 
 		printf("<DIV ALIGN=CENTER CLASS='dataTitle'>\n");
 		if(query_type == FIND_SERVICE)
-			printf("Service '%s' On Host '%s'", query_svc_description, query_host_name);
+			printf("ホスト '%s' 上の '%s' サービス", query_host_name, query_svc_description);
 		else if(query_type == FIND_HOST) {
 			if(find_all == TRUE)
-				printf("All Hosts and Services");
+				printf("全てのホストとサービス");
 			else
-				printf("Host '%s'", query_host_name);
+				printf("ホスト '%s'", query_host_name);
 			}
 		else {
 			if(find_all == TRUE)
-				printf("All Contacts");
+				printf("全ての通知先");
 			else
-				printf("Contact '%s'", query_contact_name);
+				printf("通知先 '%s'", query_contact_name);
 			}
 		printf("</DIV>\n");
 		printf("<BR>\n");
@@ -189,43 +189,43 @@ int main(void) {
 		printf("<table border=0 CLASS='optBox'>\n");
 		printf("<tr>\n");
 		if(query_type == FIND_SERVICE)
-			printf("<td align=left colspan=2 CLASS='optBoxItem'>Notification detail level for this service:</td>");
+			printf("<td align=left colspan=2 CLASS='optBoxItem'>このサービスの通知履歴の詳細レベル:</td>");
 		else
-			printf("<td align=left colspan=2 CLASS='optBoxItem'>Notification detail level for %s %s%s:</td>", (find_all == TRUE) ? "all" : "this", (query_type == FIND_HOST) ? "host" : "contact", (find_all == TRUE) ? "s" : "");
+			printf("<td align=left colspan=2 CLASS='optBoxItem'>%s%sの通知履歴の詳細レベル:</td>", (find_all == TRUE) ? "全" : "この", (query_type == FIND_HOST) ? "ホスト" : "通知先");
 		printf("</tr>\n");
 		printf("<tr>\n");
 		printf("<td align=left colspan=2 CLASS='optBoxItem'><select name='type'>\n");
-		printf("<option value=%d %s>All notifications\n", NOTIFICATION_ALL, (notification_options == NOTIFICATION_ALL) ? "selected" : "");
+		printf("<option value=%d %s>全ての通知\n", NOTIFICATION_ALL, (notification_options == NOTIFICATION_ALL) ? "selected" : "");
 		if(query_type != FIND_SERVICE) {
-			printf("<option value=%d %s>All service notifications\n", NOTIFICATION_SERVICE_ALL, (notification_options == NOTIFICATION_SERVICE_ALL) ? "selected" : "");
-			printf("<option value=%d %s>All host notifications\n", NOTIFICATION_HOST_ALL, (notification_options == NOTIFICATION_HOST_ALL) ? "selected" : "");
+			printf("<option value=%d %s>全てのサービス\n", NOTIFICATION_SERVICE_ALL, (notification_options == NOTIFICATION_SERVICE_ALL) ? "selected" : "");
+			printf("<option value=%d %s>全てのホスト\n", NOTIFICATION_HOST_ALL, (notification_options == NOTIFICATION_HOST_ALL) ? "selected" : "");
 			}
-		printf("<option value=%d %s>Service custom\n", NOTIFICATION_SERVICE_CUSTOM, (notification_options == NOTIFICATION_SERVICE_CUSTOM) ? "selected" : "");
-		printf("<option value=%d %s>Service acknowledgements\n", NOTIFICATION_SERVICE_ACK, (notification_options == NOTIFICATION_SERVICE_ACK) ? "selected" : "");
-		printf("<option value=%d %s>Service warning\n", NOTIFICATION_SERVICE_WARNING, (notification_options == NOTIFICATION_SERVICE_WARNING) ? "selected" : "");
-		printf("<option value=%d %s>Service unknown\n", NOTIFICATION_SERVICE_UNKNOWN, (notification_options == NOTIFICATION_SERVICE_UNKNOWN) ? "selected" : "");
-		printf("<option value=%d %s>Service critical\n", NOTIFICATION_SERVICE_CRITICAL, (notification_options == NOTIFICATION_SERVICE_CRITICAL) ? "selected" : "");
-		printf("<option value=%d %s>Service recovery\n", NOTIFICATION_SERVICE_RECOVERY, (notification_options == NOTIFICATION_SERVICE_RECOVERY) ? "selected" : "");
-		printf("<option value=%d %s>Service flapping\n", NOTIFICATION_SERVICE_FLAP, (notification_options == NOTIFICATION_SERVICE_FLAP) ? "selected" : "");
-		printf("<option value=%d %s>Service downtime\n", NOTIFICATION_SERVICE_DOWNTIME, (notification_options == NOTIFICATION_SERVICE_DOWNTIME) ? "selected" : "");
+		printf("<option value=%d %s>サービスの状態を今すぐ通知\n", NOTIFICATION_SERVICE_CUSTOM, (notification_options == NOTIFICATION_SERVICE_CUSTOM) ? "selected" : "");
+		printf("<option value=%d %s>サービスの障害認知状態(ACKNOWLEDGEMENT)\n", NOTIFICATION_SERVICE_ACK, (notification_options == NOTIFICATION_SERVICE_ACK) ? "selected" : "");
+		printf("<option value=%d %s>サービスの警告状態(WARNING)\n", NOTIFICATION_SERVICE_WARNING, (notification_options == NOTIFICATION_SERVICE_WARNING) ? "selected" : "");
+		printf("<option value=%d %s>サービスの不明状態(UNKNOWN)\n", NOTIFICATION_SERVICE_UNKNOWN, (notification_options == NOTIFICATION_SERVICE_UNKNOWN) ? "selected" : "");
+		printf("<option value=%d %s>サービスの異常状態(CRITICAL)\n", NOTIFICATION_SERVICE_CRITICAL, (notification_options == NOTIFICATION_SERVICE_CRITICAL) ? "selected" : "");
+		printf("<option value=%d %s>サービスの復旧状態(RECOVERY)\n", NOTIFICATION_SERVICE_RECOVERY, (notification_options == NOTIFICATION_SERVICE_RECOVERY) ? "selected" : "");
+		printf("<option value=%d %s>サービスのフラッピング状態(FLAPPING)\n", NOTIFICATION_SERVICE_FLAP, (notification_options == NOTIFICATION_SERVICE_FLAP) ? "selected" : "");
+		printf("<option value=%d %s>サービスのダウンタイム\n", NOTIFICATION_SERVICE_DOWNTIME, (notification_options == NOTIFICATION_SERVICE_DOWNTIME) ? "selected" : "");
 		if(query_type != FIND_SERVICE) {
-			printf("<option value=%d %s>Host custom\n", NOTIFICATION_HOST_CUSTOM, (notification_options == NOTIFICATION_HOST_CUSTOM) ? "selected" : "");
-			printf("<option value=%d %s>Host acknowledgements\n", NOTIFICATION_HOST_ACK, (notification_options == NOTIFICATION_HOST_ACK) ? "selected" : "");
-			printf("<option value=%d %s>Host down\n", NOTIFICATION_HOST_DOWN, (notification_options == NOTIFICATION_HOST_DOWN) ? "selected" : "");
-			printf("<option value=%d %s>Host unreachable\n", NOTIFICATION_HOST_UNREACHABLE, (notification_options == NOTIFICATION_HOST_UNREACHABLE) ? "selected" : "");
-			printf("<option value=%d %s>Host recovery\n", NOTIFICATION_HOST_RECOVERY, (notification_options == NOTIFICATION_HOST_RECOVERY) ? "selected" : "");
-			printf("<option value=%d %s>Host flapping\n", NOTIFICATION_HOST_FLAP, (notification_options == NOTIFICATION_HOST_FLAP) ? "selected" : "");
-			printf("<option value=%d %s>Host downtime\n", NOTIFICATION_HOST_DOWNTIME, (notification_options == NOTIFICATION_HOST_DOWNTIME) ? "selected" : "");
+			printf("<option value=%d %s>ホストの状態を今すぐ通知\n", NOTIFICATION_HOST_CUSTOM, (notification_options == NOTIFICATION_HOST_CUSTOM) ? "selected" : "");
+			printf("<option value=%d %s>ホストの障害認知状態(ACKNOWLEDGEMENT)\n", NOTIFICATION_HOST_ACK, (notification_options == NOTIFICATION_HOST_ACK) ? "selected" : "");
+			printf("<option value=%d %s>ホストの停止状態(DOWN)\n", NOTIFICATION_HOST_DOWN, (notification_options == NOTIFICATION_HOST_DOWN) ? "selected" : "");
+			printf("<option value=%d %s>ホストの未到達状態(UNREACHABLE)\n", NOTIFICATION_HOST_UNREACHABLE, (notification_options == NOTIFICATION_HOST_UNREACHABLE) ? "selected" : "");
+			printf("<option value=%d %s>ホストの復旧状態(RECOVERY)\n", NOTIFICATION_HOST_RECOVERY, (notification_options == NOTIFICATION_HOST_RECOVERY) ? "selected" : "");
+			printf("<option value=%d %s>ホストのフラッピング状態(FLAPPING)\n", NOTIFICATION_HOST_FLAP, (notification_options == NOTIFICATION_HOST_FLAP) ? "selected" : "");
+			printf("<option value=%d %s>ホストのダウンタイム\n", NOTIFICATION_HOST_DOWNTIME, (notification_options == NOTIFICATION_HOST_DOWNTIME) ? "selected" : "");
 			}
 		printf("</select></td>\n");
 		printf("</tr>\n");
 		printf("<tr>\n");
-		printf("<td align=left CLASS='optBoxItem'>Older Entries First:</td>\n");
+		printf("<td align=left CLASS='optBoxItem'>古いものを先頭にする:</td>\n");
 		printf("<td></td>\n");
 		printf("</tr>\n");
 		printf("<tr>\n");
 		printf("<td align=left valign=bottom CLASS='optBoxItem'><input type='checkbox' name='oldestfirst' %s></td>", (use_lifo == FALSE) ? "checked" : "");
-		printf("<td align=right CLASS='optBoxItem'><input type='submit' value='Update'></td>\n");
+		printf("<td align=right CLASS='optBoxItem'><input type='submit' value='更新'></td>\n");
 		printf("</tr>\n");
 
 		/* display context-sensitive help */
@@ -281,9 +281,10 @@ void document_header(int use_stylesheet) {
 
 	printf("<html>\n");
 	printf("<head>\n");
+	printf("<meta http-equiv='content-type' content='text/html;charset=UTF-8'>\n");
 	printf("<link rel=\"shortcut icon\" href=\"%sfavicon.ico\" type=\"image/ico\">\n", url_images_path);
 	printf("<title>\n");
-	printf("Alert Notifications\n");
+	printf("警報通知\n");
 	printf("</title>\n");
 
 	if(use_stylesheet == TRUE) {
@@ -470,10 +471,10 @@ void display_notifications(void) {
 		result = read_file_into_lifo(log_file_to_use);
 		if(result != LIFO_OK) {
 			if(result == LIFO_ERROR_MEMORY) {
-				printf("<P><DIV CLASS='warningMessage'>Not enough memory to reverse log file - displaying notifications in natural order...</DIV></P>");
+				printf("<P><DIV CLASS='warningMessage'>ログを逆順にするために必要なメモリが不足しているため通常の順番で表示しています。</DIV></P>");
 				}
 			else if(result == LIFO_ERROR_FILE) {
-				printf("<P><DIV CLASS='errorMessage'>Error: Cannot open log file '%s' for reading!</DIV></P>", log_file_to_use);
+				printf("<P><DIV CLASS='errorMessage'>エラー: ログファイル'%s'が読み込めません。</DIV></P>", log_file_to_use);
 				return;
 				}
 			use_lifo = FALSE;
@@ -483,7 +484,7 @@ void display_notifications(void) {
 	if(use_lifo == FALSE) {
 
 		if((thefile = mmap_fopen(log_file_to_use)) == NULL) {
-			printf("<P><DIV CLASS='errorMessage'>Error: Cannot open log file '%s' for reading!</DIV></P>", log_file_to_use);
+			printf("<P><DIV CLASS='errorMessage'>エラー: ログファイル'%s'が読み込めません。</DIV></P>", log_file_to_use);
 			return;
 			}
 		}
@@ -493,13 +494,13 @@ void display_notifications(void) {
 
 	printf("<table border=0 CLASS='notifications'>\n");
 	printf("<tr>\n");
-	printf("<th CLASS='notifications'>Host</th>\n");
-	printf("<th CLASS='notifications'>Service</th>\n");
-	printf("<th CLASS='notifications'>Type</th>\n");
-	printf("<th CLASS='notifications'>Time</th>\n");
-	printf("<th CLASS='notifications'>Contact</th>\n");
-	printf("<th CLASS='notifications'>Notification Command</th>\n");
-	printf("<th CLASS='notifications'>Information</th>\n");
+	printf("<th CLASS='notifications'>ホスト</th>\n");
+	printf("<th CLASS='notifications'>サービス</th>\n");
+	printf("<th CLASS='notifications'>タイプ</th>\n");
+	printf("<th CLASS='notifications'>時刻</th>\n");
+	printf("<th CLASS='notifications'>通知先</th>\n");
+	printf("<th CLASS='notifications'>通知コマンド</th>\n");
+	printf("<th CLASS='notifications'>ステータス</th>\n");
 	printf("</tr>\n");
 
 	total_notifications = 0;
@@ -559,15 +560,17 @@ void display_notifications(void) {
 			if(notification_type == SERVICE_NOTIFICATION) {
 
 				if(!strcmp(alert_level, "CRITICAL")) {
+					strcpy(alert_level,"異常状態(CRITICAL)");
 					notification_detail_type = NOTIFICATION_SERVICE_CRITICAL;
 					strcpy(alert_level_class, "CRITICAL");
 					}
 				else if(!strcmp(alert_level, "WARNING")) {
+					strcpy(alert_level,"警告状態(WARNING)");
 					notification_detail_type = NOTIFICATION_SERVICE_WARNING;
 					strcpy(alert_level_class, "WARNING");
 					}
 				else if(!strcmp(alert_level, "RECOVERY") || !strcmp(alert_level, "OK")) {
-					strcpy(alert_level, "OK");
+					strcpy(alert_level, "正常状態(OK)");
 					notification_detail_type = NOTIFICATION_SERVICE_RECOVERY;
 					strcpy(alert_level_class, "OK");
 					}
@@ -576,16 +579,17 @@ void display_notifications(void) {
 					strcpy(alert_level_class, "CUSTOM");
 					}
 				else if(strstr(alert_level, "ACKNOWLEDGEMENT (")) {
+					strcpy(alert_level, "障害認知状態(ACKNOWLEDGEMENT)");
 					notification_detail_type = NOTIFICATION_SERVICE_ACK;
 					strcpy(alert_level_class, "ACKNOWLEDGEMENT");
 					}
 				else if(strstr(alert_level, "FLAPPINGSTART (")) {
-					strcpy(alert_level, "FLAPPING START");
+					strcpy(alert_level, "フラッピング開始");
 					notification_detail_type = NOTIFICATION_SERVICE_FLAP;
 					strcpy(alert_level_class, "UNKNOWN");
 					}
 				else if(strstr(alert_level, "FLAPPINGSTOP (")) {
-					strcpy(alert_level, "FLAPPING STOP");
+					strcpy(alert_level, "フラッピング停止");
 					notification_detail_type = NOTIFICATION_SERVICE_FLAP;
 					strcpy(alert_level_class, "UNKNOWN");
 					}
@@ -594,7 +598,7 @@ void display_notifications(void) {
 					strcpy(alert_level_class, "DOWNTIME");
 					}
 				else {
-					strcpy(alert_level, "UNKNOWN");
+					strcpy(alert_level, "不明(UNKNOWN)");
 					notification_detail_type = NOTIFICATION_SERVICE_UNKNOWN;
 					strcpy(alert_level_class, "UNKNOWN");
 					}
@@ -603,17 +607,17 @@ void display_notifications(void) {
 			else {
 
 				if(!strcmp(alert_level, "DOWN")) {
-					strncpy(alert_level, "HOST DOWN", sizeof(alert_level));
+					strncpy(alert_level, "ホストの停止状態(DOWN)", sizeof(alert_level));
 					strcpy(alert_level_class, "HOSTDOWN");
 					notification_detail_type = NOTIFICATION_HOST_DOWN;
 					}
 				else if(!strcmp(alert_level, "UNREACHABLE")) {
-					strncpy(alert_level, "HOST UNREACHABLE", sizeof(alert_level));
+					strncpy(alert_level, "ホストの未到達状態(UNREACHABLE)", sizeof(alert_level));
 					strcpy(alert_level_class, "HOSTUNREACHABLE");
 					notification_detail_type = NOTIFICATION_HOST_UNREACHABLE;
 					}
 				else if(!strcmp(alert_level, "RECOVERY") || !strcmp(alert_level, "UP")) {
-					strncpy(alert_level, "HOST UP", sizeof(alert_level));
+					strncpy(alert_level, "ホストの稼働状態(UP)", sizeof(alert_level));
 					strcpy(alert_level_class, "HOSTUP");
 					notification_detail_type = NOTIFICATION_HOST_RECOVERY;
 					}
@@ -622,16 +626,17 @@ void display_notifications(void) {
 					notification_detail_type = NOTIFICATION_HOST_CUSTOM;
 					}
 				else if(strstr(alert_level, "ACKNOWLEDGEMENT (")) {
+					strcpy(alert_level, "ホストの障害認知状態(ACKNOWLEDGEMENT)");
 					strcpy(alert_level_class, "HOSTACKNOWLEDGEMENT");
 					notification_detail_type = NOTIFICATION_HOST_ACK;
 					}
 				else if(strstr(alert_level, "FLAPPINGSTART (")) {
-					strcpy(alert_level, "FLAPPING START");
+					strcpy(alert_level, "フラッピング開始");
 					strcpy(alert_level_class, "UNKNOWN");
 					notification_detail_type = NOTIFICATION_HOST_FLAP;
 					}
 				else if(strstr(alert_level, "FLAPPINGSTOP (")) {
-					strcpy(alert_level, "FLAPPING STOP");
+					strcpy(alert_level, "フラッピング停止");
 					strcpy(alert_level_class, "UNKNOWN");
 					notification_detail_type = NOTIFICATION_HOST_FLAP;
 					}
@@ -732,16 +737,16 @@ void display_notifications(void) {
 	printf("</p>\n");
 
 	if(total_notifications == 0) {
-		printf("<P><DIV CLASS='errorMessage'>No notifications have been recorded");
+		printf("<P><DIV CLASS='errorMessage'>");
 		if(find_all == FALSE) {
 			if(query_type == FIND_SERVICE)
-				printf(" for this service");
+				printf("このサービスの");
 			else if(query_type == FIND_CONTACT)
-				printf(" for this contact");
+				printf("この通知先の");
 			else
-				printf(" for this host");
+				printf("このホストの");
 			}
-		printf(" in %s log file</DIV></P>", (log_archive == 0) ? "the current" : "this archived");
+		printf("通知履歴は%sのログの中には見あたりません。</DIV></P>", (log_archive == 0) ? "現在" : "このアーカイブ");
 		}
 
 	free(input);

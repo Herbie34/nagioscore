@@ -348,23 +348,23 @@ int main(int argc, char **argv) {
 		switch (display_type) {
 
 		case DISPLAY_HOST_AVAIL:
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Host Availability Report");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "ホストの稼働レポート");
 			break;
 
 		case DISPLAY_SERVICE_AVAIL:
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Service Availability Report");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "サービスの稼働レポート");
 			break;
 
 		case DISPLAY_HOSTGROUP_AVAIL:
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Hostgroup Availability Report");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "ホストグループの稼働レポート");
 			break;
 
 		case DISPLAY_SERVICEGROUP_AVAIL:
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Servicegroup Availability Report");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "サービスグループの稼働レポート");
 			break;
 
 		default:
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Availability Report");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "稼働レポート");
 			break;
 		}
 		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
@@ -376,35 +376,35 @@ int main(int argc, char **argv) {
 			printf("<TR><TD CLASS='linkBox'>\n");
 
 			if (display_type == DISPLAY_HOST_AVAIL && show_all_hosts == FALSE) {
-				host_report_url("all", "View Availability Report For All Hosts");
+				host_report_url("all", "全ホストの稼働レポート");
 				printf("<BR>\n");
 #ifdef USE_TRENDS
-				printf("<a href='%s?host=%s&t1=%llu&t2=%llu&assumestateretention=%s&assumeinitialstates=%s&includesoftstates=%s&assumestatesduringnotrunning=%s&initialassumedhoststate=%d&backtrack=%d'>View Trends For This Host</a><BR>\n", TRENDS_CGI, url_encode(host_name), (unsigned long long)t1, (unsigned long long)t2, (include_soft_states == TRUE) ? "yes" : "no", (assume_state_retention == TRUE) ? "yes" : "no", (assume_initial_states == TRUE) ? "yes" : "no", (assume_states_during_notrunning == TRUE) ? "yes" : "no", initial_assumed_host_state, backtrack_archives);
+				printf("<a href='%s?host=%s&t1=%llu&t2=%llu&assumestateretention=%s&assumeinitialstates=%s&includesoftstates=%s&assumestatesduringnotrunning=%s&initialassumedhoststate=%d&backtrack=%d'>このホストの傾向</a><BR>\n", TRENDS_CGI, url_encode(host_name), (unsigned long long)t1, (unsigned long long)t2, (include_soft_states == TRUE) ? "yes" : "no", (assume_state_retention == TRUE) ? "yes" : "no", (assume_initial_states == TRUE) ? "yes" : "no", (assume_states_during_notrunning == TRUE) ? "yes" : "no", initial_assumed_host_state, backtrack_archives);
 #endif
 #ifdef USE_HISTOGRAM
-				printf("<a href='%s?host=%s&t1=%llu&t2=%llu&assumestateretention=%s'>View Alert Histogram For This Host</a><BR>\n", HISTOGRAM_CGI, url_encode(host_name), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
+				printf("<a href='%s?host=%s&t1=%llu&t2=%llu&assumestateretention=%s'>このホストの警報ヒストグラム</a><BR>\n", HISTOGRAM_CGI, url_encode(host_name), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
 #endif
-				printf("<a href='%s?host=%s'>View Status Detail For This Host</a><BR>\n", STATUS_CGI, url_encode(host_name));
-				printf("<a href='%s?host=%s'>View Alert History For This Host</a><BR>\n", HISTORY_CGI, url_encode(host_name));
-				printf("<a href='%s?host=%s'>View Notifications For This Host</a><BR>\n", NOTIFICATIONS_CGI, url_encode(host_name));
+				printf("<a href='%s?host=%s'>このホストの詳細</a><BR>\n", STATUS_CGI, url_encode(host_name));
+				printf("<a href='%s?host=%s'>このホストの警報履歴</a><BR>\n", HISTORY_CGI, url_encode(host_name));
+				printf("<a href='%s?host=%s'>このホストの通知履歴</a><BR>\n", NOTIFICATIONS_CGI, url_encode(host_name));
 				}
 			else if (display_type == DISPLAY_SERVICE_AVAIL && show_all_services == FALSE) {
-				host_report_url(host_name, "View Availability Report For This Host");
+				host_report_url(host_name, "このホストの稼働レポート");
 				printf("<BR>\n");
-				service_report_url("null", "all", "View Availability Report For All Services");
+				service_report_url("null", "all", "このホストで稼働中の全サービスの稼働レポート");
 				printf("<BR>\n");
 #ifdef USE_TRENDS
 				printf("<a href='%s?host=%s", TRENDS_CGI, url_encode(host_name));
-				printf("&service=%s&t1=%llu&t2=%llu&assumestateretention=%s&includesoftstates=%s&assumeinitialstates=%s&assumestatesduringnotrunning=%s&initialassumedservicestate=%d&backtrack=%d'>View Trends For This Service</a><BR>\n", url_encode(svc_description), (unsigned long long)t1, (unsigned long long)t2, (include_soft_states == TRUE) ? "yes" : "no", (assume_state_retention == TRUE) ? "yes" : "no", (assume_initial_states == TRUE) ? "yes" : "no", (assume_states_during_notrunning == TRUE) ? "yes" : "no", initial_assumed_service_state, backtrack_archives);
+				printf("&service=%s&t1=%llu&t2=%llu&assumestateretention=%s&includesoftstates=%s&assumeinitialstates=%s&assumestatesduringnotrunning=%s&initialassumedservicestate=%d&backtrack=%d'>このサービスの傾向</a><BR>\n", url_encode(svc_description), (unsigned long long)t1, (unsigned long long)t2, (include_soft_states == TRUE) ? "yes" : "no", (assume_state_retention == TRUE) ? "yes" : "no", (assume_initial_states == TRUE) ? "yes" : "no", (assume_states_during_notrunning == TRUE) ? "yes" : "no", initial_assumed_service_state, backtrack_archives);
 #endif
 #ifdef USE_HISTOGRAM
 				printf("<a href='%s?host=%s", HISTOGRAM_CGI, url_encode(host_name));
-				printf("&service=%s&t1=%llu&t2=%llu&assumestateretention=%s'>View Alert Histogram For This Service</a><BR>\n", url_encode(svc_description), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
+				printf("&service=%s&t1=%llu&t2=%llu&assumestateretention=%s'>このサービスの警報ヒストグラム</a><BR>\n", url_encode(svc_description), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
 #endif
 				printf("<A HREF='%s?host=%s&", HISTORY_CGI, url_encode(host_name));
-				printf("service=%s'>View Alert History For This Service</A><BR>\n", url_encode(svc_description));
+				printf("service=%s'>このサービスの警報履歴</A><BR>\n", url_encode(svc_description));
 				printf("<A HREF='%s?host=%s&", NOTIFICATIONS_CGI, url_encode(host_name));
-				printf("service=%s'>View Notifications For This Service</A><BR>\n", url_encode(svc_description));
+				printf("service=%s'>このサービスの通知履歴</A><BR>\n", url_encode(svc_description));
 				}
 
 			printf("</TD></TR>\n");
@@ -421,44 +421,44 @@ int main(int argc, char **argv) {
 			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>\n");
 			if (display_type == DISPLAY_HOST_AVAIL) {
 				if (show_all_hosts == TRUE)
-					printf("All Hosts");
+					printf("全てのホスト");
 				else
-					printf("Host '%s'", host_name);
+					printf("ホスト '%s'", host_name);
 				}
 			else if (display_type == DISPLAY_SERVICE_AVAIL) {
 				if (show_all_services == TRUE)
-					printf("All Services");
+					printf("全てのサービス");
 				else
-					printf("Service '%s' On Host '%s'", svc_description, host_name);
+					printf("ホスト '%s' 上の '%s' サービス", host_name, svc_description);
 				}
 			else if (display_type == DISPLAY_HOSTGROUP_AVAIL) {
 				if (show_all_hostgroups == TRUE)
-					printf("All Hostgroups");
+					printf("全てのホストグループ");
 				else
-					printf("Hostgroup '%s'", hostgroup_name);
+					printf("ホストグループ '%s'", hostgroup_name);
 				}
 			else if (display_type == DISPLAY_SERVICEGROUP_AVAIL) {
 				if (show_all_servicegroups == TRUE)
-					printf("All Servicegroups");
+					printf("全てのサービスグループ");
 				else
-					printf("Servicegroup '%s'", servicegroup_name);
+					printf("サービスグループ '%s'", servicegroup_name);
 				}
 			printf("</DIV>\n");
 
 			printf("<BR>\n");
 
-			printf("<IMG SRC='%s%s' BORDER=0 ALT='Availability Report' TITLE='Availability Report'>\n", url_images_path, TRENDS_ICON);
+			printf("<IMG SRC='%s%s' BORDER=0 ALT='稼働レポート' TITLE='稼働レポート'>\n", url_images_path, TRENDS_ICON);
 
 			printf("<BR CLEAR=ALL>\n");
 
 			get_time_string(&t1, start_timestring, sizeof(start_timestring) - 1, SHORT_DATE_TIME);
 			get_time_string(&t2, end_timestring, sizeof(end_timestring) - 1, SHORT_DATE_TIME);
-			printf("<div align=center class='reportRange'>%s to %s</div>\n", start_timestring, end_timestring);
+			printf("<div align=center class='reportRange'>%s から %s</div>\n", start_timestring, end_timestring);
 
 			get_time_breakdown((time_t)(t2 - t1), &days, &hours, &minutes, &seconds);
-			printf("<div align=center class='reportDuration'>Duration: %dd %dh %dm %ds", days, hours, minutes, seconds);
+			printf("<div align=center class='reportDuration'>期間: %d日間と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 			if (current_timeperiod)
-				printf("<br>(using timeperiod %s)", current_timeperiod->name);
+				printf("<br>(期間 %s を使用します)", current_timeperiod->name);
 			printf("</div>\n");
 			}
 
@@ -472,7 +472,7 @@ int main(int argc, char **argv) {
 
 		if (display_type != DISPLAY_NO_AVAIL && get_date_parts == FALSE) {
 
-			printf("<tr><td valign=top align=left class='optBoxItem'>First assumed %s state:</td><td valign=top align=left class='optBoxItem'>%s</td></tr>\n", (display_type == DISPLAY_SERVICE_AVAIL) ? "service" : "host", (display_type == DISPLAY_HOST_AVAIL || display_type == DISPLAY_HOSTGROUP_AVAIL || display_type == DISPLAY_SERVICEGROUP_AVAIL) ? "First assumed service state" : "");
+			printf("<tr><td valign=top align=left class='optBoxItem'>考慮する%sの初期状態:</td><td valign=top align=left class='optBoxItem'>%s</td></tr>\n", (display_type == DISPLAY_SERVICE_AVAIL) ? "サービス" : "ホスト", (display_type == DISPLAY_HOST_AVAIL || display_type == DISPLAY_HOSTGROUP_AVAIL || display_type == DISPLAY_SERVICEGROUP_AVAIL) ? "考慮するサービスの初期状態" : "");
 			printf("<tr>\n");
 			printf("<td valign=top align=left class='optBoxItem'>\n");
 
@@ -498,55 +498,55 @@ int main(int argc, char **argv) {
 
 			if (display_type == DISPLAY_HOST_AVAIL || display_type == DISPLAY_HOSTGROUP_AVAIL || display_type == DISPLAY_SERVICEGROUP_AVAIL) {
 				printf("<select name='initialassumedhoststate'>\n");
-				printf("<option value=%d %s>Unspecified\n", AS_NO_DATA, (initial_assumed_host_state == AS_NO_DATA) ? "SELECTED" : "");
-				printf("<option value=%d %s>Current State\n", AS_CURRENT_STATE, (initial_assumed_host_state == AS_CURRENT_STATE) ? "SELECTED" : "");
-				printf("<option value=%d %s>Host Up\n", AS_HOST_UP, (initial_assumed_host_state == AS_HOST_UP) ? "SELECTED" : "");
-				printf("<option value=%d %s>Host Down\n", AS_HOST_DOWN, (initial_assumed_host_state == AS_HOST_DOWN) ? "SELECTED" : "");
-				printf("<option value=%d %s>Host Unreachable\n", AS_HOST_UNREACHABLE, (initial_assumed_host_state == AS_HOST_UNREACHABLE) ? "SELECTED" : "");
+				printf("<option value=%d %s>設定しない\n", AS_NO_DATA, (initial_assumed_host_state == AS_NO_DATA) ? "SELECTED" : "");
+				printf("<option value=%d %s>現在の状態\n", AS_CURRENT_STATE, (initial_assumed_host_state == AS_CURRENT_STATE) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの稼働状態(UP)\n", AS_HOST_UP, (initial_assumed_host_state == AS_HOST_UP) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの停止状態(DOWN)\n", AS_HOST_DOWN, (initial_assumed_host_state == AS_HOST_DOWN) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの未到達状態(UNREACHABLE)\n", AS_HOST_UNREACHABLE, (initial_assumed_host_state == AS_HOST_UNREACHABLE) ? "SELECTED" : "");
 				printf("</select>\n");
 				}
 			else {
 				printf("<input type='hidden' name='initialassumedhoststate' value='%d'>", initial_assumed_host_state);
 				printf("<select name='initialassumedservicestate'>\n");
-				printf("<option value=%d %s>Unspecified\n", AS_NO_DATA, (initial_assumed_service_state == AS_NO_DATA) ? "SELECTED" : "");
-				printf("<option value=%d %s>Current State\n", AS_CURRENT_STATE, (initial_assumed_service_state == AS_CURRENT_STATE) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service Ok\n", AS_SVC_OK, (initial_assumed_service_state == AS_SVC_OK) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service Warning\n", AS_SVC_WARNING, (initial_assumed_service_state == AS_SVC_WARNING) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service Unknown\n", AS_SVC_UNKNOWN, (initial_assumed_service_state == AS_SVC_UNKNOWN) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service Critical\n", AS_SVC_CRITICAL, (initial_assumed_service_state == AS_SVC_CRITICAL) ? "SELECTED" : "");
+				printf("<option value=%d %s>設定しない\n", AS_NO_DATA, (initial_assumed_service_state == AS_NO_DATA) ? "SELECTED" : "");
+				printf("<option value=%d %s>現在の状態\n", AS_CURRENT_STATE, (initial_assumed_service_state == AS_CURRENT_STATE) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの正常状態(OK)\n", AS_SVC_OK, (initial_assumed_service_state == AS_SVC_OK) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの警告状態(WARNING)\n", AS_SVC_WARNING, (initial_assumed_service_state == AS_SVC_WARNING) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの不明状態(UNKNOWN)\n", AS_SVC_UNKNOWN, (initial_assumed_service_state == AS_SVC_UNKNOWN) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの異常状態(CRITICAL)\n", AS_SVC_CRITICAL, (initial_assumed_service_state == AS_SVC_CRITICAL) ? "SELECTED" : "");
 				printf("</select>\n");
 				}
 			printf("</td>\n");
 			printf("<td CLASS='optBoxItem'>\n");
 			if (display_type == DISPLAY_HOST_AVAIL || display_type == DISPLAY_HOSTGROUP_AVAIL || display_type == DISPLAY_SERVICEGROUP_AVAIL) {
 				printf("<select name='initialassumedservicestate'>\n");
-				printf("<option value=%d %s>Unspecified\n", AS_NO_DATA, (initial_assumed_service_state == AS_NO_DATA) ? "SELECTED" : "");
-				printf("<option value=%d %s>Current State\n", AS_CURRENT_STATE, (initial_assumed_service_state == AS_CURRENT_STATE) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service Ok\n", AS_SVC_OK, (initial_assumed_service_state == AS_SVC_OK) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service Warning\n", AS_SVC_WARNING, (initial_assumed_service_state == AS_SVC_WARNING) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service Unknown\n", AS_SVC_UNKNOWN, (initial_assumed_service_state == AS_SVC_UNKNOWN) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service Critical\n", AS_SVC_CRITICAL, (initial_assumed_service_state == AS_SVC_CRITICAL) ? "SELECTED" : "");
+				printf("<option value=%d %s>設定しない\n", AS_NO_DATA, (initial_assumed_service_state == AS_NO_DATA) ? "SELECTED" : "");
+				printf("<option value=%d %s>現在の状態\n", AS_CURRENT_STATE, (initial_assumed_service_state == AS_CURRENT_STATE) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの正常状態(OK)\n", AS_SVC_OK, (initial_assumed_service_state == AS_SVC_OK) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの警告状態(WARNING)\n", AS_SVC_WARNING, (initial_assumed_service_state == AS_SVC_WARNING) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの不明状態(UNKNOWN)\n", AS_SVC_UNKNOWN, (initial_assumed_service_state == AS_SVC_UNKNOWN) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの異常状態(CRITICAL)\n", AS_SVC_CRITICAL, (initial_assumed_service_state == AS_SVC_CRITICAL) ? "SELECTED" : "");
 				printf("</select>\n");
 				}
 			printf("</td>\n");
 			printf("</tr>\n");
 
-			printf("<tr><td valign=top align=left class='optBoxItem'>Report period:</td><td valign=top align=left class='optBoxItem'>Backtracked archives:</td></tr>\n");
+			printf("<tr><td valign=top align=left class='optBoxItem'>レポートの期間:</td><td valign=top align=left class='optBoxItem'>過去のアーカイブ:</td></tr>\n");
 			printf("<tr>\n");
 			printf("<td valign=top align=left class='optBoxItem'>\n");
 			printf("<select name='timeperiod'>\n");
-			printf("<option SELECTED>[ Current time range ]\n");
-			printf("<option value=today %s>Today\n", (timeperiod_type == TIMEPERIOD_TODAY) ? "SELECTED" : "");
-			printf("<option value=last24hours %s>Last 24 Hours\n", (timeperiod_type == TIMEPERIOD_LAST24HOURS) ? "SELECTED" : "");
-			printf("<option value=yesterday %s>Yesterday\n", (timeperiod_type == TIMEPERIOD_YESTERDAY) ? "SELECTED" : "");
-			printf("<option value=thisweek %s>This Week\n", (timeperiod_type == TIMEPERIOD_THISWEEK) ? "SELECTED" : "");
-			printf("<option value=last7days %s>Last 7 Days\n", (timeperiod_type == TIMEPERIOD_LAST7DAYS) ? "SELECTED" : "");
-			printf("<option value=lastweek %s>Last Week\n", (timeperiod_type == TIMEPERIOD_LASTWEEK) ? "SELECTED" : "");
-			printf("<option value=thismonth %s>This Month\n", (timeperiod_type == TIMEPERIOD_THISMONTH) ? "SELECTED" : "");
-			printf("<option value=last31days %s>Last 31 Days\n", (timeperiod_type == TIMEPERIOD_LAST31DAYS) ? "SELECTED" : "");
-			printf("<option value=lastmonth %s>Last Month\n", (timeperiod_type == TIMEPERIOD_LASTMONTH) ? "SELECTED" : "");
-			printf("<option value=thisyear %s>This Year\n", (timeperiod_type == TIMEPERIOD_THISYEAR) ? "SELECTED" : "");
-			printf("<option value=lastyear %s>Last Year\n", (timeperiod_type == TIMEPERIOD_LASTYEAR) ? "SELECTED" : "");
+			printf("<option SELECTED>[ 現在の期間 ]\n");
+			printf("<option value=today %s>今日\n", (timeperiod_type == TIMEPERIOD_TODAY) ? "SELECTED" : "");
+			printf("<option value=last24hours %s>過去24時間\n", (timeperiod_type == TIMEPERIOD_LAST24HOURS) ? "SELECTED" : "");
+			printf("<option value=yesterday %s>昨日\n", (timeperiod_type == TIMEPERIOD_YESTERDAY) ? "SELECTED" : "");
+			printf("<option value=thisweek %s>今週\n", (timeperiod_type == TIMEPERIOD_THISWEEK) ? "SELECTED" : "");
+			printf("<option value=last7days %s>過去7日間\n", (timeperiod_type == TIMEPERIOD_LAST7DAYS) ? "SELECTED" : "");
+			printf("<option value=lastweek %s>先週\n", (timeperiod_type == TIMEPERIOD_LASTWEEK) ? "SELECTED" : "");
+			printf("<option value=thismonth %s>今月\n", (timeperiod_type == TIMEPERIOD_THISMONTH) ? "SELECTED" : "");
+			printf("<option value=last31days %s>過去31日間\n", (timeperiod_type == TIMEPERIOD_LAST31DAYS) ? "SELECTED" : "");
+			printf("<option value=lastmonth %s>先月\n", (timeperiod_type == TIMEPERIOD_LASTMONTH) ? "SELECTED" : "");
+			printf("<option value=thisyear %s>今年\n", (timeperiod_type == TIMEPERIOD_THISYEAR) ? "SELECTED" : "");
+			printf("<option value=lastyear %s>去年\n", (timeperiod_type == TIMEPERIOD_LASTYEAR) ? "SELECTED" : "");
 			printf("</select>\n");
 			printf("</td>\n");
 			printf("<td valign=top align=left CLASS='optBoxItem'>\n");
@@ -556,7 +556,7 @@ int main(int argc, char **argv) {
 
 			printf("<tr><td valign=top align=left></td>\n");
 			printf("<td valign=top align=left CLASS='optBoxItem'>\n");
-			printf("<input type='submit' value='Update'>\n");
+			printf("<input type='submit' value='更新'>\n");
 			printf("</td>\n");
 			printf("</tr>\n");
 			}
@@ -607,7 +607,7 @@ int main(int argc, char **argv) {
 		end_day = t->tm_mday;
 		end_year = t->tm_year + 1900;
 
-		printf("<P><DIV ALIGN=CENTER CLASS='dateSelectTitle'>Step 3: Select Report Options</DIV></p>\n");
+		printf("<P><DIV ALIGN=CENTER CLASS='dateSelectTitle'>ステップ3: レポートオプションの選択</DIV></p>\n");
 
 		printf("<P><DIV ALIGN=CENTER>\n");
 
@@ -625,46 +625,49 @@ int main(int argc, char **argv) {
 		printf("<table border=0 cellpadding=5>\n");
 
 		printf("<tr>");
-		printf("<td valign=top class='reportSelectSubTitle'>Report Period:</td>\n");
+		printf("<td valign=top class='reportSelectSubTitle'>レポート期間:</td>\n");
 		printf("<td valign=top align=left class='optBoxItem'>\n");
 		printf("<select name='timeperiod'>\n");
-		printf("<option value=today>Today\n");
-		printf("<option value=last24hours>Last 24 Hours\n");
-		printf("<option value=yesterday>Yesterday\n");
-		printf("<option value=thisweek>This Week\n");
-		printf("<option value=last7days SELECTED>Last 7 Days\n");
-		printf("<option value=lastweek>Last Week\n");
-		printf("<option value=thismonth>This Month\n");
-		printf("<option value=last31days>Last 31 Days\n");
-		printf("<option value=lastmonth>Last Month\n");
-		printf("<option value=thisyear>This Year\n");
-		printf("<option value=lastyear>Last Year\n");
-		printf("<option value=custom>* CUSTOM REPORT PERIOD *\n");
+		printf("<option value=today>今日\n");
+		printf("<option value=last24hours>過去24時間\n");
+		printf("<option value=yesterday>昨日\n");
+		printf("<option value=thisweek>今週\n");
+		printf("<option value=last7days SELECTED>過去7日間\n");
+		printf("<option value=lastweek>先週\n");
+		printf("<option value=thismonth>今月\n");
+		printf("<option value=last31days>過去31日間\n");
+		printf("<option value=lastmonth>先月\n");
+		printf("<option value=thisyear>今年\n");
+		printf("<option value=lastyear>去年\n");
+		printf("<option value=custom>* カスタム期間設定 *\n");
 		printf("</select>\n");
 		printf("</td>\n");
 		printf("</tr>\n");
 
-		printf("<tr><td valign=top class='reportSelectSubTitle'>If Custom Report Period...</td></tr>\n");
+		printf("<tr><td valign=top class='reportSelectSubTitle'>期間をカスタマイズ...</td></tr>\n");
 
 		printf("<tr>");
-		printf("<td valign=top class='reportSelectSubTitle'>Start Date (Inclusive):</td>\n");
+		printf("<td valign=top class='reportSelectSubTitle'>開始日(指定日を含む):</td>\n");
 		printf("<td align=left valign=top class='reportSelectItem'>");
-		printf("<select name='smon'>\n");
-		printf("<option value='1' %s>January\n", (t->tm_mon == 0) ? "SELECTED" : "");
-		printf("<option value='2' %s>February\n", (t->tm_mon == 1) ? "SELECTED" : "");
-		printf("<option value='3' %s>March\n", (t->tm_mon == 2) ? "SELECTED" : "");
-		printf("<option value='4' %s>April\n", (t->tm_mon == 3) ? "SELECTED" : "");
-		printf("<option value='5' %s>May\n", (t->tm_mon == 4) ? "SELECTED" : "");
-		printf("<option value='6' %s>June\n", (t->tm_mon == 5) ? "SELECTED" : "");
-		printf("<option value='7' %s>July\n", (t->tm_mon == 6) ? "SELECTED" : "");
-		printf("<option value='8' %s>August\n", (t->tm_mon == 7) ? "SELECTED" : "");
-		printf("<option value='9' %s>September\n", (t->tm_mon == 8) ? "SELECTED" : "");
-		printf("<option value='10' %s>October\n", (t->tm_mon == 9) ? "SELECTED" : "");
-		printf("<option value='11' %s>November\n", (t->tm_mon == 10) ? "SELECTED" : "");
-		printf("<option value='12' %s>December\n", (t->tm_mon == 11) ? "SELECTED" : "");
-		printf("</select>\n ");
-		printf("<input type='text' size='2' maxlength='2' name='sday' value='%d'> ", start_day);
 		printf("<input type='text' size='4' maxlength='4' name='syear' value='%d'>", start_year);
+		printf("年");
+		printf("<select name='smon'>\n");
+		printf("<option value='1' %s>1\n", (t->tm_mon == 0) ? "SELECTED" : "");
+		printf("<option value='2' %s>2\n", (t->tm_mon == 1) ? "SELECTED" : "");
+		printf("<option value='3' %s>3\n", (t->tm_mon == 2) ? "SELECTED" : "");
+		printf("<option value='4' %s>4\n", (t->tm_mon == 3) ? "SELECTED" : "");
+		printf("<option value='5' %s>5\n", (t->tm_mon == 4) ? "SELECTED" : "");
+		printf("<option value='6' %s>6\n", (t->tm_mon == 5) ? "SELECTED" : "");
+		printf("<option value='7' %s>7\n", (t->tm_mon == 6) ? "SELECTED" : "");
+		printf("<option value='8' %s>8\n", (t->tm_mon == 7) ? "SELECTED" : "");
+		printf("<option value='9' %s>9\n", (t->tm_mon == 8) ? "SELECTED" : "");
+		printf("<option value='10' %s>10\n", (t->tm_mon == 9) ? "SELECTED" : "");
+		printf("<option value='11' %s>11\n", (t->tm_mon == 10) ? "SELECTED" : "");
+		printf("<option value='12' %s>12\n", (t->tm_mon == 11) ? "SELECTED" : "");
+		printf("</select>\n ");
+		printf("月");
+		printf("<input type='text' size='2' maxlength='2' name='sday' value='%d'> ", start_day);
+		printf("日");
 		printf("<input type='hidden' name='shour' value='0'>\n");
 		printf("<input type='hidden' name='smin' value='0'>\n");
 		printf("<input type='hidden' name='ssec' value='0'>\n");
@@ -672,24 +675,27 @@ int main(int argc, char **argv) {
 		printf("</tr>\n");
 
 		printf("<tr>");
-		printf("<td valign=top class='reportSelectSubTitle'>End Date (Inclusive):</td>\n");
+		printf("<td valign=top class='reportSelectSubTitle'>終了日(指定日を含む):</td>\n");
 		printf("<td align=left valign=top class='reportSelectItem'>");
-		printf("<select name='emon'>\n");
-		printf("<option value='1' %s>January\n", (t->tm_mon == 0) ? "SELECTED" : "");
-		printf("<option value='2' %s>February\n", (t->tm_mon == 1) ? "SELECTED" : "");
-		printf("<option value='3' %s>March\n", (t->tm_mon == 2) ? "SELECTED" : "");
-		printf("<option value='4' %s>April\n", (t->tm_mon == 3) ? "SELECTED" : "");
-		printf("<option value='5' %s>May\n", (t->tm_mon == 4) ? "SELECTED" : "");
-		printf("<option value='6' %s>June\n", (t->tm_mon == 5) ? "SELECTED" : "");
-		printf("<option value='7' %s>July\n", (t->tm_mon == 6) ? "SELECTED" : "");
-		printf("<option value='8' %s>August\n", (t->tm_mon == 7) ? "SELECTED" : "");
-		printf("<option value='9' %s>September\n", (t->tm_mon == 8) ? "SELECTED" : "");
-		printf("<option value='10' %s>October\n", (t->tm_mon == 9) ? "SELECTED" : "");
-		printf("<option value='11' %s>November\n", (t->tm_mon == 10) ? "SELECTED" : "");
-		printf("<option value='12' %s>December\n", (t->tm_mon == 11) ? "SELECTED" : "");
-		printf("</select>\n ");
-		printf("<input type='text' size='2' maxlength='2' name='eday' value='%d'> ", end_day);
 		printf("<input type='text' size='4' maxlength='4' name='eyear' value='%d'>", end_year);
+		printf("年");
+		printf("<select name='emon'>\n");
+		printf("<option value='1' %s>1\n", (t->tm_mon == 0) ? "SELECTED" : "");
+		printf("<option value='2' %s>2\n", (t->tm_mon == 1) ? "SELECTED" : "");
+		printf("<option value='3' %s>3\n", (t->tm_mon == 2) ? "SELECTED" : "");
+		printf("<option value='4' %s>4\n", (t->tm_mon == 3) ? "SELECTED" : "");
+		printf("<option value='5' %s>5\n", (t->tm_mon == 4) ? "SELECTED" : "");
+		printf("<option value='6' %s>6\n", (t->tm_mon == 5) ? "SELECTED" : "");
+		printf("<option value='7' %s>7\n", (t->tm_mon == 6) ? "SELECTED" : "");
+		printf("<option value='8' %s>8\n", (t->tm_mon == 7) ? "SELECTED" : "");
+		printf("<option value='9' %s>9\n", (t->tm_mon == 8) ? "SELECTED" : "");
+		printf("<option value='10' %s>10\n", (t->tm_mon == 9) ? "SELECTED" : "");
+		printf("<option value='11' %s>11\n", (t->tm_mon == 10) ? "SELECTED" : "");
+		printf("<option value='12' %s>12\n", (t->tm_mon == 11) ? "SELECTED" : "");
+		printf("</select>\n ");
+		printf("月");
+		printf("<input type='text' size='2' maxlength='2' name='eday' value='%d'> ", end_day);
+		printf("日");
 		printf("<input type='hidden' name='ehour' value='24'>\n");
 		printf("<input type='hidden' name='emin' value='0'>\n");
 		printf("<input type='hidden' name='esec' value='0'>\n");
@@ -699,10 +705,10 @@ int main(int argc, char **argv) {
 		printf("<tr><td colspan=2><br></td></tr>\n");
 
 		printf("<tr>");
-		printf("<td valign=top class='reportSelectSubTitle'>Report time Period:</td>\n");
+		printf("<td valign=top class='reportSelectSubTitle'>表示するレポートの時間と期間:</td>\n");
 		printf("<td valign=top align=left class='optBoxItem'>\n");
 		printf("<select name='rpttimeperiod'>\n");
-		printf("<option value=\"\">None\n");
+		printf("<option value=\"\">無し\n");
 		/* check all the time periods... */
 		for (temp_timeperiod = timeperiod_list; temp_timeperiod != NULL; temp_timeperiod = temp_timeperiod->next)
 			printf("<option value=%s>%s\n", escape_string(temp_timeperiod->name), temp_timeperiod->name);
@@ -711,76 +717,76 @@ int main(int argc, char **argv) {
 		printf("</tr>\n");
 		printf("<tr><td colspan=2><br></td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Assume Initial States:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>初期状態を考慮:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='assumeinitialstates'>\n");
-		printf("<option value=yes>Yes\n");
-		printf("<option value=no>No\n");
+		printf("<option value=yes>する\n");
+		printf("<option value=no>しない\n");
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Assume State Retention:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>保存状態を考慮:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='assumestateretention'>\n");
-		printf("<option value=yes>Yes\n");
-		printf("<option value=no>No\n");
+		printf("<option value=yes>する\n");
+		printf("<option value=no>しない\n");
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Assume States During Program Downtime:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>プログラムのダウンタイム時間を考慮:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='assumestatesduringnotrunning'>\n");
-		printf("<option value=yes>Yes\n");
-		printf("<option value=no>No\n");
+		printf("<option value=yes>する\n");
+		printf("<option value=no>しない\n");
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Include Soft States:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>ソフトウェアの状態:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='includesoftstates'>\n");
-		printf("<option value=yes>Yes\n");
-		printf("<option value=no SELECTED>No\n");
+		printf("<option value=yes>含める\n");
+		printf("<option value=no SELECTED>含めない\n");
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
 		if (display_type != DISPLAY_SERVICE_AVAIL) {
-			printf("<tr><td class='reportSelectSubTitle' align=right>First Assumed Host State:</td>\n");
+			printf("<tr><td class='reportSelectSubTitle' align=right>考慮するホストの初期状態:</td>\n");
 			printf("<td class='reportSelectItem'>\n");
 			printf("<select name='initialassumedhoststate'>\n");
-			printf("<option value=%d>Unspecified\n", AS_NO_DATA);
-			printf("<option value=%d>Current State\n", AS_CURRENT_STATE);
-			printf("<option value=%d>Host Up\n", AS_HOST_UP);
-			printf("<option value=%d>Host Down\n", AS_HOST_DOWN);
-			printf("<option value=%d>Host Unreachable\n", AS_HOST_UNREACHABLE);
+			printf("<option value=%d>設定しない\n", AS_NO_DATA);
+			printf("<option value=%d>現在の状態\n", AS_CURRENT_STATE);
+			printf("<option value=%d>ホスト稼働(UP)\n", AS_HOST_UP);
+			printf("<option value=%d>ホスト停止(DOWN)\n", AS_HOST_DOWN);
+			printf("<option value=%d>ホスト未到達(UNREACHABLE)\n", AS_HOST_UNREACHABLE);
 			printf("</select>\n");
 			printf("</td></tr>\n");
 			}
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>First Assumed Service State:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>考慮するサービスの初期状態:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='initialassumedservicestate'>\n");
-		printf("<option value=%d>Unspecified\n", AS_NO_DATA);
-		printf("<option value=%d>Current State\n", AS_CURRENT_STATE);
-		printf("<option value=%d>Service Ok\n", AS_SVC_OK);
-		printf("<option value=%d>Service Warning\n", AS_SVC_WARNING);
-		printf("<option value=%d>Service Unknown\n", AS_SVC_UNKNOWN);
-		printf("<option value=%d>Service Critical\n", AS_SVC_CRITICAL);
+		printf("<option value=%d>設定しない\n", AS_NO_DATA);
+		printf("<option value=%d>現在の状態\n", AS_CURRENT_STATE);
+		printf("<option value=%d>サービス正常(OK)\n", AS_SVC_OK);
+		printf("<option value=%d>サービス警告(WARNING)\n", AS_SVC_WARNING);
+		printf("<option value=%d>サービス不明(UNKNOWN)\n", AS_SVC_UNKNOWN);
+		printf("<option value=%d>サービス異常(CRITICAL)\n", AS_SVC_CRITICAL);
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Backtracked Archives (To Scan For Initial States):</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>過去のアーカイブ (初期状態を調べるためのもの):</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<input type='text' name='backtrack' size='2' maxlength='2' value='%d'>\n", backtrack_archives);
 		printf("</td></tr>\n");
 
 		printf("<tr>");
-		printf("<td valign=top class='reportSelectSubTitle'>Output in CSV Format:</td>\n");
+		printf("<td valign=top class='reportSelectSubTitle'>CSV形式で出力する:</td>\n");
 		printf("<td valign=top class='reportSelectItem'>");
 		printf("<input type='checkbox' name='csvoutput' value=''>\n");
 		printf("</td>\n");
 		printf("</tr>\n");
 
-		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='Create Availability Report!'></td></tr>\n");
+		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='稼働レポートを作成'></td></tr>\n");
 
 		printf("</table>\n");
 
@@ -791,7 +797,7 @@ int main(int argc, char **argv) {
 
 	/* step 2 - the user wants to select a hostgroup */
 	else if (select_hostgroups == TRUE) {
-		printf("<p><div align=center class='reportSelectTitle'>Step 2: Select Hostgroup</div></p>\n");
+		printf("<p><div align=center class='reportSelectTitle'>ステップ2: ホストグループの選択</div></p>\n");
 
 		printf("<p><div align=center>\n");
 
@@ -800,9 +806,9 @@ int main(int argc, char **argv) {
 
 		printf("<table border=0 cellpadding=5>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' valign=center>Hostgroup(s):</td><td align=left valign=center class='reportSelectItem'>\n");
+		printf("<tr><td class='reportSelectSubTitle' valign=center>ホストグループ:</td><td align=left valign=center class='reportSelectItem'>\n");
 		printf("<select name='hostgroup'>\n");
-		printf("<option value='all'>** ALL HOSTGROUPS **\n");
+		printf("<option value='all'>** 全てのホストグループ **\n");
 		for (temp_hostgroup = hostgroup_list; temp_hostgroup != NULL; temp_hostgroup = temp_hostgroup->next) {
 			if (is_authorized_for_hostgroup(temp_hostgroup, &current_authdata) == TRUE)
 				printf("<option value='%s'>%s\n", escape_string(temp_hostgroup->group_name), temp_hostgroup->group_name);
@@ -810,7 +816,7 @@ int main(int argc, char **argv) {
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='Continue to Step 3'></td></tr>\n");
+		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='ステップ3へ'></td></tr>\n");
 
 		printf("</table>\n");
 
@@ -821,7 +827,7 @@ int main(int argc, char **argv) {
 
 	/* step 2 - the user wants to select a host */
 	else if (select_hosts == TRUE) {
-		printf("<p><div align=center class='reportSelectTitle'>Step 2: Select Host</div></p>\n");
+		printf("<p><div align=center class='reportSelectTitle'>ステップ2: ホストの選択</div></p>\n");
 
 		printf("<p><div align=center>\n");
 
@@ -830,9 +836,9 @@ int main(int argc, char **argv) {
 
 		printf("<table border=0 cellpadding=5>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' valign=center>Host(s):</td><td align=left valign=center class='reportSelectItem'>\n");
+		printf("<tr><td class='reportSelectSubTitle' valign=center>ホスト:</td><td align=left valign=center class='reportSelectItem'>\n");
 		printf("<select name='host'>\n");
-		printf("<option value='all'>** ALL HOSTS **\n");
+		printf("<option value='all'>** 全てのホスト **\n");
 		for (temp_host = host_list; temp_host != NULL; temp_host = temp_host->next) {
 			if (is_authorized_for_host(temp_host, &current_authdata) == TRUE)
 				printf("<option value='%s'>%s\n", escape_string(temp_host->name), temp_host->name);
@@ -840,7 +846,7 @@ int main(int argc, char **argv) {
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='Continue to Step 3'></td></tr>\n");
+		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='ステップ3へ'></td></tr>\n");
 
 		printf("</table>\n");
 
@@ -848,12 +854,12 @@ int main(int argc, char **argv) {
 
 		printf("</div></p>\n");
 
-		printf("<div align=center class='helpfulHint'>Tip: If you want to have the option of getting the availability data in CSV format, select '<b>** ALL HOSTS **</b>' from the pull-down menu.\n");
+		printf("<div align=center class='helpfulHint'>ヒント: 稼働レポートをCSV形式で取得する場合は、プルダウンメニューから'<b>** 全てのホスト**</b>'を選択します。\n");
 		}
 
 	/* step 2 - the user wants to select a servicegroup */
 	else if (select_servicegroups == TRUE) {
-		printf("<p><div align=center class='reportSelectTitle'>Step 2: Select Servicegroup</div></p>\n");
+		printf("<p><div align=center class='reportSelectTitle'>ステップ2: サービスグループの選択</div></p>\n");
 
 		printf("<p><div align=center>\n");
 
@@ -862,9 +868,9 @@ int main(int argc, char **argv) {
 
 		printf("<table border=0 cellpadding=5>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' valign=center>Servicegroup(s):</td><td align=left valign=center class='reportSelectItem'>\n");
+		printf("<tr><td class='reportSelectSubTitle' valign=center>サービスグループ:</td><td align=left valign=center class='reportSelectItem'>\n");
 		printf("<select name='servicegroup'>\n");
-		printf("<option value='all'>** ALL SERVICEGROUPS **\n");
+		printf("<option value='all'>** 全てのサービスグループ **\n");
 		for (temp_servicegroup = servicegroup_list; temp_servicegroup != NULL; temp_servicegroup = temp_servicegroup->next) {
 			if (is_authorized_for_servicegroup(temp_servicegroup, &current_authdata) == TRUE)
 				printf("<option value='%s'>%s\n", escape_string(temp_servicegroup->group_name), temp_servicegroup->group_name);
@@ -872,7 +878,7 @@ int main(int argc, char **argv) {
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='Continue to Step 3'></td></tr>\n");
+		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='ステップ3へ'></td></tr>\n");
 
 		printf("</table>\n");
 
@@ -902,7 +908,7 @@ int main(int argc, char **argv) {
 		printf("}\n");
 		printf("</SCRIPT>\n");
 
-		printf("<p><div align=center class='reportSelectTitle'>Step 2: Select Service</div></p>\n");
+		printf("<p><div align=center class='reportSelectTitle'>ステップ2: サービスの選択</div></p>\n");
 
 		printf("<p><div align=center>\n");
 
@@ -912,9 +918,9 @@ int main(int argc, char **argv) {
 
 		printf("<table border=0 cellpadding=5>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' valign=center>Service(s):</td><td align=left valign=center class='reportSelectItem'>\n");
+		printf("<tr><td class='reportSelectSubTitle' valign=center>サービス:</td><td align=left valign=center class='reportSelectItem'>\n");
 		printf("<select name='service' onFocus='document.serviceform.host.value=gethostname(this.selectedIndex);' onChange='document.serviceform.host.value=gethostname(this.selectedIndex);'>\n");
-		printf("<option value='all'>** ALL SERVICES **\n");
+		printf("<option value='all'>** 全てのサービス **\n");
 		for (temp_service = service_list; temp_service != NULL; temp_service = temp_service->next) {
 			if (is_authorized_for_service(temp_service, &current_authdata) == TRUE)
 				printf("<option value='%s'>%s;%s\n", escape_string(temp_service->description), temp_service->host_name, temp_service->description);
@@ -923,7 +929,7 @@ int main(int argc, char **argv) {
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='Continue to Step 3'></td></tr>\n");
+		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='ステップ3へ'></td></tr>\n");
 
 		printf("</table>\n");
 
@@ -931,7 +937,7 @@ int main(int argc, char **argv) {
 
 		printf("</div></p>\n");
 
-		printf("<div align=center class='helpfulHint'>Tip: If you want to have the option of getting the availability data in CSV format, select '<b>** ALL SERVICES **</b>' from the pull-down menu.\n");
+		printf("<div align=center class='helpfulHint'>ヒント: 稼働レポートをCSV形式で取得する場合は、プルダウンメニューから'<b>** 全てのサービス**</b>'を選択します。\n");
 		}
 
 
@@ -949,7 +955,7 @@ int main(int argc, char **argv) {
 			}
 
 		if (is_authorized == FALSE)
-			printf("<P><DIV ALIGN=CENTER CLASS='errorMessage'>It appears as though you are not authorized to view information for the specified %s...</DIV></P>\n", (display_type == DISPLAY_HOST_AVAIL) ? "host" : "service");
+			printf("<P><DIV ALIGN=CENTER CLASS='errorMessage'>%s情報を閲覧するための権限がありません。</DIV></P>\n", (display_type == DISPLAY_HOST_AVAIL) ? "ホスト" : "サービス");
 
 		else {
 
@@ -968,7 +974,7 @@ int main(int argc, char **argv) {
 
 			if (output_format == HTML_OUTPUT) {
 				get_time_breakdown((time_t)(report_end_time - report_start_time), &days, &hours, &minutes, &seconds);
-				printf("<div align=center class='reportTime'>[ Availability report completed in %d min %d sec ]</div>\n", minutes, seconds);
+				printf("<div align=center class='reportTime'>[ このページを生成するのにかかった時間: %d分 %d秒 ]</div>\n", minutes, seconds);
 				printf("<BR><BR>\n");
 				}
 
@@ -991,7 +997,7 @@ int main(int argc, char **argv) {
 	/* step 1 - ask the user what kind of report they want */
 	else {
 
-		printf("<p><div align=center class='reportSelectTitle'>Step 1: Select Report Type</div></p>\n");
+		printf("<p><div align=center class='reportSelectTitle'>ステップ1: 稼働レポートの種類選択</div></p>\n");
 
 		printf("<p><div align=center>\n");
 
@@ -999,17 +1005,17 @@ int main(int argc, char **argv) {
 
 		printf("<table border=0 cellpadding=5>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Type:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>種類:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='report_type'>\n");
-		printf("<option value=hostgroups>Hostgroup(s)\n");
-		printf("<option value=hosts>Host(s)\n");
-		printf("<option value=servicegroups>Servicegroup(s)\n");
-		printf("<option value=services>Service(s)\n");
+		printf("<option value=hostgroups>ホストグループ\n");
+		printf("<option value=hosts>ホスト\n");
+		printf("<option value=servicegroups>サービスグループ\n");
+		printf("<option value=services>サービス\n");
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='Continue to Step 2'></td></tr>\n");
+		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='ステップ2へ'></td></tr>\n");
 
 		printf("</table>\n");
 
@@ -1058,9 +1064,10 @@ void document_header(int use_stylesheet) {
 
 	printf("<html>\n");
 	printf("<head>\n");
+	printf("<meta http-equiv='content-type' content='text/html;charset=UTF-8'>\n");
 	printf("<link rel=\"shortcut icon\" href=\"%sfavicon.ico\" type=\"image/ico\">\n", url_images_path);
 	printf("<title>\n");
-	printf("Nagios Availability\n");
+	printf("Nagios::稼働レポート -Nagios Availability-\n");
 	printf("</title>\n");
 
 	if (use_stylesheet == TRUE) {
@@ -1850,14 +1857,14 @@ void compute_subject_availability(avail_subject *subject, time_t current_time) {
 		if ((temp_as->time_stamp <= t1 || temp_as == subject->as_list) && (temp_as->entry_type != AS_NO_DATA && temp_as->entry_type != AS_PROGRAM_END && temp_as->entry_type != AS_PROGRAM_START)) {
 			subject->last_known_state = temp_as->entry_type;
 #ifdef DEBUG
-			printf("SETTING LAST KNOWN STATE=%d<br>\n", subject->last_known_state);
+			printf("最後の状態を設定=%d<br>\n", subject->last_known_state);
 #endif
 			}
 
 		/* skip this entry if it occurs before the starting point of the graph */
 		if (temp_as->time_stamp <= t1) {
 #ifdef DEBUG
-			printf("SKIPPING PRE-EVENT: %d @ %lu<br>\n", temp_as->entry_type, temp_as->time_stamp);
+			printf("前イベントをスキップ: %d @ %lu<br>\n", temp_as->entry_type, temp_as->time_stamp);
 #endif
 			last_as = temp_as;
 			continue;
@@ -1996,13 +2003,13 @@ unsigned long compute_state_duration_from_timeperiod(timeperiod *current_tp, tim
 			temp_start = start_time - midnight_today;
 		}
 #ifdef DEBUG
-		printf("<b>Matching: %ld -> %ld. (%ld -> %ld)</b><br>\n", temp_start, temp_end, midnight_today + temp_start, midnight_today + temp_end);
+		printf("<b>一致しました: %ld -> %ld. (%ld -> %ld)</b><br>\n", temp_start, temp_end, midnight_today + temp_start, midnight_today + temp_end);
 #endif
 		/* check all time ranges for this day of the week */
 		for (temp_timerange = current_timeperiod->days[weekday]; temp_timerange != NULL; temp_timerange = temp_timerange->next) {
 
 #ifdef DEBUG
-			printf("<li>Matching in timerange[%d]: %d -> %d (%ld -> %ld)<br>\n", weekday, temp_timerange->range_start, temp_timerange->range_end, temp_start, temp_end);
+				printf("<li>一致した期間[%d]: %d -> %d (%ld -> %ld)<br>\n", weekday, temp_timerange->range_start, temp_timerange->range_end, temp_start, temp_end);
 #endif
 			start = max(temp_timerange->range_start, temp_start);
 			end = min(temp_timerange->range_end, temp_end);
@@ -2010,12 +2017,12 @@ unsigned long compute_state_duration_from_timeperiod(timeperiod *current_tp, tim
 			if (start < end) {
 				temp_duration += end - start;
 #ifdef DEBUG
-				printf("<li>Matched time: %ld -> %ld = %d<br>\n", start, end, temp_duration);
+				printf("一致しました<li>Matched time: %ld -> %ld = %d<br>\n", start, end, temp_duration);
 #endif
 			}
 #ifdef DEBUG
 			else {
-				printf("<li>Ignored time: %ld -> %ld<br>\n", start, end);
+				printf("<li>Ignore一致しましたd time: %ld -> %ld<br>\n", start, end);
 			}
 #endif
 		}
@@ -2040,13 +2047,13 @@ void compute_subject_availability_times(int first_state, int last_state, time_t 
 
 #ifdef DEBUG2
 	if (subject->type == HOST_SUBJECT) {
-		printf("\nHOST '%s'...\n", subject->host_name);
+		printf("\nホスト '%s'...\n", subject->host_name);
 	}
 	else {
-		printf("\nSERVICE '%s' ON HOST '%s'...\n", subject->service_description, subject->host_name);
+		printf("\nホスト '%s' 上の '%s' サービス\n", subject->host_name, subject->service_description);
 	}
 
-	printf("COMPUTING %d->%d FROM %lu to %lu (%lu seconds) FOR %s\n", first_state, last_state, start_time, end_time, (end_time - start_time), (subject->type == HOST_SUBJECT) ? "HOST" : "SERVICE");
+	printf("\n%s の %lu から %lu (%lu 秒間)までの %d->%d を計算<br>\n", (subject->type == HOST_SUBJECT) ? "ホスト" : "サービス", start_time, end_time, (end_time-start_time), first_state, last_state);
 #endif
 
 	/* clip times if necessary */
@@ -2123,7 +2130,7 @@ void compute_subject_availability_times(int first_state, int last_state, time_t 
 #endif
 
 #ifdef DEBUG
-	printf("PASSED TIME CHECKS, CLIPPED VALUES: START=%lu, END=%lu\n", start_time, end_time);
+	printf("無視する時間: 開始=%lu, 終了=%lu\n", start_time, end_time);
 #endif
 
 
@@ -2289,7 +2296,7 @@ void compute_subject_downtime_times(time_t start_time, time_t end_time, avail_su
 	archived_state *last        = NULL;
 
 #ifdef DEBUG2
-	printf("\n<b>ENTERING COMPUTE_SUBJECT_DOWNTIME_TIMES: start=%lu, end=%lu, t1=%lu, t2=%lu </b>\n\n", start_time, end_time, t1, t2);
+	printf("\n<b>ENTERING COMPUTE_SUBJECT_DOWNTIME_TIMES: start=%lu, end=%lu, t1=%lu, t2=%lu </b>", start_time, end_time, t1, t2);
 #endif
 
 	/* times are weird, so bail out... */
@@ -2487,7 +2494,7 @@ void compute_subject_downtime_part_times(time_t start_time, time_t end_time, int
 	}
 
 #ifdef DEBUG2
-	printf("\tSUBJECT DOWNTIME: Host '%s', Service '%s', State=%d, Duration=%lu, Start=%lu\n", subject->host_name, (subject->service_description == NULL) ? "NULL" : subject->service_description, subject_state, state_duration, start_time);
+	printf("\tダウンタイム: ホスト '%s', サービス '%s', ステータス=%d, 期間=%lu, 開始時間=%lu\n", subject->host_name, (subject->service_description == NULL) ? "NULL" : subject->service_description, subject_state, state_duration, start_time);
 #endif
 
 }
@@ -2958,14 +2965,14 @@ void read_archived_state_data(void) {
 	for (current_archive = newest_archive; current_archive <= oldest_archive; current_archive++) {
 
 #ifdef DEBUG
-		printf("Reading archive #%d\n", current_archive);
+		printf("読み込んだアーカイブ #%d\n", current_archive);
 #endif
 
 		/* get the name of the log file that contains this archive */
 		get_log_archive_to_use(current_archive, filename, sizeof(filename) - 1);
 
 #ifdef DEBUG
-		printf("Archive name: '%s'\n", filename);
+		printf("アーカイブ名: '%s'\n", filename);
 #endif
 
 		/* scan the log file for archived state data */
@@ -3354,7 +3361,7 @@ void write_log_entries(avail_subject *subject)
 
 	char start_date_time[MAX_DATETIME_LENGTH] = { 0 };
 	char end_date_time[MAX_DATETIME_LENGTH]   = { 0 };
-	char duration[20]                         = { 0 };
+	char duration[48]                         = { 0 };
 
 	const char *bgclass                       = "";
 	const char *ebgclass                      = "";
@@ -3388,12 +3395,12 @@ void write_log_entries(avail_subject *subject)
 
 		case AS_SVC_DOWNTIME_START:
 		case AS_HOST_DOWNTIME_START:
-			entry_type = "Start of scheduled downtime";
+			entry_type = "ダウンタイムの開始";
 			break;
 
 		case AS_SVC_DOWNTIME_END:
 		case AS_HOST_DOWNTIME_END:
-			entry_type = "End of scheduled downtime";
+			entry_type = "ダウンタイムの終了";
 			break;
 
 		default:
@@ -3405,17 +3412,17 @@ void write_log_entries(avail_subject *subject)
 	}
 
 	printf("<BR><BR>\n");
-	printf("<DIV ALIGN=CENTER CLASS='dataTitle'>%s Log Entries:</DIV>\n", (subject->type == HOST_SUBJECT) ? "Host" : "Service");
+	printf("<DIV ALIGN=CENTER CLASS='dataTitle'>%sログの内容:</DIV>\n", (subject->type == HOST_SUBJECT) ? "ホスト" : "サービス");
 
 	printf("<DIV ALIGN=CENTER CLASS='infoMessage'>");
 	if (full_log_entries == TRUE) {
 
 		full_log_entries = FALSE;
 		if (subject->type == HOST_SUBJECT) {
-			host_report_url(subject->host_name, "[ View condensed log entries ]");
+			host_report_url(subject->host_name, "[ 簡略表示 ]");
 		}
 		else {
-			service_report_url(subject->host_name, subject->service_description, "[ View condensed log entries ]");
+			service_report_url(subject->host_name, subject->service_description, "[ 簡略表示 ]");
 		}
 		full_log_entries = TRUE;
 	}
@@ -3423,10 +3430,10 @@ void write_log_entries(avail_subject *subject)
 
 		full_log_entries = TRUE;
 		if (subject->type == HOST_SUBJECT) {
-			host_report_url(subject->host_name, "[ View full log entries ]");
+			host_report_url(subject->host_name, "[ 完全表示 ]");
 		}
 		else {
-			service_report_url(subject->host_name, subject->service_description, "[ View full log entries ]");
+			service_report_url(subject->host_name, subject->service_description, "[ 完全表示 ]");
 		}
 		full_log_entries = FALSE;
 	}
@@ -3435,20 +3442,20 @@ void write_log_entries(avail_subject *subject)
 	printf("<DIV ALIGN=CENTER>\n");
 
 	printf("<table border=1 cellspacing=0 cellpadding=3 class='logEntries'>\n");
-	printf("<tr><th class='logEntries'>Event Start Time</th>");
-	printf("<th class='logEntries'>Event End Time</th>");
-	printf("<th class='logEntries'>Event Duration</th>");
-	printf("<th class='logEntries'>Event/State Type</th>");
-	printf("<th class='logEntries'>Event/State Information</th></tr>\n");
+	printf("<tr><th class='logEntries'>イベント開始時間</th>");
+	printf("<th class='logEntries'>イベント終了時間</th>");
+	printf("<th class='logEntries'>イベント継続期間</th>");
+	printf("<th class='logEntries'>イベント/状態の種類</th>");
+	printf("<th class='logEntries'>イベント/状態の情報</th></tr>\n");
 
 	/* write all archived state entries */
 	for (temp_as = subject->as_list; temp_as != NULL; temp_as = temp_as->next) {
 
 		if (temp_as->state_type == AS_HARD_STATE) {
-			state_type = " (HARD)";
+			state_type = " (ハード)";
 		}
 		else if (temp_as->state_type == AS_SOFT_STATE) {
-			state_type = " (SOFT)";
+			state_type = " (ソフト)";
 		}
 		else {
 			state_type = "";
@@ -3460,7 +3467,7 @@ void write_log_entries(avail_subject *subject)
 			if (full_log_entries == FALSE) {
 				continue;
 			}
-			entry_type = "NO DATA";
+			entry_type = "データ無し";
 			ebgclass = "INDETERMINATE";
 			break;
 
@@ -3468,7 +3475,7 @@ void write_log_entries(avail_subject *subject)
 			if (full_log_entries == FALSE) {
 				continue;
 			}
-			entry_type = "PROGRAM END";
+			entry_type = "プログラム終了";
 			ebgclass = "INDETERMINATE";
 			break;
 
@@ -3476,62 +3483,62 @@ void write_log_entries(avail_subject *subject)
 			if (full_log_entries == FALSE) {
 				continue;
 			}
-			entry_type = "PROGRAM (RE)START";
+			entry_type = "プログラム(再)起動";
 			ebgclass = "INDETERMINATE";
 			break;
 
 		case AS_HOST_UP:
-			entry_type = "HOST UP";
+			entry_type = "ホスト稼働(UP)";
 			ebgclass = "UP";
 			break;
 
 		case AS_HOST_DOWN:
-			entry_type = "HOST DOWN";
+			entry_type = "ホスト停止(DOWN)";
 			ebgclass = "DOWN";
 			break;
 
 		case AS_HOST_UNREACHABLE:
-			entry_type = "HOST UNREACHABLE";
+			entry_type = "ホスト未到達(UNREACHABLE)";
 			ebgclass = "UNREACHABLE";
 			break;
 
 		case AS_SVC_OK:
-			entry_type = "SERVICE OK";
+			entry_type = "サービス正常(OK)";
 			ebgclass = "OK";
 			break;
 
 		case AS_SVC_UNKNOWN:
-			entry_type = "SERVICE UNKNOWN";
+			entry_type = "サービス不明(UNKNOWN)";
 			ebgclass = "UNKNOWN";
 			break;
 
 		case AS_SVC_WARNING:
-			entry_type = "SERVICE WARNING";
+			entry_type = "サービス警告(WARNING)";
 			ebgclass = "WARNING";
 			break;
 
 		case AS_SVC_CRITICAL:
-			entry_type = "SERVICE CRITICAL";
+			entry_type = "サービス異常(CRITICAL)";
 			ebgclass = "CRITICAL";
 			break;
 
 		case AS_SVC_DOWNTIME_START:
-			entry_type = "SERVICE DOWNTIME START";
+			entry_type = "サービス停止時間(ダウンタイム)の開始時間";
 			ebgclass = "INDETERMINATE";
 			break;
 
 		case AS_SVC_DOWNTIME_END:
-			entry_type = "SERVICE DOWNTIME END";
+			entry_type = "サービス停止時間(ダウンタイム)の終了時間";
 			ebgclass = "INDETERMINATE";
 			break;
 
 		case AS_HOST_DOWNTIME_START:
-			entry_type = "HOST DOWNTIME START";
+			entry_type = "ホスト停止時間(ダウンタイム)の開始時間";
 			ebgclass = "INDETERMINATE";
 			break;
 
 		case AS_HOST_DOWNTIME_END:
-			entry_type = "HOST DOWNTIME END";
+			entry_type = "ホスト停止時間(ダウンタイム)の終了時間";
 			ebgclass = "INDETERMINATE";
 			break;
 
@@ -3559,7 +3566,7 @@ void write_log_entries(avail_subject *subject)
 		else {
 			get_time_string(&(temp_as->next->time_stamp), end_date_time, sizeof(end_date_time) - 1, SHORT_DATE_TIME);
 			get_time_breakdown((time_t)(temp_as->next->time_stamp - temp_as->time_stamp), &days, &hours, &minutes, &seconds);
-			snprintf(duration, sizeof(duration) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+			snprintf(duration, sizeof(duration) - 1, "%d日間と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		}
 
 		bgclass = odd ? "Odd" : "Even";
@@ -3655,15 +3662,15 @@ void display_specific_hostgroup_availability(hostgroup *hg)
 	if (output_format == HTML_OUTPUT) {
 
 		printf("<BR><BR>\n");
-		printf("<DIV ALIGN=CENTER CLASS='dataTitle'>Hostgroup '%s' Host State Breakdowns:</DIV>\n", hg->group_name);
+		printf("<DIV ALIGN=CENTER CLASS='dataTitle'>ホストグループ '%s' のホスト稼働状況:</DIV>\n", hg->group_name);
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>Host</TH>");
-		printf("<TH CLASS='data'>%% Time Up</TH>");
-		printf("<TH CLASS='data'>%% Time Down</TH>");
-		printf("<TH CLASS='data'>%% Time Unreachable</TH>");
-		printf("<TH CLASS='data'>%% Time Undetermined</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>ホスト名</TH>");
+		printf("<TH CLASS='data'>稼働率<BR>(UP)</TH>");
+		printf("<TH CLASS='data'>停止率<BR>(DOWN)</TH>");
+		printf("<TH CLASS='data'>未到達率<BR>(UNREACHABLE)</TH>");
+		printf("<TH CLASS='data'>未確定率<BR>(UNDETERMINED)</TH></TR>\n");
 	}
 
 	for (temp_subject = subject_list; temp_subject != NULL; temp_subject = temp_subject->next) {
@@ -3708,6 +3715,7 @@ void display_specific_hostgroup_availability(hostgroup *hg)
 				percent_time_unreachable_known = (double) (((double) temp_subject->time_unreachable * 100.0) / (double) time_determinate);
 			}
 		}
+
 		bgclass = odd ? "Odd" : "Even";
 		odd = odd ? 0 : 1;
 
@@ -3752,7 +3760,7 @@ void display_specific_hostgroup_availability(hostgroup *hg)
 		bgclass = odd ? "Odd" : "Even";
 		odd = odd ? 0 : 1;
 
-		printf("<tr CLASS='data%s'><td CLASS='data%s'>Average</td>", bgclass, bgclass);
+		printf("<tr CLASS='data%s'><td CLASS='data%s'>平均値</td>", bgclass, bgclass);
 		printf("<td CLASS='hostUP'>%2.3f%% (%2.3f%%)</td>", average_percent_time_up, average_percent_time_up_known);
 		printf("<td CLASS='hostDOWN'>%2.3f%% (%2.3f%%)</td>", average_percent_time_down, average_percent_time_down_known);
 		printf("<td CLASS='hostUNREACHABLE'>%2.3f%% (%2.3f%%)</td>", average_percent_time_unreachable, average_percent_time_unreachable_known);
@@ -3760,6 +3768,7 @@ void display_specific_hostgroup_availability(hostgroup *hg)
 
 		printf("</table>\n");
 		printf("</DIV>\n");
+
 	}
 }
 
@@ -3870,15 +3879,15 @@ void display_specific_servicegroup_availability(servicegroup *sg)
 
 	if (output_format == HTML_OUTPUT) {
 		printf("<BR><BR>\n");
-		printf("<DIV ALIGN=CENTER CLASS='dataTitle'>Servicegroup '%s' Host State Breakdowns:</DIV>\n", sg->group_name);
+		printf("<DIV ALIGN=CENTER CLASS='dataTitle'>サービスグループ '%s' のサービス稼働状況:</DIV>\n", sg->group_name);
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>Host</TH>");
-		printf("<TH CLASS='data'>%% Time Up</TH>");
-		printf("<TH CLASS='data'>%% Time Down</TH>");
-		printf("<TH CLASS='data'>%% Time Unreachable</TH>");
-		printf("<TH CLASS='data'>%% Time Undetermined</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>ホスト名</TH>");
+		printf("<TH CLASS='data'>稼働率<BR>(UP)</TH>");
+		printf("<TH CLASS='data'>停止率<BR>(DOWN)</TH>");
+		printf("<TH CLASS='data'>未到達率<BR>(UNREACHABLE)</TH>");
+		printf("<TH CLASS='data'>未確定率<BR>(UNDETERMINED)</TH></TR>\n");
 	}
 
 	for (temp_subject = subject_list; temp_subject != NULL; temp_subject = temp_subject->next) {
@@ -3950,7 +3959,7 @@ void display_specific_servicegroup_availability(servicegroup *sg)
 		bgclass = odd ? "Odd" : "Even";
 		odd = odd ? 0 : 1;
 
-		printf("<tr CLASS='data%s'><td CLASS='data%s'>Average</td>", bgclass, bgclass);
+		printf("<tr CLASS='data%s'><td CLASS='data%s'>平均値</td>", bgclass, bgclass);
 		printf("<td CLASS='hostUP'>%2.3f%% (%2.3f%%)</td>", average_percent_time_up, average_percent_time_up_known);
 		printf("<td CLASS='hostDOWN'>%2.3f%% (%2.3f%%)</td>", average_percent_time_down, average_percent_time_down_known);
 		printf("<td CLASS='hostUNREACHABLE'>%2.3f%% (%2.3f%%)</td>", average_percent_time_unreachable, average_percent_time_unreachable_known);
@@ -3960,17 +3969,17 @@ void display_specific_servicegroup_availability(servicegroup *sg)
 		printf("</DIV>\n");
 
 		printf("<BR>\n");
-		printf("<DIV ALIGN=CENTER CLASS='dataTitle'>Servicegroup '%s' Service State Breakdowns:</DIV>\n", sg->group_name);
+		printf("<DIV ALIGN=CENTER CLASS='dataTitle'>サービスグループ '%s' のサービス稼働状況:</DIV>\n", sg->group_name);
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>Host</TH>");
-		printf("<TH CLASS='data'>Service</TH>");
-		printf("<TH CLASS='data'>%% Time OK</TH>");
-		printf("<TH CLASS='data'>%% Time Warning</TH>");
-		printf("<TH CLASS='data'>%% Time Unknown</TH>");
-		printf("<TH CLASS='data'>%% Time Critical</TH>");
-		printf("<TH CLASS='data'>%% Time Undetermined</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>ホスト名</TH>");
+		printf("<TH CLASS='data'>サービス名</TH>");
+		printf("<TH CLASS='data'>正常率<BR>(OK)</TH>");
+		printf("<TH CLASS='data'>警告率<BR>(WARNING)</TH>");
+		printf("<TH CLASS='data'>不明率<BR>(UNKNOWN)</TH>");
+		printf("<TH CLASS='data'>停止率<BR>(CRITICAL)</TH>");
+		printf("<TH CLASS='data'>未確定率<BR>(UNDETERMINED)</TH></TR>\n");
 	}
 
 	current_subject = 0;
@@ -4082,7 +4091,7 @@ void display_specific_servicegroup_availability(servicegroup *sg)
 		bgclass = odd ? "Odd" : "Even";
 		odd = odd ? 0 : 1;
 
-		printf("<tr CLASS='data%s'><td CLASS='data%s' colspan='2'>Average</td>", bgclass, bgclass);
+		printf("<tr CLASS='data%s'><td CLASS='data%s' colspan='2'>平均値</td>", bgclass, bgclass);
 		printf("<td CLASS='serviceOK'>%2.3f%% (%2.3f%%)</td>", average_percent_time_ok, average_percent_time_ok_known);
 		printf("<td CLASS='serviceWARNING'>%2.3f%% (%2.3f%%)</td>", average_percent_time_warning, average_percent_time_warning_known);
 		printf("<td CLASS='serviceUNKNOWN'>%2.3f%% (%2.3f%%)</td>", average_percent_time_unknown, average_percent_time_unknown_known);
@@ -4189,7 +4198,7 @@ void display_host_availability(void)
 	total_time = calculate_total_time(t1, t2);
 
 #ifdef DEBUG
-	printf("Total time: '%ld' seconds<br>\n", total_time);
+	printf("合計時間: '%ld' 秒<br>\n", total_time);
 #endif
 
 	/* its the same header for all CSV outputs */
@@ -4237,45 +4246,45 @@ void display_host_availability(void)
 
 		/* up times */
 		get_time_breakdown(temp_subject->time_up, &days, &hours, &minutes, &seconds);
-		snprintf(time_up_string, sizeof(time_up_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_up_string, sizeof(time_up_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->scheduled_time_up, &days, &hours, &minutes, &seconds);
-		snprintf(time_up_scheduled_string, sizeof(time_up_scheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_up_scheduled_string, sizeof(time_up_scheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->time_up - temp_subject->scheduled_time_up, &days, &hours, &minutes, &seconds);
-		snprintf(time_up_unscheduled_string, sizeof(time_up_unscheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_up_unscheduled_string, sizeof(time_up_unscheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		/* down times */
 		get_time_breakdown(temp_subject->time_down, &days, &hours, &minutes, &seconds);
-		snprintf(time_down_string, sizeof(time_down_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_down_string, sizeof(time_down_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->scheduled_time_down, &days, &hours, &minutes, &seconds);
-		snprintf(time_down_scheduled_string, sizeof(time_down_scheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_down_scheduled_string, sizeof(time_down_scheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->time_down - temp_subject->scheduled_time_down, &days, &hours, &minutes, &seconds);
-		snprintf(time_down_unscheduled_string, sizeof(time_down_unscheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_down_unscheduled_string, sizeof(time_down_unscheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		/* unreachable times */
 		get_time_breakdown(temp_subject->time_unreachable, &days, &hours, &minutes, &seconds);
-		snprintf(time_unreachable_string, sizeof(time_unreachable_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_unreachable_string, sizeof(time_unreachable_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->scheduled_time_unreachable, &days, &hours, &minutes, &seconds);
-		snprintf(time_unreachable_scheduled_string, sizeof(time_unreachable_scheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_unreachable_scheduled_string, sizeof(time_unreachable_scheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->time_unreachable - temp_subject->scheduled_time_unreachable, &days, &hours, &minutes, &seconds);
-		snprintf(time_unreachable_unscheduled_string, sizeof(time_unreachable_unscheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_unreachable_unscheduled_string, sizeof(time_unreachable_unscheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		/* indeterminate times */
 		get_time_breakdown(time_indeterminate, &days, &hours, &minutes, &seconds);
-		snprintf(time_indeterminate_string, sizeof(time_indeterminate_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_indeterminate_string, sizeof(time_indeterminate_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->scheduled_time_indeterminate, &days, &hours, &minutes, &seconds);
-		snprintf(time_indeterminate_scheduled_string, sizeof(time_indeterminate_scheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_indeterminate_scheduled_string, sizeof(time_indeterminate_scheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(time_indeterminate - temp_subject->scheduled_time_indeterminate, &days, &hours, &minutes, &seconds);
-		snprintf(time_indeterminate_unscheduled_string, sizeof(time_indeterminate_unscheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_indeterminate_unscheduled_string, sizeof(time_indeterminate_unscheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->time_indeterminate_notrunning, &days, &hours, &minutes, &seconds);
-		snprintf(time_indeterminate_notrunning_string, sizeof(time_indeterminate_notrunning_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_indeterminate_notrunning_string, sizeof(time_indeterminate_notrunning_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->time_indeterminate_nodata, &days, &hours, &minutes, &seconds);
-		snprintf(time_indeterminate_nodata_string, sizeof(time_indeterminate_nodata_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_indeterminate_nodata_string, sizeof(time_indeterminate_nodata_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		get_time_breakdown(time_determinate, &days, &hours, &minutes, &seconds);
-		snprintf(time_determinate_string, sizeof(time_determinate_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_determinate_string, sizeof(time_determinate_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		get_time_breakdown(total_time, &days, &hours, &minutes, &seconds);
-		snprintf(total_time_string, sizeof(total_time_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(total_time_string, sizeof(total_time_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		if (total_time > 0) {
 
@@ -4307,7 +4316,7 @@ void display_host_availability(void)
 
 		if (output_format == HTML_OUTPUT) {
 
-			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>Host State Breakdowns:</DIV>\n");
+			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>ホスト稼働状況:</DIV>\n");
 
 #ifdef USE_TRENDS
 			printf("<p align='center'>\n");
@@ -4320,94 +4329,93 @@ void display_host_availability(void)
 			printf("&t1=%llu&t2=%llu&includesoftstates=%s", (unsigned long long)t1, (unsigned long long)t2, (include_soft_states == TRUE) ? "yes" : "no");
 			printf("&assumestateretention=%s&assumeinitialstates=%s", (assume_state_retention == TRUE) ? "yes" : "no", (assume_initial_states == TRUE) ? "yes" : "no");
 			printf("&assumestatesduringnotrunning=%s&initialassumedhoststate=%d", (assume_states_during_notrunning == TRUE) ? "yes" : "no", initial_assumed_host_state);
-			printf("&backtrack=%d'", backtrack_archives);
-			printf(" border=1 alt='Host State Trends' title='Host State Trends' width='500' height='20'>");
+			printf("&backtrack=%d' border=1 alt='ホスト状態の傾向' title='ホスト状態の傾向' width='500' height='20'>", backtrack_archives);
 			printf("</a><br>\n");
 			printf("</p>\n");
 #endif
 			printf("<DIV ALIGN=CENTER>\n");
 			printf("<TABLE BORDER=0 CLASS='data'>\n");
-			printf("<TR><TH CLASS='data'>State</TH>");
-			printf("<TH CLASS='data'>Type / Reason</TH>");
-			printf("<TH CLASS='data'>Time</TH>");
-			printf("<TH CLASS='data'>%% Total Time</TH>");
-			printf("<TH CLASS='data'>%% Known Time</TH></TR>\n");
+			printf("<TR><TH CLASS='data'>状態</TH>");
+			printf("<TH CLASS='data'>内容</TH>");
+			printf("<TH CLASS='data'>時間</TH>");
+			printf("<TH CLASS='data'>割合</TH>");
+			printf("<TH CLASS='data'>認知率</TH></TR>\n");
 
 			/* up times */
 			printf("<tr CLASS='dataEven'>");
-			printf("<td CLASS='hostUP' rowspan=3>UP</td>");
-			printf("<td CLASS='dataEven'>Unscheduled</td>");
+			printf("<td CLASS='hostUP' rowspan=3>稼働<br>(UP)</td>");
+			printf("<td CLASS='dataEven'>未計画</td>");
 			printf("<td CLASS='dataEven'>%s</td>", time_up_unscheduled_string);
 			printf("<td CLASS='dataEven'>%2.3f%%</td>", percent_time_up_unscheduled);
 			printf("<td class='dataEven'>%2.3f%%</td></tr>\n", percent_time_up_unscheduled_known);
 			printf("<tr CLASS='dataEven'>");
-			printf("<td CLASS='dataEven'>Scheduled</td>");
+			printf("<td CLASS='dataEven'>計画</td>");
 			printf("<td CLASS='dataEven'>%s</td>", time_up_scheduled_string);
 			printf("<td CLASS='dataEven'>%2.3f%%</td>", percent_time_up_scheduled);
 			printf("<td class='dataEven'>%2.3f%%</td></tr>\n", percent_time_up_scheduled_known);
 			printf("<tr CLASS='hostUP'>");
-			printf("<td CLASS='hostUP'>Total</td>");
+			printf("<td CLASS='hostUP'>合計</td>");
 			printf("<td CLASS='hostUP'>%s</td>", time_up_string);
 			printf("<td CLASS='hostUP'>%2.3f%%</td>", percent_time_up);
 			printf("<td class='hostUP'>%2.3f%%</td></tr>\n", percent_time_up_known);
 
 			/* down times */
 			printf("<tr CLASS='dataOdd'>");
-			printf("<td CLASS='hostDOWN' rowspan=3>DOWN</td>");
-			printf("<td CLASS='dataOdd'>Unscheduled</td>");
+			printf("<td CLASS='hostDOWN' rowspan=3>停止<br>(DOWN)</td>");
+			printf("<td CLASS='dataOdd'>未計画</td>");
 			printf("<td CLASS='dataOdd'>%s</td>", time_down_unscheduled_string);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td>", percent_time_down_unscheduled);
 			printf("<td class='dataOdd'>%2.3f%%</td></tr>\n", percent_time_down_unscheduled_known);
 			printf("<tr CLASS='dataOdd'>");
-			printf("<td CLASS='dataOdd'>Scheduled</td>");
+			printf("<td CLASS='dataOdd'>計画</td>");
 			printf("<td CLASS='dataOdd'>%s</td>", time_down_scheduled_string);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td>", percent_time_down_scheduled);
 			printf("<td class='dataOdd'>%2.3f%%</td></tr>\n", percent_time_down_scheduled_known);
 			printf("<tr CLASS='hostDOWN'>");
-			printf("<td CLASS='hostDOWN'>Total</td>");
+			printf("<td CLASS='hostDOWN'>合計</td>");
 			printf("<td CLASS='hostDOWN'>%s</td>", time_down_string);
 			printf("<td CLASS='hostDOWN'>%2.3f%%</td>", percent_time_down);
 			printf("<td class='hostDOWN'>%2.3f%%</td></tr>\n", percent_time_down_known);
 
 			/* unreachable times */
 			printf("<tr CLASS='dataEven'>");
-			printf("<td CLASS='hostUNREACHABLE' rowspan=3>UNREACHABLE</td>");
-			printf("<td CLASS='dataEven'>Unscheduled</td>");
+			printf("<td CLASS='hostUNREACHABLE' rowspan=3>未到達<br>(UNREACHABLE)</td>");
+			printf("<td CLASS='dataEven'>未計画</td>");
 			printf("<td CLASS='dataEven'>%s</td>", time_unreachable_unscheduled_string);
 			printf("<td CLASS='dataEven'>%2.3f%%</td>", percent_time_unreachable);
 			printf("<td class='dataEven'>%2.3f%%</td></tr>\n", percent_time_unreachable_known);
 			printf("<tr CLASS='dataEven'>");
-			printf("<td CLASS='dataEven'>Scheduled</td>");
+			printf("<td CLASS='dataEven'>計画</td>");
 			printf("<td CLASS='dataEven'>%s</td>", time_unreachable_scheduled_string);
 			printf("<td CLASS='dataEven'>%2.3f%%</td>", percent_time_unreachable_scheduled);
 			printf("<td class='dataEven'>%2.3f%%</td></tr>\n", percent_time_unreachable_scheduled_known);
 			printf("<tr CLASS='hostUNREACHABLE'>");
-			printf("<td CLASS='hostUNREACHABLE'>Total</td>");
+			printf("<td CLASS='hostUNREACHABLE'>合計</td>");
 			printf("<td CLASS='hostUNREACHABLE'>%s</td>", time_unreachable_string);
 			printf("<td CLASS='hostUNREACHABLE'>%2.3f%%</td>", percent_time_unreachable);
 			printf("<td class='hostUNREACHABLE'>%2.3f%%</td></tr>\n", percent_time_unreachable_known);
 
 			/* indeterminate times */
 			printf("<tr CLASS='dataOdd'>");
-			printf("<td CLASS='dataOdd' rowspan=3>Undetermined</td>");
-			printf("<td CLASS='dataOdd'>Nagios Not Running</td>");
+			printf("<td CLASS='dataOdd' rowspan=3>不明<br>(UNDETERMINED)</td>");
+			printf("<td CLASS='dataOdd'>Nagios非稼働</td>");
 			printf("<td CLASS='dataOdd'>%s</td>", time_indeterminate_notrunning_string);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td>", percent_time_indeterminate_notrunning);
 			printf("<td CLASS='dataOdd'></td></tr>\n");
 			printf("<tr CLASS='dataOdd'>");
-			printf("<td CLASS='dataOdd'>Insufficient Data</td>");
+			printf("<td CLASS='dataOdd'>データ不足</td>");
 			printf("<td CLASS='dataOdd'>%s</td>", time_indeterminate_nodata_string);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td>", percent_time_indeterminate_nodata);
 			printf("<td CLASS='dataOdd'></td></tr>\n");
 			printf("<tr CLASS='dataOdd'>");
-			printf("<td CLASS='dataOdd'>Total</td>");
+			printf("<td CLASS='dataOdd'>合計</td>");
 			printf("<td CLASS='dataOdd'>%s</td>", time_indeterminate_string);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td>", percent_time_indeterminate);
 			printf("<td CLASS='dataOdd'></td></tr>\n");
 
 			printf("<tr><td colspan=3></td></tr>\n");
 
-			printf("<tr CLASS='dataEven'><td CLASS='dataEven'>All</td><td class='dataEven'>Total</td><td CLASS='dataEven'>%s</td><td CLASS='dataEven'>100.000%%</td><td CLASS='dataEven'>100.000%%</td></tr>\n", total_time_string);
+			printf("<tr CLASS='dataEven'><td CLASS='dataEven'>全て</td><td class='dataEven'>合計</td><td CLASS='dataEven'>%s</td><td CLASS='dataEven'>100.000%%</td><td CLASS='dataEven'>100.000%%</td></tr>\n", total_time_string);
 			printf("</table>\n");
 			printf("</DIV>\n");
 
@@ -4416,11 +4424,11 @@ void display_host_availability(void)
 			/* display state breakdowns for all services on this host (only HTML output) */
 
 			printf("<BR><BR>\n");
-			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>State Breakdowns For Host Services:</DIV>\n");
+			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>このホストのサービスの稼働状況:</DIV>\n");
 
 			printf("<DIV ALIGN=CENTER>\n");
 			printf("<TABLE BORDER=0 CLASS='data'>\n");
-			printf("<TR><TH CLASS='data'>Service</TH><TH CLASS='data'>%% Time OK</TH><TH CLASS='data'>%% Time Warning</TH><TH CLASS='data'>%% Time Unknown</TH><TH CLASS='data'>%% Time Critical</TH><TH CLASS='data'>%% Time Undetermined</TH></TR>\n");
+			printf("<TR><TH CLASS='data'>サービス名</TH><TH CLASS='data'>稼働率<BR>(OK)</TH><TH CLASS='data'>警告率<BR>(WARNING)</TH><TH CLASS='data'>不明率<BR>(UNKNOWN)</TH><TH CLASS='data'>障害率<BR>(CRITICAL)</TH><TH CLASS='data'>不確定率<BR>(UNDETERMINED)</TH></TR>\n");
 
 			for (temp_subject = subject_list; temp_subject != NULL; temp_subject = temp_subject->next) {
 
@@ -4496,7 +4504,7 @@ void display_host_availability(void)
 			bgclass = odd ? "Odd" : "Even";
 			odd = odd ? 0 : 1;
 
-			printf("<tr CLASS='data%s'><td CLASS='data%s'>Average</td>", bgclass, bgclass);
+			printf("<tr CLASS='data%s'><td CLASS='data%s'>平均値</td>", bgclass, bgclass);
 			printf("<td CLASS='serviceOK'>%2.3f%% (%2.3f%%)</td>", average_percent_time_ok, average_percent_time_ok_known);
 			printf("<td CLASS='serviceWARNING'>%2.3f%% (%2.3f%%)</td>", average_percent_time_warning, average_percent_time_warning_known);
 			printf("<td CLASS='serviceUNKNOWN'>%2.3f%% (%2.3f%%)</td>", average_percent_time_unknown, average_percent_time_unknown_known);
@@ -4546,15 +4554,15 @@ void display_host_availability(void)
 		if (output_format == HTML_OUTPUT) {
 
 			printf("<BR><BR>\n");
-			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>Host State Breakdowns:</DIV>\n");
+			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>ホスト稼働状況:</DIV>\n");
 
 			printf("<DIV ALIGN=CENTER>\n");
 			printf("<TABLE BORDER=0 CLASS='data'>\n");
-			printf("<TR><TH CLASS='data'>Host</TH>");
-			printf("<TH CLASS='data'>%% Time Up</TH>");
-			printf("<TH CLASS='data'>%% Time Down</TH>");
-			printf("<TH CLASS='data'>%% Time Unreachable</TH>");
-			printf("<TH CLASS='data'>%% Time Undetermined</TH></TR>\n");
+			printf("<TR><TH CLASS='data'>ホスト名</TH>");
+			printf("<TH CLASS='data'>稼働率<BR>(UP)</TH>");
+			printf("<TH CLASS='data'>停止率<BR>(DOWN)</TH>");
+			printf("<TH CLASS='data'>未到達率<BR>(UNREACHABLE)</TH>");
+			printf("<TH CLASS='data'>未確定率<BR>(UNDETERMINED)</TH></TR>\n");
 		}
 
 
@@ -4689,7 +4697,7 @@ void display_host_availability(void)
 			bgclass = odd ? "Odd" : "Even";
 			odd = odd ? 0 : 1;
 
-			printf("<tr CLASS='data%s'><td CLASS='data%s'>Average</td>", bgclass, bgclass);
+			printf("<tr CLASS='data%s'><td CLASS='data%s'>平均値</td>", bgclass, bgclass);
 			printf("<td CLASS='hostUP'>%2.3f%% (%2.3f%%)</td>", average_percent_time_up, average_percent_time_up_known);
 			printf("<td CLASS='hostDOWN'>%2.3f%% (%2.3f%%)</td>", average_percent_time_down, average_percent_time_down_known);
 			printf("<td CLASS='hostUNREACHABLE'>%2.3f%% (%2.3f%%)</td>", average_percent_time_unreachable, average_percent_time_unreachable_known);
@@ -4700,7 +4708,6 @@ void display_host_availability(void)
 		}
 	}
 }
-
 
 /* display service availability */
 void display_service_availability(void)
@@ -4788,7 +4795,7 @@ void display_service_availability(void)
 	total_time = calculate_total_time(t1, t2);
 
 #ifdef DEBUG
-	printf("Total time: '%ld' seconds<br>\n", total_time);
+	printf("合計時間: '%ld' 秒<br>\n", total_time);
 #endif
 
 	/* its the same header for all CSV outputs */
@@ -4837,53 +4844,53 @@ void display_service_availability(void)
 
 		/* ok states */
 		get_time_breakdown(temp_subject->time_ok, &days, &hours, &minutes, &seconds);
-		snprintf(time_ok_string, sizeof(time_ok_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_ok_string, sizeof(time_ok_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->scheduled_time_ok, &days, &hours, &minutes, &seconds);
-		snprintf(time_ok_scheduled_string, sizeof(time_ok_scheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_ok_scheduled_string, sizeof(time_ok_scheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->time_ok - temp_subject->scheduled_time_ok, &days, &hours, &minutes, &seconds);
-		snprintf(time_ok_unscheduled_string, sizeof(time_ok_unscheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_ok_unscheduled_string, sizeof(time_ok_unscheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		/* warning states */
 		get_time_breakdown(temp_subject->time_warning, &days, &hours, &minutes, &seconds);
-		snprintf(time_warning_string, sizeof(time_warning_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_warning_string, sizeof(time_warning_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->scheduled_time_warning, &days, &hours, &minutes, &seconds);
-		snprintf(time_warning_scheduled_string, sizeof(time_warning_scheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_warning_scheduled_string, sizeof(time_warning_scheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->time_warning - temp_subject->scheduled_time_warning, &days, &hours, &minutes, &seconds);
-		snprintf(time_warning_unscheduled_string, sizeof(time_warning_unscheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_warning_unscheduled_string, sizeof(time_warning_unscheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		/* unknown states */
 		get_time_breakdown(temp_subject->time_unknown, &days, &hours, &minutes, &seconds);
-		snprintf(time_unknown_string, sizeof(time_unknown_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_unknown_string, sizeof(time_unknown_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->scheduled_time_unknown, &days, &hours, &minutes, &seconds);
-		snprintf(time_unknown_scheduled_string, sizeof(time_unknown_scheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_unknown_scheduled_string, sizeof(time_unknown_scheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->time_unknown - temp_subject->scheduled_time_unknown, &days, &hours, &minutes, &seconds);
-		snprintf(time_unknown_unscheduled_string, sizeof(time_unknown_unscheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_unknown_unscheduled_string, sizeof(time_unknown_unscheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		/* critical states */
 		get_time_breakdown(temp_subject->time_critical, &days, &hours, &minutes, &seconds);
-		snprintf(time_critical_string, sizeof(time_critical_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_critical_string, sizeof(time_critical_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->scheduled_time_critical, &days, &hours, &minutes, &seconds);
-		snprintf(time_critical_scheduled_string, sizeof(time_critical_scheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_critical_scheduled_string, sizeof(time_critical_scheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->time_critical - temp_subject->scheduled_time_critical, &days, &hours, &minutes, &seconds);
-		snprintf(time_critical_unscheduled_string, sizeof(time_critical_unscheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_critical_unscheduled_string, sizeof(time_critical_unscheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		/* indeterminate time */
 		get_time_breakdown(time_indeterminate, &days, &hours, &minutes, &seconds);
-		snprintf(time_indeterminate_string, sizeof(time_indeterminate_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_indeterminate_string, sizeof(time_indeterminate_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->scheduled_time_indeterminate, &days, &hours, &minutes, &seconds);
-		snprintf(time_indeterminate_scheduled_string, sizeof(time_indeterminate_scheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_indeterminate_scheduled_string, sizeof(time_indeterminate_scheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(time_indeterminate - temp_subject->scheduled_time_indeterminate, &days, &hours, &minutes, &seconds);
-		snprintf(time_indeterminate_unscheduled_string, sizeof(time_indeterminate_unscheduled_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_indeterminate_unscheduled_string, sizeof(time_indeterminate_unscheduled_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->time_indeterminate_notrunning, &days, &hours, &minutes, &seconds);
-		snprintf(time_indeterminate_notrunning_string, sizeof(time_indeterminate_notrunning_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_indeterminate_notrunning_string, sizeof(time_indeterminate_notrunning_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 		get_time_breakdown(temp_subject->time_indeterminate_nodata, &days, &hours, &minutes, &seconds);
-		snprintf(time_indeterminate_nodata_string, sizeof(time_indeterminate_nodata_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_indeterminate_nodata_string, sizeof(time_indeterminate_nodata_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		get_time_breakdown(time_determinate, &days, &hours, &minutes, &seconds);
-		snprintf(time_determinate_string, sizeof(time_determinate_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(time_determinate_string, sizeof(time_determinate_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		get_time_breakdown(total_time, &days, &hours, &minutes, &seconds);
-		snprintf(total_time_string, sizeof(total_time_string) - 1, "%dd %dh %dm %ds", days, hours, minutes, seconds);
+		snprintf(total_time_string, sizeof(total_time_string) - 1, "%d日と %d時間 %d分 %d秒", days, hours, minutes, seconds);
 
 		if (total_time > 0) {
 
@@ -4921,7 +4928,7 @@ void display_service_availability(void)
 
 		if (output_format == HTML_OUTPUT) {
 
-			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>Service State Breakdowns:</DIV>\n");
+			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>サービス稼働状況:</DIV>\n");
 #ifdef USE_TRENDS
 			printf("<p align='center'>\n");
 			printf("<a href='%s?host=%s", TRENDS_CGI, url_encode(host_name));
@@ -4934,98 +4941,98 @@ void display_service_availability(void)
 			printf("&includesoftstates=%s&assumestateretention=%s", (include_soft_states == TRUE) ? "yes" : "no", (assume_state_retention == TRUE) ? "yes" : "no");
 			printf("&assumeinitialstates=%s&assumestatesduringnotrunning=%s", (assume_initial_states == TRUE) ? "yes" : "no", (assume_states_during_notrunning == TRUE) ? "yes" : "no");
 			printf("&initialassumedservicestate=%d&backtrack=%d'", initial_assumed_service_state, backtrack_archives);
-			printf(" border=1 alt='Service State Trends' title='Service State Trends' width='500' height='20'>");
+			printf(" border=1 alt='サービス状態の傾向' title='サービス状態の傾向' width='500' height='20'>");
 			printf("</a><br>\n");
 			printf("</p>\n");
 #endif
 
 			printf("<DIV ALIGN=CENTER>\n");
 			printf("<TABLE BORDER=0 CLASS='data'>\n");
-			printf("<TR><TH CLASS='data'>State</TH>");
-			printf("<TH CLASS='data'>Type / Reason</TH>");
-			printf("<TH CLASS='data'>Time</TH>");
-			printf("<TH CLASS='data'>%% Total Time</TH>");
-			printf("<TH CLASS='data'>%% Known Time</TH></TR>\n");
+			printf("<TR><TH CLASS='data'>状態</TH>");
+			printf("<TH CLASS='data'>内容</TH>");
+			printf("<TH CLASS='data'>時間</TH>");
+			printf("<TH CLASS='data'>割合</TH>");
+			printf("<TH CLASS='data'>認知率</TH></TR>\n");
 
 			/* ok states */
-			printf("<tr CLASS='dataEven'><td CLASS='serviceOK' rowspan=3>OK</td>");
-			printf("<td CLASS='dataEven'>Unscheduled</td>");
+			printf("<tr CLASS='dataEven'><td CLASS='serviceOK' rowspan=3>正常<br>(OK)</td>");
+			printf("<td CLASS='dataEven'>未計画</td>");
 			printf("<td CLASS='dataEven'>%s</td>", time_ok_unscheduled_string);
 			printf("<td CLASS='dataEven'>%2.3f%%</td>", percent_time_ok_unscheduled);
 			printf("<td CLASS='dataEven'>%2.3f%%</td></tr>\n", percent_time_ok_unscheduled_known);
-			printf("<tr CLASS='dataEven'><td CLASS='dataEven'>Scheduled</td>");
+			printf("<tr CLASS='dataEven'><td CLASS='dataEven'>計画</td>");
 			printf("<td CLASS='dataEven'>%s</td>", time_ok_scheduled_string);
 			printf("<td CLASS='dataEven'>%2.3f%%</td>", percent_time_ok_scheduled);
 			printf("<td CLASS='dataEven'>%2.3f%%</td></tr>\n", percent_time_ok_scheduled_known);
-			printf("<tr CLASS='serviceOK'><td CLASS='serviceOK'>Total</td>");
+			printf("<tr CLASS='serviceOK'><td CLASS='serviceOK'>合計</td>");
 			printf("<td CLASS='serviceOK'>%s</td>", time_ok_string);
 			printf("<td CLASS='serviceOK'>%2.3f%%</td>", percent_time_ok);
 			printf("<td CLASS='serviceOK'>%2.3f%%</td></tr>\n", percent_time_ok_known);
 
 			/* warning states */
-			printf("<tr CLASS='dataOdd'><td CLASS='serviceWARNING' rowspan=3>WARNING</td>");
-			printf("<td CLASS='dataOdd'>Unscheduled</td>");
+			printf("<tr CLASS='dataOdd'><td CLASS='serviceWARNING' rowspan=3>警告<BR>(WARNING)</td>");
+			printf("<td CLASS='dataOdd'>未計画</td>");
 			printf("<td CLASS='dataOdd'>%s</td>", time_warning_unscheduled_string);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td>", percent_time_warning_unscheduled);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td></tr>\n", percent_time_warning_unscheduled_known);
-			printf("<tr CLASS='dataOdd'><td CLASS='dataOdd'>Scheduled</td>");
+			printf("<tr CLASS='dataOdd'><td CLASS='dataOdd'>計画</td>");
 			printf("<td CLASS='dataOdd'>%s</td>", time_warning_scheduled_string);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td>", percent_time_warning_scheduled);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td></tr>\n", percent_time_warning_scheduled_known);
-			printf("<tr CLASS='serviceWARNING'><td CLASS='serviceWARNING'>Total</td>");
+			printf("<tr CLASS='serviceWARNING'><td CLASS='serviceWARNING'>合計</td>");
 			printf("<td CLASS='serviceWARNING'>%s</td>", time_warning_string);
 			printf("<td CLASS='serviceWARNING'>%2.3f%%</td>", percent_time_warning);
 			printf("<td CLASS='serviceWARNING'>%2.3f%%</td></tr>\n", percent_time_warning_known);
 
 			/* unknown states */
-			printf("<tr CLASS='dataEven'><td CLASS='serviceUNKNOWN' rowspan=3>UNKNOWN</td>");
-			printf("<td CLASS='dataEven'>Unscheduled</td>");
+			printf("<tr CLASS='dataEven'><td CLASS='serviceUNKNOWN' rowspan=3>不明<br>(UNKNOWN)</td>");
+			printf("<td CLASS='dataEven'>未計画</td>");
 			printf("<td CLASS='dataEven'>%s</td>", time_unknown_unscheduled_string);
 			printf("<td CLASS='dataEven'>%2.3f%%</td>", percent_time_unknown_unscheduled);
 			printf("<td CLASS='dataEven'>%2.3f%%</td></tr>\n", percent_time_unknown_unscheduled_known);
-			printf("<tr CLASS='dataEven'><td CLASS='dataEven'>Scheduled</td>");
+			printf("<tr CLASS='dataEven'><td CLASS='dataEven'>計画</td>");
 			printf("<td CLASS='dataEven'>%s</td>", time_unknown_scheduled_string);
 			printf("<td CLASS='dataEven'>%2.3f%%</td>", percent_time_unknown_scheduled);
 			printf("<td CLASS='dataEven'>%2.3f%%</td></tr>\n", percent_time_unknown_scheduled_known);
-			printf("<tr CLASS='serviceUNKNOWN'><td CLASS='serviceUNKNOWN'>Total</td>");
+			printf("<tr CLASS='serviceUNKNOWN'><td CLASS='serviceUNKNOWN'>合計</td>");
 			printf("<td CLASS='serviceUNKNOWN'>%s</td>", time_unknown_string);
 			printf("<td CLASS='serviceUNKNOWN'>%2.3f%%</td>", percent_time_unknown);
 			printf("<td CLASS='serviceUNKNOWN'>%2.3f%%</td></tr>\n", percent_time_unknown_known);
 
 			/* critical states */
-			printf("<tr CLASS='dataOdd'><td CLASS='serviceCRITICAL' rowspan=3>CRITICAL</td>");
-			printf("<td CLASS='dataOdd'>Unscheduled</td>");
+			printf("<tr CLASS='dataOdd'><td CLASS='serviceCRITICAL' rowspan=3>異常<br>(CRITICAL)</td>");
+			printf("<td CLASS='dataOdd'>未計画</td>");
 			printf("<td CLASS='dataOdd'>%s</td>", time_critical_unscheduled_string);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td>", percent_time_critical_unscheduled);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td></tr>\n", percent_time_critical_unscheduled_known);
-			printf("<tr CLASS='dataOdd'><td CLASS='dataOdd'>Scheduled</td>");
+			printf("<tr CLASS='dataOdd'><td CLASS='dataOdd'>計画</td>");
 			printf("<td CLASS='dataOdd'>%s</td>", time_critical_scheduled_string);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td>", percent_time_critical_scheduled);
 			printf("<td CLASS='dataOdd'>%2.3f%%</td></tr>\n", percent_time_critical_scheduled_known);
-			printf("<tr CLASS='serviceCRITICAL'><td CLASS='serviceCRITICAL'>Total</td>");
+			printf("<tr CLASS='serviceCRITICAL'><td CLASS='serviceCRITICAL'>合計</td>");
 			printf("<td CLASS='serviceCRITICAL'>%s</td>", time_critical_string);
 			printf("<td CLASS='serviceCRITICAL'>%2.3f%%</td>", percent_time_critical);
 			printf("<td CLASS='serviceCRITICAL'>%2.3f%%</td></tr>\n", percent_time_critical_known);
 
 
-			printf("<tr CLASS='dataEven'><td CLASS='dataEven' rowspan=3>Undetermined</td>");
+			printf("<tr CLASS='dataEven'><td CLASS='dataEven' rowspan=3>未確定<BR>(UNDETERMINED)</td>");
 
-			printf("<td CLASS='dataEven'>Nagios Not Running</td>");
+			printf("<td CLASS='dataEven'>Nagios非稼働</td>");
 			printf("<td CLASS='dataEven'>%s</td>", time_indeterminate_notrunning_string);
 			printf("<td CLASS='dataEven'>%2.3f%%</td>", percent_time_indeterminate_notrunning);
 			printf("<td CLASS='dataEven'></td></tr>\n");
-			printf("<tr CLASS='dataEven'><td CLASS='dataEven'>Insufficient Data</td>");
+			printf("<tr CLASS='dataEven'><td CLASS='dataEven'>データ不足</td>");
 			printf("<td CLASS='dataEven'>%s</td>", time_indeterminate_nodata_string);
 			printf("<td CLASS='dataEven'>%2.3f%%</td>", percent_time_indeterminate_nodata);
 			printf("<td CLASS='dataEven'></td></tr>\n");
-			printf("<tr CLASS='dataEven'><td CLASS='dataEven'>Total</td>");
+			printf("<tr CLASS='dataEven'><td CLASS='dataEven'>合計</td>");
 			printf("<td CLASS='dataEven'>%s</td>", time_indeterminate_string);
 			printf("<td CLASS='dataEven'>%2.3f%%</td>", percent_time_indeterminate);
 			printf("<td CLASS='dataEven'></td></tr>\n");
 
 			printf("<tr><td colspan=3></td></tr>\n");
-			printf("<tr CLASS='dataOdd'><td CLASS='dataOdd'>All</td>");
-			printf("<td CLASS='dataOdd'>Total</td>");
+			printf("<tr CLASS='dataOdd'><td CLASS='dataOdd'>全て</td>");
+			printf("<td CLASS='dataOdd'>合計</td>");
 			printf("<td CLASS='dataOdd'>%s</td>", total_time_string);
 			printf("<td CLASS='dataOdd'>100.000%%</td>");
 			printf("<td CLASS='dataOdd'>100.000%%</td></tr>\n");
@@ -5071,11 +5078,11 @@ void display_service_availability(void)
 
 		if (output_format == HTML_OUTPUT) {
 
-			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>Service State Breakdowns:</DIV>\n");
+			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>サービス稼働状況:</DIV>\n");
 
 			printf("<DIV ALIGN=CENTER>\n");
 			printf("<TABLE BORDER=0 CLASS='data'>\n");
-			printf("<TR><TH CLASS='data'>Host</TH><TH CLASS='data'>Service</TH><TH CLASS='data'>%% Time OK</TH><TH CLASS='data'>%% Time Warning</TH><TH CLASS='data'>%% Time Unknown</TH><TH CLASS='data'>%% Time Critical</TH><TH CLASS='data'>%% Time Undetermined</TH></TR>\n");
+			printf("<TR><TH CLASS='data'>ホスト名</TH><TH CLASS='data'>サービス名</TH><TH CLASS='data'>稼働率<BR>(OK)</TH><TH CLASS='data'>警告率<BR>(WARNING)</TH><TH CLASS='data'>不明率<BR>(UNKNOWN)</TH><TH CLASS='data'>障害率<BR>(CRITICAL)</TH><TH CLASS='data'>不確定率<BR>(UNDETERMINED)</TH></TR>\n");
 		}
 
 		for (temp_subject = subject_list; temp_subject != NULL; temp_subject = temp_subject->next) {
@@ -5222,20 +5229,19 @@ void display_service_availability(void)
 				printf("%lu, %2.3f%%, %2.3f%%, ", temp_subject->time_critical, percent_time_critical, percent_time_critical_known);
 
 				/* indeterminate times */
-				printf("%lu, %2.3f%%, ",          temp_subject->time_indeterminate_notrunning, percent_time_indeterminate_notrunning);
-				printf("%lu, %2.3f%%, ",          temp_subject->time_indeterminate_nodata, percent_time_indeterminate_nodata);
-				printf("%lu, %2.3f%%\n",          time_indeterminate, percent_time_indeterminate);
+				printf("%lu, %2.3f%%, ", temp_subject->time_indeterminate_notrunning, percent_time_indeterminate_notrunning);
+				printf("%lu, %2.3f%%, ", temp_subject->time_indeterminate_nodata, percent_time_indeterminate_nodata);
+				printf("%lu, %2.3f%%\n", time_indeterminate, percent_time_indeterminate);
 			}
 		}
 
 		if (output_format == HTML_OUTPUT) {
 
 			/* average statistics */
-
 			bgclass = odd ? "Odd" : "Even";
 			odd = odd ? 0 : 1;
 
-			printf("<tr CLASS='data%s'><td CLASS='data%s' colspan='2'>Average</td>", bgclass, bgclass);
+			printf("<tr CLASS='data%s'><td CLASS='data%s' colspan='2'>平均値</td>", bgclass, bgclass);
 			printf("<td CLASS='serviceOK'>%2.3f%% (%2.3f%%)</td>", average_percent_time_ok, average_percent_time_ok_known);
 			printf("<td CLASS='serviceWARNING'>%2.3f%% (%2.3f%%)</td>", average_percent_time_warning, average_percent_time_warning_known);
 			printf("<td CLASS='serviceUNKNOWN'>%2.3f%% (%2.3f%%)</td>", average_percent_time_unknown, average_percent_time_unknown_known);
@@ -5350,7 +5356,7 @@ unsigned long calculate_total_time(time_t start_time, time_t end_time) {
 				start = max(temp_timerange->range_start, temp_start);
 				end = min(temp_timerange->range_end, temp_end);
 #ifdef DEBUG
-				printf("<li>Matching in timerange[%d]: %d -> %d (%ld -> %ld) %d -> %d = %ld<br>\n", weekday, temp_timerange->range_start, temp_timerange->range_end, temp_start, temp_end, start, end, end - start);
+				printf("<li>一致した期間[%d]: %d -> %d (%ld -> %ld) %d -> %d = %ld<br>\n", weekday, temp_timerange->range_start, temp_timerange->range_end, temp_start, temp_end, start, end, end - start);
 #endif
 				if (end > start)
 					temp_duration += end - start;

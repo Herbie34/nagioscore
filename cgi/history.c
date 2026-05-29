@@ -110,32 +110,32 @@ int main(void) {
 		printf("<td align=left valign=top width=33%%>\n");
 
 		if(display_type == DISPLAY_SERVICES)
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Service Alert History");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "サービスの警報履歴");
 		else if(show_all_hosts == TRUE)
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Alert History");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "警報履歴");
 		else
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Host Alert History");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "ホストの警報履歴");
 		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
 		display_info_table(temp_buffer, FALSE, &current_authdata);
 
 		printf("<TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 CLASS='linkBox'>\n");
 		printf("<TR><TD CLASS='linkBox'>\n");
 		if(display_type == DISPLAY_HOSTS) {
-			printf("<A HREF='%s?host=%s'>View Status Detail For %s</A><BR />\n", STATUS_CGI, (show_all_hosts == TRUE) ? "all" : url_encode(host_name), (show_all_hosts == TRUE) ? "All Hosts" : "This Host");
-			printf("<A HREF='%s?host=%s'>View Notifications For %s</A><BR />\n", NOTIFICATIONS_CGI, (show_all_hosts == TRUE) ? "all" : url_encode(host_name), (show_all_hosts == TRUE) ? "All Hosts" : "This Host");
+			printf("<A HREF='%s?host=%s'>%sの稼動状態を見る</A><BR />\n", STATUS_CGI, (show_all_hosts == TRUE) ? "all" : url_encode(host_name), (show_all_hosts == TRUE) ? "全ホスト" : "このホスト");
+			printf("<A HREF='%s?host=%s'>%sの通知履歴を見る</A><BR />\n", NOTIFICATIONS_CGI, (show_all_hosts == TRUE) ? "all" : url_encode(host_name), (show_all_hosts == TRUE) ? "全ホスト" : "このホスト");
 #ifdef USE_TRENDS
 			if(show_all_hosts == FALSE)
-				printf("<A HREF='%s?host=%s'>View Trends For This Host</A>\n", TRENDS_CGI, url_encode(host_name));
+				printf("<A HREF='%s?host=%s'>このホストの傾向を見る</A>\n", TRENDS_CGI, url_encode(host_name));
 #endif
 			}
 		else {
 			printf("<A HREF='%s?host=%s&", NOTIFICATIONS_CGI, url_encode(host_name));
-			printf("service=%s'>View Notifications For This Service</A><BR />\n", url_encode(svc_description));
+			printf("service=%s'>このサービスの通知履歴を見る</A><BR />\n", url_encode(svc_description));
 #ifdef USE_TRENDS
 			printf("<A HREF='%s?host=%s&", TRENDS_CGI, url_encode(host_name));
-			printf("service=%s'>View Trends For This Service</A><BR />\n", url_encode(svc_description));
+			printf("service=%s'>このサービスの傾向を見る</A><BR />\n", url_encode(svc_description));
 #endif
-			printf("<A HREF='%s?host=%s'>View History For This Host</A>\n", HISTORY_CGI, url_encode(host_name));
+			printf("<A HREF='%s?host=%s'>このホストの履歴を見る</A>\n", HISTORY_CGI, url_encode(host_name));
 			}
 		printf("</TD></TR>\n");
 		printf("</TABLE>\n");
@@ -148,11 +148,11 @@ int main(void) {
 
 		printf("<DIV ALIGN=CENTER CLASS='dataTitle'>\n");
 		if(display_type == DISPLAY_SERVICES)
-			printf("Service '%s' On Host '%s'", svc_description, host_name);
+			printf("ホスト '%s' 上の '%s' サービス", host_name, svc_description);
 		else if(show_all_hosts == TRUE)
-			printf("All Hosts and Services");
+			printf("全てのホストとサービス");
 		else
-			printf("Host '%s'", host_name);
+			printf("ホスト '%s'", host_name);
 		printf("</DIV>\n");
 		printf("<BR />\n");
 
@@ -180,61 +180,62 @@ int main(void) {
 		printf("<input type='hidden' name='archive' value='%d'>\n", log_archive);
 
 		printf("<tr>\n");
-		printf("<td align=left CLASS='optBoxItem'>State type options:</td>\n");
+		printf("<td align=left CLASS='optBoxItem'>ステータスタイプ:</td>\n");
 		printf("</tr>\n");
 
 		printf("<tr>\n");
 		printf("<td align=left CLASS='optBoxItem'><select name='statetype'>\n");
-		printf("<option value=%d %s>All state types</option>\n", STATE_ALL, (state_options == STATE_ALL) ? "selected" : "");
-		printf("<option value=%d %s>Soft states</option>\n", STATE_SOFT, (state_options == STATE_SOFT) ? "selected" : "");
-		printf("<option value=%d %s>Hard states</option>\n", STATE_HARD, (state_options == STATE_HARD) ? "selected" : "");
+		printf("<option value=%d %s>全てのステータス</option>\n", STATE_ALL, (state_options == STATE_ALL) ? "selected" : "");
+		printf("<option value=%d %s>ソフト</option>\n", STATE_SOFT, (state_options == STATE_SOFT) ? "selected" : "");
+		printf("<option value=%d %s>ハード</option>\n", STATE_HARD, (state_options == STATE_HARD) ? "selected" : "");
 		printf("</select></td>\n");
 		printf("</tr>\n");
 
 		printf("<tr>\n");
-		printf("<td align=left CLASS='optBoxItem'>History detail level for ");
+		printf("<td align=left CLASS='optBoxItem'>");
 		if(display_type == DISPLAY_HOSTS)
-			printf("%s host%s", (show_all_hosts == TRUE) ? "all" : "this", (show_all_hosts == TRUE) ? "s" : "");
+			printf("%sホスト", (show_all_hosts == TRUE) ? "全" : "この");
 		else
-			printf("service");
+			printf("サービス");
+		printf("の履歴詳細レベル");
 		printf(":</td>\n");
 		printf("</tr>\n")
 		;
 		printf("<tr>\n");
 		printf("<td align=left CLASS='optBoxItem'><select name='type'>\n");
 		if(display_type == DISPLAY_HOSTS)
-			printf("<option value=%d %s>All alerts</option>\n", HISTORY_ALL, (history_options == HISTORY_ALL) ? "selected" : "");
-		printf("<option value=%d %s>All service alerts</option>\n", HISTORY_SERVICE_ALL, (history_options == HISTORY_SERVICE_ALL) ? "selected" : "");
+			printf("<option value=%d %s>全ての警報</option>\n", HISTORY_ALL, (history_options == HISTORY_ALL) ? "selected" : "");
+		printf("<option value=%d %s>全サービスの警報</option>\n", HISTORY_SERVICE_ALL, (history_options == HISTORY_SERVICE_ALL) ? "selected" : "");
 		if(display_type == DISPLAY_HOSTS)
-			printf("<option value=%d %s>All host alerts</option>\n", HISTORY_HOST_ALL, (history_options == HISTORY_HOST_ALL) ? "selected" : "");
-		printf("<option value=%d %s>Service warning</option>\n", HISTORY_SERVICE_WARNING, (history_options == HISTORY_SERVICE_WARNING) ? "selected" : "");
-		printf("<option value=%d %s>Service unknown</option>\n", HISTORY_SERVICE_UNKNOWN, (history_options == HISTORY_SERVICE_UNKNOWN) ? "selected" : "");
-		printf("<option value=%d %s>Service critical</option>\n", HISTORY_SERVICE_CRITICAL, (history_options == HISTORY_SERVICE_CRITICAL) ? "selected" : "");
-		printf("<option value=%d %s>Service recovery</option>\n", HISTORY_SERVICE_RECOVERY, (history_options == HISTORY_SERVICE_RECOVERY) ? "selected" : "");
+			printf("<option value=%d %s>全ホストの警報</option>\n", HISTORY_HOST_ALL, (history_options == HISTORY_HOST_ALL) ? "selected" : "");
+		printf("<option value=%d %s>サービスの警告状態(WARNING)</option>\n", HISTORY_SERVICE_WARNING, (history_options == HISTORY_SERVICE_WARNING) ? "selected" : "");
+		printf("<option value=%d %s>サービスの不明状態(UNKNOWN)</option>\n", HISTORY_SERVICE_UNKNOWN, (history_options == HISTORY_SERVICE_UNKNOWN) ? "selected" : "");
+		printf("<option value=%d %s>サービスの異常状態(CRITICAL)</option>\n", HISTORY_SERVICE_CRITICAL, (history_options == HISTORY_SERVICE_CRITICAL) ? "selected" : "");
+		printf("<option value=%d %s>サービスの復旧状態(RECOVERY)</option>\n", HISTORY_SERVICE_RECOVERY, (history_options == HISTORY_SERVICE_RECOVERY) ? "selected" : "");
 		if(display_type == DISPLAY_HOSTS) {
-			printf("<option value=%d %s>Host down</option>\n", HISTORY_HOST_DOWN, (history_options == HISTORY_HOST_DOWN) ? "selected" : "");
-			printf("<option value=%d %s>Host unreachable</option>\n", HISTORY_HOST_UNREACHABLE, (history_options == HISTORY_HOST_UNREACHABLE) ? "selected" : "");
-			printf("<option value=%d %s>Host recovery</option>\n", HISTORY_HOST_RECOVERY, (history_options == HISTORY_HOST_RECOVERY) ? "selected" : "");
+			printf("<option value=%d %s>ホストの停止状態(DOWN)</option>\n", HISTORY_HOST_DOWN, (history_options == HISTORY_HOST_DOWN) ? "selected" : "");
+			printf("<option value=%d %s>ホストの未到達状態(UNREACHABLE)</option>\n", HISTORY_HOST_UNREACHABLE, (history_options == HISTORY_HOST_UNREACHABLE) ? "selected" : "");
+			printf("<option value=%d %s>ホストの復旧状態(RECOVERY)</option>\n", HISTORY_HOST_RECOVERY, (history_options == HISTORY_HOST_RECOVERY) ? "selected" : "");
 			}
 		printf("</select></td>\n");
 		printf("</tr>\n");
 
 		printf("<tr>\n");
-		printf("<td align=left valign=bottom CLASS='optBoxItem'><input type='checkbox' name='noflapping' %s> Hide Flapping Alerts</td>", (display_flapping_alerts == FALSE) ? "checked" : "");
+		printf("<td align=left valign=bottom CLASS='optBoxItem'><input type='checkbox' name='noflapping' %s> フラッピングを除外する</td>", (display_flapping_alerts == FALSE) ? "checked" : "");
 		printf("</tr>\n");
 		printf("<tr>\n");
-		printf("<td align=left valign=bottom CLASS='optBoxItem'><input type='checkbox' name='nodowntime' %s> Hide Downtime Alerts</td>", (display_downtime_alerts == FALSE) ? "checked" : "");
-		printf("</tr>\n");
-
-		printf("<tr>\n");
-		printf("<td align=left valign=bottom CLASS='optBoxItem'><input type='checkbox' name='nosystem' %s> Hide Process Messages</td>", (display_system_messages == FALSE) ? "checked" : "");
-		printf("</tr>\n");
-		printf("<tr>\n");
-		printf("<td align=left valign=bottom CLASS='optBoxItem'><input type='checkbox' name='oldestfirst' %s> Older Entries First</td>", (use_lifo == FALSE) ? "checked" : "");
+		printf("<td align=left valign=bottom CLASS='optBoxItem'><input type='checkbox' name='nodowntime' %s> ダウンタイムを除外する</td>", (display_downtime_alerts == FALSE) ? "checked" : "");
 		printf("</tr>\n");
 
 		printf("<tr>\n");
-		printf("<td align=left CLASS='optBoxItem'><input type='submit' value='Update'></td>\n");
+		printf("<td align=left valign=bottom CLASS='optBoxItem'><input type='checkbox' name='nosystem' %s> プロセスメッセージを除外する</td>", (display_system_messages == FALSE) ? "checked" : "");
+		printf("</tr>\n");
+		printf("<tr>\n");
+		printf("<td align=left valign=bottom CLASS='optBoxItem'><input type='checkbox' name='oldestfirst' %s> 古いものを先頭にする</td>", (use_lifo == FALSE) ? "checked" : "");
+		printf("</tr>\n");
+
+		printf("<tr>\n");
+		printf("<td align=left CLASS='optBoxItem'><input type='submit' value='更新'></td>\n");
 		printf("</tr>\n");
 
 		/* display context-sensitive help */
@@ -292,9 +293,10 @@ void document_header(int use_stylesheet) {
 
 	printf("<html>\n");
 	printf("<head>\n");
+	printf("<meta http-equiv='content-type' content='text/html;charset=UTF-8'>\n");
 	printf("<link rel=\"shortcut icon\" href=\"%sfavicon.ico\" type=\"image/ico\">\n", url_images_path);
 	printf("<title>\n");
-	printf("Nagios History\n");
+	printf("履歴\n");
 	printf("</title>\n");
 
 	if(use_stylesheet == TRUE) {
@@ -485,10 +487,10 @@ void get_history(void) {
 		result = read_file_into_lifo(log_file_to_use);
 		if(result != LIFO_OK) {
 			if(result == LIFO_ERROR_MEMORY) {
-				printf("<P><DIV CLASS='warningMessage'>Not enough memory to reverse log file - displaying history in natural order...</DIV></P>\n");
+				printf("<P><DIV CLASS='warningMessage'>ログを逆順にするために必要なメモリが不足しているため通常の順番で表示しています。</DIV></P>\n");
 				}
 			else if(result == LIFO_ERROR_FILE) {
-				printf("<HR><P><DIV CLASS='errorMessage'>Error: Cannot open log file '%s' for reading!</DIV></P><HR>", log_file_to_use);
+				printf("<HR><P><DIV CLASS='errorMessage'>エラー: ログファイル'%s'が読み込めません。</DIV></P><HR>", log_file_to_use);
 				return;
 				}
 			use_lifo = FALSE;
@@ -498,7 +500,7 @@ void get_history(void) {
 	if(use_lifo == FALSE) {
 
 		if((thefile = mmap_fopen(log_file_to_use)) == NULL) {
-			printf("<HR><P><DIV CLASS='errorMessage'>Error: Cannot open log file '%s' for reading!</DIV></P><HR>", log_file_to_use);
+			printf("<HR><P><DIV CLASS='errorMessage'>エラー: ログファイル'%s'が読み込めません。</DIV></P><HR>", log_file_to_use);
 			return;
 			}
 		}
@@ -594,11 +596,11 @@ void get_history(void) {
 			strncpy(image, FLAPPING_ICON, sizeof(image));
 
 			if(strstr(input, ";STARTED;"))
-				strncpy(image_alt, "Service started flapping", sizeof(image_alt));
+				strncpy(image_alt, "サービスがフラッピングを開始しました", sizeof(image_alt));
 			else if(strstr(input, ";STOPPED;"))
-				strncpy(image_alt, "Service stopped flapping", sizeof(image_alt));
+				strncpy(image_alt, "サービスがフラッピングを停止しました", sizeof(image_alt));
 			else if(strstr(input, ";DISABLED;"))
-				strncpy(image_alt, "Service flap detection disabled", sizeof(image_alt));
+				strncpy(image_alt, "サービスのフラップ検知は無効です", sizeof(image_alt));
 			}
 
 		/* service downtime alerts */
@@ -626,11 +628,11 @@ void get_history(void) {
 			strncpy(image, SCHEDULED_DOWNTIME_ICON, sizeof(image));
 
 			if(strstr(input, ";STARTED;"))
-				strncpy(image_alt, "Service entered a period of scheduled downtime", sizeof(image_alt));
+				strncpy(image_alt, "サービスがスケジュールされたダウンタイム期間に入りました", sizeof(image_alt));
 			else if(strstr(input, ";STOPPED;"))
-				strncpy(image_alt, "Service exited from a period of scheduled downtime", sizeof(image_alt));
+				strncpy(image_alt, "サービスがスケジュールされたダウンタイム期間から抜けました", sizeof(image_alt));
 			else if(strstr(input, ";CANCELLED;"))
-				strncpy(image_alt, "Service scheduled downtime has been cancelled", sizeof(image_alt));
+				strncpy(image_alt, "サービスのスケジュールダウンタイムはキャンセルされました", sizeof(image_alt));
 			}
 
 		/* host state alerts */
@@ -684,11 +686,11 @@ void get_history(void) {
 			strncpy(image, FLAPPING_ICON, sizeof(image));
 
 			if(strstr(input, ";STARTED;"))
-				strncpy(image_alt, "Host started flapping", sizeof(image_alt));
+				strncpy(image_alt, "ホストがフラッピングを開始しました", sizeof(image_alt));
 			else if(strstr(input, ";STOPPED;"))
-				strncpy(image_alt, "Host stopped flapping", sizeof(image_alt));
+				strncpy(image_alt, "ホストがフラッピングを停止しました", sizeof(image_alt));
 			else if(strstr(input, ";DISABLED;"))
-				strncpy(image_alt, "Host flap detection disabled", sizeof(image_alt));
+				strncpy(image_alt, "ホストのフラップ検知は無効です", sizeof(image_alt));
 			}
 
 		/* host downtime alerts */
@@ -711,11 +713,11 @@ void get_history(void) {
 			strncpy(image, SCHEDULED_DOWNTIME_ICON, sizeof(image));
 
 			if(strstr(input, ";STARTED;"))
-				strncpy(image_alt, "Host entered a period of scheduled downtime", sizeof(image_alt));
+				strncpy(image_alt, "ホストはスケジュールされたダウンタイム期間に入りました", sizeof(image_alt));
 			else if(strstr(input, ";STOPPED;"))
-				strncpy(image_alt, "Host exited from a period of scheduled downtime", sizeof(image_alt));
+				strncpy(image_alt, "ホストはスケジュールされたダウンタイム期間から抜けました", sizeof(image_alt));
 			else if(strstr(input, ";CANCELLED;"))
-				strncpy(image_alt, "Host scheduled downtime has been cancelled", sizeof(image_alt));
+				strncpy(image_alt, "ホストのスケジュールされたダウンタイムはキャンセルされました", sizeof(image_alt));
 			}
 
 		else if(display_system_messages == FALSE)
@@ -919,12 +921,12 @@ void get_history(void) {
 
 	if(found_line == FALSE) {
 		printf("<HR>\n");
-		printf("<P><DIV CLASS='warningMessage'>No history information was found ");
+		printf("<P><DIV CLASS='warningMessage'>");
 		if(display_type == DISPLAY_HOSTS)
-			printf("%s", (show_all_hosts == TRUE) ? "" : "for this host ");
+			printf("%s", (show_all_hosts == TRUE) ? "" : "このホストの");
 		else
-			printf("for this service ");
-		printf("in %s log file</DIV></P>", (log_archive == 0) ? "the current" : "this archived");
+			printf("このサービスの");
+		printf("警告履歴は、%sのログの中には見あたりません。</DIV></P>", (log_archive == 0) ? "現在" : "このアーカイブ");
 		}
 
 	printf("<HR>\n");
