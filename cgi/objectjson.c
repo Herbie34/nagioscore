@@ -72,71 +72,71 @@ authdata current_authdata;
 
 const string_value_mapping valid_queries[] = {
 	{ "hostcount", OBJECT_QUERY_HOSTCOUNT, 
-		"Return the number of hosts" },
+		"ホスト数を返します" },
 	{ "hostlist", OBJECT_QUERY_HOSTLIST, 
-		"Return a list of hosts" },
+		"ホストの一覧を返します" },
 	{ "host", OBJECT_QUERY_HOST, 
-		"Return the configuration for a single host" },
+		"単一のホストの設定を返します" },
 	{ "hostgroupcount", OBJECT_QUERY_HOSTGROUPCOUNT, 
-		"Return the number of host groups" },
+		"ホストグループ数を返します" },
 	{ "hostgrouplist", OBJECT_QUERY_HOSTGROUPLIST, 
-		"Return a list of host groups" },
+		"ホストグループの一覧を返します" },
 	{ "hostgroup", OBJECT_QUERY_HOSTGROUP, 
-		"Return the configuration for a single hostgroup" },
+		"単一のホストグループの設定を返します" },
 	{ "servicecount", OBJECT_QUERY_SERVICECOUNT, 
-		"Return a list of services" },
+		"サービスの一覧を返します" },
 	{ "servicelist", OBJECT_QUERY_SERVICELIST, 
-		"Return a list of services" },
+		"サービス数を返します" },
 	{ "service", OBJECT_QUERY_SERVICE, 
-		"Return the configuration for a single service" },
+		"単一のサービスの設定を返します" },
 	{ "servicegroupcount", OBJECT_QUERY_SERVICEGROUPCOUNT, 
-		"Return the number of service groups" },
+		"サービスグループ数を返します" },
 	{ "servicegrouplist", OBJECT_QUERY_SERVICEGROUPLIST, 
-		"Return a list of service groups" },
+		"サービスグループの一覧を返します" },
 	{ "servicegroup", OBJECT_QUERY_SERVICEGROUP,
-		"Return the configuration for a single servicegroup" },
+		"単一のサービスグループの設定を返します" },
 	{ "contactcount", OBJECT_QUERY_CONTACTCOUNT, 
-		"Return the number of contacts" },
+		"通知先数を返します" },
 	{ "contactlist", OBJECT_QUERY_CONTACTLIST, 
-		"Return a list of contacts" },
+		"通知先の一覧を返します" },
 	{ "contact", OBJECT_QUERY_CONTACT, 
-		"Return the configuration for a single contact" },
+		"単一の通知先の設定を返します" },
 	{ "contactgroupcount", OBJECT_QUERY_CONTACTGROUPCOUNT,
-		"Return the number of contact groups" },
+		"通知先グループ数を返します" },
 	{ "contactgrouplist", OBJECT_QUERY_CONTACTGROUPLIST,
-		"Return a list of contact groups" },
+		"通知先グループの一覧を返します" },
 	{ "contactgroup", OBJECT_QUERY_CONTACTGROUP,
-		"Return the configuration for a single contactgroup" },
+		"単一の通知先グループの設定を返します" },
 	{ "timeperiodcount", OBJECT_QUERY_TIMEPERIODCOUNT,
-		"Return the number of time periods" },
+		"期間数を返します" },
 	{ "timeperiodlist", OBJECT_QUERY_TIMEPERIODLIST,
-		"Return a list of time periods" },
+		"期間の一覧を返します" },
 	{ "timeperiod", OBJECT_QUERY_TIMEPERIOD,
-		"Return the configuration for a single timeperiod" },
+		"単一の期間の設定を返します" },
 	{ "commandcount", OBJECT_QUERY_COMMANDCOUNT,
-		"Return the number of commands" },
+		"コマンド数を返します" },
 	{ "commandlist", OBJECT_QUERY_COMMANDLIST,
-		"Return a list of commands" },
+		"コマンドの一覧を返します" },
 	{ "command", OBJECT_QUERY_COMMAND,
-		"Return the configuration for a single command" },
+		"単一コマンドの設定を返します" },
 	{ "servicedependencycount", OBJECT_QUERY_SERVICEDEPENDENCYCOUNT,
-		"Return the number of service dependencies" },
+		"依存するサービス数を返します" },
 	{ "servicedependencylist", OBJECT_QUERY_SERVICEDEPENDENCYLIST,
-		"Return a list of service dependencies" },
+		"依存するサービスの一覧を返します" },
 	{ "serviceescalationcount", OBJECT_QUERY_SERVICEESCALATIONCOUNT,
-		"Return the number of service escalations" },
+		"サービスエスカレーション数を返します" },
 	{ "serviceescalationlist", OBJECT_QUERY_SERVICEESCALATIONLIST,
-		"Return a list of service escalations" },
+		"サービスエスカレーションの一覧を返します" },
 	{ "hostdependencycount", OBJECT_QUERY_HOSTDEPENDENCYCOUNT,
-		"Return the number of host dependencies" },
+		"依存するホスト数を返します" },
 	{ "hostdependencylist", OBJECT_QUERY_HOSTDEPENDENCYLIST,
-		"Return a list of host dependencies" },
+		"依存するホストの一覧を返します" },
 	{ "hostescalationcount", OBJECT_QUERY_HOSTESCALATIONCOUNT,
-		"Return the number of host escalations" },
+		"ホストエスカレーション数を返します" },
 	{ "hostescalationlist", OBJECT_QUERY_HOSTESCALATIONLIST,
-		"Return a list of host escalations" },
+		"ホストエスカレーションの一覧を返します" },
 	{ "help", OBJECT_QUERY_HELP, 
-		"Display help for this CGI" },
+		"このCGIのヘルプを表示します" },
 	{ NULL, -1, NULL },
 	};
 
@@ -180,352 +180,352 @@ static const int query_status[][2] = {
 option_help object_json_help[] = {
 	{ 
 		"query",
-		"Query",
+		"クエリー",
 		"enumeration",
 		{ "all", NULL },
 		{ NULL },
 		NULL,
-		"Specifies the type of query to be executed.",
+		"実行されるクエリーのタイプを指定します。",
 		valid_queries
 		},
 	{ 
 		"formatoptions",
-		"Format Options",
+		"形式オプション",
 		"list",
 		{ NULL },
 		{ "all", NULL },
 		NULL,
-		"Specifies the formatting options to be used when displaying the results. Multiple options are allowed and are separated by a plus (+) sign..",
+		"結果を表示するときに使用される形式のオプションを指定します。複数オプションはプラス記号(+)で区切ることで許可されます。",
 		svm_format_options
 		},
 	{ 
 		"start",
-		"Start",
+		"開始",
 		"integer",
 		{ NULL },
 		{ "hostlist", "hostgrouplist", "servicelist", "servicegrouplist", "contactlist", "contactgrouplist", "timeperiodlist", "commandlist", "servicedependencylist", "serviceescalationlist", "hostdependencylist", "hostescalationlist", NULL },
 		NULL,
-		"Specifies the index (zero-based) of the first object in the list to be returned.",
+		"返されるリスト内の最初のオブジェクトのインデックス(ゼロベース)を指定します。",
 		NULL
 		},
 	{ 
 		"count",
-		"Count",
+		"カウント",
 		"integer",
 		{ NULL },
 		{ "hostlist", "hostgrouplist", "servicelist", "servicegrouplist", "contactlist", "contactgrouplist", "timeperiodlist", "commandlist", "servicedependencylist", "serviceescalationlist", "hostdependencylist", "hostescalationlist", NULL },
 		NULL,
-		"Specifies the number of objects in the list to be returned.",
+		"返されるリスト内のオブジェクト数を指定します。",
 		NULL
 		},
 	{ 
 		"dateformat",
-		"Date Format",
+		"日付係止k",
 		"string",
 		{ NULL },
 		{ "all", NULL },
 		NULL,
-		"strftime format string for values of type time_t. In the absence of a format, the JavaScript default format of the number of milliseconds since the beginning of the Unix epoch is used. Because of URL encoding, percent signs must be encoded as %25 and a space must be encoded as a plus (+) sign.",
+		"time_t型の値のstrftime形式の文字列です。形式が存在しない場合には、UNIXエポックのはじめのミリ秒数のJavaScriptのデフォルト形式が使用されます。なぜならURLエンコードのためにパーセント記号は%25としてエンコードする必要があり、スペースはプラス記号(+)としてエンコードされなければならないからです。",
 		NULL
 		},
 	{ 
 		"parenthost",
-		"Parent Host",
+		"上位ホスト",
 		"nagios:objectjson/hostlist",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Limits the hosts or services returned to those whose host parent is specified. A value of 'none' returns all hosts or services reachable directly by the Nagios core host.",
+		"上位ホストとして指定されたホストを持つものを返すホストまたはサービスを制限します。「none」の値は、Nagiosコアのホストによって直接到達可能な全てのホストまたはサービスを返します。",
 		parent_host_extras
 		},
 	{ 
 		"childhost",
-		"Child Host",
+		"下位ホスト",
 		"nagios:objectjson/hostlist",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Limits the hosts or services returned to those whose having the host specified as a child host. A value of 'none' returns all hosts or services with no child hosts.",
+		"下位ホストとして指定されたホストを持つものを返すホストまたはサービスを制限します。「none」の値は、下位ホストと全てのホストまたはサービスを返します。",
 		child_host_extras
 		},
 	{ 
 		"details",
-		"Show Details",
+		"詳細表示",
 		"boolean",
 		{ NULL },
 		{ "hostlist", "hostgrouplist", "servicelist", "servicegrouplist", "contactlist", "contactgrouplist", "timeperiodlist", "commandlist", NULL },
 		NULL,
-		"If true, return the details for all entities in the list.",
+		"trueの場合、一覧から全てのエントリーの詳細を返します。",
 		NULL
 		},
 	{ 
 		"hostname",
-		"Host Name",
+		"ホスト名",
 		"nagios:objectjson/hostlist",
 		{ "host", "service", NULL },
 		{ "servicecount", "servicelist", "hostescalationlist", "serviceescalationlist", NULL },
 		NULL,
-		"Name for the host requested.",
+		"要求されたホストの名前です。",
 		NULL
 		},
 	{ 
 		"hostgroupmember",
-		"Host Group Member",
+		"ホストグループメンバー",
 		"nagios:objectjson/hostlist",
 		{ NULL },
 		{ "hostgroupcount", "hostgrouplist", NULL },
 		NULL,
-		"Limits the hostgroups returned to those containing the hostgroupmember.",
+		"ホストグループメンバーを含むものを返すホストグループを制限します。",
 		NULL
 		},
 	{ 
 		"hostgroup",
-		"Host Group",
+		"ホストグループ",
 		"nagios:objectjson/hostgrouplist",
 		{ "hostgroup", NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", "hostescalationcount", "hostescalationlist", "serviceescalationcount", "serviceescalationlist", NULL },
 		NULL,
-		"Returns information applicable to the hostgroup or the hosts in the hostgroup depending on the query.",
+		"クエリーに応じてホストグループの中のホストやホストグループに適用される情報を返します。",
 		NULL
 		},
 	{ 
 		"servicegroup",
-		"Service Group",
+		"サービスグループService Group",
 		"nagios:objectjson/servicegrouplist",
 		{ "servicegroup", NULL },
 		{ "servicecount", "servicelist", "serviceescalationcount", "serviceescalationlist", NULL },
 		NULL,
-		"Returns information applicable to the servicegroup or the services in the servicegroup depending on the query.",
+		"クエリーに応じてサービスグループの中のサービスグループやサービスに適用される情報を返します。",
 		NULL
 		},
 	{
 		"parentservice",
-		"Parent Service",
+		"上位サービス",
 		"nagios:objectjson/servicelist",
 		{ NULL },
 		{ "servicecount", "servicelist", NULL },
 		NULL,
-		"Limits the services returned to those whose service parent has the name specified. A value of 'none' returns all services with no service parent.",
+		"サービスは、その上位サービスとして指定されたサービスを有するものに返されて制限します。「none」の値は、上位サービスと全てのサービスを返します。",
 		parent_service_extras
 		},
 	{
 		"childservice",
-		"Child Service",
+		"下位サービス",
 		"nagios:objectjson/servicelist",
 		{ NULL },
 		{ "servicecount", "servicelist", NULL },
 		NULL,
-		"Limits the services returned to those whose having the named service as a child service. A value of 'none' returns all services with no child services.",
+		"サービスは、その下位サービスとして指定されたサービスを有するものに返されて制限します。「none」の値は、下位サービスと全てのサービスを返します。",
 		child_service_extras
 		},
 	{ 
 		"contactgroup",
-		"Contact Group",
+		"通知先グループ",
 		"nagios:objectjson/contactgrouplist",
 		{ "contactgroup", NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", "contactcount", "contactlist", "serviceescalationcount", "serviceescalationlist", "hostescalationcount", "hostescalationlist", NULL },
 		NULL,
-		"Returns information applicable to the contactgroup or the contacts in the contactgroup depending on the query.",
+		"クエリーに応じて通知先グループ内の通知先グループ、または通知先に適用可能な情報を返します。",
 		NULL
 		},
 	{ 
 		"servicedescription",
-		"Service Description",
+		"サービス説明",
 		"nagios:objectjson/servicelist",
 		{ "service", NULL },
 		{ "servicecount", "servicelist", "serviceescalationcount", "serviceescalationlist", NULL },
 		"hostname",
-		"Description for the service requested.",
+		"要求されたサービスの説明です。",
 		NULL
 		},
 	{ 
 		"servicegroupmemberhost",
-		"Service Group Member Host",
+		"サービスグループメンバーホスト",
 		"nagios:objectjson/hostlist",
 		{ NULL },
 		{ "servicegroupcount", "servicegrouplist", NULL },
 		NULL,
-		"Limits the servicegroups returned to those containing the servicegroupmemberhost (and servicegroupmemberservice).",
+		"サービスグループメンバーホスト(及びサービスグループメンバーサービス)を吹くものを返すサービスグループを制限します。",
 		NULL
 		},
 	{ 
 		"servicegroupmemberservice",
-		"Service Group Member Service",
+		"サービスグループメンバーサービス",
 		"nagios:objectjson/servicelist",
 		{ NULL },
 		{ "servicegroupcount", "servicegrouplist", NULL },
 		"servicegroupmemberhost",
-		"Limits the servicegroups returned to those containing the servicegroupmemberservice (and servicegroupmemberhost).",
+		"サービスグループメンバーサービス(及びサービスグループメンバーホスト)を含むものを返すサービスグループを制限します。",
 		NULL
 		},
 	{ 
 		"contactname",
-		"Contact Name",
+		"通知先名",
 		"nagios:objectjson/contactlist",
 		{ "contact", NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", "serviceescalationcount", "serviceescalationlist", "hostescalationcount", "hostescalationlist", NULL },
 		NULL,
-		"Name for the contact requested.",
+		"要求された通知先の名前です。",
 		NULL
 		},
 	{ 
 		"contactgroupmember",
-		"Contact Group Member",
+		"通知先グループメンバー",
 		"nagios:objectjson/contactlist",
 		{ NULL },
 		{ "contactgroupcount", "contactgrouplist", NULL },
 		NULL,
-		"Limits the contactgroups returned to those containing the contactgroupmember.",
+		"通知先グループメンバーを含むものを返す通知先グループを制限します。",
 		NULL
 		},
 	{ 
 		"timeperiod",
-		"Timeperiod Name",
+		"期間名",
 		"nagios:objectjson/timeperiodlist",
 		{ "timeperiod", NULL },
 		{ NULL },
 		NULL,
-		"Name for the timeperiod requested.",
+		"要求された期間の名前です。",
 		NULL
 		},
 	{
 		"checktimeperiod",
-		"Check Timeperiod Name",
+		"チェック期間名",
 		"nagios:objectjson/timeperiodlist",
 		{ NULL },
 		{ "hostcount","hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Name of a check timeperiod to be used as selection criteria.",
+		"選択基準として使用されるチェック期間の名前です。",
 		NULL
 		},
 	{
 		"hostnotificationtimeperiod",
-		"Host Notification Timeperiod Name",
+		"ホスト通知期間名",
 		"nagios:objectjson/timeperiodlist",
 		{ NULL },
 		{ "hostcount","hostlist", "contactcount", "contactlist", NULL },
 		NULL,
-		"Name of a host notification timeperiod to be used as selection criteria.",
+		"選択基準として使用されるホスト通知期間の名前です。",
 		NULL
 		},
 	{
 		"servicenotificationtimeperiod",
-		"Service Notification Timeperiod Name",
+		"サービス通知期間名",
 		"nagios:objectjson/timeperiodlist",
 		{ NULL },
 		{ "servicecount", "servicelist", "contactcount", "contactlist", NULL },
 		NULL,
-		"Name of a service notification timeperiod to be used as selection criteria.",
+		"選択基準として使用されるサービス通知期間の名前です。",
 		NULL
 		},
 	{
 		"command",
-		"Command Name",
+		"コマンド名",
 		"nagios:objectjson/commandlist",
 		{ "command", NULL },
 		{ NULL },
 		NULL,
-		"Name for the command requested.",
+		"要求されたコマンドの名前です。",
 		NULL
 		},
 	{
 		"checkcommand",
-		"Check Command Name",
+		"チェックコマンド名",
 		"nagios:objectjson/commandlist",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Name of a check command to be be used as a selector.",
+		"セレクターとして使用されるチェックコマンドの名前です。",
 		NULL
 		},
 	{
 		"eventhandler",
-		"Event Handler Name",
+		"イベントハンドラー名",
 		"nagios:objectjson/commandlist",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Name of an event handler to be be used as a selector.",
+		"セレクターとして使用されるイベントハンドラーの名前です。",
 		NULL
 		},
 	{
 		"masterhostname",
-		"Master Host Name",
+		"マスターホスト名",
 		"nagios:objectjson/hostlist",
 		{ NULL },
 		{ "hostdependencycount", "hostdependencylist", "servicedependencycount", "servicedependencylist", NULL },
 		NULL,
-		"Name for a master host to be used as a selector.",
+		"セレクターとして使用されるマスターホストの名前です。",
 		NULL
 		},
 	{
 		"masterhostgroupname",
-		"Master Hostgroup Name",
+		"マスターホストグループ名",
 		"nagios:objectjson/hostgrouplist",
 		{ NULL },
 		{ "hostdependencycount", "hostdependencylist", "servicedependencycount", "servicedependencylist", NULL },
 		NULL,
-		"Name for a master hostgroup to be used as a selector.",
+		"セレクターとして使用されるマスターホストグループの名前です。",
 		NULL
 		},
 	{
 		"masterservicedescription",
-		"Master Service Description",
+		"マスターサービス説明",
 		"nagios:objectjson/servicelist",
 		{ NULL },
 		{ "servicedependencycount", "servicedependencylist", NULL },
 		"masterhostname",
-		"Description for a master service to be used as a selector.",
+		"セレクターとして使用されるマスターサービスの名前です。",
 		NULL
 		},
 	{
 		"masterservicegroupname",
-		"Master Servicegroup Name",
+		"マスターサービスグループ名",
 		"nagios:objectjson/servicegrouplist",
 		{ NULL },
 		{ "servicedependencycount", "servicedependencylist", NULL },
 		NULL,
-		"Name for a master servicegroup to be used as a selector.",
+		"セレクターとして使用されるマスターサービスグループの名前です。",
 		NULL
 		},
 	{
 		"dependenthostname",
-		"Dependent Host Name",
+		"依存するホスト名",
 		"nagios:objectjson/hostlist",
 		{ NULL },
 		{ "hostdependencycount", "hostdependencylist", "servicedependencycount", "servicedependencylist", NULL },
 		NULL,
-		"Name for a dependent host to be used as a selector.",
+		"セレクターとして使用される依存するホストの名前です。",
 		NULL
 		},
 	{
 		"dependenthostgroupname",
-		"Dependent Hostgroup Name",
+		"依存するホストグループ名",
 		"nagios:objectjson/hostgrouplist",
 		{ NULL },
 		{ "hostdependencycount", "hostdependencylist", "servicedependencycount", "servicedependencylist", NULL },
 		NULL,
-		"Name for a dependent hostgroup to be used as a selector.",
+		"セレクターとして使用される依存するホストグループの名前です。",
 		NULL
 		},
 	{
 		"dependentservicedescription",
-		"Dependent Service Description",
+		"依存するサービス説明",
 		"nagios:objectjson/servicelist",
 		{ NULL },
 		{ "servicedependencycount", "servicedependencylist", NULL },
 		"dependenthostname",
-		"Description for a dependent service to be used as a selector.",
+		"セレクターとして使用される依存するサービスの説明です。",
 		NULL
 		},
 	{
 		"dependentservicegroupname",
-		"Dependent Servicegroup Name",
+		"依存するサービスグループ名",
 		"nagios:objectjson/servicegrouplist",
 		{ NULL },
 		{ "servicedependencycount", "servicedependencylist", NULL },
 		NULL,
-		"Name for a dependent servicegroup to be used as a selector.",
+		"セレクターとして使用される依存するサービスグループの名前です。",
 		NULL
 		},
 	{ /* The last entry must contain all NULL entries */
@@ -611,7 +611,7 @@ int main(void) {
 
 	json_root = json_new_object();
 	if(NULL == json_root) {
-		printf( "Failed to create new json object\n");
+		printf( "新しいJSONオブジェクトの作成に失敗しました\n");
 		exit( 1);
 		}
 	json_object_append_integer(json_root, "format_version", 
@@ -646,7 +646,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not open CGI configuration file '%s' for reading!", 
+				"エラー: CGI設定ファイル'%s'を読み込みで開けませんでした！", 
 				get_cgi_config_location()));
 		json_object_append_object(json_root, "data", json_help(object_json_help));
 		json_object_print(json_root, 0, 1, cgi_data.strftime_format,
@@ -663,7 +663,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not open main configuration file '%s' for reading!",
+				"エラー: メイン設定ファイル'%s'を読み込みで開けませんでした！",
 				main_config_file));
 		json_object_append_object(json_root, "data", json_help(object_json_help));
 		document_footer();
@@ -679,7 +679,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not read some or all object configuration data!"));
+				"エラー: 一部またはすべてのオブジェクト設定データを読み取ることができませんでした！"));
 		json_object_append_object(json_root, "data", json_help(object_json_help));
 		document_footer();
 		return ERROR;
@@ -692,7 +692,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries),
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not obtain object cache file status: %s!",
+				"エラー: オブジェクトキャッシュファイルの状態を取得できませんでした: %s！",
 				strerror(errno)));
 		json_object_append_object(json_root, "data", json_help(object_json_help));
 		document_footer();
@@ -708,7 +708,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not read host and service status information!"));
+				"エラー: ホスト及びサービスの状態情報を読み込めませんでした！"));
 		json_object_append_object(json_root, "data", json_help(object_json_help));
 
 		document_footer();
@@ -1140,7 +1140,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, &current_authdata, RESULT_OPTION_MISSING,
-				"Error: Object Type not specified. See data for help."));
+				"エラー: オブジェクトタイプが指定されていません。ヘルプのためにデータを参照してください。"));
 		json_object_append_object(json_root, "data", json_help(object_json_help));
 		break;
 		}
@@ -1356,8 +1356,8 @@ int process_cgivars(json_object *json_root, object_json_cgi_data *cgi_data,
 						valid_queries),
 						get_query_status(query_status, cgi_data->query),
 						(time_t)-1, authinfo, RESULT_OPTION_VALUE_INVALID,
-						"The count option value is invalid. "
-						"It must be an integer greater than zero"));
+						"カウントオプション値が不正です。 "
+						"ゼロより大きい数値でなければなりません。"));
 				result = RESULT_OPTION_VALUE_INVALID;
 				break;
 				}
@@ -1749,7 +1749,7 @@ int process_cgivars(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, RESULT_OPTION_INVALID,
-					"Invalid option: '%s'.", variables[x]));
+					"不正なオプション: '%s' です。", variables[x]));
 			result = RESULT_OPTION_INVALID;
 			break;
 			}
@@ -1791,7 +1791,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Host information requested, but no host name specified."));
+					"ホスト情報が要求されましたが、ホスト名が指定されていません。"));
 			}
 		break;
 	case OBJECT_QUERY_HOSTGROUPCOUNT:
@@ -1806,7 +1806,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Hostgroup information requested, but no hostgroup name specified."));
+					"ホストグループ情報が要求されましたが、ホストグループ名が指定されていません。"));
 			}
 		break;
 	case OBJECT_QUERY_SERVICECOUNT:
@@ -1821,7 +1821,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Service information requested, but no host name specified."));
+					"サービス情報が要求されましたが、ホスト名が指定されていません。"));
 			}
 		if( NULL == cgi_data->service_description) {
 			result = RESULT_OPTION_MISSING;
@@ -1830,7 +1830,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Service information requested, but no service description specified."));
+					"サービス情報が要求されましたが、サービス説明が指定されていません。"));
 			}
 		break;
 	case OBJECT_QUERY_SERVICEGROUPCOUNT:
@@ -1845,7 +1845,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Service group information requested, but no service group name specified."));
+					"サービスグループ情報が要求されましたが、サービスグループ名が指定されていません。"));
 			}
 		break;
 	case OBJECT_QUERY_CONTACTCOUNT:
@@ -1860,7 +1860,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Contact information requested, but no contact name specified."));
+					"通知先情報が要求されましたが、通知先名が指定されていません。"));
 			}
 		break;
 	case OBJECT_QUERY_CONTACTGROUPCOUNT:
@@ -1875,7 +1875,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Contactgroup information requested, but no contactgroup name specified."));
+					"通知先グループ情報が要求されましたが、通知先グループ名が指定されていません。"));
 			}
 		break;
 	case OBJECT_QUERY_TIMEPERIODCOUNT:
@@ -1890,7 +1890,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Timeperiod information requested, but no timeperiod name specified."));
+					"期間情報が要求されましたが、期間名が指定されていません。"));
 			}
 		break;
 	case OBJECT_QUERY_COMMANDCOUNT:
@@ -1905,7 +1905,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Command information requested, but no command name specified."));
+					"コマンド情報が要求されましたが、コマンドと名前が指定されていません。"));
 			}
 		break;
 	case OBJECT_QUERY_SERVICEDEPENDENCYCOUNT:
@@ -1933,7 +1933,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 				svm_get_string_from_value(cgi_data->query, valid_queries),
 				get_query_status(query_status, cgi_data->query),
 				(time_t)-1, authinfo, result,
-				"Missing validation for object type %u.", cgi_data->query));
+				"オブジェクトタイプ %u の検証失敗", cgi_data->query));
 		break;
 		}
 
@@ -1952,7 +1952,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 						valid_queries), 
 						get_query_status(query_status, cgi_data->query),
 						(time_t)-1, authinfo, result,
-						"The parenthost '%s' could not be found.", 
+						"上位ホスト '%s' を見つけることができませんでした。", 
 						cgi_data->parent_host_name));
 				}
 			else {
@@ -1976,7 +1976,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 						valid_queries), 
 						get_query_status(query_status, cgi_data->query),
 						(time_t)-1, authinfo, result,
-						"The childhost '%s' could not be found.", 
+						"下位ホスト '%s' を見つけることができませんでした。", 
 						cgi_data->child_host_name));
 				}
 			else {
@@ -1995,7 +1995,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The host '%s' could not be found.", cgi_data->host_name));
+					"ホスト '%s' を見つけることができませんでした。", cgi_data->host_name));
 			}
 		else {
 			cgi_data->host = temp_host;
@@ -2012,7 +2012,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The hostgroup member '%s' could not be found.", 
+					"ホストグループメンバー '%s' を見つけることができませんでした。", 
 					cgi_data->hostgroup_member_name));
 			}
 		else {
@@ -2030,7 +2030,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The hostgroup '%s' could not be found.", 
+					"ホストグループ '%s' を見つけることができませんでした。", 
 					cgi_data->hostgroup_name));
 			}
 		else {
@@ -2048,7 +2048,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The servicegroup '%s' could not be found.", 
+					"サービスグループ '%s' を見つけることができませんでした。", 
 					cgi_data->servicegroup_name));
 			}
 		else {
@@ -2066,7 +2066,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The contactgroup '%s' could not be found.", 
+					"通知先グループ '%s' を見つけることができませんでした。", 
 					cgi_data->contactgroup_name));
 			}
 		else {
@@ -2088,8 +2088,8 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The service '%s' on host '%s' could not be found.", 
-					cgi_data->service_description, cgi_data->host_name));
+					"ホスト '%s' 上のサービス '%s' を見つけることができませんでした。", 
+					cgi_data->host_name, cgi_data->service_description));
 			}
 		else {
 				cgi_data->service = temp_service;
@@ -2108,7 +2108,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"If either the servicegroupmemberhost or servicegroupmemberservice is specified, both must be specified."));
+					"servicegroupmemberhostまたはservicegroupmemberserviceどちらかが指定されている場合は、両方を指定する必要があります。"));
 			}
 		else {
 			temp_service = find_service( cgi_data->servicegroup_member_host_name,
@@ -2121,9 +2121,9 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 						valid_queries),
 						get_query_status(query_status, cgi_data->query),
 						(time_t)-1, authinfo, result,
-						"The servicegroup member service '%s' on host '%s' could not be found.", 
-						cgi_data->servicegroup_member_service_description,
-						cgi_data->servicegroup_member_host_name));
+						"サービスグループメンバーのホスト '%s' 上のサービス '%s' を見つけることができませんでした。", 
+						cgi_data->servicegroup_member_host_name,
+						cgi_data->servicegroup_member_service_description));
 				}
 			else {
 				cgi_data->servicegroup_member = temp_service;
@@ -2141,7 +2141,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The contact '%s' could not be found.",
+					"通知先 '%s' を見つけることができませんでした。",
 					cgi_data->contact_name));
 			}
 		else {
@@ -2159,7 +2159,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The contactgroup member '%s' could not be found.", 
+					"通知先グループメンバー '%s' を見つけることができませんでした。", 
 					cgi_data->contactgroup_member_name));
 			}
 		else {
@@ -2177,7 +2177,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The timeperiod '%s' could not be found.", 
+					"期間 '%s' を見つけることができませんでした。", 
 					cgi_data->timeperiod_name));
 			}
 		else {
@@ -2195,7 +2195,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries),
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The check timeperiod '%s' could not be found.",
+					"チェック機関 '%s' を見つけることができませんでした。",
 					cgi_data->check_timeperiod_name));
 			}
 		else {
@@ -2214,7 +2214,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries),
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The host notification timeperiod '%s' could not be found.",
+					"ホスト通知期間 '%s' を見つけることができませんでした。",
 					cgi_data->host_notification_timeperiod_name));
 			}
 		else {
@@ -2233,7 +2233,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries),
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The service notification timeperiod '%s' could not be found.",
+					"サービス通知期間 '%s' を見つけることができませんでした。",
 					cgi_data->service_notification_timeperiod_name));
 			}
 		else {
@@ -2250,7 +2250,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					json_result(query_time, THISCGI, 
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
-					(time_t)-1, authinfo, result, "The command '%s' could not be found.", 
+					(time_t)-1, authinfo, result, "コマンド '%s' を見つけることができませんでした。", 
 					cgi_data->command_name));
 			}
 		else {
@@ -2268,7 +2268,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries),
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The check command '%s' could not be found.",
+					"チェックコマンド '%s' を見つけることができませんでした。",
 					cgi_data->check_command_name));
 			}
 		else {
@@ -2286,7 +2286,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries),
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The event handler '%s' could not be found.",
+					"イベントハンドラー '%s' を見つけることができませんでした。",
 					cgi_data->event_handler_name));
 			}
 		else {
@@ -2304,7 +2304,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries),
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The master host '%s' could not be found.",
+					"マスターホスト '%s' を見つけることができませんでした。",
 					cgi_data->master_host_name));
 			}
 		else {
@@ -2322,7 +2322,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries),
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The master hostgroup '%s' could not be found.",
+					"マスターホストグループ '%s' を見つけることができませんでした。",
 					cgi_data->master_hostgroup_name));
 			}
 		else {
@@ -2341,7 +2341,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries),
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The master servicegroup '%s' could not be found.",
+					"マスターサービスグループ '%s' を見つけることができませんでした。",
 					cgi_data->master_servicegroup_name));
 			}
 		else {
@@ -2359,7 +2359,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries),
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The dependent host '%s' could not be found.",
+					"依存するホスト '%s' を見つけることができませんでした。",
 					cgi_data->dependent_host_name));
 			}
 		else {
@@ -2377,7 +2377,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries),
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The dependent hostgroup '%s' could not be found.",
+					"依存するホストグループ '%s' を見つけることができませんでした。",
 					cgi_data->dependent_hostgroup_name));
 			}
 		else {
@@ -2396,7 +2396,7 @@ int validate_arguments(json_object *json_root, object_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries),
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The dependent servicegroup '%s' could not be found.",
+					"依存するサービスグループ '%s' を見つけることができませんでした。",
 					cgi_data->dependent_servicegroup_name));
 			}
 		else {

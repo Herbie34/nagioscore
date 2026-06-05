@@ -118,43 +118,43 @@ authdata current_authdata;
 
 const string_value_mapping valid_queries[] = {
 	{ "hostcount", STATUS_QUERY_HOSTCOUNT,
-		"Return the number of hosts in each state" },
+		"各状態のホスト数を返します" },
 	{ "hostlist", STATUS_QUERY_HOSTLIST,
-		"Return a list of hosts and their current status" },
+		"ホストの一覧及びそれらの現在の状態を返します" },
 	{ "host", STATUS_QUERY_HOST, 
-		"Return the status of a single host." },
+		"単一のホストの状態を返します" },
 	{ "servicecount", STATUS_QUERY_SERVICECOUNT,
-		"Return the number of services in each state" },
+		"各状態のサービス数を返します" },
 	{ "servicelist", STATUS_QUERY_SERVICELIST,
-		"Return a list of services and their current status" },
+		"サービスの一覧及びそれらの現在の状態を返します" },
 	{ "service", STATUS_QUERY_SERVICE,
-		"Return the status of a single service" },
+		"単一のサービスの状態を返します" },
 #if 0
 	{ "contactcount", STATUS_QUERY_CONTACTCOUNT,
-		"Return the number of contacts" },
+		"通知先数を返します" },
 	{ "contactlist", STATUS_QUERY_CONTACTLIST,
-		"Return a list of of contacts and their current status" },
+		"通知先の一覧及びそれらの現在の状態を返します" },
 	{ "contact", STATUS_QUERY_CONTACT,
-		"Return a single contact" },
+		"単一の通知先を返します" },
 #endif
 	{ "commentcount", STATUS_QUERY_COMMENTCOUNT,
-		"Return the number of comments" },
+		"コメント数を返します" },
 	{ "commentlist", STATUS_QUERY_COMMENTLIST,
-		"Return a list of comments" },
+		"コメントの一覧を返します" },
 	{ "comment", STATUS_QUERY_COMMENT,
-		"Return a single comment" },
+		"単一のコメントを返します" },
 	{ "downtimecount", STATUS_QUERY_DOWNTIMECOUNT,
-		"Return the number of downtimes" },
+		"ダウンタイム数を返します" },
 	{ "downtimelist", STATUS_QUERY_DOWNTIMELIST,
-		"Return a list of downtimes" },
+		"ダウンタイムの一覧を返します" },
 	{ "downtime", STATUS_QUERY_DOWNTIME,
 		"Return a single downtime" },
 	{ "programstatus", STATUS_QUERY_PROGRAMSTATUS,
-		"Return the Nagios Core program status" },
+		"Nagiosコアのプログラムの状態を返します" },
 	{ "performancedata", STATUS_QUERY_PERFORMANCEDATA,
-		"Return the Nagios Core performance data" },
+		"Nagiosコアのパフォーマンスデータを返します" },
 	{ "help", STATUS_QUERY_HELP, 
-		"Display help for this CGI" },
+		"このCGIのヘルプを表示します" },
 	{ NULL, -1, NULL},
 	};
 
@@ -183,506 +183,506 @@ static const int query_status[][2] = {
 	};
 
 const string_value_mapping svm_host_time_fields[] = {
-	{ "lastupdate", STATUS_TIME_LAST_UPDATE, "Last Update" },
-	{ "lastcheck", STATUS_TIME_LAST_CHECK, "Last Check" },
-	{ "nextcheck", STATUS_TIME_NEXT_CHECK, "Next Check" },
-	{ "laststatechange", STATUS_TIME_LAST_STATE_CHANGE, "Last State Change" },
+	{ "lastupdate", STATUS_TIME_LAST_UPDATE, "前回の更新" },
+	{ "lastcheck", STATUS_TIME_LAST_CHECK, "前回のチェック" },
+	{ "nextcheck", STATUS_TIME_NEXT_CHECK, "次回のチェック" },
+	{ "laststatechange", STATUS_TIME_LAST_STATE_CHANGE, "前回の状態変化" },
 	{ "lasthardstatechange", STATUS_TIME_LAST_HARD_STATE_CHANGE, 
-			"Last Hard State Change" },
-	{ "lasttimeup", STATUS_TIME_LAST_TIME_UP, "Last Time Up" },
-	{ "lasttimedown", STATUS_TIME_LAST_TIME_DOWN, "Last Time Down" },
+			"前回のハード状態変化" },
+	{ "lasttimeup", STATUS_TIME_LAST_TIME_UP, "前回の稼働(UP)" },
+	{ "lasttimedown", STATUS_TIME_LAST_TIME_DOWN, "前回の停止(DOWN)" },
 	{ "lasttimeunreachable", STATUS_TIME_LAST_TIME_UNREACHABLE, 
-			"Last Time Unreachable" },
-	{ "lastnotification", STATUS_TIME_LAST_NOTIFICATION, "Last Notification" },
-	{ "nextnotification", STATUS_TIME_NEXT_NOTIFICATION, "Next Notification" },
+			"前回の未到達(Unreachable)" },
+	{ "lastnotification", STATUS_TIME_LAST_NOTIFICATION, "前回の通知" },
+	{ "nextnotification", STATUS_TIME_NEXT_NOTIFICATION, "次回の通知" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_service_time_fields[] = {
-	{ "lastupdate", STATUS_TIME_LAST_UPDATE, "Last Update" },
-	{ "lastcheck", STATUS_TIME_LAST_CHECK, "Last Check" },
-	{ "nextcheck", STATUS_TIME_NEXT_CHECK, "Next Check" },
-	{ "laststatechange", STATUS_TIME_LAST_STATE_CHANGE, "Last State Change" },
+	{ "lastupdate", STATUS_TIME_LAST_UPDATE, "前回の更新" },
+	{ "lastcheck", STATUS_TIME_LAST_CHECK, "前回のチェック" },
+	{ "nextcheck", STATUS_TIME_NEXT_CHECK, "次回のチェック" },
+	{ "laststatechange", STATUS_TIME_LAST_STATE_CHANGE, "前回の状態変化" },
 	{ "lasthardstatechange", STATUS_TIME_LAST_HARD_STATE_CHANGE, 
-			"Last Hard State Change" },
-	{ "lasttimeok", STATUS_TIME_LAST_TIME_OK, "Last Time OK" },
-	{ "lasttimewarning", STATUS_TIME_LAST_TIME_WARNING, "Last Time Warning" },
+			"前回のハード状態変化" },
+	{ "lasttimeok", STATUS_TIME_LAST_TIME_OK, "前回正常(OK)" },
+	{ "lasttimewarning", STATUS_TIME_LAST_TIME_WARNING, "前回警告(WARNING)" },
 	{ "lasttimecritical", STATUS_TIME_LAST_TIME_CRITICAL, 
-			"Last Time Critical" },
-	{ "lasttimeunknown", STATUS_TIME_LAST_TIME_UNKNOWN, "Last Time Unknown" },
-	{ "lastnotification", STATUS_TIME_LAST_NOTIFICATION, "Last Notification" },
-	{ "nextnotification", STATUS_TIME_NEXT_NOTIFICATION, "Next Notification" },
+			"前回異常(CRITICAL)" },
+	{ "lasttimeunknown", STATUS_TIME_LAST_TIME_UNKNOWN, "前回不明(UNKNOWN)" },
+	{ "lastnotification", STATUS_TIME_LAST_NOTIFICATION, "前回の通知" },
+	{ "nextnotification", STATUS_TIME_NEXT_NOTIFICATION, "次回の通知" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_valid_comment_types[] = {
-	{ "host", COMMENT_TYPE_HOST, "Host Comment" },
-	{ "service", COMMENT_TYPE_SERVICE, "Service Comment" },
+	{ "host", COMMENT_TYPE_HOST, "ホストコメント" },
+	{ "service", COMMENT_TYPE_SERVICE, "サービスコメント" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_valid_comment_entry_types[] = {
-	{ "user", COMMENT_ENTRY_USER, "User Comment" },
-	{ "downtime", COMMENT_ENTRY_DOWNTIME, "Downtime Comment" },
-	{ "flapping", COMMENT_ENTRY_FLAPPING, "Flapping Comment" },
+	{ "user", COMMENT_ENTRY_USER, "ユーザーコメント" },
+	{ "downtime", COMMENT_ENTRY_DOWNTIME, "ダウンタイムコメント" },
+	{ "flapping", COMMENT_ENTRY_FLAPPING, "不ラッピングコメント" },
 	{ "acknowledgement", COMMENT_ENTRY_ACKNOWLEDGEMENT, 
-			"Acknowledgement Comment" },
+			"認知済みコメント" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_valid_persistence[] = {
-	{ "yes", BOOLEAN_TRUE, "Persistent Comment" },
-	{ "no", BOOLEAN_FALSE, "Non-Persistent Comment" },
+	{ "yes", BOOLEAN_TRUE, "永続的なコメント" },
+	{ "no", BOOLEAN_FALSE, "非永続的なコメント" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_valid_expiration[] = {
-	{ "yes", BOOLEAN_TRUE, "Comment Expires" },
-	{ "no", BOOLEAN_FALSE, "Comment Does Not Expire" },
+	{ "yes", BOOLEAN_TRUE, "期限切れコメント" },
+	{ "no", BOOLEAN_FALSE, "期限切れではないコメント" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_comment_time_fields[] = {
-	{ "entrytime", STATUS_TIME_ENTRY_TIME, "Entry Time" },
-	{ "expiretime", STATUS_TIME_EXPIRE_TIME, "Expiration Time" },
+	{ "entrytime", STATUS_TIME_ENTRY_TIME, "エントリー時間" },
+	{ "expiretime", STATUS_TIME_EXPIRE_TIME, "有効期限" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_downtime_time_fields[] = {
-	{ "entrytime", STATUS_TIME_ENTRY_TIME, "Entry Time" },
-	{ "starttime", STATUS_TIME_START_TIME, "Start Time" },
+	{ "entrytime", STATUS_TIME_ENTRY_TIME, "エントリー時間" },
+	{ "starttime", STATUS_TIME_START_TIME, "開始時間" },
 	{ "flexdowntimestart", STATUS_TIME_FLEX_DOWNTIME_START, 
-			"Flex Downtime Start" },
-	{ "endtime", STATUS_TIME_END_TIME, "End Time" },
+			"柔軟なダウンタイム開始" },
+	{ "endtime", STATUS_TIME_END_TIME, "終了時間" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_valid_downtime_object_types[] = {
-	{ "host", DOWNTIME_OBJECT_TYPE_HOST, "Host Downtime" },
-	{ "service", DOWNTIME_OBJECT_TYPE_SERVICE, "Service Downtime" },
+	{ "host", DOWNTIME_OBJECT_TYPE_HOST, "ホストダウンタイム" },
+	{ "service", DOWNTIME_OBJECT_TYPE_SERVICE, "サービスダウンタイム" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_valid_downtime_types[] = {
-	{ "fixed", DOWNTIME_TYPE_FIXED, "Fixed Downtime" },
-	{ "flexible", DOWNTIME_TYPE_FLEXIBLE, "Flexible Downtime" },
+	{ "fixed", DOWNTIME_TYPE_FIXED, "固定ダウンタイム" },
+	{ "flexible", DOWNTIME_TYPE_FLEXIBLE, "柔軟なダウンタイム" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_valid_triggered_status[] = {
-	{ "yes", BOOLEAN_TRUE, "Downtime Triggered" },
-	{ "no", BOOLEAN_FALSE, "Downtime Not Triggered" },
+	{ "yes", BOOLEAN_TRUE, "トリガー済みダウンタイム" },
+	{ "no", BOOLEAN_FALSE, "未トリガーダウンタイム" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_valid_in_effect_status[] = {
-	{ "yes", BOOLEAN_TRUE, "Downtime In Effect" },
-	{ "no", BOOLEAN_FALSE, "Downtime Not In Effect" },
+	{ "yes", BOOLEAN_TRUE, "有効なダウンタイム" },
+	{ "no", BOOLEAN_FALSE, "有効ではないダウンタイム" },
 	{ NULL, -1, NULL },
 	};
 
 option_help status_json_help[] = {
 	{ 
 		"query",
-		"Query",
+		"クエリー",
 		"enumeration",
 		{ "all", NULL },
 		{ NULL },
 		NULL,
-		"Specifies the type of query to be executed.",
+		"実行するクエリーのタイプを指定します。",
 		valid_queries
 		},
 	{ 
 		"formatoptions",
-		"Format Options",
+		"形式のオプション",
 		"list",
 		{ NULL },
 		{ "all", NULL },
 		NULL,
-		"Specifies the formatting options to be used when displaying the results. Multiple options are allowed and are separated by a plus (+) sign..",
+		"結果を表示するときに使用される形式のオプションを指定します。複数のオプションはプラス記号(+)で区切ることができます。",
 		svm_format_options
 		},
 	{ 
 		"start",
-		"Start",
+		"開始",
 		"integer",
 		{ NULL },
 		{ "hostlist", "servicelist", NULL },
 		NULL,
-		"Specifies the index (zero-based) of the first object in the list to be returned.",
+		"返される一覧内の最初のオブジェクトのインデックス(ゼロベース)を指定します。",
 		NULL
 		},
 	{ 
 		"count",
-		"Count",
+		"カウント",
 		"integer",
 		{ NULL },
 		{ "hostlist", "servicelist", NULL },
 		NULL,
-		"Specifies the number of objects in the list to be returned.",
+		"返される一覧内のオブジェクト数を指定します。",
 		NULL
 		},
 	{ 
 		"parenthost",
-		"Parent Host",
+		"上位ホスト",
 		"nagios:objectjson/hostlist",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Limits the hosts or services returned to those whose host parent is specified. A value of 'none' returns all hosts or services reachable directly by the Nagios core host.",
+		"制限するホストやサービスはそのホストの上位を指定したものを返します。「none」の値はNagiosコアのホストによって直接到達可能なすべてのホストやサービスを返します。",
 		parent_host_extras
 		},
 	{ 
 		"childhost",
-		"Child Host",
+		"下位ホスト",
 		"nagios:objectjson/hostlist",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Limits the hosts or services returned to those whose having the host specified as a child host. A value of 'none' returns all hosts or services with no child hosts.",
+		"制限するホストまたはサービスは下位ホストとして指定されたホストを持つものを返します。「none」の値は下位ホストとのすべてのホストやサービスを返します。",
 		child_host_extras
 		},
 	{ 
 		"details",
-		"Show Details",
+		"詳細の表示",
 		"boolean",
 		{ NULL },
 		{ "hostlist", "servicelist", "commentlist", "downtimelist", NULL },
 		NULL,
-		"Returns the details for all entities in the list.",
+		"一覧のすべてのエントリーについて詳細を返します。",
 		NULL
 		},
 	{ 
 		"dateformat",
-		"Date Format",
+		"日付形式",
 		"string",
 		{ NULL },
 		{ "all", NULL },
 		NULL,
-		"strftime format string for values of type time_t. In the absence of a format, the JavaScript default format of the number of milliseconds since the beginning of the Unix epoch is used. Because of URL encoding, percent signs must be encoded as %25 and a space must be encoded as a plus (+) sign.",
+		"time_t型の値についてはstrftimeフォーマット文字列。フォーマットが存在しない場合には、Unixエポックの始めからのミリ秒数のJavaScriptデフォルトフォーマットが使用されます。なぜならURLエンコードのため、パーセント記号は%25としてエンコードする必要があり、スペースはプラス記号(+)としてエンコードされなければなりません。",
 		NULL
 		},
 	{ 
 		"hostname",
-		"Host Name",
+		"ホスト名",
 		"nagios:objectjson/hostlist",
 		{ "host", "service", NULL },
 		{ "servicecount", "servicelist", "commentcount", "commentlist", "downtimecount", "downtimelist", NULL },
 		NULL,
-		"Name for the host requested.",
+		"要求されたホストの名前です。",
 		NULL
 		},
 	{ 
 		"hostgroup",
-		"Host Group",
+		"ホストグループ",
 		"nagios:objectjson/hostgrouplist",
 		{ "hostgroup", NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Returns information applicable to the hostgroup or the hosts in the hostgroup depending on the query.",
+		"クエリーによってはホストグループの中のホストグループやホストに適用可能な情報を返します。",
 		NULL
 		},
 	{ 
 		"hoststatus",
-		"Host Status",
+		"ホストの状態",
 		"list",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Limits returned information to those hosts whose status matches this list. Host statuses are space separated.",
+		"制限は状態が一致するこの一覧のそれらのホストに情報を返します。ホストの状態はスペースで区切られます。",
 		svm_host_statuses
 		},
 	{ 
 		"servicegroup",
-		"Service Group",
+		"サービスグループ",
 		"nagios:objectjson/servicegrouplist",
 		{ "servicegroup", NULL },
 		{ "servicecount", "servicelist", NULL },
 		NULL,
-		"Returns information applicable to the servicegroup or the services in the servicegroup depending on the query.",
+		"クエリーによってはサービスグループの中のサービスグループやサービスに適用可能な情報を返します。",
 		NULL
 		},
 	{ 
 		"servicestatus",
-		"Service Status",
+		"サービスの状態",
 		"list",
 		{ NULL },
 		{ "servicecount", "servicelist" },
 		NULL,
-		"Limits returned information to those services whose status matches this list. Service statuses are space separated.",
+		"制限は状態が一致するこの一覧のそれらのサービスに情報を返します。サービスの状態はスペースで区切られます。",
 		svm_service_statuses
 		},
 	{
 		"parentservice",
-		"Parent Service",
+		"上位サービス",
 		"nagios:objectjson/servicelist",
 		{ NULL },
 		{ "servicecount", "servicelist", NULL },
 		NULL,
-		"Limits the services returned to those whose service parent has the name specified. A value of 'none' returns all services with no service parent.",
+		"サービスは、その上位サービスとして指定されたサービスを有するものに戻って制限します。「none」の値は、上位サービスとすべてのサービスを返します。",
 		parent_service_extras
 		},
 	{
 		"childservice",
-		"Child Service",
+		"下位サービス",
 		"nagios:objectjson/servicelist",
 		{ NULL },
 		{ "servicecount", "servicelist", NULL },
 		NULL,
-		"Limits the services returned to those whose having the named service as a child service. A value of 'none' returns all services with no child services.",
+		"サービスは、その下位サービスとして指定されたサービスを有するものに戻って制限します。「none」の値は、下位サービスとすべてのサービスを返します。",
 		child_service_extras
 		},
 	{ 
 		"contactgroup",
-		"Contact Group",
+		"通知先グループ",
 		"nagios:objectjson/contactgrouplist",
 		{ "contactgroup", NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Returns information applicable to the contactgroup or the contacts in the contactgroup depending on the query.",
+		"クエリーに応じて、通知先グループ内の通知先グループ、または通知先に適用可能な情報を返します。",
 		NULL
 		},
 	{ 
 		"servicedescription",
-		"Service Description",
+		"サービス説明",
 		"nagios:objectjson/servicelist",
 		/* "for query: 'service'",*/
 		{ "service", NULL },
 		{ "servicecount", "servicelist", "commentcount", "commentlist", "downtimecount", "downtimelist", NULL },
 		"hostname",
-		"Description for the service requested.",
+		"要求されたサービスの説明です。",
 		NULL
 		},
 	{ 
 		"checktimeperiod",
-		"Check Timeperiod Name",
+		"チェック期間名",
 		"nagios:objectjson/timeperiodlist",
 		{ NULL },
 		{ "hostcount","hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Name of a check timeperiod to be used as selection criteria.",
+		"選択基準として使用されるチェック期間の名前です。",
 		NULL
 		},
 	{
 		"hostnotificationtimeperiod",
-		"Host Notification Timeperiod Name",
+		"ホスト通知期間名",
 		"nagios:objectjson/timeperiodlist",
 		{ NULL },
 		{ "hostcount","hostlist", NULL },
 		NULL,
-		"Name of a host notification timeperiod to be used as selection criteria.",
+		"選択基準として使用されるホスト通知期間の名前です。",
 		NULL
 		},
 	{
 		"servicenotificationtimeperiod",
-		"Service Notification Timeperiod Name",
+		"サービス通知期間名",
 		"nagios:objectjson/timeperiodlist",
 		{ NULL },
 		{ "servicecount", "servicelist", NULL },
 		NULL,
-		"Name of a service notification timeperiod to be used as selection criteria.",
+		"選択基準として使用されるサービス通知期間の名前です。",
 		NULL
 		},
 	{
 		"checkcommand",
-		"Check Command Name",
+		"チェックコマンド名",
 		"nagios:objectjson/commandlist",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Name of a check command to be be used as a selector.",
+		"セレクターとして使用されるチェックコマンドの名前です。",
 		NULL
 		},
 	{
 		"eventhandler",
-		"Event Handler Name",
+		"イベントハンドラー名",
 		"nagios:objectjson/commandlist",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Name of an event handler to be be used as a selector.",
+		"セレクターとして使用されるイベントハンドラーの名前です。",
 		NULL
 		},
 	{
 		"commenttypes",
-		"Comment Type",
+		"コメントのタイプ",
 		"list",
 		{ NULL },
 		{ "commentcount", "commentlist", NULL },
 		NULL,
-		"Comment type for the comment requested.",
+		"要求されたコメントに対するコメントのタイプです。",
 		svm_valid_comment_types
 		},
 	{ 
 		"entrytypes",
-		"Entry Type",
+		"エントリーのタイプ",
 		"list",
 		{ NULL },
 		{ "commentcount", "commentlist", NULL },
 		NULL,
-		"Entry type for the comment requested.",
+		"要求されたコメントに対するエントリータイプです。",
 		svm_valid_comment_entry_types
 		},
 	{ 
 		"persistence",
-		"Comment Persistence",
+		"コメントの永続性",
 		"list",
 		{ NULL },
 		{ "commentcount", "commentlist", NULL },
 		NULL,
-		"Persistence for the comment requested.",
+		"要求されたコメントに対する永続性です。",
 		svm_valid_persistence
 		},
 	{ 
 		"expiring",
-		"Comment Expiration",
+		"コメントの期限",
 		"list",
 		{ NULL },
 		{ "commentcount", "commentlist", NULL },
 		NULL,
-		"Whether or not the comment expires.",
+		"コメントを期限切れにするかどうかです。",
 		svm_valid_expiration
 		},
 	{ 
 		"downtimeobjecttypes",
-		"Downtime Object Type",
+		"ダウンタイムオブジェクトのタイプ",
 		"list",
 		{ NULL },
 		{ "downtimecount", "downtimelist", NULL },
 		NULL,
-		"The type of object to which the downtime applies.",
+		"ダウンタイムが適用されるオブジェクトのタイプです。",
 		svm_valid_downtime_object_types
 		},
 	{ 
 		"downtimetypes",
-		"Downtime Type",
+		"ダウンタイムのタイプ",
 		"list",
 		{ NULL },
 		{ "downtimecount", "downtimelist", NULL },
 		NULL,
-		"The type of the downtime.",
+		"ダウンタイムのタイプです。",
 		svm_valid_downtime_types
 		},
 	{ 
 		"triggered",
-		"Downtime Triggered",
+		"ダウンタイムのトリガー",
 		"list",
 		{ NULL },
 		{ "downtimecount", "downtimelist", NULL },
 		NULL,
-		"Whether or not the downtime is triggered.",
+		"ダウンタイムがトリガされているかどうかです。",
 		svm_valid_triggered_status
 		},
 	{ 
 		"triggeredby",
-		"Triggered By",
+		"トリガー",
 		"nagios:statusjson/downtimelist",
 		{ NULL },
 		{ "downtimecount", "downtimelist", NULL },
 		NULL,
-		"ID of the downtime which triggers other downtimes.",
+		"他のダウンタイムをトリガーするダウンタイムのIDです。",
 		NULL
 		},
 	{ 
 		"ineffect",
-		"Downtime In Effect",
+		"有効なダウンタイム",
 		"list",
 		{ NULL },
 		{ "downtimecount", "downtimelist", NULL },
 		NULL,
-		"Whether or not the downtime is in effect.",
+		"ダウンタイムが有効であるか否かです。",
 		svm_valid_in_effect_status
 		},
 	{ 
 		"commentid",
-		"Comment ID",
+		"コメントID",
 		"nagios:statusjson/commentlist",
 		{ "comment", NULL },
 		{ NULL },
 		NULL,
-		"Comment ID for the comment requested.",
+		"要求されたコメントのコメントIDです。",
 		NULL
 		},
 	{ 
 		"downtimeid",
-		"Downtime ID",
+		"ダウンタイムID",
 		"nagios:statusjson/downtimelist",
 		{ "downtime", NULL },
 		{ NULL },
 		NULL,
-		"Downtime ID for the downtime requested.",
+		"要求されたダウンタイムのダウンタイムIDです。",
 		NULL
 		},
 	{ 
 		"contactname",
-		"Contact Name",
+		"通知先名",
 		"nagios:objectjson/contactlist",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", NULL },
 		NULL,
-		"Name for the contact requested.",
+		"要求された通知先の名前です。",
 		NULL
 		},
 	{ 
 		"hosttimefield",
-		"Host Time Field",
+		"ホスト時間フィールド",
 		"enumeration",
 		{ NULL },
 		{ "hostcount", "hostlist", NULL },
 		NULL,
-		"Field to use when comparing times on a hostlist query.",
+		"ホスト一覧のクエリーで時間を比較するときに使用するフィールドです。",
 		svm_host_time_fields
 		},
 	{ 
 		"servicetimefield",
-		"Service Time Field",
+		"サービス時間フィールド",
 		"enumeration",
 		{ NULL },
 		{ "servicecount", "servicelist", NULL },
 		NULL,
-		"Field to use when comparing times on a servicelist query.",
+		"サービス一覧のクエリーで時間を比較するときに使用するフィールドです。",
 		svm_service_time_fields
 		},
 	{ 
 		"commenttimefield",
-		"Comment Time Field",
+		"コメント時間フィールド",
 		"enumeration",
 		{ NULL },
 		{ "commentcount", "commentlist", NULL },
 		NULL,
-		"Field to use when comparing times on a commentlist query.",
+		"コメント一覧のクエリーで時間を比較するときに使用するフィールドです。",
 		svm_comment_time_fields
 		},
 	{ 
 		"downtimetimefield",
-		"Downtime Time Field",
+		"ダウンタイム時間フィールド",
 		"enumeration",
 		{ NULL },
 		{ "downtimecount", "downtimelist", NULL },
 		NULL,
-		"Field to use when comparing times on a downtimelist query.",
+		"ダウンタイム一覧のクエリーで時間を比較するときに使用するフィールドです。",
 		svm_downtime_time_fields
 		},
 	{ 
 		"starttime",
-		"Start Time",
+		"開始時間",
 		"integer",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", "commentcount", 
 				"commentlist", "downtimecount", "downtimelist", NULL },
 		NULL,
-		"Starting time to use when querying based on a time range. Not specifying a start time implies all entries since the beginning of time. Supplying a plus or minus sign means times relative to the query time.",
+		"時間範囲に基づいて照会するときに使用する開始時刻。開始時刻を指定しないと、時間の初めからすべてのエントリを意味します。プラス記号またはマイナス記号を指定すると、クエリ時間を基準時間を意味します。",
 		NULL,
 		},
 	{ 
 		"endtime",
-		"End Time",
+		"終了時間",
 		"integer",
 		{ NULL },
 		{ "hostcount", "hostlist", "servicecount", "servicelist", "commentcount", 
 				"commentlist", "downtimecount", "downtimelist", NULL },
 		NULL,
-		"Ending time to use when querying based on a time range. Not specifying an end time implies all entries until the time of the query. Specifying plus or minus sign means times relative to the query time.",
+		"時間範囲に基づいて照会するときに使用する終了時刻。終了時刻を指定しないと、クエリーの時までのすべてのエントリを意味します。プラス記号またはマイナス記号を指定すると、クエリ時間を基準時間を意味します。",
 		NULL,
 		},
 	{ /* The last entry must contain all NULL entries */
@@ -742,7 +742,7 @@ int main(void) {
 
 	json_root = json_new_object();
 	if(NULL == json_root) {
-		printf( "Failed to create new json object\n");
+		printf( "新しいJSONオブジェクトの作成に失敗しました\n");
 		exit( 1);
 		}
 	json_object_append_integer(json_root, "format_version", 
@@ -776,7 +776,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not open CGI configuration file '%s' for reading!", 
+				"エラー: CGI設定ファイル '%s' を読み込みで開けませんでした！", 
 				get_cgi_config_location()));
 		json_object_append_object(json_root, "data", json_help(status_json_help));
 		json_object_print(json_root, 0, 1, cgi_data.strftime_format, 
@@ -793,7 +793,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not open main configuration file '%s' for reading!", 
+				"エラー: メイン設定ファイル '%s' を読み込みで開けませんでした！", 
 				main_config_file));
 		json_object_append_object(json_root, "data", json_help(status_json_help));
 		json_object_print(json_root, 0, 1, cgi_data.strftime_format, 
@@ -811,7 +811,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not read some or all object configuration data!"));
+				"エラー: 一部または全てのオブジェクト設定データを読み込むことができませんでした！"));
 		json_object_append_object(json_root, "data", json_help(status_json_help));
 		json_object_print(json_root, 0, 1, cgi_data.strftime_format, 
 				cgi_data.format_options);
@@ -828,7 +828,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries),
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not obtain status data file status: %s!",
+				"エラー: 状態データファイルの状態を取得できませんでした: %s!",
 				strerror(errno)));
 		json_object_append_object(json_root, "data", json_help(status_json_help));
 		document_footer();
@@ -844,7 +844,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not read host and service status information!"));
+				"エラー: ホスト及びサービスの状態情報を読み込むことができませんでした！"));
 		json_object_append_object(json_root, "data", json_help(status_json_help));
 		json_object_print(json_root, 0, 1, cgi_data.strftime_format, 
 				cgi_data.format_options);
@@ -915,7 +915,7 @@ int main(void) {
 					svm_get_string_from_value(cgi_data.query, valid_queries), 
 					get_query_status(query_status, cgi_data.query),
 					(time_t)-1, &current_authdata, RESULT_OPTION_VALUE_INVALID,
-					"The status for host '%s' could not be found.", 
+					"ホスト '%s' の状態を見つけることができませんでした。", 
 					cgi_data.host_name));
 			result = ERROR;
 			}
@@ -983,8 +983,8 @@ int main(void) {
 					svm_get_string_from_value(cgi_data.query, valid_queries), 
 					get_query_status(query_status, cgi_data.query),
 					(time_t)-1, &current_authdata, RESULT_OPTION_VALUE_INVALID,
-					"The status for service '%s' on host '%s' could not be found.", 
-					cgi_data.service_description, cgi_data.host_name));
+					"ホスト '%s' 上のサービス '%s' の状態を見つけることができませんでした。", 
+					cgi_data.host_name, cgi_data.service_description));
 			result = ERROR;
 			}
 		else {
@@ -1145,7 +1145,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, &current_authdata, RESULT_OPTION_MISSING,
-				"Error: Object Type not specified. See data for help."));
+				"エラー: オブジェクトタイプが指定されていません。ヘルプのためにデータを参照してください。"));
 		json_object_append_object(json_root, "data", json_help(status_json_help));
 		break;
 		}

@@ -128,7 +128,7 @@ int main(void) {
 	if(result == ERROR) {
 		document_header(FALSE);
 		if(content_type == WML_CONTENT)
-			printf("<p>Error: Could not open CGI config file!</p>\n");
+			printf("<p>エラー: CGI設定ファイルが開けませんでした。</p>\n");
 		else
 			cgi_config_file_error(get_cgi_config_location());
 		document_footer();
@@ -140,7 +140,7 @@ int main(void) {
 	if(result == ERROR) {
 		document_header(FALSE);
 		if(content_type == WML_CONTENT)
-			printf("<p>Error: Could not open main config file!</p>\n");
+			printf("<p>エラー: メインの設定ファイルが開けませんでした。</p>\n");
 		else
 			main_config_file_error(main_config_file);
 		document_footer();
@@ -160,7 +160,7 @@ int main(void) {
 	if(result == ERROR) {
 		document_header(FALSE);
 		if(content_type == WML_CONTENT)
-			printf("<p>Error: Could not read object config data!</p>\n");
+			printf("<p>エラー: オブジェクトデータが読み取り出来ませんでした。</p>\n");
 		else
 			object_data_error();
 		document_footer();
@@ -205,9 +205,8 @@ int main(void) {
 
 	/* authorized_for_read_only should take priority */
 	if(is_authorized_for_read_only(&current_authdata) == TRUE) {
-		printf("<P><DIV CLASS='errorMessage'>It appears as though you do not have permission to submit the command you requested...</DIV></P>\n");
-		printf("<P><DIV CLASS='errorDescription'>If you believe this is an error, check the HTTP server authentication requirements for accessing this CGI<br>");
-		printf("and check the authorization options in your CGI configuration file.</DIV></P>\n");
+		printf("<P><DIV CLASS='errorMessage'>要求したコマンドを送信する権限が無いようです。</DIV></P>\n");
+		printf("<P><DIV CLASS='errorDescription'>このメッセージが何らかのエラーであると思う場合はHTTPサーバのこのCGIに対するアクセス権限の設定かNagiosのCGI用設定ファイルの認証に関するオプションを調べてみてください</DIV></P>\n");
 
 		document_footer();
 
@@ -230,9 +229,9 @@ int main(void) {
 	/* if no command was specified... */
 	if(command_type == CMD_NONE) {
 		if(content_type == WML_CONTENT)
-			printf("<p>Error: No command specified!</p>\n");
+			printf("<p>エラー: コマンドが選択されていません。</p>\n");
 		else
-			printf("<P><DIV CLASS='errorMessage'>Error: No command was specified</DIV></P>\n");
+			printf("<P><DIV CLASS='errorMessage'>エラー: コマンドが選択されていません。</DIV></P>\n");
 		}
 
 	/* if this is the first request for a command, present option */
@@ -313,7 +312,7 @@ void document_header(int use_stylesheet) {
 
 		printf("<wml>\n");
 
-		printf("<card id='card1' title='Command Results'>\n");
+		printf("<card id='card1' title='コマンド結果'>\n");
 		}
 
 	else {
@@ -324,7 +323,7 @@ void document_header(int use_stylesheet) {
 		printf("<head>\n");
 		printf("<link rel=\"shortcut icon\" href=\"%sfavicon.ico\" type=\"image/ico\">\n", url_images_path);
 		printf("<title>\n");
-		printf("External Command Interface\n");
+		printf("外部コマンドインターフェース\n");
 		printf("</title>\n");
 
 		if(use_stylesheet == TRUE) {
@@ -756,259 +755,259 @@ void request_command_data(int cmd) {
 		comment_author = current_authdata.username;
 
 
-	printf("<P><DIV ALIGN=CENTER CLASS='cmdType'>You are requesting to ");
+	printf("<P><DIV ALIGN=CENTER CLASS='cmdType'>リクエストしたコマンド:");
 
 	switch(cmd) {
 
 		case CMD_ADD_HOST_COMMENT:
 		case CMD_ADD_SVC_COMMENT:
-			printf("add a %s comment", (cmd == CMD_ADD_HOST_COMMENT) ? "host" : "service");
+			printf("%sにコメントを追加する", (cmd == CMD_ADD_HOST_COMMENT) ? "ホスト" : "サービス");
 			break;
 
 		case CMD_DEL_HOST_COMMENT:
 		case CMD_DEL_SVC_COMMENT:
-			printf("delete a %s comment", (cmd == CMD_DEL_HOST_COMMENT) ? "host" : "service");
+			printf("%sのコメントを削除する", (cmd == CMD_DEL_HOST_COMMENT) ? "ホスト" : "サービス");
 			break;
 
 		case CMD_DELAY_HOST_NOTIFICATION:
 		case CMD_DELAY_SVC_NOTIFICATION:
-			printf("delay a %s notification", (cmd == CMD_DELAY_HOST_NOTIFICATION) ? "host" : "service");
+			printf("%sの通知を遅らせる", (cmd == CMD_DELAY_HOST_NOTIFICATION) ? "ホスト" : "サービス");
 			break;
 
 		case CMD_SCHEDULE_SVC_CHECK:
-			printf("schedule a service check");
+			printf("次回のサービスチェックを再スケジュール");
 			break;
 
 		case CMD_ENABLE_SVC_CHECK:
 		case CMD_DISABLE_SVC_CHECK:
-			printf("%s active checks of a particular service", (cmd == CMD_ENABLE_SVC_CHECK) ? "enable" : "disable");
+			printf("指定したサービスチェックを%sにする", (cmd == CMD_ENABLE_SVC_CHECK) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_NOTIFICATIONS:
 		case CMD_DISABLE_NOTIFICATIONS:
-			printf("%s notifications", (cmd == CMD_ENABLE_NOTIFICATIONS) ? "enable" : "disable");
+			printf("通知を%sにする", (cmd == CMD_ENABLE_NOTIFICATIONS) ? "有効" : "無効");
 			break;
 
 		case CMD_SHUTDOWN_PROCESS:
 		case CMD_RESTART_PROCESS:
-			printf("%s the Nagios process", (cmd == CMD_SHUTDOWN_PROCESS) ? "shutdown" : "restart");
+			printf("Nagiosの%s", (cmd == CMD_SHUTDOWN_PROCESS) ? "停止" : "再起動");
 			break;
 
 		case CMD_ENABLE_HOST_SVC_CHECKS:
 		case CMD_DISABLE_HOST_SVC_CHECKS:
-			printf("%s active checks of all services on a host", (cmd == CMD_ENABLE_HOST_SVC_CHECKS) ? "enable" : "disable");
+			printf("ホストの全サービスを%sにする", (cmd == CMD_ENABLE_HOST_SVC_CHECKS) ? "有効" : "無効");
 			break;
 
 		case CMD_SCHEDULE_HOST_SVC_CHECKS:
-			printf("schedule a check of all services for a host");
+			printf("ホストの全てのサービスチェックを遅らせる");
 			break;
 
 		case CMD_DEL_ALL_HOST_COMMENTS:
 		case CMD_DEL_ALL_SVC_COMMENTS:
-			printf("delete all comments for a %s", (cmd == CMD_DEL_ALL_HOST_COMMENTS) ? "host" : "service");
+			printf("%sの全てのコメントを削除する", (cmd == CMD_DEL_ALL_HOST_COMMENTS) ? "ホスト" : "サービス");
 			break;
 
 		case CMD_ENABLE_SVC_NOTIFICATIONS:
 		case CMD_DISABLE_SVC_NOTIFICATIONS:
-			printf("%s notifications for a service", (cmd == CMD_ENABLE_SVC_NOTIFICATIONS) ? "enable" : "disable");
+			printf("サービスの通知を%sにする", (cmd == CMD_ENABLE_SVC_NOTIFICATIONS) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_HOST_NOTIFICATIONS:
 		case CMD_DISABLE_HOST_NOTIFICATIONS:
-			printf("%s notifications for a host", (cmd == CMD_ENABLE_HOST_NOTIFICATIONS) ? "enable" : "disable");
+			printf("ホストの通知を%sにする", (cmd == CMD_ENABLE_HOST_NOTIFICATIONS) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_ALL_NOTIFICATIONS_BEYOND_HOST:
 		case CMD_DISABLE_ALL_NOTIFICATIONS_BEYOND_HOST:
-			printf("%s notifications for all hosts and services beyond a host", (cmd == CMD_ENABLE_ALL_NOTIFICATIONS_BEYOND_HOST) ? "enable" : "disable");
+			printf("ホスト配下の全ホストとサービスの通知を%sにする", (cmd == CMD_ENABLE_ALL_NOTIFICATIONS_BEYOND_HOST) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_HOST_SVC_NOTIFICATIONS:
 		case CMD_DISABLE_HOST_SVC_NOTIFICATIONS:
-			printf("%s notifications for all services on a host", (cmd == CMD_ENABLE_HOST_SVC_NOTIFICATIONS) ? "enable" : "disable");
+			printf("ホスト上の全サービスの通知を%sにする", (cmd == CMD_ENABLE_HOST_SVC_NOTIFICATIONS) ? "有効" : "無効");
 			break;
 
 		case CMD_ACKNOWLEDGE_HOST_PROBLEM:
 		case CMD_ACKNOWLEDGE_SVC_PROBLEM:
-			printf("acknowledge a %s problem", (cmd == CMD_ACKNOWLEDGE_HOST_PROBLEM) ? "host" : "service");
+			printf("%sの問題を既知にする", (cmd == CMD_ACKNOWLEDGE_HOST_PROBLEM) ? "ホスト" : "サービス");
 			break;
 
 		case CMD_START_EXECUTING_SVC_CHECKS:
 		case CMD_STOP_EXECUTING_SVC_CHECKS:
-			printf("%s executing active service checks", (cmd == CMD_START_EXECUTING_SVC_CHECKS) ? "start" : "stop");
+			printf("サービスチェックを%sする", (cmd == CMD_START_EXECUTING_SVC_CHECKS) ? "開始" : "停止");
 			break;
 
 		case CMD_START_ACCEPTING_PASSIVE_SVC_CHECKS:
 		case CMD_STOP_ACCEPTING_PASSIVE_SVC_CHECKS:
-			printf("%s accepting passive service checks", (cmd == CMD_START_ACCEPTING_PASSIVE_SVC_CHECKS) ? "start" : "stop");
+			printf("パッシブサービスチェックを%sする", (cmd == CMD_START_ACCEPTING_PASSIVE_SVC_CHECKS) ? "開始" : "停止");
 			break;
 
 		case CMD_ENABLE_PASSIVE_SVC_CHECKS:
 		case CMD_DISABLE_PASSIVE_SVC_CHECKS:
-			printf("%s accepting passive service checks for a particular service", (cmd == CMD_ENABLE_PASSIVE_SVC_CHECKS) ? "start" : "stop");
+			printf("指定したサービスのパッシブチェックを%sする", (cmd == CMD_ENABLE_PASSIVE_SVC_CHECKS) ? "開始" : "停止");
 			break;
 
 		case CMD_ENABLE_EVENT_HANDLERS:
 		case CMD_DISABLE_EVENT_HANDLERS:
-			printf("%s event handlers", (cmd == CMD_ENABLE_EVENT_HANDLERS) ? "enable" : "disable");
+			printf("イベントハンドラを%sにする", (cmd == CMD_ENABLE_EVENT_HANDLERS) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_HOST_EVENT_HANDLER:
 		case CMD_DISABLE_HOST_EVENT_HANDLER:
-			printf("%s the event handler for a particular host", (cmd == CMD_ENABLE_HOST_EVENT_HANDLER) ? "enable" : "disable");
+			printf("指定したホストのイベントハンドラを%sにする", (cmd == CMD_ENABLE_HOST_EVENT_HANDLER) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_SVC_EVENT_HANDLER:
 		case CMD_DISABLE_SVC_EVENT_HANDLER:
-			printf("%s the event handler for a particular service", (cmd == CMD_ENABLE_SVC_EVENT_HANDLER) ? "enable" : "disable");
+			printf("指定したサービスのイベントハンドラを%sにする", (cmd == CMD_ENABLE_SVC_EVENT_HANDLER) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_HOST_CHECK:
 		case CMD_DISABLE_HOST_CHECK:
-			printf("%s active checks of a particular host", (cmd == CMD_ENABLE_HOST_CHECK) ? "enable" : "disable");
+			printf("指定したホストのアクティブチェックを%sにする", (cmd == CMD_ENABLE_HOST_CHECK) ? "有効" : "無効");
 			break;
 
 		case CMD_STOP_OBSESSING_OVER_SVC_CHECKS:
 		case CMD_START_OBSESSING_OVER_SVC_CHECKS:
-			printf("%s obsessing over service checks", (cmd == CMD_STOP_OBSESSING_OVER_SVC_CHECKS) ? "stop" : "start");
+			printf("Obsessing Overサービスチェックを%sする", (cmd == CMD_STOP_OBSESSING_OVER_SVC_CHECKS) ? "停止" : "開始");
 			break;
 
 		case CMD_REMOVE_HOST_ACKNOWLEDGEMENT:
 		case CMD_REMOVE_SVC_ACKNOWLEDGEMENT:
-			printf("remove a %s acknowledgement", (cmd == CMD_REMOVE_HOST_ACKNOWLEDGEMENT) ? "host" : "service");
+			printf("%sの既知の問題を削除する", (cmd == CMD_REMOVE_HOST_ACKNOWLEDGEMENT) ? "ホスト" : "サービス");
 			break;
 
 		case CMD_SCHEDULE_HOST_DOWNTIME:
 		case CMD_SCHEDULE_SVC_DOWNTIME:
-			printf("schedule downtime for a particular %s", (cmd == CMD_SCHEDULE_HOST_DOWNTIME) ? "host" : "service");
+			printf("%sのダウンタイムをスケジュールに追加する", (cmd == CMD_SCHEDULE_HOST_DOWNTIME) ? "ホスト" : "サービス");
 			break;
 
 		case CMD_SCHEDULE_HOST_SVC_DOWNTIME:
-			printf("schedule downtime for all services for a particular host");
+			printf("ホストの全サービスのダウンタイムをスケジュールに追加する");
 			break;
 
 		case CMD_PROCESS_HOST_CHECK_RESULT:
 		case CMD_PROCESS_SERVICE_CHECK_RESULT:
-			printf("submit a passive check result for a particular %s", (cmd == CMD_PROCESS_HOST_CHECK_RESULT) ? "host" : "service");
+			printf("指定した%sのパッシブチェックの結果を登録する", (cmd == CMD_PROCESS_HOST_CHECK_RESULT) ? "ホスト" : "サービス");
 			break;
 
 		case CMD_ENABLE_HOST_FLAP_DETECTION:
 		case CMD_DISABLE_HOST_FLAP_DETECTION:
-			printf("%s flap detection for a particular host", (cmd == CMD_ENABLE_HOST_FLAP_DETECTION) ? "enable" : "disable");
+			printf("ホストのフラップ検知を%sにする", (cmd == CMD_ENABLE_HOST_FLAP_DETECTION) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_SVC_FLAP_DETECTION:
 		case CMD_DISABLE_SVC_FLAP_DETECTION:
-			printf("%s flap detection for a particular service", (cmd == CMD_ENABLE_SVC_FLAP_DETECTION) ? "enable" : "disable");
+			printf("サービスのフラップ検知を%sにする", (cmd == CMD_ENABLE_SVC_FLAP_DETECTION) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_FLAP_DETECTION:
 		case CMD_DISABLE_FLAP_DETECTION:
-			printf("%s flap detection for hosts and services", (cmd == CMD_ENABLE_FLAP_DETECTION) ? "enable" : "disable");
+			printf("ホストとサービスのフラップ検知を%sにする", (cmd == CMD_ENABLE_FLAP_DETECTION) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_HOSTGROUP_SVC_NOTIFICATIONS:
 		case CMD_DISABLE_HOSTGROUP_SVC_NOTIFICATIONS:
-			printf("%s notifications for all services in a particular hostgroup", (cmd == CMD_ENABLE_HOSTGROUP_SVC_NOTIFICATIONS) ? "enable" : "disable");
+			printf("指定したホストグループ上の全サービスの通知を%sにする", (cmd == CMD_ENABLE_HOSTGROUP_SVC_NOTIFICATIONS) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_HOSTGROUP_HOST_NOTIFICATIONS:
 		case CMD_DISABLE_HOSTGROUP_HOST_NOTIFICATIONS:
-			printf("%s notifications for all hosts in a particular hostgroup", (cmd == CMD_ENABLE_HOSTGROUP_HOST_NOTIFICATIONS) ? "enable" : "disable");
+			printf("指定したホストグループ上の全ホストの通知を%sにする", (cmd == CMD_ENABLE_HOSTGROUP_HOST_NOTIFICATIONS) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_HOSTGROUP_SVC_CHECKS:
 		case CMD_DISABLE_HOSTGROUP_SVC_CHECKS:
-			printf("%s active checks of all services in a particular hostgroup", (cmd == CMD_ENABLE_HOSTGROUP_SVC_CHECKS) ? "enable" : "disable");
+			printf("指定したホストグループ上の全てのサービスチェックを%sにする", (cmd == CMD_ENABLE_HOSTGROUP_SVC_CHECKS) ? "有効" : "無効");
 			break;
 
 		case CMD_DEL_HOST_DOWNTIME:
 		case CMD_DEL_SVC_DOWNTIME:
-			printf("cancel scheduled downtime for a particular %s", (cmd == CMD_DEL_HOST_DOWNTIME) ? "host" : "service");
+			printf("%sのダウンタイムをキャンセルする", (cmd == CMD_DEL_HOST_DOWNTIME) ? "ホスト" : "サービス");
 			break;
 
 		case CMD_ENABLE_PERFORMANCE_DATA:
 		case CMD_DISABLE_PERFORMANCE_DATA:
-			printf("%s performance data processing for hosts and services", (cmd == CMD_ENABLE_PERFORMANCE_DATA) ? "enable" : "disable");
+			printf("ホストとサービスのパフォーマンスデータを%sにする", (cmd == CMD_ENABLE_PERFORMANCE_DATA) ? "有効" : "無効");
 			break;
 
 		case CMD_SCHEDULE_HOSTGROUP_HOST_DOWNTIME:
-			printf("schedule downtime for all hosts in a particular hostgroup");
+			printf("指定したホストグループ上のホストのダウンタイムをスケジュールに追加する");
 			break;
 
 		case CMD_SCHEDULE_HOSTGROUP_SVC_DOWNTIME:
-			printf("schedule downtime for all services in a particular hostgroup");
+			printf("指定したホストグループ上のサービスのダウンタイムをスケジュールに追加する");
 			break;
 
 		case CMD_START_EXECUTING_HOST_CHECKS:
 		case CMD_STOP_EXECUTING_HOST_CHECKS:
-			printf("%s executing host checks", (cmd == CMD_START_EXECUTING_HOST_CHECKS) ? "start" : "stop");
+			printf("ホストチェックを%sする", (cmd == CMD_START_EXECUTING_HOST_CHECKS) ? "開始" : "停止");
 			break;
 
 		case CMD_START_ACCEPTING_PASSIVE_HOST_CHECKS:
 		case CMD_STOP_ACCEPTING_PASSIVE_HOST_CHECKS:
-			printf("%s accepting passive host checks", (cmd == CMD_START_ACCEPTING_PASSIVE_HOST_CHECKS) ? "start" : "stop");
+			printf("パッシブホストのチェックを%sする", (cmd == CMD_START_ACCEPTING_PASSIVE_HOST_CHECKS) ? "開始" : "停止");
 			break;
 
 		case CMD_ENABLE_PASSIVE_HOST_CHECKS:
 		case CMD_DISABLE_PASSIVE_HOST_CHECKS:
-			printf("%s accepting passive checks for a particular host", (cmd == CMD_ENABLE_PASSIVE_HOST_CHECKS) ? "start" : "stop");
+			printf("指定したホストのパッシブチェックを%sする", (cmd == CMD_ENABLE_PASSIVE_HOST_CHECKS) ? "開始" : "停止");
 			break;
 
 		case CMD_START_OBSESSING_OVER_HOST_CHECKS:
 		case CMD_STOP_OBSESSING_OVER_HOST_CHECKS:
-			printf("%s obsessing over host checks", (cmd == CMD_START_OBSESSING_OVER_HOST_CHECKS) ? "start" : "stop");
+			printf("Obsessing Overホストのチェックを%sする", (cmd == CMD_START_OBSESSING_OVER_HOST_CHECKS) ? "開始" : "停止");
 			break;
 
 		case CMD_SCHEDULE_HOST_CHECK:
-			printf("schedule a host check");
+			printf("ホストチェックをスケジュールに追加する");
 			break;
 
 		case CMD_START_OBSESSING_OVER_SVC:
 		case CMD_STOP_OBSESSING_OVER_SVC:
-			printf("%s obsessing over a particular service", (cmd == CMD_START_OBSESSING_OVER_SVC) ? "start" : "stop");
+			printf("指定したサービスのObsessing Overを%sする", (cmd == CMD_START_OBSESSING_OVER_SVC) ? "開始" : "停止");
 			break;
 
 		case CMD_START_OBSESSING_OVER_HOST:
 		case CMD_STOP_OBSESSING_OVER_HOST:
-			printf("%s obsessing over a particular host", (cmd == CMD_START_OBSESSING_OVER_HOST) ? "start" : "stop");
+			printf("指定したホストのObsessing Overを%sする", (cmd == CMD_START_OBSESSING_OVER_HOST) ? "開始" : "停止");
 			break;
 
 		case CMD_ENABLE_SERVICEGROUP_SVC_NOTIFICATIONS:
 		case CMD_DISABLE_SERVICEGROUP_SVC_NOTIFICATIONS:
-			printf("%s notifications for all services in a particular servicegroup", (cmd == CMD_ENABLE_SERVICEGROUP_SVC_NOTIFICATIONS) ? "enable" : "disable");
+			printf("指定したサービスグループ上の全サービスの通知を%sにする", (cmd == CMD_ENABLE_SERVICEGROUP_SVC_NOTIFICATIONS) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_SERVICEGROUP_HOST_NOTIFICATIONS:
 		case CMD_DISABLE_SERVICEGROUP_HOST_NOTIFICATIONS:
-			printf("%s notifications for all hosts in a particular servicegroup", (cmd == CMD_ENABLE_SERVICEGROUP_HOST_NOTIFICATIONS) ? "enable" : "disable");
+			printf("指定したサービスグループ上の全ホストの通知を%sにする", (cmd == CMD_ENABLE_SERVICEGROUP_HOST_NOTIFICATIONS) ? "有効" : "無効");
 			break;
 
 		case CMD_ENABLE_SERVICEGROUP_SVC_CHECKS:
 		case CMD_DISABLE_SERVICEGROUP_SVC_CHECKS:
-			printf("%s active checks of all services in a particular servicegroup", (cmd == CMD_ENABLE_SERVICEGROUP_SVC_CHECKS) ? "enable" : "disable");
+			printf("指定したサービスグループ上の全てのサービスチェックを%sにする", (cmd == CMD_ENABLE_SERVICEGROUP_SVC_CHECKS) ? "有効" : "無効");
 			break;
 
 		case CMD_SCHEDULE_SERVICEGROUP_HOST_DOWNTIME:
-			printf("schedule downtime for all hosts in a particular servicegroup");
+			printf("指定したサービスグループ上のホストのダウンタイムをスケジュールに追加する");
 			break;
 
 		case CMD_SCHEDULE_SERVICEGROUP_SVC_DOWNTIME:
-			printf("schedule downtime for all services in a particular servicegroup");
+			printf("指定したサービスグループ上のサービスのダウンタイムをスケジュールに追加する");
 			break;
 
 		case CMD_CLEAR_HOST_FLAPPING_STATE:
 		case CMD_CLEAR_SVC_FLAPPING_STATE:
-			printf("clear flapping state for a %s", (cmd == CMD_CLEAR_HOST_FLAPPING_STATE) ? "host" : "service");
+			printf("%sのフラッピング状態をクリアする", (cmd == CMD_CLEAR_HOST_FLAPPING_STATE) ? "ホスト" : "サービス");
 			break;
 
 		case CMD_SEND_CUSTOM_HOST_NOTIFICATION:
 		case CMD_SEND_CUSTOM_SVC_NOTIFICATION:
-			printf("send a custom %s notification", (cmd == CMD_SEND_CUSTOM_HOST_NOTIFICATION) ? "host" : "service");
+			printf("カスタム%s通知を送信する", (cmd == CMD_SEND_CUSTOM_HOST_NOTIFICATION) ? "ホスト" : "サービス");
 			break;
 
 		default:
-			printf("execute an unknown command.  Shame on you!</DIV>");
+			printf("不明なコマンドを実行しました</DIV>");
 			return;
 		}
 
@@ -1021,7 +1020,7 @@ void request_command_data(int cmd) {
 	printf("<tr>\n");
 	printf("<td align=center valign=top>\n");
 
-	printf("<DIV ALIGN=CENTER CLASS='optBoxTitle'>Command Options</DIV>\n");
+	printf("<DIV ALIGN=CENTER CLASS='optBoxTitle'>コマンドオプション</DIV>\n");
 
 	printf("<TABLE CELLSPACING=0 CELLPADDING=0 BORDER=1 CLASS='optBox'>\n");
 	printf("<TR><TD CLASS='optBoxItem'>\n");
@@ -1036,18 +1035,18 @@ void request_command_data(int cmd) {
 
 		case CMD_ADD_HOST_COMMENT:
 		case CMD_ACKNOWLEDGE_HOST_PROBLEM:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Host Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ホスト名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='host' VALUE='%s'>", escape_string(host_name));
 			printf("</b></td></tr>\n");
 			if(cmd == CMD_ACKNOWLEDGE_HOST_PROBLEM) {
-				printf("<tr><td CLASS='optBoxItem'>Sticky Acknowledgement:</td><td><b>");
+				printf("<tr><td CLASS='optBoxItem'>既知の問題を固定:</td><td><b>");
 				printf("<INPUT TYPE='checkbox' NAME='sticky_ack' %s>", (ack_no_sticky == TRUE) ? "" : "CHECKED");
 				printf("</b></td></tr>\n");
-				printf("<tr><td CLASS='optBoxItem'>Send Notification:</td><td><b>");
+				printf("<tr><td CLASS='optBoxItem'>警報を通知:</td><td><b>");
 				printf("<INPUT TYPE='checkbox' NAME='send_notification' %s>", (ack_no_send == TRUE) ? "" : "CHECKED");
 				printf("</b></td></tr>\n");
 				}
-			printf("<tr><td CLASS='optBoxItem'>Persistent%s:</td><td><b>", (cmd == CMD_ACKNOWLEDGE_HOST_PROBLEM) ? " Comment" : "");
+			printf("<tr><td CLASS='optBoxItem'>再起動後も%s保持させる:</td><td><b>", (cmd == CMD_ACKNOWLEDGE_HOST_PROBLEM) ? "コメントを" : "");
 			printf("<INPUT TYPE='checkbox' NAME='persistent' %s>", (cmd == CMD_ACKNOWLEDGE_HOST_PROBLEM) ? "" : "CHECKED");
 			printf("</b></td></tr>\n");
 			print_comment_field(cmd);
@@ -1055,20 +1054,20 @@ void request_command_data(int cmd) {
 
 		case CMD_ADD_SVC_COMMENT:
 		case CMD_ACKNOWLEDGE_SVC_PROBLEM:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Host Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ホスト名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='host' VALUE='%s'>", escape_string(host_name));
 			printf("</b></td></tr>\n");
-			printf("<tr><td CLASS='optBoxRequiredItem'>Service:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>サービス名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='service' VALUE='%s'>", escape_string(service_desc));
 			if(cmd == CMD_ACKNOWLEDGE_SVC_PROBLEM) {
-				printf("<tr><td CLASS='optBoxItem'>Sticky Acknowledgement:</td><td><b>");
+				printf("<tr><td CLASS='optBoxItem'>既知の問題を固定:</td><td><b>");
 				printf("<INPUT TYPE='checkbox' NAME='sticky_ack' %s>", (ack_no_sticky == TRUE) ? "" : "CHECKED");
 				printf("</b></td></tr>\n");
-				printf("<tr><td CLASS='optBoxItem'>Send Notification:</td><td><b>");
+				printf("<tr><td CLASS='optBoxItem'>警報を通知:</td><td><b>");
 				printf("<INPUT TYPE='checkbox' NAME='send_notification' %s>", (ack_no_send == TRUE) ? "" : "CHECKED");
 				printf("</b></td></tr>\n");
 				}
-			printf("<tr><td CLASS='optBoxItem'>Persistent%s:</td><td><b>", (cmd == CMD_ACKNOWLEDGE_SVC_PROBLEM) ? " Comment" : "");
+			printf("<tr><td CLASS='optBoxItem'>再起動後も%s保持させる:</td><td><b>", (cmd == CMD_ACKNOWLEDGE_SVC_PROBLEM) ? "コメントを" : "");
 			printf("<INPUT TYPE='checkbox' NAME='persistent' %s>", (cmd == CMD_ACKNOWLEDGE_SVC_PROBLEM) ? "" : "CHECKED");
 			printf("</b></td></tr>\n");
 			print_comment_field(cmd);
@@ -1076,28 +1075,28 @@ void request_command_data(int cmd) {
 
 		case CMD_DEL_HOST_COMMENT:
 		case CMD_DEL_SVC_COMMENT:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Comment ID:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>コメント ID:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='com_id' VALUE='%lu'>", comment_id);
 			printf("</b></td></tr>\n");
 			break;
 
 		case CMD_DELAY_HOST_NOTIFICATION:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Host Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ホスト名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='host' VALUE='%s'>", escape_string(host_name));
 			printf("</b></td></tr>\n");
-			printf("<tr><td CLASS='optBoxRequiredItem'>Notification Delay (minutes from now):</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>通知を遅らせる時間(現在からの分):</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='not_dly' VALUE='%d'>", notification_delay);
 			printf("</b></td></tr>\n");
 			print_comment_field(cmd);
 			break;
 
 		case CMD_DELAY_SVC_NOTIFICATION:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Host Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ホスト名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='host' VALUE='%s'>", escape_string(host_name));
 			printf("</b></td></tr>\n");
-			printf("<tr><td CLASS='optBoxRequiredItem'>Service:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>サービス名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='service' VALUE='%s'>", escape_string(service_desc));
-			printf("<tr><td CLASS='optBoxRequiredItem'>Notification Delay (minutes from now):</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>通知を遅らせる時間(現在からの分):</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='not_dly' VALUE='%d'>", notification_delay);
 			printf("</b></td></tr>\n");
 			print_comment_field(cmd);
@@ -1106,21 +1105,21 @@ void request_command_data(int cmd) {
 		case CMD_SCHEDULE_SVC_CHECK:
 		case CMD_SCHEDULE_HOST_CHECK:
 		case CMD_SCHEDULE_HOST_SVC_CHECKS:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Host Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ホスト名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='host' VALUE='%s'>", escape_string(host_name));
 			printf("</b></td></tr>\n");
 			if(cmd == CMD_SCHEDULE_SVC_CHECK) {
-				printf("<tr><td CLASS='optBoxRequiredItem'>Service:</td><td><b>");
+				printf("<tr><td CLASS='optBoxRequiredItem'>サービス名:</td><td><b>");
 				printf("<INPUT TYPE='TEXT' NAME='service' VALUE='%s'>", escape_string(service_desc));
 				printf("</b></td></tr>\n");
 				}
 			time(&t);
 			get_time_string(&t, buffer, sizeof(buffer) - 1, SHORT_DATE_TIME);
-			printf("<tr><td CLASS='optBoxRequiredItem'>Check Time:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>チェック時刻:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='start_time' VALUE='%s'>", buffer);
 			printf("</b></td></tr>\n");
 			print_comment_field(cmd);
-			printf("<tr><td CLASS='optBoxItem'>Force Check:</td><td><b>");
+			printf("<tr><td CLASS='optBoxItem'>強制的にチェック:</td><td><b>");
 			printf("<INPUT TYPE='checkbox' NAME='force_check' %s>", (force_check == TRUE) ? "CHECKED" : "");
 			printf("</b></td></tr>\n");
 			break;
@@ -1140,10 +1139,10 @@ void request_command_data(int cmd) {
 		case CMD_START_OBSESSING_OVER_SVC:
 		case CMD_STOP_OBSESSING_OVER_SVC:
 		case CMD_CLEAR_SVC_FLAPPING_STATE:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Host Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ホスト名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='host' VALUE='%s'>", escape_string(host_name));
 			printf("</b></td></tr>\n");
-			printf("<tr><td CLASS='optBoxRequiredItem'>Service:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>サービス名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='service' VALUE='%s'>", escape_string(service_desc));
 			printf("</b></td></tr>\n");
 			print_comment_field(cmd);
@@ -1170,17 +1169,17 @@ void request_command_data(int cmd) {
 		case CMD_START_OBSESSING_OVER_HOST:
 		case CMD_STOP_OBSESSING_OVER_HOST:
 		case CMD_CLEAR_HOST_FLAPPING_STATE:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Host Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ホスト名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='host' VALUE='%s'>", escape_string(host_name));
 			printf("</b></td></tr>\n");
 			print_comment_field(cmd);
 			if(cmd == CMD_ENABLE_HOST_SVC_CHECKS || cmd == CMD_DISABLE_HOST_SVC_CHECKS || cmd == CMD_ENABLE_HOST_SVC_NOTIFICATIONS || cmd == CMD_DISABLE_HOST_SVC_NOTIFICATIONS) {
-				printf("<tr><td CLASS='optBoxItem'>%s For Host Too:</td><td><b>", (cmd == CMD_ENABLE_HOST_SVC_CHECKS || cmd == CMD_ENABLE_HOST_SVC_NOTIFICATIONS) ? "Enable" : "Disable");
+				printf("<tr><td CLASS='optBoxItem'>同時にホストも%sにする:</td><td><b>", (cmd == CMD_ENABLE_HOST_SVC_CHECKS || cmd == CMD_ENABLE_HOST_SVC_NOTIFICATIONS) ? "有効" : "無効");
 				printf("<INPUT TYPE='checkbox' NAME='ahas'>");
 				printf("</b></td></tr>\n");
 				}
 			if(cmd == CMD_ENABLE_HOST_NOTIFICATIONS || cmd == CMD_DISABLE_HOST_NOTIFICATIONS) {
-				printf("<tr><td CLASS='optBoxItem'>%s Notifications For Child Hosts Too:</td><td><b>", (cmd == CMD_ENABLE_HOST_NOTIFICATIONS) ? "Enable" : "Disable");
+				printf("<tr><td CLASS='optBoxItem'>同時に下位ホストへの通知も%sにする:</td><td><b>", (cmd == CMD_ENABLE_HOST_NOTIFICATIONS) ? "有効" : "無効");
 				printf("<INPUT TYPE='checkbox' NAME='ptc'>");
 				printf("</b></td></tr>\n");
 				}
@@ -1209,20 +1208,20 @@ void request_command_data(int cmd) {
 		case CMD_START_OBSESSING_OVER_HOST_CHECKS:
 		case CMD_STOP_OBSESSING_OVER_HOST_CHECKS:
 			if (print_comment_field(cmd) == FALSE)
-				printf("<tr><td CLASS='optBoxItem' colspan=2>There are no options for this command.<br>Click the 'Commit' button to submit the command.</td></tr>");
+				printf("<tr><td CLASS='optBoxItem' colspan=2>このコマンドにはオプションはありません。<BR>'発行'ボタンを押してコマンドを送信してください</td></tr>");
 			break;
 
 		case CMD_PROCESS_HOST_CHECK_RESULT:
 		case CMD_PROCESS_SERVICE_CHECK_RESULT:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Host Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ホスト名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='host' VALUE='%s'>", escape_string(host_name));
 			printf("</b></td></tr>\n");
 			if(cmd == CMD_PROCESS_SERVICE_CHECK_RESULT) {
-				printf("<tr><td CLASS='optBoxRequiredItem'>Service:</td><td><b>");
+				printf("<tr><td CLASS='optBoxRequiredItem'>サービス名:</td><td><b>");
 				printf("<INPUT TYPE='TEXT' NAME='service' VALUE='%s'>", escape_string(service_desc));
 				printf("</b></td></tr>\n");
 				}
-			printf("<tr><td CLASS='optBoxRequiredItem'>Check Result:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>チェック結果:</td><td><b>");
 			printf("<SELECT NAME='plugin_state'>");
 			if(cmd == CMD_PROCESS_SERVICE_CHECK_RESULT) {
 				printf("<OPTION VALUE=%d SELECTED>OK\n", STATE_OK);
@@ -1237,10 +1236,10 @@ void request_command_data(int cmd) {
 				}
 			printf("</SELECT>\n");
 			printf("</b></td></tr>\n");
-			printf("<tr><td CLASS='optBoxRequiredItem'>Check Output:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>チェック出力:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='plugin_output' VALUE=''>");
 			printf("</b></td></tr>\n");
-			printf("<tr><td CLASS='optBoxItem'>Performance Data:</td><td><b>");
+			printf("<tr><td CLASS='optBoxItem'>パフォーマンスデータ:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='performance_data' VALUE=''>");
 			printf("</b></td></tr>\n");
 			break;
@@ -1249,18 +1248,18 @@ void request_command_data(int cmd) {
 		case CMD_SCHEDULE_HOST_SVC_DOWNTIME:
 		case CMD_SCHEDULE_SVC_DOWNTIME:
 
-			printf("<tr><td CLASS='optBoxRequiredItem'>Host Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ホスト名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='host' VALUE='%s'>", escape_string(host_name));
 			printf("</b></td></tr>\n");
 			if(cmd == CMD_SCHEDULE_SVC_DOWNTIME) {
-				printf("<tr><td CLASS='optBoxRequiredItem'>Service:</td><td><b>");
+				printf("<tr><td CLASS='optBoxRequiredItem'>サービス名:</td><td><b>");
 				printf("<INPUT TYPE='TEXT' NAME='service' VALUE='%s'>", escape_string(service_desc));
 				}
 			print_comment_field(cmd);
 
 			printf("<tr><td CLASS='optBoxItem'><br></td></tr>\n");
 
-			printf("<tr><td CLASS='optBoxItem'>Triggered By:</td><td>\n");
+			printf("<tr><td CLASS='optBoxItem'>トリガー:</td><td>\n");
 			printf("<select name='trigger'>\n");
 			printf("<option value='0'>N/A\n");
 
@@ -1286,38 +1285,38 @@ void request_command_data(int cmd) {
 
 			time(&t);
 			get_time_string(&t, buffer, sizeof(buffer) - 1, SHORT_DATE_TIME);
-			printf("<tr><td CLASS='optBoxRequiredItem'>Start Time:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>開始時刻:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='start_time' VALUE='%s'>", buffer);
 			printf("</b></td></tr>\n");
 			t += (unsigned long)7200;
 			get_time_string(&t, buffer, sizeof(buffer) - 1, SHORT_DATE_TIME);
-			printf("<tr><td CLASS='optBoxRequiredItem'>End Time:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>終了時刻:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='end_time' VALUE='%s'>", buffer);
 			printf("</b></td></tr>\n");
-			printf("<tr><td CLASS='optBoxItem'>Type:</td><td><b>");
+			printf("<tr><td CLASS='optBoxItem'>種類:</td><td><b>");
 			printf("<SELECT NAME='fixed'>");
-			printf("<OPTION VALUE=1>Fixed\n");
-			printf("<OPTION VALUE=0>Flexible\n");
+			printf("<OPTION VALUE=1>固定\n");
+			printf("<OPTION VALUE=0>非固定\n");
 			printf("</SELECT>\n");
 			printf("</b></td></tr>\n");
 
-			printf("<tr><td CLASS='optBoxItem'>If Flexible, Duration:</td><td>");
+			printf("<tr><td CLASS='optBoxItem'>期間(「非固定」を選択した場合のみ):</td><td>");
 			printf("<table border=0><tr>\n");
 			printf("<td align=right><INPUT TYPE='TEXT' NAME='hours' VALUE='2' SIZE=2 MAXLENGTH=2></td>\n");
-			printf("<td align=left>Hours</td>\n");
+			printf("<td align=left>時間</td>\n");
 			printf("<td align=right><INPUT TYPE='TEXT' NAME='minutes' VALUE='0' SIZE=2 MAXLENGTH=2></td>\n");
-			printf("<td align=left>Minutes</td>\n");
+			printf("<td align=left>分</td>\n");
 			printf("</tr></table>\n");
 			printf("</td></tr>\n");
 
 			printf("<tr><td CLASS='optBoxItem'><br></td></tr>\n");
 
 			if(cmd == CMD_SCHEDULE_HOST_DOWNTIME) {
-				printf("<tr><td CLASS='optBoxItem'>Child Hosts:</td><td><b>");
+				printf("<tr><td CLASS='optBoxItem'>下位ホスト:</td><td><b>");
 				printf("<SELECT name='childoptions'>");
-				printf("<option value='0'>Do nothing with child hosts\n");
-				printf("<option value='1'>Schedule triggered downtime for all child hosts\n");
-				printf("<option value='2'>Schedule non-triggered downtime for all child hosts\n");
+				printf("<option value='0'>何もしない\n");
+				printf("<option value='1'>このダウンタイムをトリガとして全ての下位ホストにダウンタイムを設定する\n");
+				printf("<option value='2'>このダウンタイムを同じように下位ホストに設定する\n");
 				printf("</SELECT>\n");
 				printf("</b></td></tr>\n");
 				}
@@ -1332,11 +1331,11 @@ void request_command_data(int cmd) {
 		case CMD_DISABLE_HOSTGROUP_HOST_NOTIFICATIONS:
 		case CMD_ENABLE_HOSTGROUP_SVC_CHECKS:
 		case CMD_DISABLE_HOSTGROUP_SVC_CHECKS:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Hostgroup Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ホストグループ名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='hostgroup' VALUE='%s'>", escape_string(hostgroup_name));
 			printf("</b></td></tr>\n");
 			if(cmd == CMD_ENABLE_HOSTGROUP_SVC_CHECKS || cmd == CMD_DISABLE_HOSTGROUP_SVC_CHECKS || cmd == CMD_ENABLE_HOSTGROUP_SVC_NOTIFICATIONS || cmd == CMD_DISABLE_HOSTGROUP_SVC_NOTIFICATIONS) {
-				printf("<tr><td CLASS='optBoxItem'>%s For Hosts Too:</td><td><b>", (cmd == CMD_ENABLE_HOSTGROUP_SVC_CHECKS || cmd == CMD_ENABLE_HOSTGROUP_SVC_NOTIFICATIONS) ? "Enable" : "Disable");
+				printf("<tr><td CLASS='optBoxItem'>同時にホストも%sにする:</td><td><b>", (cmd == CMD_ENABLE_HOSTGROUP_SVC_CHECKS || cmd == CMD_ENABLE_HOSTGROUP_SVC_NOTIFICATIONS) ? "有効" : "無効");
 				printf("<INPUT TYPE='checkbox' NAME='ahas'>");
 				printf("</b></td></tr>\n");
 				}
@@ -1349,11 +1348,11 @@ void request_command_data(int cmd) {
 		case CMD_DISABLE_SERVICEGROUP_HOST_NOTIFICATIONS:
 		case CMD_ENABLE_SERVICEGROUP_SVC_CHECKS:
 		case CMD_DISABLE_SERVICEGROUP_SVC_CHECKS:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Servicegroup Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>サービスグループ名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='servicegroup' VALUE='%s'>", escape_string(servicegroup_name));
 			printf("</b></td></tr>\n");
 			if(cmd == CMD_ENABLE_SERVICEGROUP_SVC_CHECKS || cmd == CMD_DISABLE_SERVICEGROUP_SVC_CHECKS || cmd == CMD_ENABLE_SERVICEGROUP_SVC_NOTIFICATIONS || cmd == CMD_DISABLE_SERVICEGROUP_SVC_NOTIFICATIONS) {
-				printf("<tr><td CLASS='optBoxItem'>%s For Hosts Too:</td><td><b>", (cmd == CMD_ENABLE_SERVICEGROUP_SVC_CHECKS || cmd == CMD_ENABLE_SERVICEGROUP_SVC_NOTIFICATIONS) ? "Enable" : "Disable");
+				printf("<tr><td CLASS='optBoxItem'>同時にホストも%sにする:</td><td><b>", (cmd == CMD_ENABLE_SERVICEGROUP_SVC_CHECKS || cmd == CMD_ENABLE_SERVICEGROUP_SVC_NOTIFICATIONS) ? "有効" : "無効");
 				printf("<INPUT TYPE='checkbox' NAME='ahas'>");
 				printf("</b></td></tr>\n");
 				}
@@ -1362,7 +1361,7 @@ void request_command_data(int cmd) {
 
 		case CMD_DEL_HOST_DOWNTIME:
 		case CMD_DEL_SVC_DOWNTIME:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Scheduled Downtime ID:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ダウンタイム ID:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='down_id' VALUE='%lu'>", downtime_id);
 			printf("</b></td></tr>\n");
 			print_comment_field(cmd);
@@ -1375,43 +1374,43 @@ void request_command_data(int cmd) {
 		case CMD_SCHEDULE_SERVICEGROUP_SVC_DOWNTIME:
 
 			if(cmd == CMD_SCHEDULE_HOSTGROUP_HOST_DOWNTIME || cmd == CMD_SCHEDULE_HOSTGROUP_SVC_DOWNTIME) {
-				printf("<tr><td CLASS='optBoxRequiredItem'>Hostgroup Name:</td><td><b>");
+				printf("<tr><td CLASS='optBoxRequiredItem'>ホストグループ名:</td><td><b>");
 				printf("<INPUT TYPE='TEXT' NAME='hostgroup' VALUE='%s'>", escape_string(hostgroup_name));
 				printf("</b></td></tr>\n");
 				}
 			else {
-				printf("<tr><td CLASS='optBoxRequiredItem'>Servicegroup Name:</td><td><b>");
+				printf("<tr><td CLASS='optBoxRequiredItem'>サービスグループ名:</td><td><b>");
 				printf("<INPUT TYPE='TEXT' NAME='servicegroup' VALUE='%s'>", escape_string(servicegroup_name));
 				printf("</b></td></tr>\n");
 				}
 			print_comment_field(cmd);
 			time(&t);
 			get_time_string(&t, buffer, sizeof(buffer) - 1, SHORT_DATE_TIME);
-			printf("<tr><td CLASS='optBoxRequiredItem'>Start Time:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>開始時刻:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='start_time' VALUE='%s'>", buffer);
 			printf("</b></td></tr>\n");
 			t += (unsigned long)7200;
 			get_time_string(&t, buffer, sizeof(buffer) - 1, SHORT_DATE_TIME);
-			printf("<tr><td CLASS='optBoxRequiredItem'>End Time:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>終了時刻:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='end_time' VALUE='%s'>", buffer);
 			printf("</b></td></tr>\n");
-			printf("<tr><td CLASS='optBoxItem'>Type:</td><td><b>");
+			printf("<tr><td CLASS='optBoxItem'>種類:</td><td><b>");
 			printf("<SELECT NAME='fixed'>");
-			printf("<OPTION VALUE=1>Fixed\n");
-			printf("<OPTION VALUE=0>Flexible\n");
+			printf("<OPTION VALUE=1>固定\n");
+			printf("<OPTION VALUE=0>非固定\n");
 			printf("</SELECT>\n");
 			printf("</b></td></tr>\n");
 
-			printf("<tr><td CLASS='optBoxItem'>If Flexible, Duration:</td><td>");
+			printf("<tr><td CLASS='optBoxItem'>期間(「非固定」を選択した場合のみ):</td><td>");
 			printf("<table border=0><tr>\n");
 			printf("<td align=right><INPUT TYPE='TEXT' NAME='hours' VALUE='2' SIZE=2 MAXLENGTH=2></td>\n");
-			printf("<td align=left>Hours</td>\n");
+			printf("<td align=left>時間</td>\n");
 			printf("<td align=right><INPUT TYPE='TEXT' NAME='minutes' VALUE='0' SIZE=2 MAXLENGTH=2></td>\n");
-			printf("<td align=left>Minutes</td>\n");
+			printf("<td align=left>分</td>\n");
 			printf("</tr></table>\n");
 			printf("</td></tr>\n");
 			if(cmd == CMD_SCHEDULE_HOSTGROUP_SVC_DOWNTIME || cmd == CMD_SCHEDULE_SERVICEGROUP_SVC_DOWNTIME) {
-				printf("<tr><td CLASS='optBoxItem'>Schedule Downtime For Hosts Too:</td><td><b>");
+				printf("<tr><td CLASS='optBoxItem'>同時にホストもダウンタイムをスケジュールする:</td><td><b>");
 				printf("<INPUT TYPE='checkbox' NAME='ahas'>");
 				printf("</b></td></tr>\n");
 				}
@@ -1419,21 +1418,21 @@ void request_command_data(int cmd) {
 
 		case CMD_SEND_CUSTOM_HOST_NOTIFICATION:
 		case CMD_SEND_CUSTOM_SVC_NOTIFICATION:
-			printf("<tr><td CLASS='optBoxRequiredItem'>Host Name:</td><td><b>");
+			printf("<tr><td CLASS='optBoxRequiredItem'>ホスト名:</td><td><b>");
 			printf("<INPUT TYPE='TEXT' NAME='host' VALUE='%s'>", escape_string(host_name));
 			printf("</b></td></tr>\n");
 
 			if(cmd == CMD_SEND_CUSTOM_SVC_NOTIFICATION) {
-				printf("<tr><td CLASS='optBoxRequiredItem'>Service:</td><td><b>");
+				printf("<tr><td CLASS='optBoxRequiredItem'>サービス名:</td><td><b>");
 				printf("<INPUT TYPE='TEXT' NAME='service' VALUE='%s'>", escape_string(service_desc));
 				printf("</b></td></tr>\n");
 				}
 
-			printf("<tr><td CLASS='optBoxItem'>Forced:</td><td><b>");
+			printf("<tr><td CLASS='optBoxItem'>強制的に通知する:</td><td><b>");
 			printf("<INPUT TYPE='checkbox' NAME='force_notification' ");
 			printf("</b></td></tr>\n");
 
-			printf("<tr><td CLASS='optBoxItem'>Broadcast:</td><td><b>");
+			printf("<tr><td CLASS='optBoxItem'>全員に通知する:</td><td><b>");
 			printf("<INPUT TYPE='checkbox' NAME='broadcast_notification' ");
 			printf("</b></td></tr>\n");
 
@@ -1441,12 +1440,12 @@ void request_command_data(int cmd) {
 			break;
 
 		default:
-			printf("<tr><td CLASS='optBoxItem'>This should not be happening... :-(</td><td></td></tr>\n");
+			printf("<tr><td CLASS='optBoxItem'>何かおかしいです... (´・ω・｀)</td><td></td></tr>\n");
 		}
 
 
 	printf("<tr><td CLASS='optBoxItem' COLSPAN=2></td></tr>\n");
-	printf("<tr><td CLASS='optBoxItem'></td><td CLASS='optBoxItem'><INPUT TYPE='submit' NAME='btnSubmit' VALUE='Commit'> <INPUT TYPE='reset' VALUE='Reset'></td></tr>\n");
+	printf("<tr><td CLASS='optBoxItem'></td><td CLASS='optBoxItem'><INPUT TYPE='submit' NAME='btnSubmit' VALUE='発行'> <INPUT TYPE='reset' VALUE='リセット'></td></tr>\n");
 
 	printf("</table>\n");
 	printf("</form>\n");
@@ -1467,7 +1466,7 @@ void request_command_data(int cmd) {
 	printf("</div>\n");
 	printf("</p>\n");
 
-	printf("<P><DIV CLASS='infoMessage'>Please enter all required information before committing the command.<br>Required fields are marked in red.<br>Failure to supply all required values will result in an error.</DIV></P>");
+	printf("<P><DIV CLASS='infoMessage'>コマンドを発行する前に必須項目(赤色)に入力してください。<br>入力されていない場合エラーになります。</DIV></P>");
 
 	return;
 	}
@@ -1490,10 +1489,10 @@ int print_comment_field(int cmd_id)
 			comment = ecmd->default_comment;
 	}
 
-	printf("<tr><td CLASS='%s'>Author (Your Name):</td><td><b>", reqtext);
+	printf("<tr><td CLASS='%s'>作成者:</td><td><b>", reqtext);
 	printf("<INPUT TYPE='TEXT' NAME='com_author' VALUE='%s' %s>", escape_string(comment_author), (lock_author_names == TRUE) ? "READONLY DISABLED" : "");
 	printf("</b></td></tr>\n");
-	printf("<tr><td CLASS='%s'>Comment:</td><td><b>", reqtext);
+	printf("<tr><td CLASS='%s'>コメント:</td><td><b>", reqtext);
 	printf("<INPUT TYPE='TEXT' NAME='com_data' VALUE='%s' SIZE=40>", escape_string(comment));
 	printf("</b></td></tr>\n");
 	return TRUE;
@@ -1529,13 +1528,13 @@ void commit_command_data(int cmd) {
 
 	if (ecmd->cmt_opt == 2 && *comment_data == '\0') {
 		if(!error_string) {
-			error_string = strdup("Comment was not entered");
+			error_string = strdup("コメントが入力されていません");
 		}
 	}
 	clean_comment_data(comment_data);
 	if (*comment_data != '\0' && *comment_author == '\0') {
 		if(!error_string) {
-			error_string = strdup("Author was not entered");
+			error_string = strdup("作成者が入力されていません");
 		}
 	}
 	clean_comment_data(comment_author);
@@ -1567,7 +1566,7 @@ void commit_command_data(int cmd) {
 			/* check the sanity of the comment id */
 			if(comment_id == 0) {
 				if(!error_string) {
-					error_string = strdup("Comment id cannot be 0");
+					error_string = strdup("コメントIDは0にできません");
 				}
 			}
 
@@ -1604,7 +1603,7 @@ void commit_command_data(int cmd) {
 			/* check the sanity of the downtime id */
 			if(downtime_id == 0) {
 				if(!error_string) {
-					error_string = strdup("Downtime id cannot be 0");
+					error_string = strdup("ダウンタイムIDは0にできません");
 				}
 			}
 
@@ -1664,28 +1663,28 @@ void commit_command_data(int cmd) {
 			/* make sure we have passive check info (if necessary) */
 			if(cmd == CMD_PROCESS_SERVICE_CHECK_RESULT && !strcmp(plugin_output, "")) {
 				if(!error_string) {
-					error_string = strdup("Plugin output cannot be blank");
+					error_string = strdup("プラグイン出力は空にできません");
 				}
 			}
 
 			/* make sure we have a notification delay (if necessary) */
 			if(cmd == CMD_DELAY_SVC_NOTIFICATION && notification_delay <= 0) {
 				if(!error_string) {
-					error_string = strdup("Notification delay must be greater than 0");
+					error_string = strdup("通知の遅延は0よりも大きくしなければなりません");
 				}
 			}
 
 			/* make sure we have check time (if necessary) */
 			if(cmd == CMD_SCHEDULE_SVC_CHECK && start_time == (time_t)0) {
 				if(!error_string) {
-					error_string = strdup("Start time must be non-zero or bad format has been submitted.");
+					error_string = strdup("開始時間が不正な形式が送信されたか、0以外のものでなければなりません。");
 				}
 			}
 
 			/* make sure we have start/end times for downtime (if necessary) */
 			if(cmd == CMD_SCHEDULE_SVC_DOWNTIME && (start_time == (time_t)0 || end_time == (time_t)0 || end_time < start_time)) {
 				if(!error_string) {
-					error_string = strdup("Start or end time not valid");
+					error_string = strdup("開始または終了時間が不正です");
 				}
 			}
 
@@ -1757,28 +1756,28 @@ void commit_command_data(int cmd) {
 			/* make sure we have a notification delay (if necessary) */
 			if(cmd == CMD_DELAY_HOST_NOTIFICATION && notification_delay <= 0) {
 				if(!error_string) {
-					error_string = strdup("Notification delay must be greater than 0");
+					error_string = strdup("通知の遅延は0以上でなければなりません");
 				}
 			}
 
 			/* make sure we have start/end times for downtime (if necessary) */
 			if((cmd == CMD_SCHEDULE_HOST_DOWNTIME || cmd == CMD_SCHEDULE_HOST_SVC_DOWNTIME) && (start_time == (time_t)0 || end_time == (time_t)0 || start_time > end_time)) {
 				if(!error_string) {
-					error_string = strdup("Start or end time not valid");
+					error_string = strdup("開始または終了時間が不正です");
 				}
 			}
 
 			/* make sure we have check time (if necessary) */
 			if((cmd == CMD_SCHEDULE_HOST_CHECK || cmd == CMD_SCHEDULE_HOST_SVC_CHECKS) && start_time == (time_t)0) {
 				if(!error_string) {
-					error_string = strdup("Start time must be non-zero or bad format has been submitted.");
+					error_string = strdup("開始時間は不正な形式で送信されたか、0以外のものでなければなりません。");
 				}
 			}
 
 			/* make sure we have passive check info (if necessary) */
 			if(cmd == CMD_PROCESS_HOST_CHECK_RESULT && !strcmp(plugin_output, "")) {
 				if(!error_string) {
-					error_string = strdup("Plugin output cannot be blank");
+					error_string = strdup("プラグイン出力は空にできません");
 				}
 			}
 
@@ -1796,7 +1795,7 @@ void commit_command_data(int cmd) {
 			/* make sure we have start/end times for downtime */
 			if((cmd == CMD_SCHEDULE_HOSTGROUP_HOST_DOWNTIME || cmd == CMD_SCHEDULE_HOSTGROUP_SVC_DOWNTIME) && (start_time == (time_t)0 || end_time == (time_t)0 || start_time > end_time)) {
 				if(!error_string) {
-					error_string = strdup("Start or end time not valid");
+					error_string = strdup("開始または終了時間が不正です");
 				}
 			}
 
@@ -1820,7 +1819,7 @@ void commit_command_data(int cmd) {
 			/* make sure we have start/end times for downtime */
 			if((cmd == CMD_SCHEDULE_SERVICEGROUP_HOST_DOWNTIME || cmd == CMD_SCHEDULE_SERVICEGROUP_SVC_DOWNTIME) && (start_time == (time_t)0 || end_time == (time_t)0 || start_time > end_time)) {
 				if(!error_string) {
-					error_string = strdup("Start or end time not valid");
+					error_string = strdup("開始または終了時間が不正です");
 				}
 			}
 
@@ -1853,7 +1852,7 @@ void commit_command_data(int cmd) {
 
 		default:
 			if(!error_string) {
-				error_string = strdup("An error occurred while processing your command!");
+				error_string = strdup("コマンドの実行中にエラーが発生しました！");
 			}
 		}
 
@@ -1861,16 +1860,16 @@ void commit_command_data(int cmd) {
 	/* to be safe, we are going to REQUIRE that the authentication functionality is enabled... */
 	if(use_authentication == FALSE) {
 		if(content_type == WML_CONTENT) {
-			printf("<p>Error: Authentication is not enabled!</p>\n");
+			printf("<p>エラー: CGIの認証機能が無効になっています。</p>\n");
 		}
 		else {
 			printf("<P>\n");
-			printf("<DIV CLASS='errorMessage'>Sorry Dave, I can't let you do that...</DIV><br>");
+			printf("<DIV CLASS='errorMessage'>実行できません。</DIV><br>");
 			printf("<DIV CLASS='errorDescription'>");
-			printf("It seems that you have chosen to not use the authentication functionality of the CGIs.<br><br>");
-			printf("I don't want to be personally responsible for what may happen as a result of allowing unauthorized users to issue commands to Nagios, ");
-			printf("so you'll have to disable this safeguard if you are really stubborn and want to invite trouble.<br><br>");
-			printf("<strong>Read the section on CGI authentication in the HTML documentation to learn how you can enable authentication and why you should want to.</strong>\n");
+			printf("CGIの認証機能が無効になっています<br><br>");
+			printf("これは無許可のユーザがNagiosに対してコマンドを使用できてしまうためあまり望ましくありません。");
+			printf("それでもコマンドを使用出来るようにする場合は、Nagiosのセキュリティ機能を削除する必要があります。<br><br>");
+			printf("<strong>HTMLドキュメントの CGI認証機能の項目を熟読してから認証機能の設定を行ってください。</strong>\n");
 			printf("</DIV>\n");
 			printf("</P>\n");
 		}
@@ -1879,12 +1878,12 @@ void commit_command_data(int cmd) {
 	/* the user is not authorized to issue the given command */
 	else if(authorized == FALSE) {
 		if(content_type == WML_CONTENT) {
-			printf("<p>Error: You're not authorized to commit that command!</p>\n");
+			printf("<p>エラー: このコマンドを発行する権限がありません。</p>\n");
 		}
 		else {
-			printf("<P><DIV CLASS='errorMessage'>Sorry, but you are not authorized to commit the specified command.</DIV></P>\n");
-			printf("<P><DIV CLASS='errorDescription'>Read the section of the documentation that deals with authentication and authorization in the CGIs for more information.<BR><BR>\n");
-			printf("<A HREF='javascript:window.history.go(-2)'>Return from whence you came</A></DIV></P>\n");
+			printf("<P><DIV CLASS='errorMessage'>このコマンドを発行する権限がありません。</DIV></P>\n");
+			printf("<P><DIV CLASS='errorDescription'>HTMLドキュメントの CGI認証機能の項目を熟読してから認証機能の設定を行ってください。<BR><BR>\n");
+			printf("<A HREF='javascript:window.history.go(-2)'>元のページへ戻る</A></DIV></P>\n");
 		}
 	}
 
@@ -1895,20 +1894,21 @@ void commit_command_data(int cmd) {
 		}
 		else {
 			printf("<P><DIV CLASS='errorMessage'>%s</DIV></P>\n", error_string);
-			printf("<P><DIV CLASS='errorDescription'>Go <A HREF='javascript:window.history.go(-1)'>back</A> and verify that you entered all required information correctly.<BR>\n");
-			printf("<A HREF='javascript:window.history.go(-2)'>Return from whence you came</A></DIV></P>\n");
+			free(error_string);
+			printf("<P><DIV CLASS='errorDescription'>入力に誤りが無いか<A HREF='javascript:window.history.go(-1)'>戻って</A>確認してください。<BR>\n");
+			printf("<A HREF='javascript:window.history.go(-2)'>元のページへ戻る</A></DIV></P>\n");
 		}
 	}
 
 	/* if Nagios isn't checking external commands, don't do anything... */
 	else if(check_external_commands == FALSE) {
 		if(content_type == WML_CONTENT) {
-			printf("<p>Error: Nagios is not checking external commands!</p>\n");
+			printf("<p>エラー: Nagiosが外部コマンドをチェックできないためコマンド発行できませんでした。</p>\n");
 		}
 		else {
-			printf("<P><DIV CLASS='errorMessage'>Sorry, but Nagios is currently not checking for external commands, so your command will not be committed!</DIV></P>\n");
-			printf("<P><DIV CLASS='errorDescription'>Read the documentation for information on how to enable external commands...<BR><BR>\n");
-			printf("<A HREF='javascript:window.history.go(-2)'>Return from whence you came</A></DIV></P>\n");
+			printf("<P><DIV CLASS='errorMessage'>Nagiosが外部コマンドをチェックできないためコマンド発行できませんでした。</DIV></P>\n");
+			printf("<P><DIV CLASS='errorDescription'>外部コマンド使い方についてドキュメントを読んでください。<BR><BR>\n");
+			printf("<A HREF='javascript:window.history.go(-2)'>元のページへ戻る</A></DIV></P>\n");
 		}
 	}
 
@@ -1920,21 +1920,21 @@ void commit_command_data(int cmd) {
 
 		if(result == OK) {
 			if(content_type == WML_CONTENT) {
-				printf("<p>Your command was submitted successfully...</p>\n");
+				printf("<p>コマンドを正常に受け付けました。</p>\n");
 			}
 			else {
-				printf("<P><DIV CLASS='infoMessage'>Your command request was successfully submitted to Nagios for processing.<BR><BR>\n");
-				printf("Note: It may take a while before the command is actually processed.<BR><BR>\n");
-				printf("<A HREF='javascript:window.history.go(-2)'>Done</A></DIV></P>");
+				printf("<P><DIV CLASS='infoMessage'>コマンドを正常に受け付けました。<BR><BR>\n");
+				printf("注)コマンドが実行されるまではしばらく時間がかかります。<BR><BR>\n");
+				printf("<A HREF='javascript:window.history.go(-2)'>了解</A></DIV></P>");
 			}
 		}
 		else {
 			if(content_type == WML_CONTENT) {
-				printf("<p>An error occurred while committing your command!</p>\n");
+				printf("<p>コマンドを処理する際にエラーが発生しました。</p>\n");
 			}
 			else {
-				printf("<P><DIV CLASS='errorMessage'>An error occurred while attempting to commit your command for processing.<BR><BR>\n");
-				printf("<A HREF='javascript:window.history.go(-2)'>Return from whence you came</A></DIV></P>\n");
+				printf("<P><DIV CLASS='errorMessage'>コマンドを処理する際にエラーが発生しました。<BR><BR>\n");
+				printf("<A HREF='javascript:window.history.go(-2)'>元のページへ戻る</A></DIV></P>\n");
 			}
 		}
 	}
@@ -2297,11 +2297,11 @@ int write_command_to_file(char *cmd) {
 	if(stat(command_file, &statbuf)) {
 
 		if(content_type == WML_CONTENT)
-			printf("<p>Error: Could not stat() external command file!</p>\n");
+			printf("<p>エラー: 外部コマンドファイルをstat()できません。</p>\n");
 		else {
-			printf("<P><DIV CLASS='errorMessage'>Error: Could not stat() command file '%s'!</DIV></P>\n", command_file);
+			printf("<P><DIV CLASS='errorMessage'>エラー: 外部コマンドファイル'%s'をstat()できません。</DIV></P>\n", command_file);
 			printf("<P><DIV CLASS='errorDescription'>");
-			printf("The external command file may be missing, Nagios may not be running, and/or Nagios may not be checking external commands.\n");
+			printf("外部コマンドファイルが無いようです。Nagiosが動いてないか、Nagiosが外部コマンドをチェックできない状態の可能性があります。\n");
 			printf("</DIV></P>\n");
 			}
 
@@ -2313,11 +2313,11 @@ int write_command_to_file(char *cmd) {
 	if(fp == NULL) {
 
 		if(content_type == WML_CONTENT)
-			printf("<p>Error: Could not open command file for update!</p>\n");
+			printf("<p>エラー: コマンドファイルをアップデートできません。</p>\n");
 		else {
-			printf("<P><DIV CLASS='errorMessage'>Error: Could not open command file '%s' for update!</DIV></P>\n", command_file);
+			printf("<P><DIV CLASS='errorMessage'>エラー: コマンドファイル'%s'をアップデートできません。</DIV></P>\n", command_file);
 			printf("<P><DIV CLASS='errorDescription'>");
-			printf("The permissions on the external command file and/or directory may be incorrect.  Read the FAQs on how to setup proper permissions.\n");
+			printf("外部コマンドファイルもしくは、ディレクトリのパーミッションに誤りがある可能性があります。パーミッションが適切かどうか確認してください。\n");
 			printf("</DIV></P>\n");
 			}
 
@@ -2358,7 +2358,7 @@ void clean_comment_data(char *buffer) {
 /* display information about a command */
 void show_command_help(int cmd) {
 
-	printf("<DIV ALIGN=CENTER CLASS='descriptionTitle'>Command Description</DIV>\n");
+	printf("<DIV ALIGN=CENTER CLASS='descriptionTitle'>コマンドの説明</DIV>\n");
 	printf("<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=0 CLASS='commandDescription'>\n");
 	printf("<TR><TD CLASS='commandDescription'>\n");
 
@@ -2366,458 +2366,436 @@ void show_command_help(int cmd) {
 	switch(cmd) {
 
 		case CMD_ADD_HOST_COMMENT:
-			printf("This command is used to add a comment for the specified host.  If you work with other administrators, you may find it useful to share information about a host\n");
-			printf("that is having problems if more than one of you may be working on it.  If you do not check the 'persistent' option, the comment will be automatically be deleted\n");
-			printf("the next time Nagios is restarted.\n");
+			printf("このコマンドはこのホストにコメントを追加します。仕事中に起こったホストに関する様々な問題を記録すると他の管理者と共有が行え便利です。\n");
+			printf("「<b>再起動後も(コメントを)保持させる</b>」チェックボックスにチェックを入れないとNagiosが次に再起動したときにコメントは削除されます。\n");
 			break;
 
 		case CMD_ADD_SVC_COMMENT:
-			printf("This command is used to add a comment for the specified service.  If you work with other administrators, you may find it useful to share information about a host\n");
-			printf("or service that is having problems if more than one of you may be working on it.  If you do not check the 'persistent' option, the comment will automatically be\n");
-			printf("deleted the next time Nagios is restarted.\n");
+			printf("このコマンドはこのホストにコメントを追加します。仕事中に起こったホストに関する様々な問題を記録すると他の管理者と共有が行え便利です。\n");
+			printf("「<b>再起動後も(コメントを)保持させる</b>」チェックボックスにチェックを入れないとNagiosが次に再起動したときにコメントは削除されます。<BR>\n");
 			break;
 
 		case CMD_DEL_HOST_COMMENT:
-			printf("This command is used to delete a specific host comment.\n");
+			printf("このコマンドはこのホストのコメントを削除します。\n");
 			break;
 
 		case CMD_DEL_SVC_COMMENT:
-			printf("This command is used to delete a specific service comment.\n");
+			printf("このコマンドはこのサービスのコメントを削除します。\n");
 			break;
 
 		case CMD_DELAY_HOST_NOTIFICATION:
-			printf("This command is used to delay the next problem notification that is sent out for the specified host.  The notification delay will be disregarded if\n");
-			printf("the host changes state before the next notification is scheduled to be sent out.  This command has no effect if the host is currently UP.\n");
+			printf("このコマンドは障害を検出した時にこのホストの次回通知を遅らせます。ただし、遅らせた通知が作動する前にホストの状態が変化した場合は無視されます。\n");
+			printf("また、ホストが稼働状態の場合はこのコマンドは効果がありません。\n");
 			break;
 
 		case CMD_DELAY_SVC_NOTIFICATION:
-			printf("This command is used to delay the next problem notification that is sent out for the specified service.  The notification delay will be disregarded if\n");
-			printf("the service changes state before the next notification is scheduled to be sent out.  This command has no effect if the service is currently in an OK state.\n");
+			printf("このコマンドは障害を検出した時にこのサービスの次回通知を遅らせます。ただし、遅らせた通知が作動する前にホストの状態が変化した場合は無視されます。\n");
+			printf("また、ホストが稼働状態の場合はこのコマンドは効果がありません。\n");
 			break;
 
 		case CMD_SCHEDULE_SVC_CHECK:
-			printf("This command is used to schedule the next check of a particular service.  Nagios will re-queue the service to be checked at the time you specify.\n");
-			printf("If you select the <i>force check</i> option, Nagios will force a check of the service regardless of both what time the scheduled check occurs and whether or not checks are enabled for the service.\n");
+			printf("このコマンドは指定したサービスを次回からチェックするようにスケジュールするために使います。実行するとNagiosは指定する時にチェックされるサービスをキューに入れます。\n");
+			printf("また、「<b>強制的にチェック</b>」にチェックを入れるとNagiosは他にチェックがスケジュールされていない場合やこのサービスのサービスチェックが無効になっていた場合であっても強制的にチェックを行います。パッシブサービスチェックのみのサービスであってもアクティブチェックされていますので注意してください。\n");
 			break;
 
 		case CMD_ENABLE_SVC_CHECK:
-			printf("This command is used to enable active checks of a service.\n");
+			printf("このコマンドはアクティブなサービスのチェックを有効にするために使います。\n");
 			break;
 
 		case CMD_DISABLE_SVC_CHECK:
-			printf("This command is used to disable active checks of a service.\n");
+			printf("このコマンドはアクティブなサービスのチェックを無効にするために使います。\n");
 			break;
 
 		case CMD_DISABLE_NOTIFICATIONS:
-			printf("This command is used to disable host and service notifications on a program-wide basis.\n");
+			printf("このコマンドはホストとサービスの通知機能をグローバル設定として無効にします。\n");
 			break;
 
 		case CMD_ENABLE_NOTIFICATIONS:
-			printf("This command is used to enable host and service notifications on a program-wide basis.\n");
+			printf("このコマンドはホストとサービスの通知機能をグローバル設定として有効にします。\n");
 			break;
 
 		case CMD_SHUTDOWN_PROCESS:
-			printf("This command is used to shutdown the Nagios process. Note: Once the Nagios has been shutdown, it cannot be restarted via the web interface!\n");
+			printf("このコマンドはNagiosを停止させます。注)一度このコマンドでNagiosを停止させると、WebインターフェースからNagiosを起動することはできないので注意してください。\n");
 			break;
 
 		case CMD_RESTART_PROCESS:
-			printf("This command is used to restart the Nagios process.   Executing a restart command is equivalent to sending the process a HUP signal.\n");
-			printf("All information will be flushed from memory, the configuration files will be re-read, and Nagios will start monitoring with the new configuration information.\n");
+			printf("このコマンドはNagiosを再起動させます。再起動コマンドはプロセスにHUPシグナルのを送るのと同じです。\n");
+			printf("メモリ上の全情報のクリア、設定ファイルを再読込したあとNagiosはモニタリングを開始します\n");
 			break;
 
 		case CMD_ENABLE_HOST_SVC_CHECKS:
-			printf("This command is used to enable active checks of all services associated with the specified host.  This <i>does not</i> enable checks of the host unless you check the 'Enable for host too' option.\n");
+			printf("このコマンドはこのホストの全サービスのチェックを有効にします。ただし、<B>ホストチェックは有効になりません</B>。ホストのチェックを有効にしたい場合は、「同時にホストも有効にする」をチェックします。\n");
 			break;
 
 		case CMD_DISABLE_HOST_SVC_CHECKS:
-			printf("This command is used to disable active checks of all services associated with the specified host.  When a service is disabled Nagios will not monitor the service.  Doing this will prevent any notifications being sent out for\n");
-			printf("the specified service while it is disabled.  In order to have Nagios check the service in the future you will have to re-enable the service.\n");
-			printf("Note that disabling service checks may not necessarily prevent notifications from being sent out about the host which those services are associated with.  This <i>does not</i> disable checks of the host unless you check the 'Disable for host too' option.\n");
+			printf("このコマンドはこのホストの全サービスのチェックを無効にします。サービスを無効にするとNagiosはモニターしなくなります。これは障害が起こっているときに通知を送るのを抑制することができます。再度サービスをチェックを行うには「有効」にすることで出来ます。ただし、<B>ホストチェックは無効になりません</B>。ホストのチェックも無効にしたい場合は、「同時にホストチェックも無効にする」をチェックします。\n");
 			break;
 
 		case CMD_SCHEDULE_HOST_SVC_CHECKS:
-			printf("This command is used to scheduled the next check of all services on the specified host.  If you select the <i>force check</i> option, Nagios will force a check of all services on the host regardless of both what time the scheduled checks occur and whether or not checks are enabled for those services.\n");
+			printf("このコマンドは指定されたホスト上の全てのサービスを次回からチェックするようにスケジュールするために使います。「<b>強制的にチェック</b>」にチェックを入れるとNagiosは他にチェックがスケジュールされていても、このサービスのサービスチェックが無効になっていたとしても強制的にチェックを行います。パッシブサービスチェックのみのサービスであってもアクティブチェックされてますので注意してください。\n");
 			break;
 
 		case CMD_DEL_ALL_HOST_COMMENTS:
-			printf("This command is used to delete all comments associated with the specified host.\n");
+			printf("このコマンドは指定したホストの全コメントを削除します。\n");
 			break;
 
 		case CMD_DEL_ALL_SVC_COMMENTS:
-			printf("This command is used to delete all comments associated with the specified service.\n");
+			printf("このコマンドは指定したサービスの全コメントを削除します。\n");
 			break;
 
 		case CMD_ENABLE_SVC_NOTIFICATIONS:
-			printf("This command is used to enable notifications for the specified service.  Notifications will only be sent out for the\n");
-			printf("service state types you defined in your service definition.\n");
+			printf("このコマンドは指定したサービスの通知機能を有効にします。通知は定義したサービス情報の状態が変わった際に送られます。\n");
 			break;
 
 		case CMD_DISABLE_SVC_NOTIFICATIONS:
-			printf("This command is used to prevent notifications from being sent out for the specified service.  You will have to re-enable notifications\n");
-			printf("for this service before any alerts can be sent out in the future.\n");
+			printf("このコマンドは指定したサービスの通知機能を無効にします。通知機能は再度有効にするまで一切機能しません。\n");
 			break;
 
 		case CMD_ENABLE_HOST_NOTIFICATIONS:
-			printf("This command is used to enable notifications for the specified host.  Notifications will only be sent out for the\n");
-			printf("host state types you defined in your host definition.  Note that this command <i>does not</i> enable notifications\n");
-			printf("for services associated with this host.\n");
+			printf("このコマンドは指定したホストの通知機能を有効にします。通知は定義したホスト情報の状態が変わった際に送られます。\n");
+			printf("注)このコマンドではホストに付随するサービスの通知機能までは<B>有効になりません</B>。\n");
 			break;
 
 		case CMD_DISABLE_HOST_NOTIFICATIONS:
-			printf("This command is used to prevent notifications from being sent out for the specified host.  You will have to re-enable notifications for this host\n");
-			printf("before any alerts can be sent out in the future.  Note that this command <i>does not</i> disable notifications for services associated with this host.\n");
+			printf("このコマンドは指定したホストの通知機能を無効にします。通知機能は再度有効にするまで一切機能しません。\n");
+			printf("注)このコマンドではホストに付随するサービスの通知機能までは<B>無効になりません</B>。\n");
 			break;
 
 		case CMD_ENABLE_ALL_NOTIFICATIONS_BEYOND_HOST:
-			printf("This command is used to enable notifications for all hosts and services that lie \"beyond\" the specified host\n");
-			printf("(from the view of Nagios).\n");
+			printf("このコマンドは指定したホストの配下にある全てのホストとサービスの通知機能を有効にします。\n");
 			break;
 
 		case CMD_DISABLE_ALL_NOTIFICATIONS_BEYOND_HOST:
-			printf("This command is used to temporarily prevent notifications from being sent out for all hosts and services that lie\n");
-			printf("\"beyond\" the specified host (from the view of Nagios).\n");
+			printf("このコマンドは指定したホストの配下にある全てのホストとサービスの通知機能を無効にします。\n");
 			break;
 
 		case CMD_ENABLE_HOST_SVC_NOTIFICATIONS:
-			printf("This command is used to enable notifications for all services on the specified host.  Notifications will only be sent out for the\n");
-			printf("service state types you defined in your service definition.  This <i>does not</i> enable notifications for the host unless you check the 'Enable for host too' option.\n");
+			printf("このコマンドは指定したホストの全サービスの通知機能を有効にします。通知は定義したサービス状態が変化した際に送られます。\n");
+			printf("このコマンドではホストの通知機能は<b>有効になりません</B>。ホストも同様に通知機能を有効にしたい場合は「<B>同時にホストも有効にする</B>」をチェックします。\n");
 			break;
 
 		case CMD_DISABLE_HOST_SVC_NOTIFICATIONS:
-			printf("This command is used to prevent notifications from being sent out for all services on the specified host.  You will have to re-enable notifications for\n");
-			printf("all services associated with this host before any alerts can be sent out in the future.  This <i>does not</i> prevent notifications from being sent out about the host unless you check the 'Disable for host too' option.\n");
+			printf("このコマンドは指定したホストの全サービスの通知機能を無効にします。通知機能は再度有効にするまで機能しません。\n");
+			printf("このコマンドではホストの通知機能は<b>無効になりません</B>。ホストも同様に通知機能を無効にしたい場合は「<B>同時にホストも無効にする</B>」をチェックします。\n");
 			break;
 
 		case CMD_ACKNOWLEDGE_HOST_PROBLEM:
-			printf("This command is used to acknowledge a host problem.  When a host problem is acknowledged, future notifications about problems are temporarily disabled until the host changes from its current state.\n");
-			printf("If you want acknowledgement to disable notifications until the host recovers, check the 'Sticky Acknowledgement' checkbox.\n");
-			printf("Contacts for this host will receive a notification about the acknowledgement, so they are aware that someone is working on the problem.  Additionally, a comment will also be added to the host.\n");
-			printf("Make sure to enter your name and fill in a brief description of what you are doing in the comment field.  If you would like the host comment to remain once the acknowledgement is removed, check\n");
-			printf("the 'Persistent Comment' checkbox.  If you do not want an acknowledgement notification sent out to the appropriate contacts, uncheck the 'Send Notification' checkbox.\n");
+			printf("このコマンドは指定したホストの問題を既知としてマークします。ホストの問題が認知済としてマークされたら、今後この問題に関して状態が変わるまで(たとえば復旧するなど)通知を行わなくなります。\n");
+			printf("このコマンドが実行されるとホストの通知先に「問題を認知した」という通知が行われます。加えてコメントも追加されます。\n");
+			printf("名前とちょっとした説明を入れてください。もしこの問題を認知してもコメントを残したい場合は「保存する」にチェックを入れます。もし、この問題を認知した警報を通知したくなければ「警報を通知」のチェックをはずしてください。\n");
 			break;
 
 		case CMD_ACKNOWLEDGE_SVC_PROBLEM:
-			printf("This command is used to acknowledge a service problem.  When a service problem is acknowledged, future notifications about problems are temporarily disabled until the service changes from its current state.\n");
-			printf("If you want acknowledgement to disable notifications until the service recovers, check the 'Sticky Acknowledgement' checkbox.\n");
-			printf("Contacts for this service will receive a notification about the acknowledgement, so they are aware that someone is working on the problem.  Additionally, a comment will also be added to the service.\n");
-			printf("Make sure to enter your name and fill in a brief description of what you are doing in the comment field.  If you would like the service comment to remain once the acknowledgement is removed, check\n");
-			printf("the 'Persistent Comment' checkbox.  If you do not want an acknowledgement notification sent out to the appropriate contacts, uncheck the 'Send Notification' checkbox.\n");
+			printf("このコマンドは指定したサービスの問題を既知としてマークします。ホストの問題が認知済としてマークされたら、今後この問題に関して状態が変わるまで(たとえば復旧するなど)通知を行わなくなります。\n");
+			printf("このコマンドが実行されるとサービスの通知先に「問題を認知した」という通知が行われます。加えてコメントも追加されます。\n");
+			printf("名前とちょっとした説明を入れてください。もしこの問題を認知してもコメントを残したい場合は「保存する」にチェックを入れます。もし、この問題を認知した警報を通知したくなければ「警報を通知」のチェックをはずしてください。\n");
 			break;
 
 		case CMD_START_EXECUTING_SVC_CHECKS:
-			printf("This command is used to resume execution of active service checks on a program-wide basis.  Individual services which are disabled will still not be checked.\n");
+			printf("このコマンドはグローバル設定としてサービスチェックを再開します。ただし、個々のサービスでサービスチェックが無効になっているものはそのまま無効になります。\n");
 			break;
 
 		case CMD_STOP_EXECUTING_SVC_CHECKS:
-			printf("This command is used to temporarily stop Nagios from actively executing any service checks.  This will have the side effect of preventing any notifications from being sent out (for any and all services and hosts).\n");
-			printf("Service checks will not be executed again until you issue a command to resume service check execution.\n");
+			printf("このコマンドは一時的に全てのサービスチェックを停止します。これによりどんな通知も行わなくなります。\n");
+			printf("サービスチェックはサービスチェックを再開するコマンドを発行するまで行われません。\n");
 			break;
 
 		case CMD_START_ACCEPTING_PASSIVE_SVC_CHECKS:
-			printf("This command is used to make Nagios start accepting passive service check results that it finds in the external command file\n");
+			printf("このコマンドはNagiosが外部コマンドからパッシブサービスチェックの結果を受け付けるようにします。\n");
 			break;
 
 		case CMD_STOP_ACCEPTING_PASSIVE_SVC_CHECKS:
-			printf("This command is use to make Nagios stop accepting passive service check results that it finds in the external command file.  All passive check results that are found will be ignored.\n");
+			printf("このコマンドはNagiosが外部コマンドからパッシブサービスチェックの結果を受け付ないようにします。\n");
 			break;
 
 		case CMD_ENABLE_PASSIVE_SVC_CHECKS:
-			printf("This command is used to allow Nagios to accept passive service check results that it finds in the external command file for this particular service.\n");
+			printf("このコマンドはNagiosが外部コマンドから指定したサービスについてのパッシブサービスチェックの結果を受け付けるようにします。\n");
 			break;
 
 		case CMD_DISABLE_PASSIVE_SVC_CHECKS:
-			printf("This command is used to stop Nagios accepting passive service check results that it finds in the external command file for this particular service.  All passive check results that are found for this service will be ignored.\n");
+			printf("このコマンドはNagiosが外部コマンドから指定したサービスについてのパッシブサービスチェックの結果を受け付けないようにします。\n");
 			break;
 
 		case CMD_ENABLE_EVENT_HANDLERS:
-			printf("This command is used to allow Nagios to run host and service event handlers.\n");
+			printf("このコマンドはホスト、サービスのイベントハンドラを有効にします。\n");
 			break;
 
 		case CMD_DISABLE_EVENT_HANDLERS:
-			printf("This command is used to temporarily prevent Nagios from running any host or service event handlers.\n");
+			printf("このコマンドはホスト、サービスのイベントハンドラを無効にします。\n");
 			break;
 
 		case CMD_ENABLE_SVC_EVENT_HANDLER:
-			printf("This command is used to allow Nagios to run the service event handler for a particular service when necessary (if one is defined).\n");
+			printf("このコマンドは指定したサービスのイベントハンドラを有効にします。\n");
 			break;
 
 		case CMD_DISABLE_SVC_EVENT_HANDLER:
-			printf("This command is used to temporarily prevent Nagios from running the service event handler for a particular service.\n");
+			printf("このコマンドは指定したサービスのイベントハンドラを無効にします。\n");
 			break;
 
 		case CMD_ENABLE_HOST_EVENT_HANDLER:
-			printf("This command is used to allow Nagios to run the host event handler for a particular service when necessary (if one is defined).\n");
+			printf("このコマンドは指定したホストのイベントハンドラを有効にします。\n");
 			break;
 
 		case CMD_DISABLE_HOST_EVENT_HANDLER:
-			printf("This command is used to temporarily prevent Nagios from running the host event handler for a particular host.\n");
+			printf("このコマンドは指定したホストのイベントハンドラを無効にします。\n");
 			break;
 
 		case CMD_ENABLE_HOST_CHECK:
-			printf("This command is used to enable active checks of this host.\n");
+			printf("このコマンドはホストチェックを有効にします。\n");
 			break;
 
 		case CMD_DISABLE_HOST_CHECK:
-			printf("This command is used to temporarily prevent Nagios from actively checking the status of a particular host.  If Nagios needs to check the status of this host, it will assume that it is in the same state that it was in before checks were disabled.\n");
+			printf("このコマンドはホストチェックを無効にします。もしNagiosがこのホストのチェックデータが必要となったら、無効にする前の状態を現在の状態とみなします。\n");
 			break;
 
 		case CMD_START_OBSESSING_OVER_SVC_CHECKS:
-			printf("This command is used to have Nagios start obsessing over service checks.  Read the documentation on distributed monitoring for more information on this.\n");
+			printf("このコマンドはNagiosにObsessing overサービスチェックを開始させます。この機能についてはドキュメントを参照してください。\n");
 			break;
 
 		case CMD_STOP_OBSESSING_OVER_SVC_CHECKS:
-			printf("This command is used stop Nagios from obsessing over service checks.\n");
+			printf("このコマンドはNagiosにObsessing overサービスチェックを停止させます。この機能についてはドキュメントを参照してください。\n");
 			break;
 
 		case CMD_REMOVE_HOST_ACKNOWLEDGEMENT:
-			printf("This command is used to remove an acknowledgement for a particular host problem.  Once the acknowledgement is removed, notifications may start being\n");
-			printf("sent out about the host problem. \n");
+			printf("このコマンドは指定したホストの認知済マークを削除し、通知を再開します。\n");
 			break;
 
 		case CMD_REMOVE_SVC_ACKNOWLEDGEMENT:
-			printf("This command is used to remove an acknowledgement for a particular service problem.  Once the acknowledgement is removed, notifications may start being\n");
-			printf("sent out about the service problem.\n");
+			printf("このコマンドは指定したサービスの認知済マークを削除し、通知を再開します。\n");
 			break;
 
 		case CMD_PROCESS_SERVICE_CHECK_RESULT:
-			printf("This command is used to submit a passive check result for a particular service.  It is particularly useful for resetting security-related services to OK states once they have been dealt with.\n");
+			printf("このコマンドは指定したサービスからのPassiveチェックの結果を送信します。これは作業が行われたり、作業を完了したり、セキュリティチェックなどに有効活用できます。\n");
 			break;
 
 		case CMD_PROCESS_HOST_CHECK_RESULT:
-			printf("This command is used to submit a passive check result for a particular host.\n");
+			printf("このコマンドは指定したホストのPassiveチェックの結果を送信します。\n");
 			break;
 
 		case CMD_SCHEDULE_HOST_DOWNTIME:
-			printf("This command is used to schedule downtime for a particular host.  During the specified downtime, Nagios will not send notifications out about the host.\n");
-			printf("When the scheduled downtime expires, Nagios will send out notifications for this host as it normally would.  Scheduled downtimes are preserved\n");
-			printf("across program shutdowns and restarts.  Both the start and end times should be specified in the following format:  <b>mm/dd/yyyy hh:mm:ss</b>.\n");
-			printf("If you select the <i>fixed</i> option, the downtime will be in effect between the start and end times you specify.  If you do not select the <i>fixed</i>\n");
-			printf("option, Nagios will treat this as \"flexible\" downtime.  Flexible downtime starts when the host goes down or becomes unreachable (sometime between the\n");
-			printf("start and end times you specified) and lasts as long as the duration of time you enter.  The duration fields do not apply for fixed downtime.\n");
+			printf("このコマンドは指定したホストのダウンタイムをスケジュールします。ダウンタイムを設定するとその間はNagiosはホストに関する通知を行わなくなります。\n");
+			printf("ダウンタイムが経過したらNagiosは通常どおり通知を行います。このスケジュール内容はNagiosが再起動した場合でも保存されます。\n");
+			printf("フィールドにダウンタイム開始時間と終了時間を<b>mm/dd/yyyy hh:mm:ss</b>形式で入力してください。\n");
+			printf("もし「<B>固定</B>」にチェックを入れると入力した開始時間と終了時間きっちりにスケジュールされます。もし「<B>固定</b>」にチェックを入れない場合はNagiosは\"フレキシブル\"なダウンタイムとします。\n");
+			printf("フレキシブルなダウンタイムとはホストが停止または未到達になる開始時間から経過時間を指定してダウンタイムを決定することです。「<B>固定</B>」にチェックを入れた場合<b>期間</b>を指定する箇所は入力しても無効になります。\n");
 			break;
 
 		case CMD_SCHEDULE_HOST_SVC_DOWNTIME:
-			printf("This command is used to schedule downtime for all services on a particular host.  During the specified downtime, Nagios will not send notifications out about the host.\n");
-			printf("Normally, a host in downtime will not send alerts about any services in a failed state. This option will explicitly set downtime for all services for this host.\n");
-			printf("When the scheduled downtime expires, Nagios will send out notifications for this host as it normally would.  Scheduled downtimes are preserved\n");
-			printf("across program shutdowns and restarts.  Both the start and end times should be specified in the following format:  <b>mm/dd/yyyy hh:mm:ss</b>.\n");
-			printf("If you select the <i>fixed</i> option, the downtime will be in effect between the start and end times you specify.  If you do not select the <i>fixed</i>\n");
-			printf("option, Nagios will treat this as \"flexible\" downtime.  Flexible downtime starts when the host goes down or becomes unreachable (sometime between the\n");
-			printf("start and end times you specified) and lasts as long as the duration of time you enter.  The duration fields do not apply for fixed downtime.\n");
+			printf("このコマンドは指定したホストとその全サービスのダウンタイムをスケジュールします。ダウンタイムを設定するとその間はNagiosはホストに関する通知を行わなくなります。\n");
+			printf("ダウンタイムが経過したらNagiosは通常どおり通知を行います。このスケジュール内容はNagiosが再起動した場合でも保存されます。\n");
+			printf("フィールドにダウンタイム開始時間と終了時間を<b>mm/dd/yyyy hh:mm:ss</b>形式で入力してください。\n");
+			printf("もし「<B>固定</B>」にチェックを入れると入力した開始時間と終了時間きっちりにスケジュールされます。もし「<B>固定</b>」にチェックを入れない場合はNagiosは\"フレキシブル\"なダウンタイムとします。\n");
+			printf("フレキシブルなダウンタイムとはホストが停止または未到達になる開始時間から経過時間を指定してダウンタイムを決定することです。「<B>固定</B>」にチェックを入れた場合<b>期間</b>を指定する箇所は入力しても無効になります。\n");
 			break;
 
 		case CMD_SCHEDULE_SVC_DOWNTIME:
-			printf("This command is used to schedule downtime for a particular service.  During the specified downtime, Nagios will not send notifications out about the service.\n");
-			printf("When the scheduled downtime expires, Nagios will send out notifications for this service as it normally would.  Scheduled downtimes are preserved\n");
-			printf("across program shutdowns and restarts.  Both the start and end times should be specified in the following format:  <b>mm/dd/yyyy hh:mm:ss</b>.\n");
-			printf("If you select the <i>fixed</i> option, the downtime will be in effect between the start and end times you specify.  If you do not select the <i>fixed</i>\n");
-			printf("option, Nagios will treat this as \"flexible\" downtime.  Flexible downtime starts when the service enters a non-OK state (sometime between the\n");
-			printf("start and end times you specified) and lasts as long as the duration of time you enter.  The duration fields do not apply for fixed downtime.\n");
+			printf("このコマンドは指定したサービスのダウンタイムをスケジュールします。ダウンタイムを設定するとその間はNagiosはサービスに関する通知を行わなくなります。\n");
+			printf("ダウンタイムが経過したらNagiosは通常どおり通知を行います。このスケジュール内容はNagiosが再起動した場合でも保存されます。\n");
+			printf("フィールドにダウンタイム開始時間と終了時間を<b>mm/dd/yyyy hh:mm:ss</b>形式で入力してください。");
+			printf("もし「<B>固定</B>」にチェックを入れると入力した開始時間と終了時間きっちりにスケジュールされます。もし「<B>固定</b>」にチェックを入れない場合はNagiosは\"フレキシブル\"なダウンタイムとします。\n");
+			printf("フレキシブルなダウンタイムとはサービスが停止または未到達になる開始時間から経過時間を指定してダウンタイムを決定することです。「<B>固定</B>」にチェックを入れた場合<b>期間</b>を指定する箇所は入力しても無効になります。</b>\n");
 			break;
 
 		case CMD_ENABLE_HOST_FLAP_DETECTION:
-			printf("This command is used to enable flap detection for a specific host.  If flap detection is disabled on a program-wide basis, this will have no effect,\n");
+			printf("このコマンドは指定したホストのフラップ検知を有効にします。ただし、フラップ検知がグローバル設定で無効に設定されている場合はこのコマンドは何の効果も持ちません。\n");
 			break;
 
 		case CMD_DISABLE_HOST_FLAP_DETECTION:
-			printf("This command is used to disable flap detection for a specific host.\n");
+			printf("このコマンドは指定したホストのフラップ検知を無効にします。\n");
 			break;
 
 		case CMD_ENABLE_SVC_FLAP_DETECTION:
-			printf("This command is used to enable flap detection for a specific service.  If flap detection is disabled on a program-wide basis, this will have no effect,\n");
+			printf("このコマンドは指定したサービスのフラップ検知を有効にします。ただし、フラップ検知がグローバル設定で無効に設定されている場合はこのコマンドは何の効果も持ちません。\n");
 			break;
 
 		case CMD_DISABLE_SVC_FLAP_DETECTION:
-			printf("This command is used to disable flap detection for a specific service.\n");
+			printf("このコマンドは指定したサービスのフラップ検知を無効にします。\n");
 			break;
 
 		case CMD_ENABLE_FLAP_DETECTION:
-			printf("This command is used to enable flap detection for hosts and services on a program-wide basis.  Individual hosts and services may have flap detection disabled.\n");
+			printf("このコマンドはグローバル設定としてフラップ検知を有効にします。個々のホストやサービスで無効に設定されている場合、それらは保持されたままになります。\n");
 			break;
 
 		case CMD_DISABLE_FLAP_DETECTION:
-			printf("This command is used to disable flap detection for hosts and services on a program-wide basis.\n");
+			printf("このコマンドはグローバル設定としてフラップ検知を無効にします。\n");
 			break;
 
 		case CMD_ENABLE_HOSTGROUP_SVC_NOTIFICATIONS:
-			printf("This command is used to enable notifications for all services in the specified hostgroup.  Notifications will only be sent out for the\n");
-			printf("service state types you defined in your service definitions.  This <i>does not</i> enable notifications for the hosts in this hostgroup unless you check the 'Enable for hosts too' option.\n");
+			printf("このコマンドは指定したホストグループの全サービスの通知を有効にします。通知はサービス定義で定義したサービスのみ送られます。\n");
+			printf("このコマンドでは指定したホストグループ上のホストの通知機能は<b>有効になりません</b>。もし有効にしたい場合は「<B>同時にホストも有効にする</b>」をチェックします。\n");
 			break;
 
 		case CMD_DISABLE_HOSTGROUP_SVC_NOTIFICATIONS:
-			printf("This command is used to prevent notifications from being sent out for all services in the specified hostgroup.  You will have to re-enable notifications for\n");
-			printf("all services in this hostgroup before any alerts can be sent out in the future.  This <i>does not</i> prevent notifications from being sent out about the hosts in this hostgroup unless you check the 'Disable for hosts too' option.\n");
+			printf("このコマンドは指定したホストグループの全サービスの通知を無効にします。通知はサービス定義で定義したサービスのみ送られます。\n");
+			printf("このコマンドでは指定したホストグループ上のホストの通知機能は<b>無効になりません</b>。もし無効にしたい場合は「<B>同時にホストも無効にする</b>」をチェックします。\n");
 			break;
 
 		case CMD_ENABLE_HOSTGROUP_HOST_NOTIFICATIONS:
-			printf("This command is used to enable notifications for all hosts in the specified hostgroup.  Notifications will only be sent out for the\n");
-			printf("host state types you defined in your host definitions.\n");
+			printf("このコマンドは指定したホストグループ上の全ホストの通知を有効にします。\n");
+			printf("通知はホスト定義で定義したホストのみに送られます。\n");
 			break;
 
 		case CMD_DISABLE_HOSTGROUP_HOST_NOTIFICATIONS:
-			printf("This command is used to prevent notifications from being sent out for all hosts in the specified hostgroup.  You will have to re-enable notifications for\n");
-			printf("all hosts in this hostgroup before any alerts can be sent out in the future.\n");
+			printf("このコマンドは指定したホストグループ上の全ホストの通知を無効にします。\n");
+			printf("再度このホストグループ上の全ホストに通知を有効にするまでどんな警報も通知されません。\n");
 			break;
 
 		case CMD_ENABLE_HOSTGROUP_SVC_CHECKS:
-			printf("This command is used to enable active checks of all services in the specified hostgroup.  This <i>does not</i> enable active checks of the hosts in the hostgroup unless you check the 'Enable for hosts too' option.\n");
+			printf("このコマンドは指定したホストグループ上のサービスチェックを有効にします。\n");
+			printf("ただし、ホストチェックまではこのコマンドでは有効になりません。有効にしたい場合は「<b>同時にホストも有効にする</b>」をチェックします。\n");
 			break;
 
 		case CMD_DISABLE_HOSTGROUP_SVC_CHECKS:
-			printf("This command is used to disable active checks of all services in the specified hostgroup.  This <i>does not</i> disable checks of the hosts in the hostgroup unless you check the 'Disable for hosts too' option.\n");
+			printf("このコマンドは指定したホストグループ上のサービスチェックを無効にします。このコマンドではホストグループのホストチェックは<b>無効になりません</b>。無効にしたい場合は「<B>同時>にホストも無効にする</B>」をチェックします。\n");
 			break;
 
 		case CMD_DEL_HOST_DOWNTIME:
-			printf("This command is used to cancel active or pending scheduled downtime for the specified host.\n");
+			printf("このコマンドは指定したホストのダウンタイムをキャンセルもしくは保留にします。\n");
 			break;
 
 		case CMD_DEL_SVC_DOWNTIME:
-			printf("This command is used to cancel active or pending scheduled downtime for the specified service.\n");
+			printf("このコマンドは指定したサービスのダウンタイムをキャンセルもしくは保留にします。\n");
 			break;
 
 		case CMD_ENABLE_PERFORMANCE_DATA:
-			printf("This command is used to enable the processing of performance data for hosts and services on a program-wide basis.  Individual hosts and services may have performance data processing disabled.\n");
+			printf("このコマンドはグローバル設定としてホストとサービスのパフォーマンスデータを有効にします。\n");
+			printf("個々のホストやサービスが無効になっている場合は無効のままになります。\n");
 			break;
 
 		case CMD_DISABLE_PERFORMANCE_DATA:
-			printf("This command is used to disable the processing of performance data for hosts and services on a program-wide basis.\n");
+			printf("このコマンドはグローバル設定としてホストとサービスのパフォーマンスデータを無効にします。\n");
 			break;
 
 		case CMD_SCHEDULE_HOSTGROUP_HOST_DOWNTIME:
-			printf("This command is used to schedule downtime for all hosts in a particular hostgroup.  During the specified downtime, Nagios will not send notifications out about the hosts.\n");
-			printf("When the scheduled downtime expires, Nagios will send out notifications for the hosts as it normally would.  Scheduled downtimes are preserved\n");
-			printf("across program shutdowns and restarts.  Both the start and end times should be specified in the following format:  <b>mm/dd/yyyy hh:mm:ss</b>.\n");
-			printf("If you select the <i>fixed</i> option, the downtime will be in effect between the start and end times you specify.  If you do not select the <i>fixed</i>\n");
-			printf("option, Nagios will treat this as \"flexible\" downtime.  Flexible downtime starts when a host goes down or becomes unreachable (sometime between the\n");
-			printf("start and end times you specified) and lasts as long as the duration of time you enter.  The duration fields do not apply for fixed downtime.\n");
+			printf("このコマンドは指定したホストグループ上の全ホストのダウンタイムをスケジュールします。ダウンタイムを設定するとその間はNagiosはホストに関する通知を行わなくなります。\n");
+			printf("ダウンタイムが経過したらNagiosは通常どおり通知を行います。このスケジュール内容はNagiosが再起動した場合でも保存されます。\n");
+			printf("フィールドにダウンタイム開始時間と終了時間を<b>mm/dd/yyyy hh:mm:ss</b>形式で入力してください。\n");
+			printf("もし「<B>固定</B>」にチェックを入れると入力した開始時間と終了時間きっちりにスケジュールされます。もし「<B>固定</b>」にチェックを入れない場合はNagiosは\"フレキシブル\"なダウンタイムとします。\n");
+			printf("フレキシブルなダウンタイムとはホストが停止または未到達になる開始時間から経過時間を指定してダウンタイムを決定することです。「<B>固定</B>」にチェックを入れた場合<b>期間</b>を指定する箇所は入力しても無効になります。</b>\n");
 			break;
 
 		case CMD_SCHEDULE_HOSTGROUP_SVC_DOWNTIME:
-			printf("This command is used to schedule downtime for all services in a particular hostgroup.  During the specified downtime, Nagios will not send notifications out about the services.\n");
-			printf("When the scheduled downtime expires, Nagios will send out notifications for the services as it normally would.  Scheduled downtimes are preserved\n");
-			printf("across program shutdowns and restarts.  Both the start and end times should be specified in the following format:  <b>mm/dd/yyyy hh:mm:ss</b>.\n");
-			printf("If you select the <i>fixed</i> option, the downtime will be in effect between the start and end times you specify.  If you do not select the <i>fixed</i>\n");
-			printf("option, Nagios will treat this as \"flexible\" downtime.  Flexible downtime starts when a service enters a non-OK state (sometime between the\n");
-			printf("start and end times you specified) and lasts as long as the duration of time you enter.  The duration fields do not apply for fixed downtime.\n");
-			printf("Note that scheduling downtime for services does not automatically schedule downtime for the hosts those services are associated with.  If you want to also schedule downtime for all hosts in the hostgroup, check the 'Schedule downtime for hosts too' option.\n");
+			printf("このコマンドは指定したホストグループ上の全サービスのダウンタイムをスケジュールします。ダウンタイムを設定するとその間はNagiosはサービスに関する通知を行わなくなります。\n");
+			printf("ダウンタイムが経過したらNagiosは通常どおり通知を行います。このスケジュール内容はNagiosが再起動した場合でも保存されます。\n");
+			printf("フィールドにダウンタイム開始時間と終了時間を<b>mm/dd/yyyy hh:mm:ss</b>形式で入力してください。\n");
+			printf("もし「<B>固定</B>」にチェックを入れると入力した開始時間と終了時間きっちりにスケジュールされます。もし<「B>固定</b>」にチェックを入れない場合はNagiosは\"フレキシブル\"なダウンタイムとします。\n");
+			printf("フレキシブルなダウンタイムとはホストが停止または未到達になる開始時間から経過時間を指定してダウンタイムを決定することです。「<B>固定</B>」にチェックを入れた場合<b>期間</b>を指定する箇所は入力しても無効になります。</b>\n");
 			break;
 
 		case CMD_START_EXECUTING_HOST_CHECKS:
-			printf("This command is used to enable active host checks on a program-wide basis.\n");
+			printf("このコマンドはグローバル設定としてホストチェックを有効にするために使います。\n");
 			break;
 
 		case CMD_STOP_EXECUTING_HOST_CHECKS:
-			printf("This command is used to disable active host checks on a program-wide basis.\n");
+			printf("このコマンドはグローバル設定としてホストチェックを無効にするために使います。\n");
 			break;
 
 		case CMD_START_ACCEPTING_PASSIVE_HOST_CHECKS:
-			printf("This command is used to have Nagios start obsessing over host checks.  Read the documentation on distributed monitoring for more information on this.\n");
+			printf("このコマンドはNagiosがObsessing Overホストチェックを開始するために使います。詳細な情報はドキュメントの分散モニタリング(distributed monitoring)の部分を参照してください。\n");
 			break;
 
 		case CMD_STOP_ACCEPTING_PASSIVE_HOST_CHECKS:
-			printf("This command is used to stop Nagios from obsessing over host checks.\n");
+			printf("このコマンドはNagiosがObsessing Overホストチェックを停止するために使います。\n");
 			break;
 
 		case CMD_ENABLE_PASSIVE_HOST_CHECKS:
-			printf("This command is used to allow Nagios to accept passive host check results that it finds in the external command file for a particular host.\n");
+			printf("このコマンドはNagiosが指定したホストの外部コマンドからパッシブチェックを行うことを許可するために使用します。\n");
 			break;
 
 		case CMD_DISABLE_PASSIVE_HOST_CHECKS:
-			printf("This command is used to stop Nagios from accepting passive host check results that it finds in the external command file for a particular host.  All passive check results that are found for this host will be ignored.\n");
+			printf("このコマンドはNagiosが指定したホストの外部コマンドからパッシブチェックを行うことを拒否するために使用します。これを実行すると指定したホストからの全てのPassiveチェックが無視されます。\n");
 			break;
 
 		case CMD_START_OBSESSING_OVER_HOST_CHECKS:
-			printf("This command is used to have Nagios start obsessing over host checks.  Read the documentation on distributed monitoring for more information on this.\n");
+			printf("このコマンドはobsessing overホストチェックを開始するために使います。詳細な情報はドキュメントの分散モニタリング(distributed monitoring)の部分を参照してください。\n");
 			break;
 
 		case CMD_STOP_OBSESSING_OVER_HOST_CHECKS:
-			printf("This command is used to stop Nagios from obsessing over host checks.\n");
+			printf("このコマンドはobsessing overホストチェックを停止するために使います。\n");
 			break;
 
 		case CMD_SCHEDULE_HOST_CHECK:
-			printf("This command is used to schedule the next check of a particular host.  Nagios will re-queue the host to be checked at the time you specify.\n");
-			printf("If you select the <i>force check</i> option, Nagios will force a check of the host regardless of both what time the scheduled check occurs and whether or not checks are enabled for the host.\n");
+			printf("このコマンドは指定したホストを次回からチェックするようにスケジュールするために使います。実行するとNagiosは指定する時にチェックされるサービスをキューに入れます。\n");
+			printf("また、「<b>強制的にチェック</b>」にチェックを入れるとNagiosは他にチェックがスケジュールされていない場合やこのホストのホストチェックが無効になっていた場合であっても強制的にチェックを行います。\n");
 			break;
 
 		case CMD_START_OBSESSING_OVER_SVC:
-			printf("This command is used to have Nagios start obsessing over a particular service.\n");
+			printf("このコマンドは指定したサービスのobsessing overを開始するために使います。\n");
 			break;
 
 		case CMD_STOP_OBSESSING_OVER_SVC:
-			printf("This command is used to stop Nagios from obsessing over a particular service.\n");
+			printf("このコマンドは指定したサービスのobsessing overを停止するために使います。\n");
 			break;
 
 		case CMD_START_OBSESSING_OVER_HOST:
-			printf("This command is used to have Nagios start obsessing over a particular host.\n");
+			printf("このコマンドは指定したホストのobsessing overを開始するために使います。\n");
 			break;
 
 		case CMD_STOP_OBSESSING_OVER_HOST:
-			printf("This command is used to stop Nagios from obsessing over a particular host.\n");
+			printf("このコマンドは指定したホストのobsessing overを停止するために使います。\n");
 			break;
 
 		case CMD_ENABLE_SERVICEGROUP_SVC_NOTIFICATIONS:
-			printf("This command is used to enable notifications for all services in the specified servicegroup.  Notifications will only be sent out for the\n");
-			printf("service state types you defined in your service definitions.  This <i>does not</i> enable notifications for the hosts in this servicegroup unless you check the 'Enable for hosts too' option.\n");
+			printf("このコマンドは指定したサービスグループの全サービスの通知を有効にします。通知はサービス定義で定義したサービスのみ送られます。\n");
+			printf("このコマンドでは指定したサービスグループ上のホストの通知機能は<b>有効になりません</b>。もし有効にしたい場合は「<B>同時にホストも有効にする</b>」をチェックします。\n");
 			break;
 
 		case CMD_DISABLE_SERVICEGROUP_SVC_NOTIFICATIONS:
-			printf("This command is used to prevent notifications from being sent out for all services in the specified servicegroup.  You will have to re-enable notifications for\n");
-			printf("all services in this servicegroup before any alerts can be sent out in the future.  This <i>does not</i> prevent notifications from being sent out about the hosts in this servicegroup unless you check the 'Disable for hosts too' option.\n");
+			printf("このコマンドは指定したサービスグループの全サービスの通知を無効にします。通知はサービス定義で定義したサービスのみ送られます。\n");
+			printf("このコマンドでは指定したサービスグループ上のホストの通知機能は<b>無効になりません</b>。もし有効にしたい場合は「<B>同時にホストも無効にする</b>」をチェックします。\n");
 			break;
 
 		case CMD_ENABLE_SERVICEGROUP_HOST_NOTIFICATIONS:
-			printf("This command is used to enable notifications for all hosts in the specified servicegroup.  Notifications will only be sent out for the\n");
-			printf("host state types you defined in your host definitions.\n");
+			printf("このコマンドは指定したサービスグループ上の全ホストの通知を有効にします。\n");
+			printf("通知はホスト定義で定義したホストのみに送られます。\n");
 			break;
 
 		case CMD_DISABLE_SERVICEGROUP_HOST_NOTIFICATIONS:
-			printf("This command is used to prevent notifications from being sent out for all hosts in the specified servicegroup.  You will have to re-enable notifications for\n");
-			printf("all hosts in this servicegroup before any alerts can be sent out in the future.\n");
+			printf("このコマンドは指定したサービスグループ上の全ホストの通知を無効にします。\n");
+			printf("再度このサービスグループ上の全ホストに通知を有効にするまでどんな警報も通知されません。\n");
 			break;
 
 		case CMD_ENABLE_SERVICEGROUP_SVC_CHECKS:
-			printf("This command is used to enable active checks of all services in the specified servicegroup.  This <i>does not</i> enable active checks of the hosts in the servicegroup unless you check the 'Enable for hosts too' option.\n");
+			printf("このコマンドは指定したサービスグループ上のサービスチェックを有効にします。このコマンドではサービスグループのホストチェックは<b>有効になりません</b>。有効にしたい場合は「<B>同時にホストも有効にする</B>」にチェックを入れてください。\n");
 			break;
 
 		case CMD_DISABLE_SERVICEGROUP_SVC_CHECKS:
-			printf("This command is used to disable active checks of all services in the specified servicegroup.  This <i>does not</i> disable checks of the hosts in the servicegroup unless you check the 'Disable for hosts too' option.\n");
+			printf("このコマンドは指定したサービスグループ上のサービスチェックを無効にします。このコマンドではサービスグループのホストチェックは<b>無効になりません</b>。無効にしたい場合は「<B>同時にホストも無効にする</B>」にチェックを入れてください。\n");
 			break;
 
 		case CMD_SCHEDULE_SERVICEGROUP_HOST_DOWNTIME:
-			printf("This command is used to schedule downtime for all hosts in a particular servicegroup.  During the specified downtime, Nagios will not send notifications out about the hosts.\n");
-			printf("When the scheduled downtime expires, Nagios will send out notifications for the hosts as it normally would.  Scheduled downtimes are preserved\n");
-			printf("across program shutdowns and restarts.  Both the start and end times should be specified in the following format:  <b>mm/dd/yyyy hh:mm:ss</b>.\n");
-			printf("If you select the <i>fixed</i> option, the downtime will be in effect between the start and end times you specify.  If you do not select the <i>fixed</i>\n");
-			printf("option, Nagios will treat this as \"flexible\" downtime.  Flexible downtime starts when a host goes down or becomes unreachable (sometime between the\n");
-			printf("start and end times you specified) and lasts as long as the duration of time you enter.  The duration fields do not apply for fixed downtime.\n");
+			printf("このコマンドは指定したサービスグループ上の全ホストのダウンタイムをスケジュールします。ダウンタイムを設定するとその間はNagiosはホストに関する通知を行わなくなります。\n");
+			printf("ダウンタイムが経過したらNagiosは通常どおり通知を行います。このスケジュール内容はNagiosが再起動した場合でも保存されます\n");
+			printf("フィールドにダウンタイム開始時間と終了時間を<b>mm/dd/yyyy hh:mm:ss</b>形式で入力してください。\n");
+			printf("もし「<B>固定</B>」にチェックを入れると入力した開始時間と終了時間きっちりにスケジュールされます。もし「<B>固定</B>」にチェックを入れない場合はNagiosは\"フレキシブル\"なダウンタイムとします。\n");
+			printf("フレキシブルなダウンタイムとはホストが停止または未到達になる開始時間から経過時間を指定してダウンタイムを決定することです。「<B>固定</B>」にチェックを入れた場合<b>期間</b>を指定する箇所は入力しても無効になります。</b>\n");
 			break;
 
 		case CMD_SCHEDULE_SERVICEGROUP_SVC_DOWNTIME:
-			printf("This command is used to schedule downtime for all services in a particular servicegroup.  During the specified downtime, Nagios will not send notifications out about the services.\n");
-			printf("When the scheduled downtime expires, Nagios will send out notifications for the services as it normally would.  Scheduled downtimes are preserved\n");
-			printf("across program shutdowns and restarts.  Both the start and end times should be specified in the following format:  <b>mm/dd/yyyy hh:mm:ss</b>.\n");
-			printf("If you select the <i>fixed</i> option, the downtime will be in effect between the start and end times you specify.  If you do not select the <i>fixed</i>\n");
-			printf("option, Nagios will treat this as \"flexible\" downtime.  Flexible downtime starts when a service enters a non-OK state (sometime between the\n");
-			printf("start and end times you specified) and lasts as long as the duration of time you enter.  The duration fields do not apply for fixed downtime.\n");
-			printf("Note that scheduling downtime for services does not automatically schedule downtime for the hosts those services are associated with.  If you want to also schedule downtime for all hosts in the servicegroup, check the 'Schedule downtime for hosts too' option.\n");
+			printf("このコマンドは指定したサービスグループ上の全サービスのダウンタイムをスケジュールします。ダウンタイムを設定するとその間はNagiosはサービスに関する通知を行わなくなります。\n");
+			printf("ダウンタイムが経過したらNagiosは通常どおり通知を行います。このスケジュール内容はNagiosが再起動した場合でも保存されます\n");
+			printf("フィールドにダウンタイム開始時間と終了時間を<b>mm/dd/yyyy hh:mm:ss</b>形式で入力してください。\n");
+			printf("もし「<B>固定</B>」にチェックを入れると入力した開始時間と終了時間きっちりにスケジュールされます。もし「<B>固定</B>」にチェックを入れない場合はNagiosは\"フレキシブル\"なダウンタイムとします。\n");
+			printf("フレキシブルなダウンタイムとはホストが停止または未到達になる開始時間から経過時間を指定してダウンタイムを決定することです。「<B>固定</B>」にチェックを入れた場合<b>期間</b>を指定する箇所は入力しても無効になります。</b>\n");
 			break;
 
 		case CMD_CLEAR_HOST_FLAPPING_STATE:
 		case CMD_CLEAR_SVC_FLAPPING_STATE:
-			printf("This command is used to reset the flapping state for the specified %s.\n",
-				(cmd == CMD_CLEAR_HOST_FLAPPING_STATE) ? "host" : "service");
-			printf("All state history for the specified %s will be cleared.\n",
-				(cmd == CMD_CLEAR_HOST_FLAPPING_STATE) ? "host" : "service");
+			printf("このコマンドは指定された%sのフラッピング状態をリセットするために使用されます。\n",
+				(cmd == CMD_CLEAR_HOST_FLAPPING_STATE) ? "ホスト" : "サービス");
+			printf("指定されて%sのすべての状態履歴がクリアされます。\n",
+				(cmd == CMD_CLEAR_HOST_FLAPPING_STATE) ? "ホスト" : "サービス");
 			break;
 
 		case CMD_SEND_CUSTOM_HOST_NOTIFICATION:
 		case CMD_SEND_CUSTOM_SVC_NOTIFICATION:
-			printf("This command is used to send a custom notification about the specified %s.  Useful in emergencies when you need to notify admins of an issue regarding a monitored system or service.\n", (cmd == CMD_SEND_CUSTOM_HOST_NOTIFICATION) ? "host" : "service");
-			printf("Custom notifications normally follow the regular notification logic in Nagios.  Selecting the <i>Forced</i> option will force the notification to be sent out, regardless of the time restrictions, whether or not notifications are enabled, etc.  Selecting the <i>Broadcast</i> option causes the notification to be sent out to all normal (non-escalated) and escalated contacts.  These options allow you to override the normal notification logic if you need to get an important message out.\n");
+			printf("このコマンドは%sに対してすぐに通知します。これは監視されているシステムあるいはサービスについて発生した問題を管理者側へ通知する必要がある緊急時において有用です。\n", (cmd == CMD_SEND_CUSTOM_HOST_NOTIFICATION) ? "ホスト" : "サービス");
+			printf("この作業はNagiosで通常行われる通知作業の後に行われます。「強制的に通知する」を選択した場合、通知機能が有効になっているかや時間による制限が行われているかなどにかかわらず通知を行うようになります。「全員に通知」を選択すると全ての利用者に対して通知を行います。\n");
+			printf("尚、これらの選択はあなたが重要なメッセージを受け取りたいと考えているならば通常の通知よりも優先しておく必要があります。\n");
 			break;
 
 		default:
-			printf("Sorry, but no information is available for this command.");
+			printf("このコマンドの情報はありません。");
 		}
 
 	printf("</TD></TR>\n");

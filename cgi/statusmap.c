@@ -49,6 +49,7 @@ extern int             refresh_rate;
 
 extern char main_config_file[MAX_FILENAME_LENGTH];
 extern char url_html_path[MAX_FILENAME_LENGTH];
+extern char ttf_file[MAX_FILENAME_LENGTH];
 extern char physical_images_path[MAX_FILENAME_LENGTH];
 extern char url_images_path[MAX_FILENAME_LENGTH];
 extern char url_logo_images_path[MAX_FILENAME_LENGTH];
@@ -90,6 +91,7 @@ extern int default_statusmap_layout_method;
 #define LAYOUT_CIRCULAR_MARKUP          5
 #define LAYOUT_CIRCULAR_BALLOON         6
 
+#define SMALL_FONT_SIZE                 10
 
 struct layer {
 	char *layer_name;
@@ -332,9 +334,10 @@ void document_header(int use_stylesheet) {
 
 		printf("<html>\n");
 		printf("<head>\n");
+		printf("<meta http-equiv='content-type' content='text/html;charset=UTF-8'>\n");
 		printf("<link rel=\"shortcut icon\" href=\"%sfavicon.ico\" type=\"image/ico\">\n", url_images_path);
 		printf("<title>\n");
-		printf("Network Map\n");
+		printf("ネットワーク図\n");
 		printf("</title>\n");
 
 		if(use_stylesheet == TRUE) {
@@ -616,9 +619,9 @@ void display_page_header(void) {
 		printf("<td align=left valign=top>\n");
 
 		if(show_all_hosts == TRUE)
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Network Map For All Hosts");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "全ホストのネットワーク図");
 		else
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Network Map For Host <I>%s</I>", host_name);
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "<I>%s</I>のネットワーク図", host_name);
 		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
 		display_info_table(temp_buffer, TRUE, &current_authdata);
 
@@ -626,11 +629,11 @@ void display_page_header(void) {
 		printf("<TR><TD CLASS='linkBox'>\n");
 
 		if(show_all_hosts == FALSE) {
-			printf("<a href='%s?host=all&max_width=%d&max_height=%d'>View Status Map For All Hosts</a><BR>", STATUSMAP_CGI, max_image_width, max_image_height);
-			printf("<a href='%s?host=%s'>View Status Detail For This Host</a><BR>\n", STATUS_CGI, url_encode(host_name));
+			printf("<a href='%s?host=all&max_width=%d&max_height=%d'>全ホストのステータスマップを見る</a><BR>", STATUSMAP_CGI, max_image_width, max_image_height);
+			printf("<a href='%s?host=%s'>このホストの稼動状態を見る</a><BR>\n", STATUS_CGI, url_encode(host_name));
 			}
-		printf("<a href='%s?host=all'>View Status Detail For All Hosts</a><BR>\n", STATUS_CGI);
-		printf("<a href='%s?hostgroup=all'>View Status Overview For All Hosts</a>\n", STATUS_CGI);
+		printf("<a href='%s?host=all'>全ホストの稼動状態を見る</a><BR>\n", STATUS_CGI);
+		printf("<a href='%s?hostgroup=all'>全ホストのステータスオーバービューを見る</a>\n", STATUS_CGI);
 
 		printf("</TD></TR>\n");
 		printf("</TABLE>\n");
@@ -672,7 +675,7 @@ void display_page_header(void) {
 
 			printf("<table border=0 cellpadding=0 cellspacing=2>\n");
 			printf("<tr>\n");
-			printf("<td valign=center class='zoomTitle'>Zoom Out&nbsp;&nbsp;</td>\n");
+			printf("<td valign=center class='zoomTitle'>縮小(Zoom Out)&nbsp;&nbsp;</td>\n");
 
 			for(zoom = 0; zoom <= 10; zoom++) {
 
@@ -687,7 +690,7 @@ void display_page_header(void) {
 				printf("<img src='%s%s' border=0 alt='%d' title='%d'></a></td>\n", url_images_path, (current_zoom_granularity == zoom) ? ZOOM2_ICON : ZOOM1_ICON, zoom, zoom);
 				}
 
-			printf("<td valign=center class='zoomTitle'>&nbsp;&nbsp;Zoom In</td>\n");
+			printf("<td valign=center class='zoomTitle'>&nbsp;&nbsp;拡大(Zoom In)</td>\n");
 			printf("</tr>\n");
 			printf("</table>\n");
 
@@ -712,40 +715,40 @@ void display_page_header(void) {
 		printf("<table border=0>\n");
 
 		printf("<tr><td CLASS='optBoxItem'>\n");
-		printf("Layout Method:<br>\n");
+		printf("レイアウト方法:<br>\n");
 		printf("<select name='layout'>\n");
 #ifndef DUMMY_INSTALL
-		printf("<option value=%d %s>User-supplied coords\n", LAYOUT_USER_SUPPLIED, (layout_method == LAYOUT_USER_SUPPLIED) ? "selected" : "");
+		printf("<option value=%d %s>ユーザ定義\n", LAYOUT_USER_SUPPLIED, (layout_method == LAYOUT_USER_SUPPLIED) ? "selected" : "");
 #endif
-		printf("<option value=%d %s>Depth layers\n", LAYOUT_SUBLAYERS, (layout_method == LAYOUT_SUBLAYERS) ? "selected" : "");
-		printf("<option value=%d %s>Collapsed tree\n", LAYOUT_COLLAPSED_TREE, (layout_method == LAYOUT_COLLAPSED_TREE) ? "selected" : "");
-		printf("<option value=%d %s>Balanced tree\n", LAYOUT_BALANCED_TREE, (layout_method == LAYOUT_BALANCED_TREE) ? "selected" : "");
-		printf("<option value=%d %s>Circular\n", LAYOUT_CIRCULAR, (layout_method == LAYOUT_CIRCULAR) ? "selected" : "");
-		printf("<option value=%d %s>Circular (Marked Up)\n", LAYOUT_CIRCULAR_MARKUP, (layout_method == LAYOUT_CIRCULAR_MARKUP) ? "selected" : "");
-		printf("<option value=%d %s>Circular (Balloon)\n", LAYOUT_CIRCULAR_BALLOON, (layout_method == LAYOUT_CIRCULAR_BALLOON) ? "selected" : "");
+		printf("<option value=%d %s>階層\n", LAYOUT_SUBLAYERS, (layout_method == LAYOUT_SUBLAYERS) ? "selected" : "");
+		printf("<option value=%d %s>ツリー\n", LAYOUT_COLLAPSED_TREE, (layout_method == LAYOUT_COLLAPSED_TREE) ? "selected" : "");
+		printf("<option value=%d %s>均等ツリー\n", LAYOUT_BALANCED_TREE, (layout_method == LAYOUT_BALANCED_TREE) ? "selected" : "");
+		printf("<option value=%d %s>円\n", LAYOUT_CIRCULAR, (layout_method == LAYOUT_CIRCULAR) ? "selected" : "");
+		printf("<option value=%d %s>円 (マーク付き)\n", LAYOUT_CIRCULAR_MARKUP, (layout_method == LAYOUT_CIRCULAR_MARKUP) ? "selected" : "");
+		printf("<option value=%d %s>円 (バルーン付き)\n", LAYOUT_CIRCULAR_BALLOON, (layout_method == LAYOUT_CIRCULAR_BALLOON) ? "selected" : "");
 		printf("</select>\n");
 		printf("</td>\n");
 		printf("<td CLASS='optBoxItem'>\n");
-		printf("Scaling factor:<br>\n");
+		printf("拡大縮小:<br>\n");
 		printf("<input type='text' name='scaling_factor' maxlength='5' size='4' value='%2.1f'>\n", (user_supplied_scaling == TRUE) ? user_scaling_factor : 0.0);
 		printf("</td></tr>\n");
 
 		/*
 		printf("<tr><td CLASS='optBoxItem'>\n");
-		printf("Max image width:<br>\n");
+		printf("最大画像横幅:<br>\n");
 		printf("<input type='text' name='max_width' maxlength='5' size='4' value='%d'>\n",max_image_width);
 		printf("</td>\n");
 		printf("<td CLASS='optBoxItem'>\n");
-		printf("Max image height:<br>\n");
+		printf("最大画像縦幅:<br>\n");
 		printf("<input type='text' name='max_height' maxlength='5' size='4' value='%d'>\n",max_image_height);
 		printf("</td></tr>\n");
 
 		printf("<tr><td CLASS='optBoxItem'>\n");
-		printf("Proximity width:<br>\n");
+		printf("接近横幅:<br>\n");
 		printf("<input type='text' name='proximity_width' maxlength='5' size='4' value='%d'>\n",proximity_width);
 		printf("</td>\n");
 		printf("<td CLASS='optBoxItem'>\n");
-		printf("Proximity height:<br>\n");
+		printf("接近縦幅:<br>\n");
 		printf("<input type='text' name='proximity_height' maxlength='5' size='4' value='%d'>\n",proximity_height);
 		printf("</td></tr>\n");
 		*/
@@ -755,7 +758,7 @@ void display_page_header(void) {
 		printf("<input type='hidden' name='proximity_width' value='%d'>\n", proximity_width);
 		printf("<input type='hidden' name='proximity_height' value='%d'>\n", proximity_height);
 
-		printf("<tr><td CLASS='optBoxItem'>Drawing Layers:<br>\n");
+		printf("<tr><td CLASS='optBoxItem'>描画レイヤー:<br>\n");
 		printf("<select multiple name='layer' size='4'>\n");
 		for(temp_hostgroup = hostgroup_list; temp_hostgroup != NULL; temp_hostgroup = temp_hostgroup->next) {
 			if(is_authorized_for_hostgroup(temp_hostgroup, &current_authdata) == FALSE)
@@ -770,16 +773,16 @@ void display_page_header(void) {
 			printf("<option value='%s' %s>%s\n", escape_string(temp_hostgroup->group_name), (found == 1) ? "SELECTED" : "", temp_hostgroup->alias);
 			}
 		printf("</select>\n");
-		printf("</td><td CLASS='optBoxItem' valign=top>Layer mode:<br>");
-		printf("<input type='radio' name='layermode' value='include' %s>Include<br>\n", (exclude_layers == FALSE) ? "CHECKED" : "");
-		printf("<input type='radio' name='layermode' value='exclude' %s>Exclude\n", (exclude_layers == TRUE) ? "CHECKED" : "");
+		printf("</td><td CLASS='optBoxItem' valign=top>レイヤーモード:<br>");
+		printf("<input type='radio' name='layermode' value='include' %s>包括<br>\n", (exclude_layers == FALSE) ? "CHECKED" : "");
+		printf("<input type='radio' name='layermode' value='exclude' %s>除外\n", (exclude_layers == TRUE) ? "CHECKED" : "");
 		printf("</td></tr>\n");
 
 		printf("<tr><td CLASS='optBoxItem'>\n");
-		printf("Suppress popups:<br>\n");
+		printf("ポップアップを非表示にする:<br>\n");
 		printf("<input type='checkbox' name='nopopups' %s>\n", (display_popups == FALSE) ? "CHECKED" : "");
 		printf("</td><td CLASS='optBoxItem'>\n");
-		printf("<input type='submit' value='Update'>\n");
+		printf("<input type='submit' value='更新'>\n");
 		printf("</td></tr>\n");
 
 		/* display context-sensitive help */
@@ -1830,16 +1833,24 @@ void draw_hosts(void) {
 
 
 /* draws text */
+/* MEMO::GDをマルチバイト対応に変更したときに文字を日本語化する */
 void draw_text(char *buffer, int x, int y, int text_color) {
 	int string_width = 0;
 	int string_height = 0;
+	int brect[8];
 
 	/* write the string to the generated image... */
 	string_height = gdFontSmall->h;
 	string_width = gdFontSmall->w * strlen(buffer);
 	if(layout_method != LAYOUT_CIRCULAR_MARKUP)
 		gdImageFilledRectangle(map_image, x - (string_width / 2) - 2, y - (2 * string_height), x + (string_width / 2) + 2, y - string_height, color_white);
-	gdImageString(map_image, gdFontSmall, x - (string_width / 2), y - (2 * string_height), (unsigned char *)buffer, text_color);
+
+	/*** TrueTypeFont ***/
+	if( (strlen(ttf_file) > 5) && (access(ttf_file, F_OK) == 0) ) {
+		gdImageStringFT(map_image, &brect[0], text_color, ttf_file, SMALL_FONT_SIZE, 0.0, x - (string_width / 2), y - (2 * string_height), (char *)buffer);
+	} else {
+		gdImageString(map_image, gdFontSmall, x - (string_width / 2), y - (2 * string_height), (unsigned char *)buffer, text_color);
+	}
 
 	return;
 	}
@@ -1868,23 +1879,43 @@ void draw_host_text(char *name, int x, int y) {
 
 		/* draw the status string */
 		if(temp_hoststatus->status == SD_HOST_DOWN) {
-			strncpy(temp_buffer, "Down", sizeof(temp_buffer));
+			if( (strlen(ttf_file) > 5) && (access(ttf_file, F_OK) == 0) ) {
+				strncpy(temp_buffer, "停止", sizeof(temp_buffer));
+			} else {
+				strncpy(temp_buffer, "Down", sizeof(temp_buffer));
+			}
 			status_color = color_red;
 			}
 		else if(temp_hoststatus->status == SD_HOST_UNREACHABLE) {
-			strncpy(temp_buffer, "Unreachable", sizeof(temp_buffer));
+			if( (strlen(ttf_file) > 5) && (access(ttf_file, F_OK) == 0) ) {
+				strncpy(temp_buffer, "未到達", sizeof(temp_buffer));
+			} else {
+				strncpy(temp_buffer, "Unreachable", sizeof(temp_buffer));
+			}
 			status_color = color_red;
 			}
 		else if(temp_hoststatus->status == SD_HOST_UP) {
-			strncpy(temp_buffer, "Up", sizeof(temp_buffer));
+			if( (strlen(ttf_file) > 5) && (access(ttf_file, F_OK) == 0) ) {
+				strncpy(temp_buffer, "稼働", sizeof(temp_buffer));
+			} else {
+				strncpy(temp_buffer, "Up", sizeof(temp_buffer));
+			}
 			status_color = color_green;
 			}
 		else if(temp_hoststatus->status == HOST_PENDING) {
-			strncpy(temp_buffer, "Pending", sizeof(temp_buffer));
+			if( (strlen(ttf_file) > 5) && (access(ttf_file, F_OK) == 0) ) {
+				strncpy(temp_buffer, "保留", sizeof(temp_buffer));
+			} else {
+				strncpy(temp_buffer, "Pending", sizeof(temp_buffer));
+			}
 			status_color = color_grey;
 			}
 		else {
-			strncpy(temp_buffer, "Unknown", sizeof(temp_buffer));
+			if( (strlen(ttf_file) > 5) && (access(ttf_file, F_OK) == 0) ) {
+				strncpy(temp_buffer, "不明", sizeof(temp_buffer));
+			} else {
+				strncpy(temp_buffer, "Unknown", sizeof(temp_buffer));
+			}
 			status_color = color_orange;
 			}
 
@@ -1914,14 +1945,14 @@ void write_host_popup_text(host *hst) {
 	int seconds;
 
 	if(hst == NULL) {
-		printf("Host data not found");
+		printf("ホストデータが見つかりません");
 		return;
 		}
 
 	/* find the status entry for this host */
 	temp_status = find_hoststatus(hst->name);
 	if(temp_status == NULL) {
-		printf("Host status information not found");
+		printf("ホストのステータス情報が見つかりません");
 		return;
 		}
 
@@ -1944,34 +1975,34 @@ void write_host_popup_text(host *hst) {
 	printf("\\\" border=0 width=40 height=40></td>");
 	printf("<td class=\\\"popupText\\\"><i>%s</i></td></tr>", (hst->icon_image_alt == NULL) ? "" : html_encode(hst->icon_image_alt, TRUE));
 
-	printf("<tr><td class=\\\"popupText\\\">Name:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", escape_string(hst->name));
-	printf("<tr><td class=\\\"popupText\\\">Alias:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", escape_string(hst->alias));
-	printf("<tr><td class=\\\"popupText\\\">Address:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", html_encode(hst->address, TRUE));
-	printf("<tr><td class=\\\"popupText\\\">State:</td><td class=\\\"popupText\\\"><b>");
+	printf("<tr><td class=\\\"popupText\\\">名前:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", escape_string(hst->name));
+	printf("<tr><td class=\\\"popupText\\\">エイリアス:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", escape_string(hst->alias));
+	printf("<tr><td class=\\\"popupText\\\">アドレス:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", html_encode(hst->address, TRUE));
+	printf("<tr><td class=\\\"popupText\\\">ステータス:</td><td class=\\\"popupText\\\"><b>");
 
 	/* get the status of the host (pending, up, down, or unreachable) */
 	if(temp_status->status == SD_HOST_DOWN) {
-		printf("<font color=red>Down");
+		printf("<font color=red>停止状態(DOWN)");
 		if(temp_status->problem_has_been_acknowledged == TRUE)
-			printf(" (Acknowledged)");
+			printf(" (認知済)");
 		printf("</font>");
 		}
 
 	else if(temp_status->status == SD_HOST_UNREACHABLE) {
-		printf("<font color=red>Unreachable");
+		printf("<font color=red>未到達状態(UNREACHABLE)");
 		if(temp_status->problem_has_been_acknowledged == TRUE)
-			printf(" (Acknowledged)");
+			printf(" (認知済)");
 		printf("</font>");
 		}
 
 	else if(temp_status->status == SD_HOST_UP)
-		printf("<font color=green>Up</font>");
+		printf("<font color=green>稼動状態(UP)</font>");
 
 	else if(temp_status->status == HOST_PENDING)
-		printf("Pending");
+		printf("保留状態(PENDING)");
 
 	printf("</b></td></tr>");
-	printf("<tr><td class=\\\"popupText\\\">Status Information:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", (temp_status->plugin_output == NULL) ? "" : temp_status->plugin_output);
+	printf("<tr><td class=\\\"popupText\\\">ステータス情報:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", (temp_status->plugin_output == NULL) ? "" : temp_status->plugin_output);
 
 	current_time = time(NULL);
 	if(temp_status->last_state_change == (time_t)0)
@@ -1979,47 +2010,47 @@ void write_host_popup_text(host *hst) {
 	else
 		t = current_time - temp_status->last_state_change;
 	get_time_breakdown((unsigned long)t, &days, &hours, &minutes, &seconds);
-	snprintf(state_duration, sizeof(state_duration) - 1, "%2dd %2dh %2dm %2ds%s", days, hours, minutes, seconds, (temp_status->last_state_change == (time_t)0) ? "+" : "");
+	snprintf(state_duration, sizeof(state_duration) - 1, "%2d日間と %2d時間 %2d分 %2d秒%s", days, hours, minutes, seconds, (temp_status->last_state_change == (time_t)0) ? "+" : "");
 	state_duration[sizeof(state_duration) - 1] = '\x0';
-	printf("<tr><td class=\\\"popupText\\\">State Duration:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", state_duration);
+	printf("<tr><td class=\\\"popupText\\\">経過時間:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", state_duration);
 
 	get_time_string(&temp_status->last_check, date_time, (int)sizeof(date_time), SHORT_DATE_TIME);
-	printf("<tr><td class=\\\"popupText\\\">Last Status Check:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", (temp_status->last_check == (time_t)0) ? "N/A" : date_time);
+	printf("<tr><td class=\\\"popupText\\\">最終チェック時刻:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", (temp_status->last_check == (time_t)0) ? "N/A" : date_time);
 	get_time_string(&temp_status->last_state_change, date_time, (int)sizeof(date_time), SHORT_DATE_TIME);
-	printf("<tr><td class=\\\"popupText\\\">Last State Change:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", (temp_status->last_state_change == (time_t)0) ? "N/A" : date_time);
+	printf("<tr><td class=\\\"popupText\\\">最終ステータス変化時刻:</td><td class=\\\"popupText\\\"><b>%s</b></td></tr>", (temp_status->last_state_change == (time_t)0) ? "N/A" : date_time);
 
-	printf("<tr><td class=\\\"popupText\\\">Parent Host(s):</td><td class=\\\"popupText\\\"><b>");
+	printf("<tr><td class=\\\"popupText\\\">上位ホスト:</td><td class=\\\"popupText\\\"><b>");
 	if(hst->parent_hosts == NULL)
-		printf("None (This is a root host)");
+		printf("無し (このホストが最上位)");
 	else {
 		for(temp_hostsmember = hst->parent_hosts; temp_hostsmember != NULL; temp_hostsmember = temp_hostsmember->next)
 			printf("%s%s", (temp_hostsmember == hst->parent_hosts) ? "" : ", ", html_encode(temp_hostsmember->host_name, TRUE));
 		}
 	printf("</b></td></tr>");
 
-	printf("<tr><td class=\\\"popupText\\\">Immediate Child Hosts:</td><td class=\\\"popupText\\\"><b>");
+	printf("<tr><td class=\\\"popupText\\\">直近の下位ホスト数:</td><td class=\\\"popupText\\\"><b>");
 	printf("%d", number_of_immediate_child_hosts(hst));
 	printf("</b></td></tr>");
 
 	printf("</table>");
 
-	printf("<br><b><u>Services:</u></b><br>");
+	printf("<br><b><u>サービス:</u></b><br>");
 
 	service_totals = get_servicestatus_count(hst->name, SERVICE_OK);
 	if(service_totals > 0)
-		printf("- <font color=green>%d ok</font><br>", service_totals);
+		printf("- <font color=green>正常状態: %d 件<br>(OK)</font><br>", service_totals);
 	service_totals = get_servicestatus_count(hst->name, SERVICE_CRITICAL);
 	if(service_totals > 0)
-		printf("- <font color=red>%d critical</font><br>", service_totals);
+		printf("- <font color=red>異常状態: %d 件<br>(CRITICAL)</font><br>", service_totals);
 	service_totals = get_servicestatus_count(hst->name, SERVICE_WARNING);
 	if(service_totals > 0)
-		printf("- <font color=orange>%d warning</font><br>", service_totals);
+		printf("- <font color=orange>警告状態: %d 件<br>(WARNING)</font><br>", service_totals);
 	service_totals = get_servicestatus_count(hst->name, SERVICE_UNKNOWN);
 	if(service_totals > 0)
-		printf("- <font color=orange>%d unknown</font><br>", service_totals);
+		printf("- <font color=orange>不明状態: %d 件<br>(UNKNOWN)</font><br>", service_totals);
 	service_totals = get_servicestatus_count(hst->name, SERVICE_PENDING);
 	if(service_totals > 0)
-		printf("- %d pending<br>", service_totals);
+		printf("- 保留状態: %d 件<br>", service_totals);
 
 	return;
 	}

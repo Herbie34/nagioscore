@@ -38,48 +38,42 @@
 #define BUF_REALLOC_MULTIPLIER 16
 
 const char *result_types[] = {
-	"Success",
-	"Unable to Allocate Memory",
-	"Unable to Open File for Reading",
-	"Option Invalid",
-	"Option Missing",
-	"Option Value Missing",
-	"Option Value Invalid",
-	"Option Ignored"
+	"成功",
+	"メモリの割り当てに失敗",
+	"読み込み用にファイルを開くのに失敗",
+	"不正なオプション",
+	"不明なオプション",
+	"不明なオプション値",
+	"不正なオプション値",
+	"無視されたオプション"
 	};
 
 const string_value_mapping svm_format_options[] = {
 	{ "whitespace", JSON_FORMAT_WHITESPACE, 
-		"Pad with whitespace to increase readability" },
+		"読みやすさを高めるために空白で埋めます" },
 	{ "enumerate", JSON_FORMAT_ENUMERATE, 
-		"Use textual representations of enumerated values rather than "
-		"raw numeric values" },
+		"テキスト形式の列挙値の表現ではなく、生の数値を使用します" },
 	{ "bitmask", JSON_FORMAT_BITMASK, 
-		"Use textual representations of bitmask values rather than "
-		"raw numeric values" },
+		"テキスト形式のビットマスク値の表現ではなく、生の数値を使用します" },
 	{ "duration", JSON_FORMAT_DURATION, 
-		"Use textual representations (xd xh xm xs) of duration values rather "
-		"than raw number of seconds" },
+		"テキスト形式の期間(x日 x時間 x分 x秒)の値の表現ではなく、生の秒数を使用します" },
 #if 0
 	{ "datetime", JSON_FORMAT_DATETIME, 
-		"Format date/time values according to the supplied strftime format "
-		"or '%%Y-%%m-%%d %%H:%%M:%%S' if no format specified" },
+		"形式が指定されていない場合、strftime形式を指定するか"
+		"'%%Y-%%m-%%d %%H:%%M:%%S'に従って日付/時刻の値形式にします" },
 	{ "date", JSON_FORMAT_DATE, 
-		"Format dates according to the supplied strftime format or "
-		"default JavaScript format (number of ms since the beginning of the "
-		"Unix epoch) if no format specified" },
+		"形式が指定されていない場合、strftime形式またはデフォルトのJavaScript形式(Unixエポックの最初からのミリ秒)にしたがった日付>の形式にします" },
 	{ "time", JSON_FORMAT_TIME, 
-		"Format times according the supplied strftime format or "
-		"'%%H:%%M:%%S' in for format specified" },
+		"与えられたstrftime形式や指定されたフォーマットの'%%H:%%M:%%S'に従った時間の形式にします" },
 #endif
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping query_statuses[] = {
-	{ "alpha", QUERY_STATUS_ALPHA, "Alpha" },
-	{ "beta", QUERY_STATUS_BETA, "Beta" },
-	{ "released", QUERY_STATUS_RELEASED, "Released" },
-	{ "deprecated", QUERY_STATUS_DEPRECATED, "Deprecated" },
+	{ "alpha", QUERY_STATUS_ALPHA, "アルファ" },
+	{ "beta", QUERY_STATUS_BETA, "ベータ" },
+	{ "released", QUERY_STATUS_RELEASED, "リリース" },
+	{ "deprecated", QUERY_STATUS_DEPRECATED, "非推奨" },
 	{ NULL, -1, NULL },
 	};
 
@@ -158,68 +152,68 @@ const string_value_mapping svm_acknowledgement_types[] = {
 	};
 
 const string_value_mapping svm_comment_types[] = {
-	{ "host", HOST_COMMENT, "Host Comment" },
-	{ "service", SERVICE_COMMENT, "Service Comment" },
+	{ "host", HOST_COMMENT, "ホストコメント" },
+	{ "service", SERVICE_COMMENT, "サービスコメント" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_comment_entry_types[] = {
-	{ "user", USER_COMMENT, "User Comment" },
-	{ "downtime", DOWNTIME_COMMENT, "Downtime Comment" },
-	{ "flapping", FLAPPING_COMMENT, "Flapping Comment" },
-	{ "acknowledgement", ACKNOWLEDGEMENT_COMMENT, "Acknowledgement Comment" },
+	{ "user", USER_COMMENT, "ユーザーコメント" },
+	{ "downtime", DOWNTIME_COMMENT, "ダウンタイムコメント" },
+	{ "flapping", FLAPPING_COMMENT, "フラッピングコメント" },
+	{ "acknowledgement", ACKNOWLEDGEMENT_COMMENT, "認知コメント" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping svm_downtime_types[] = {
-	{ "service", SERVICE_DOWNTIME, "Service Downtime" },
-	{ "host", HOST_DOWNTIME, "Host Downtime" },
-	{ "any", ANY_DOWNTIME, "Any Downtime" },
+	{ "service", SERVICE_DOWNTIME, "サービスダウンタイム" },
+	{ "host", HOST_DOWNTIME, "ホストダウンタイム" },
+	{ "any", ANY_DOWNTIME, "全てのダウンタイム" },
 	{ NULL, -1, NULL },
 	};
 
 #ifdef JSON_NAGIOS_4X
 const string_value_mapping svm_option_types[] = {
-	{ "up", OPT_UP, "Up" },
-	{ "down", OPT_DOWN, "Down" },
-	{ "unreachable", OPT_UNREACHABLE, "Unreachable" },
+	{ "up", OPT_UP, "UP" },
+	{ "down", OPT_DOWN, "DOWN" },
+	{ "unreachable", OPT_UNREACHABLE, "未到達" },
 	{ "ok", OPT_OK, "OK" },
-	{ "unknown", OPT_UNKNOWN, "Unknown" },
-	{ "warning", OPT_WARNING, "Warning" },
-	{ "critical", OPT_CRITICAL, "Critical" },
-	{ "recovery", OPT_RECOVERY, "Recovery" },
-	{ "pending", OPT_PENDING, "Pending" },
-	{ "flapping", OPT_FLAPPING, "Flapping" },
-	{ "downtime", OPT_DOWNTIME, "Downtime" },
+	{ "unknown", OPT_UNKNOWN, "不明" },
+	{ "warning", OPT_WARNING, "警告" },
+	{ "critical", OPT_CRITICAL, "致命的" },
+	{ "recovery", OPT_RECOVERY, "復旧" },
+	{ "pending", OPT_PENDING, "保留" },
+	{ "flapping", OPT_FLAPPING, "フラッピング" },
+	{ "downtime", OPT_DOWNTIME, "ダウンタイム" },
 	{ NULL, -1, NULL },
 	};
 #endif
 
 const string_value_mapping parent_host_extras[] = {
-	{ "none", 0, "Hosts that are directly reachable by the Nagios Core host" },
+	{ "none", 0, "Nagiosのコアホストから直接到達しているホスト" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping child_host_extras[] = {
-	{ "none", 0, "Hosts that have no child hosts" },
+	{ "none", 0, "下位ホストを持たないホスト" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping parent_service_extras[] = {
-	{ "none", 0, "Services that have no parent services" },
+	{ "none", 0, "上位サービスを持たないサービス" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping child_service_extras[] = {
-	{ "none", 0, "Services that have no child services" },
+	{ "none", 0, "下位サービスを持たないサービスです" },
 	{ NULL, -1, NULL },
 	};
 
-const char *dayofweek[7] = { "Sunday", "Monday", "Tuesday", "Wednesday",
-		"Thursday", "Friday", "Saturday" };
-const char *month[12] = { "January", "February", "March", "April", "May",
-		"June", "July", "August", "September", "October", "November",
-		"December" };
+const char *dayofweek[7] = { "日曜日", "月曜日", "火曜日", "水曜日",
+		"木曜日", "金曜日", "土曜日" };
+const char *month[12] = { "1月", "2月", "3月", "4月", "5月",
+		"6月", "7月", "8月", "9月", "10月", "11月",
+		"12月" };
 
 static const json_escape_pair string_escape_pairs[] = {
 	{ L"\\", L"\\\\" },
@@ -1110,7 +1104,7 @@ void json_duration(int padding, int whitespace, char *key, unsigned long value,
 		minutes = (unsigned)(value / 60);
 		value -= minutes * 60;
 		seconds = value;
-		snprintf(buf, sizeof(buf)-1, "%ud %uh %um %us", days, hours, minutes, 
+		snprintf(buf, sizeof(buf)-1, "%u日 %u時間 %u分 %u病", days, hours, minutes, 
 				seconds);
 		}
 
@@ -1141,7 +1135,7 @@ void json_enumeration(json_object *json_parent, unsigned format_options,
 			}
 			if( NULL == svmp->string) {
 				json_object_append_string(json_parent, key, NULL,
-						"Unknown value %d", svmp->value);
+						"不明な値 %d", svmp->value);
 				}
 		}
 	else {
@@ -1184,7 +1178,7 @@ int parse_bitmask_cgivar(char *cgi, char *query, int query_status,
 		json_object_append_object(json_parent, "result", 
 				json_result(query_time, cgi, query, query_status,
 				(time_t)-1, authinfo, RESULT_OPTION_VALUE_MISSING,
-				"No value specified for %s option.", key));
+				"%s オプションに指定された値はありません。", key));
 		return RESULT_OPTION_VALUE_MISSING;
 		}
 
@@ -1200,7 +1194,7 @@ int parse_bitmask_cgivar(char *cgi, char *query, int query_status,
 			json_object_append_object(json_parent, "result", 
 					json_result(query_time, cgi, query, query_status,
 					(time_t)-1, authinfo, RESULT_OPTION_VALUE_INVALID,
-					"The %s option value '%s' is invalid.", key, option));
+					"%s オプションの値 '%s' は不正です。", key, option));
 			result = RESULT_OPTION_VALUE_INVALID;
 			break;
 			}
@@ -1219,7 +1213,7 @@ int parse_enumeration_cgivar(char *cgi, char *query, int query_status,
 		json_object_append_object(json_parent, "result", 
 				json_result(query_time, cgi, query, query_status,
 				(time_t)-1, authinfo, RESULT_OPTION_VALUE_MISSING,
-				"No value specified for %s option.", key));
+				"%s オプションに指定された値はありません。", key));
 		return RESULT_OPTION_VALUE_MISSING;
 		}
 
@@ -1233,7 +1227,7 @@ int parse_enumeration_cgivar(char *cgi, char *query, int query_status,
 		json_object_append_object(json_parent, "result", 
 				json_result(query_time, cgi, query, query_status,
 				(time_t)-1, authinfo, RESULT_OPTION_VALUE_INVALID,
-				"The %s option value '%s' is invalid.", key, value));
+				"%s オプションの値 '%s' は不正です。", key, value));
 		return RESULT_OPTION_VALUE_INVALID;
 		} 
 
@@ -1249,7 +1243,7 @@ int parse_string_cgivar(char *cgi, char *query, int query_status,
 		json_object_append_object(json_parent, "result", 
 				json_result(query_time, cgi, query, query_status,
 				(time_t)-1, authinfo, RESULT_OPTION_VALUE_MISSING,
-				"No value specified for %s option.", key));
+				"%s オプションに指定された値はありません。", key));
 		return RESULT_OPTION_VALUE_MISSING;
 		}
 
@@ -1257,7 +1251,7 @@ int parse_string_cgivar(char *cgi, char *query, int query_status,
 		json_object_append_object(json_parent, "result", 
 				json_result(query_time, cgi, query, query_status,
 				(time_t)-1, authinfo, RESULT_MEMORY_ALLOCATION_ERROR,
-				"Unable to allocate memory for %s option.", key));
+				"%s オプションにメモリを割り当てることができません。", key));
 		return RESULT_MEMORY_ALLOCATION_ERROR;
 		}
 
@@ -1275,7 +1269,7 @@ int parse_time_cgivar(char *cgi, char *query, int query_status,
 		json_object_append_object(json_parent, "result", 
 				json_result(query_time, cgi, query, query_status,
 				(time_t)-1, authinfo, RESULT_OPTION_VALUE_MISSING,
-				"No value specified for %s option.", key));
+				"%s オプションに指定された値はありません。", key));
 		return RESULT_OPTION_VALUE_MISSING;
 		}
 
@@ -1304,7 +1298,7 @@ int parse_boolean_cgivar(char *cgi, char *query, int query_status,
 		json_object_append_object(json_parent, "result", 
 				json_result(query_time, cgi, query, query_status,
 				(time_t)-1, authinfo, RESULT_OPTION_VALUE_MISSING,
-				"No value specified for %s option.", key));
+				"%s オプションに指定された値はありません。", key));
 		return ERROR;
 		}
 
@@ -1318,7 +1312,7 @@ int parse_boolean_cgivar(char *cgi, char *query, int query_status,
 		json_object_append_object(json_parent, "result", 
 				json_result(query_time, cgi, query, query_status,
 				(time_t)-1, authinfo, RESULT_OPTION_VALUE_INVALID,
-				"Value for %s option must be 'true' or 'false'.", key));
+				"%s オプションの値は 'true' または 'false' でなければなりません。", key));
 		return RESULT_OPTION_VALUE_INVALID;
 		}
 
@@ -1334,7 +1328,7 @@ int parse_int_cgivar(char *cgi, char *query, int query_status,
 		json_object_append_object(json_parent, "result", 
 				json_result(query_time, cgi, query, query_status,
 				(time_t)-1, authinfo, RESULT_OPTION_VALUE_MISSING,
-				"No value specified for %s option.", key));
+				"%s オプションに指定された値はありません。", key));
 		return RESULT_OPTION_VALUE_MISSING;
 		}
 

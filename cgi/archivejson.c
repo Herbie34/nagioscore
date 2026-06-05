@@ -68,19 +68,19 @@ authdata current_authdata;
 
 const string_value_mapping valid_queries[] = {
 	{ "help", ARCHIVE_QUERY_HELP, 
-		"Display help for this CGI" },
+		"このCGIのヘルプを表示します" },
 	{ "alertcount", ARCHIVE_QUERY_ALERTCOUNT, 
-		"Return the number of alerts" },
+		"アラート数を返します" },
 	{ "alertlist", ARCHIVE_QUERY_ALERTLIST, 
-		"Return a list of alerts" },
+		"アラート一覧を返します" },
 	{ "notificationcount", ARCHIVE_QUERY_NOTIFICATIONCOUNT, 
-		"Return the number of notifications" },
+		"通知数を返します" },
 	{ "notificationlist", ARCHIVE_QUERY_NOTIFICATIONLIST, 
-		"Return a list of notifications" },
+		"通知一覧を返します" },
 	{ "statechangelist", ARCHIVE_QUERY_STATECHANGELIST, 
-		"Return a list of state changes" },
+		"状態変化一覧を返します" },
 	{ "availability", ARCHIVE_QUERY_AVAILABILITY, 
-		"Return an availability report" },
+		"稼働率レポートを返します" },
 	{ NULL, -1, NULL },
 	};
 
@@ -96,445 +96,435 @@ static const int query_status[][2] = {
 	};
 
 const string_value_mapping valid_object_types[] = {
-	{ "host", AU_OBJTYPE_HOST, "Host" },
-	{ "service", AU_OBJTYPE_SERVICE, "Service" },
+	{ "host", AU_OBJTYPE_HOST, "ホスト" },
+	{ "service", AU_OBJTYPE_SERVICE, "サービス" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping valid_availability_object_types[] = {
-	{ "hosts", AU_OBJTYPE_HOST, "Hosts" },
-	{ "hostgroups", AU_OBJTYPE_HOSTGROUP, "Hostgroups" },
-	{ "services", AU_OBJTYPE_SERVICE, "Services" },
-	{ "servicegroups", AU_OBJTYPE_SERVICEGROUP, "Servicegroups" },
+	{ "hosts", AU_OBJTYPE_HOST, "ホスト" },
+	{ "hostgroups", AU_OBJTYPE_HOSTGROUP, "ホストグループ" },
+	{ "services", AU_OBJTYPE_SERVICE, "サービス" },
+	{ "servicegroups", AU_OBJTYPE_SERVICEGROUP, "サービスグループ" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping valid_state_types[] = {
-	{ "hard", AU_STATETYPE_HARD, "Hard" },
-	{ "soft", AU_STATETYPE_SOFT, "Soft" },
+	{ "hard", AU_STATETYPE_HARD, "ハード" },
+	{ "soft", AU_STATETYPE_SOFT, "ソフト" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping valid_states[] = {
-	{ "no_data", AU_STATE_NO_DATA, "No Data" },
-	{ "host_up", AU_STATE_HOST_UP, "Host Up" },
-	{ "host_down", AU_STATE_HOST_DOWN, "Host Down" },
-	{ "host_unreachable", AU_STATE_HOST_UNREACHABLE, "Host Unreachable" },
-	{ "service_ok", AU_STATE_SERVICE_OK, "Service OK" },
-	{ "service_warning", AU_STATE_SERVICE_WARNING, "Service Warning" },
-	{ "service_critical", AU_STATE_SERVICE_CRITICAL, "Service Critical" },
-	{ "service_unknown", AU_STATE_SERVICE_UNKNOWN, "Service Unknown" },
-	{ "program_start", AU_STATE_PROGRAM_START, "Program Start" },
-	{ "program_end", AU_STATE_PROGRAM_END, "Program End" },
-	{ "downtime_start", AU_STATE_DOWNTIME_START, "Downtime Start" },
-	{ "downtime_end", AU_STATE_DOWNTIME_END, "Downtime End" },
+	{ "no_data", AU_STATE_NO_DATA, "データなし" },
+	{ "host_up", AU_STATE_HOST_UP, "ホストの稼働状態(UP)" },
+	{ "host_down", AU_STATE_HOST_DOWN, "ホストの停止状態(DOWN)" },
+	{ "host_unreachable", AU_STATE_HOST_UNREACHABLE, "ホストの未到達状態(UNREACHABLE)" },
+	{ "service_ok", AU_STATE_SERVICE_OK, "サービスの正常状態(OK)" },
+	{ "service_warning", AU_STATE_SERVICE_WARNING, "サービスの警告状態(WARNING)" },
+	{ "service_critical", AU_STATE_SERVICE_CRITICAL, "サービスの異常状態(CRITICAL)" },
+	{ "service_unknown", AU_STATE_SERVICE_UNKNOWN, "サービスの不明状態(UNKNOWN)" },
+	{ "program_start", AU_STATE_PROGRAM_START, "プログラム開始" },
+	{ "program_end", AU_STATE_PROGRAM_END, "プログラム終了" },
+	{ "downtime_start", AU_STATE_DOWNTIME_START, "ダウンタイム開始" },
+	{ "downtime_end", AU_STATE_DOWNTIME_END, "ダウンタイム終了" },
 };
 
 const string_value_mapping valid_host_states[] = {
 	{ "up", AU_STATE_HOST_UP, "Up" },
 	{ "down", AU_STATE_HOST_DOWN, "Down" },
-	{ "unreachable", AU_STATE_HOST_UNREACHABLE, "Unreachable" },
+	{ "unreachable", AU_STATE_HOST_UNREACHABLE, "未到達" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping valid_initial_host_states[] = {
 	{ "up", AU_STATE_HOST_UP, "Up" },
 	{ "down", AU_STATE_HOST_DOWN, "Down" },
-	{ "unreachable", AU_STATE_HOST_UNREACHABLE, "Unreachable" },
-	{ "current", AU_STATE_CURRENT_STATE, "Current State" },
+	{ "unreachable", AU_STATE_HOST_UNREACHABLE, "未到達" },
+	{ "current", AU_STATE_CURRENT_STATE, "現在の状態" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping valid_service_states[] = {
 	{ "ok", AU_STATE_SERVICE_OK, "Ok" },
-	{ "warning", AU_STATE_SERVICE_WARNING, "Warning" },
-	{ "critical", AU_STATE_SERVICE_CRITICAL, "Critical" },
-	{ "unknown", AU_STATE_SERVICE_UNKNOWN, "Unknown" },
+	{ "warning", AU_STATE_SERVICE_WARNING, "警告" },
+	{ "critical", AU_STATE_SERVICE_CRITICAL, "異常" },
+	{ "unknown", AU_STATE_SERVICE_UNKNOWN, "不明" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping valid_initial_service_states[] = {
 	{ "ok", AU_STATE_SERVICE_OK, "Ok" },
-	{ "warning", AU_STATE_SERVICE_WARNING, "Warning" },
-	{ "critical", AU_STATE_SERVICE_CRITICAL, "Critical" },
-	{ "unknown", AU_STATE_SERVICE_UNKNOWN, "Unknown" },
-	{ "current", AU_STATE_CURRENT_STATE, "Current State" },
+	{ "warning", AU_STATE_SERVICE_WARNING, "警告" },
+	{ "critical", AU_STATE_SERVICE_CRITICAL, "異常" },
+	{ "unknown", AU_STATE_SERVICE_UNKNOWN, "不明" },
+	{ "current", AU_STATE_CURRENT_STATE, "現在の状態" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping valid_host_notification_types[] = {
 	{ "nodata", AU_NOTIFICATION_NO_DATA, 
-			"No Data" },
+			"データなし" },
 	{ "down", AU_NOTIFICATION_HOST_DOWN, 
-			"Host Down" },
+			"ホストの停止状態(DOWN)" },
 	{ "unreachable", AU_NOTIFICATION_HOST_UNREACHABLE, 
-			"Host Unreachable" },
+			"ホストの未到達状態(UNREACHABLE)" },
 	{ "recovery", AU_NOTIFICATION_HOST_RECOVERY, 
-			"Host Recovery" },
+			"ホストの復旧状態(RECOVERY)" },
 	{ "hostcustom", AU_NOTIFICATION_HOST_CUSTOM, 
-			"Host Custom" },
+			"ホストカスタム" },
 	{ "hostack", AU_NOTIFICATION_HOST_ACK, 
-			"Host Acknowledgement" },
+			"ホストの認知状態(Acknowledgement)" },
 	{ "hostflapstart", AU_NOTIFICATION_HOST_FLAPPING_START, 
-			"Host Flapping Start" },
+			"ホストのフラッピング開始" },
 	{ "hostflapstop", AU_NOTIFICATION_HOST_FLAPPING_STOP, 
-			"Host Flapping Stop" },
+			"ホストのフラッピング停止" },
 	{ NULL, -1, NULL },
 	};
 
 const string_value_mapping valid_service_notification_types[] = {
 	{ "nodata", AU_NOTIFICATION_NO_DATA, 
-			"No Data" },
+			"データなし" },
 	{ "critical", AU_NOTIFICATION_SERVICE_CRITICAL, 
-			"Service Critical" },
+			"サービスの異常状態(CRITICAL)" },
 	{ "warning", AU_NOTIFICATION_SERVICE_WARNING, 
-			"Service Warning" },
+			"サービスの警告状態(WARNING)" },
 	{ "recovery", AU_NOTIFICATION_SERVICE_RECOVERY, 
-			"Service Recovery" },
+			"サービスの復旧状態(RECOVERY)" },
 	{ "custom", AU_NOTIFICATION_SERVICE_CUSTOM, 
-			"Service Custom" },
+			"サービスカスタム" },
 	{ "serviceack", AU_NOTIFICATION_SERVICE_ACK, 
-			"Service Acknowledgement" },
+			"サービスの認知状態(Acknowledgement)" },
 	{ "serviceflapstart", AU_NOTIFICATION_SERVICE_FLAPPING_START, 
-			"Service Flapping Start" },
+			"サービスのフラッピング開始" },
 	{ "serviceflapstop", AU_NOTIFICATION_SERVICE_FLAPPING_STOP, 
-			"Service Flapping Stop" },
+			"サービスのフラッピング停止" },
 	{ "unknown", AU_NOTIFICATION_SERVICE_UNKNOWN, 
-			"Service Unknown" },
+			"サービスの不明状態(UNKNOWN)" },
 	{ NULL, -1, NULL },
 	};
 
 option_help archive_json_help[] = {
 	{ 
 		"query",
-		"Query",
+		"クエリ",
 		"enumeration",
 		{ "all", NULL },
 		{ NULL },
 		NULL,
-		"Specifies the type of query to be executed.",
+		"実行するクエリのタイプを指定します。",
 		valid_queries
 		},
 	{ 
 		"formatoptions",
-		"Format Options",
+		"フォーマットオプション",
 		"list",
 		{ NULL },
 		{ "all", NULL },
 		NULL,
-		"Specifies the formatting options to be used when displaying the results. Multiple options are allowed and are separated by a plus (+) sign..",
+		"結果を表示するときに使用するフォーマットオプションを指定します。複数のオプションはプラス(+)で区切ることができます。",
 		svm_format_options
 		},
 	{ 
 		"start",
-		"Start",
+		"開始",
 		"integer",
 		{ NULL },
 		{ "alertlist", "notificationlist", "statechangelist", NULL },
 		NULL,
-		"Specifies the index (zero-based) of the first object in the list to be returned.",
+		"返される一覧の最初のオブジェクトのインデックス(ゼロベース)を指定します。",
 		NULL
 		},
 	{ 
 		"count",
-		"Count",
+		"カウント",
 		"integer",
 		{ NULL },
 		{ "alertlist", "notificationlist", "statechangelist", NULL },
 		NULL,
-		"Specifies the number of objects in the list to be returned.",
+		"返される一覧のオブジェクト数を指定します。",
 		NULL
 		},
 	{ 
 		"dateformat",
-		"Date Format",
+		"日付フォーマット",
 		"string",
 		{ NULL },
 		{ "all", NULL },
 		NULL,
-		"strftime format string for values of type time_t. In the absence of a format, the JavaScript default format of the number of milliseconds since the beginning of the Unix epoch is used. Because of URL encoding, percent signs must be encoded as %25 and a space must be encoded as a plus (+) sign.",
+		"time_t型の値についてのstrftimeフォーマット文字列です。フォーマットが存在しない場合には、Unixエポックのはじめからのミリ秒のJavascriptデフォルトフォーマットが使用されます。なぜならURLエンコードのため、パーセント記号は%25としてエンコードする必要があり、スペースはプラス記号(+)としてエンコードされなければなりません。",
 		NULL
 		},
 	{ 
 		"objecttypes",
-		"Object Types",
+		"オブジェクトタイプ",
 		"list",
 		{ NULL },
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist", 
 				NULL },
 		NULL,
-		"Type(s) of object to be included in query results.",
+		"クエリ結果に含まれるオブジェクトのタイプです。",
 		valid_object_types
 		},
 	{ 
 		"objecttype",
-		"Object Type",
+		"オブジェクトタイプ",
 		"enumeration",
 		{ "statechangelist", NULL },
 		{ NULL },
 		NULL,
-		"Type of object to be included in query results.",
+		"クエリ結果に含まれるオブジェクトのタイプです。",
 		valid_object_types
 		},
 	{ 
 		"availabilityobjecttype",
-		"Availability Object Type",
+		"稼働率オブジェクトタイプ",
 		"enumeration",
 		{ "availability", NULL },
 		{ NULL },
 		NULL,
-		"Type of object to be included in query results.",
+		"クエリ結果に含まれるオブジェクトのタイプです。",
 		valid_availability_object_types
 		},
 	{ 
 		"statetypes",
-		"State Types",
+		"状態のタイプ",
 		"list",
 		{ NULL },
 		{ "alertcount", "alertlist", "statechangelist", "availability", NULL },
 		NULL,
-		"Type(s) of states to be included in query results.",
+		"クエリ結果に含まれるオブジェクトのタイプです。",
 		valid_state_types
 		},
 	{ 
 		"hoststates",
-		"Host States",
+		"ホストの状態",
 		"list",
 		{ NULL },
 		{ "alertcount", "alertlist", NULL },
 		NULL,
-		"Host states to be included in query results.",
+		"クエリ結果に含まれるホストの状態です。",
 		valid_host_states
 		},
 	{ 
 		"servicestates",
-		"Service States",
+		"サービスの状態",
 		"list",
 		{ NULL },
 		{ "alertcount", "alertlist", NULL },
 		NULL,
-		"Service states to be included in query results.",
+		"クエリ結果に含まれるサービスの状態です。",
 		valid_service_states
 		},
 	{ 
 		"hostnotificationtypes",
-		"Host Notification Types",
+		"ホスト通知タイプ",
 		"list",
 		{ NULL },
 		{ "notificationcount", "notificationlist", NULL },
 		NULL,
-		"Host notification types to be included in query results.",
+		"クエリ結果に含まれるホスト通知タイプです。",
 		valid_host_notification_types
 		},
 	{ 
 		"servicenotificationtypes",
-		"Service Notification Types",
+		"サービス通知タイプ",
 		"list",
 		{ NULL },
 		{ "notificationcount", "notificationlist", NULL },
 		NULL,
-		"Service notification types to be included in query results.",
+		"クエリ結果に含まれるサービス通知タイプです。",
 		valid_service_notification_types
 		},
 	{ 
 		"parenthost",
-		"Parent Host",
+		"上位ホスト",
 		"nagios:objectjson/hostlist",
 		{ NULL },
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist", 
 				NULL },
 		NULL,
-		"Limits the hosts or services returned to those whose host parent is specified. A value of 'none' returns all hosts or services reachable directly by the Nagios core host.",
+		"そのホストの上位を指定したものを返すホストまたはサービスを制限します。「該当なし(none)」の値は、Nagiosのホストによって直接到達可能な全てのホストやサービスを返します。",
 		parent_host_extras
 		},
 	{ 
 		"childhost",
-		"Child Host",
+		"下位ホスト",
 		"nagios:objectjson/hostlist",
 		{ NULL },
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist", 
 				NULL },
 		NULL,
-		"Limits the hosts or services returned to those whose having the host specified as a child host. A value of 'none' returns all hosts or services with no child hosts.",
+		"そのホストの下位を指定したものを返すホストまたはサービスを制限します。「該当なし(none)」>の値は、下位ホストとの全てのホストやサービスを返します。",
 		child_host_extras
 		},
 	{ 
 		"hostname",
-		"Host Name",
+		"ホスト名",
 		"nagios:objectjson/hostlist",
 		{ "statechangelist", NULL },
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist", 
 				"availability", NULL },
 		NULL,
-		"Name for the host requested. For availability reports if the "
-		"availability object type is hosts and the hostname is not "
-		"specified, the report will be generated for all hosts. Likewise, "
-		"if the availability object type is services and the hostname is not "
-		"specified, the report will be generated for all services or all "
-		"services with the same description, depending on the value for "
-		"service description.",
+		"要求されたホストの名前。可用性のオブジェクト·タイプがホストで、ホスト名が指定されていない場合可用性レポートの場合、レポトにはすべてのホストに対して生成されます。可用性のオブジェクト·タイプがサービスであるとホスト名が指定されていない場合も同様に、報告書は、サービスの説明のための値に応じて、同じ説明を持つすべてのサービスまたはすべてのサービスのために生成されます。",
 		NULL
 		},
 	{ 
 		"hostgroup",
-		"Host Group",
+		"ホストグループ",
 		"nagios:objectjson/hostgrouplist",
 		{ NULL },
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist", 
 				"availability", NULL },
 		NULL,
-		"Returns information applicable to the hosts in the hostgroup.",
+		"ホストグループのホストに適用可能な情報を返します。",
 		NULL
 		},
 	{ 
 		"servicegroup",
-		"Service Group",
+		"サービスグループ",
 		"nagios:objectjson/servicegrouplist",
 		{ NULL },
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist", 
 				"availability", NULL },
 		NULL,
-		"Returns information applicable to the services in the servicegroup.",
+		"サービスグループのサービスに適用可能な情報を返します。",
 		NULL
 		},
 	{ 
 		"servicedescription",
-		"Service Description",
+		"サービス説明",
 		"nagios:objectjson/servicelist",
 		{ NULL },
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist", 
 				"statechangelist", "availability", NULL },
 		"hostname",
-		"Description for the service requested. For availability reports, "
-		"if the availability object type is services and the "
-		"servicedescription is not specified, the report will be generated "
-		"either for all services or for all services on the specified host, "
-		"depending on the value specified for hostname",
+		"要求されたサービスの説明。可用性のオブジェクト·タイプがサービスでサービス越名に指定されていない場合、可用性を実現するレートの場合、レポートには、ホスト名に指定した値に応じて、すべてのサービス、または指定したホスト上のすべてのサービスのいずれかのために生成されます",
 		NULL
 		},
 	{ 
 		"contactname",
-		"Contact Name",
+		"通知先名",
 		"nagios:objectjson/contactlist",
 		{ NULL },
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist", 
 				NULL },
 		NULL,
-		"Name for the contact requested.",
+		"要求された通知先の名前です。",
 		NULL
 		},
 	{ 
 		"contactgroup",
-		"Contact Group",
+		"通知先グループ",
 		"nagios:objectjson/contactgrouplist",
 		{ NULL },
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist",
 				NULL },
 		NULL,
-		"Returns information applicable to the contacts in the contactgroup.",
+		"通知先グループの通知先に適用可能な情報を返します。",
 		NULL
 		},
 	{ 
 		"notificationmethod",
-		"Notification Method",
+		"通知方法",
 		"nagios:objectjson/commandlist",
 		{ NULL },
 		{ "notificationcount", "notificationlist", NULL },
 		NULL,
-		"Returns objects that match the notification method.",
+		"通知方法に一致するオブジェクトを返します。",
 		NULL
 		},
 	{ 
 		"timeperiod",
-		"Report Time Period",
+		"レポート期間",
 		"nagios:objectjson/timeperiodlist",
 		{ NULL },
 		{ "availability", NULL },
 		NULL,
-		"Timeperiod to use for the report.",
+		"レポートに使用する期間です。",
 		NULL
 		},
 	{ 
 		"assumeinitialstate",
-		"Assume Initial State",
+		"考慮する初期状態",
 		"boolean",
 		{ NULL },
 		{ "availability", NULL },
 		NULL,
-		"Assume the initial state for the host(s) or service(s). Note that if true, assuming the initial state will be done only if the initial state could not be discovered by looking through the backtracked logs.",
+		"ホストやサービスのために初期状態を考慮します。 trueの場合、初期状態はバックトラックログを見ることで発見できなかった場合にのみ、初期状態と仮定すると実行されることに注意してください。",
 		NULL
 		},
 	{ 
 		"assumestateretention",
-		"Assume State Retention",
+		"考慮する状態保持",
 		"boolean",
 		{ NULL },
 		{ "availability", NULL },
 		NULL,
-		"Assume states are retained.",
+		"考慮する状態を保持します。",
 		NULL
 		},
 	{ 
 		"assumestatesduringnagiosdowntime",
-		"Assume States During Nagios Downtime",
+		"Nagiosダウンタイム中に考慮する状態",
 		"boolean",
 		{ NULL },
 		{ "availability", NULL },
 		NULL,
-		"Assume states are retained during Nagios downtime.",
+		"Nagiosがダウンタイム中に考慮する状態を保持します。",
 		NULL
 		},
 	{ 
 		"assumedinitialhoststate",
-		"Assumed Initial Host State",
+		"考慮する初期ホスト状態",
 		"enumeration",
 		{ NULL },
 		{ "availability", NULL },
 		NULL,
-		"Host state assumed when it is not possible to determine the initial host state.",
+		"初期ホスト状態を決定することができなかった時に考慮するホスト状態です。",
 		valid_initial_host_states
 		},
 	{ 
 		"assumedinitialservicestate",
-		"Assumed Initial Service State",
+		"考慮する初期サービス状態",
 		"enumeration",
 		{ NULL },
 		{ "availability", NULL },
 		NULL,
-		"Service state assumed when it is not possible to determine the initial service state.",
+		"初期サービス状態を決定することができなかった時に考慮するサービス状態です。",
 		valid_initial_service_states
 		},
 	{ 
 		"backtrackedarchives",
-		"Backtracked Archives",
+		"バックトラックアーカイブ",
 		"integer",
 		{ NULL },
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist", 
 				"statechangelist", "availability", NULL },
 		NULL,
-		"Number of backtracked archives to read in an attempt to find initial states.",
+		"初期状態を見つけるための試みを読み込むためにバックトラックアーカイブ数です。",
 		NULL,
 		},
 	{ 
 		"starttime",
-		"Start Time",
+		"開始時間",
 		"integer",
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist", 
 				"statechangelist", "availability", NULL },
 		{ NULL },
 		NULL,
-		"Starting time to use. Supplying a plus or minus sign means times relative to the query time.",
+		"使用する開始時間です。プラス記号またはマイナス記号を指定すると、クエリ時間を基準時間を意味します。",
 		NULL,
 		},
 	{ 
 		"endtime",
-		"End Time",
+		"終了時間",
 		"integer",
 		{ "alertcount", "alertlist", "notificationcount", "notificationlist", 
 				"statechangelist", "availability", NULL },
 		{ NULL },
 		NULL,
-		"Ending time to use. Specifying plus or minus sign means times relative to the query time.",
+		"使用する終了時間です。プラス記号またはマイナス記号を指定すると、クエリ時間を基準時間を意味します。",
 		NULL,
 		},
 	{ /* The last entry must contain all NULL entries */
@@ -610,7 +600,7 @@ int main(void) {
 
 	json_root = json_new_object();
 	if(NULL == json_root) {
-		printf( "Failed to create new json object\n");
+		printf( "オブジェクトを作成できませんでした\n");
 		exit( 1);
 		}
 	json_object_append_integer(json_root, "format_version", 
@@ -645,7 +635,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not open CGI configuration file '%s' for reading!", 
+				"エラー: CGI 設定ファイル '%s' を読み込みで開けませんでした！",
 				get_cgi_config_location()));
 		json_object_append_object(json_root, "data", 
 				json_help(archive_json_help));
@@ -663,7 +653,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not open main configuration file '%s' for reading!",
+				"エラー: メイン設定ファイル '%s' を読み込みで開けませんでした！",
 				main_config_file));
 		json_object_append_object(json_root, "data", 
 				json_help(archive_json_help));
@@ -702,7 +692,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not read some or all object configuration data!"));
+				"エラー: 一部または全ての設定データを読み込むことができませんでした！"));
 		json_object_append_object(json_root, "data", 
 				json_help(archive_json_help));
 		document_footer();
@@ -717,7 +707,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, NULL, RESULT_FILE_OPEN_READ_ERROR,
-				"Error: Could not read host and service status information!"));
+				"エラー: ホスト及びサービスのステータス情報を読み込むことができませんでした！"));
 		json_object_append_object(json_root, "data", 
 				json_help(archive_json_help));
 
@@ -746,7 +736,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, &current_authdata, RESULT_MEMORY_ALLOCATION_ERROR,
-				"Unable to allocate memory for log data."));
+				"ログデータにメモリを割り当てられませんでした。"));
 		json_object_append_object(json_root, "data", 
 				json_help(archive_json_help));
 
@@ -959,7 +949,7 @@ int main(void) {
 				svm_get_string_from_value(cgi_data.query, valid_queries), 
 				get_query_status(query_status, cgi_data.query),
 				(time_t)-1, &current_authdata, RESULT_OPTION_MISSING,
-				"Error: Object Type not specified. See data for help."));
+				"エラー: オブジェクトタイプが指定されていません。ヘルプについてはデータを参照してください。"));
 		json_object_append_object(json_root, "data", 
 				json_help(archive_json_help));
 		break;
@@ -1151,8 +1141,8 @@ int process_cgivars(json_object *json_root, archive_json_cgi_data *cgi_data,
 						valid_queries),
 						get_query_status(query_status, cgi_data->query),
 						(time_t)-1, authinfo, RESULT_OPTION_VALUE_INVALID,
-						"The count option value is invalid. "
-						"It must be an integer greater than zero"));
+						"カウントオプション値が不正です。 "
+						"ゼロより大きい数値でなければなりません。"));
 				result = RESULT_OPTION_VALUE_INVALID;
 				break;
 				}
@@ -1490,7 +1480,7 @@ int process_cgivars(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, RESULT_OPTION_INVALID,
-					"Invalid option: '%s'.", variables[x]));
+					"不正なオプション: '%s' です。", variables[x]));
 			result = RESULT_OPTION_INVALID;
 			break;
 			}
@@ -1534,7 +1524,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Start and/or end time must be supplied."));
+					"開始および/または終了時間を指定する必要があります。"));
 			}
 
 		if(!(cgi_data->object_types & (AU_OBJTYPE_HOST | AU_OBJTYPE_SERVICE))) {
@@ -1544,7 +1534,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"At least one object type must be supplied."));
+					"少なくとも1つのオブジェクトタイプを指定する必要があります。"));
 			}
 		break;
 	case ARCHIVE_QUERY_NOTIFICATIONCOUNT:
@@ -1556,7 +1546,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Start and/or end time must be supplied."));
+					"開始および/または終了時間を指定する必要があります。"));
 			}
 
 		if(!(cgi_data->object_types & (AU_OBJTYPE_HOST | AU_OBJTYPE_SERVICE))) {
@@ -1566,7 +1556,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"At least one object type must be supplied."));
+					"少なくとも1つのオブジェクトタイプを指定する必要があります。"));
 			}
 		break;
 	case ARCHIVE_QUERY_STATECHANGELIST:
@@ -1577,7 +1567,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Start and/or end time must be supplied."));
+					"開始および/または終了時間を指定する必要があります。"));
 			}
 
 		if(0 == cgi_data->object_type) {
@@ -1587,7 +1577,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Object type must be supplied."));
+					"オブジェクトタイプを指定する必要があります。"));
 			}
 
 		if(NULL == cgi_data->host_name) {
@@ -1597,7 +1587,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Host name must be supplied."));
+					"ホスト名を指定する必要があります。"));
 			}
 
 		if((AU_OBJTYPE_SERVICE == cgi_data->object_type) && 
@@ -1608,7 +1598,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Service description must be supplied."));
+					"サービス説明を指定する必要があります。"));
 			}
 
 		break;
@@ -1620,7 +1610,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Start and/or end time must be supplied."));
+					"開始および/または終了時間を指定する必要があります。"));
 			}
 
 		if(0 == cgi_data->object_type) {
@@ -1630,7 +1620,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"Availability object type must be supplied."));
+					"稼働率オブジェクトを指定する必要があります。"));
 			}
 
 		break;
@@ -1641,7 +1631,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 				svm_get_string_from_value(cgi_data->query, valid_queries),
 				get_query_status(query_status, cgi_data->query),
 				(time_t)-1, authinfo, result,
-				"Missing validation for object type %u.", cgi_data->query));
+				"オブジェクトタイプ %u の欠落した検証です。", cgi_data->query));
 		break;
 		}
 
@@ -1673,7 +1663,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 						valid_queries), 
 						get_query_status(query_status, cgi_data->query),
 						(time_t)-1, authinfo, result,
-						"The parenthost '%s' could not be found.", 
+						"上位ホスト '%s' を見つけることができませんでした。",
 						cgi_data->parent_host_name));
 				}
 			else {
@@ -1699,7 +1689,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 						valid_queries), 
 						get_query_status(query_status, cgi_data->query),
 						(time_t)-1, authinfo, result,
-						"The childhost '%s' could not be found.", 
+						"下位ホスト '%s' を見つけることができませんでした。",
 						cgi_data->child_host_name));
 				}
 			else {
@@ -1723,7 +1713,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The hostgroup '%s' could not be found.", 
+					"ホストグループ '%s' を見つけることができませんでした。",
 					cgi_data->hostgroup_name));
 			}
 		else {
@@ -1741,7 +1731,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The servicegroup '%s' could not be found.", 
+					"サービスグループ '%s' を見つけることができませんでした。",
 					cgi_data->servicegroup_name));
 			}
 		else {
@@ -1766,7 +1756,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The contactgroup '%s' could not be found.", 
+					"通知先グループ '%s' を見つけることができませんでした。",
 					cgi_data->contactgroup_name));
 			}
 		else {
@@ -1784,7 +1774,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 					svm_get_string_from_value(cgi_data->query, valid_queries), 
 					get_query_status(query_status, cgi_data->query),
 					(time_t)-1, authinfo, result,
-					"The timeperiod '%s' could not be found.", 
+					"期間 '%s' を見つけることができませんでした。",
 					cgi_data->timeperiod_name));
 			}
 		else {
@@ -1801,7 +1791,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 				svm_get_string_from_value(cgi_data->query, valid_queries), 
 				get_query_status(query_status, cgi_data->query),
 				(time_t)-1, authinfo, result,
-				"The requested start time must be before the end time."));
+				"要求した開始時間は終了時間の前でなければなりません。"));
 		}
 
 	/* If one or more host states were selected, but host objects were not, 
@@ -1813,8 +1803,8 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 				json_result(query_time, THISCGI, 
 				svm_get_string_from_value(cgi_data->query, valid_queries), 
 				get_query_status(query_status, cgi_data->query),
-				(time_t)-1, authinfo, result, "The requested host states "
-				"were ignored because host objects were not selected."));
+				(time_t)-1, authinfo, result, "ホストオブジェクトが選択されていないため、"
+				"要求されたホストの状態が無視されました。"));
 		}
 	/* If one or more service states were selected, but service objects 
 			were not, notify the user but continue */
@@ -1825,8 +1815,8 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 				json_result(query_time, THISCGI, 
 				svm_get_string_from_value(cgi_data->query, valid_queries), 
 				get_query_status(query_status, cgi_data->query),
-				(time_t)-1, authinfo, result, "The requested service states "
-				"were ignored because service objects were not selected."));
+				(time_t)-1, authinfo, result, "サービスオブジェクトが選択されていないため、"
+				"要求されたサービスの状態が無視されました。"));
 		}
 
 	/* If one or more host notification types were selected, but host 
@@ -1839,7 +1829,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 				svm_get_string_from_value(cgi_data->query, valid_queries), 
 				get_query_status(query_status, cgi_data->query),
 				(time_t)-1, authinfo, result,
-				"The requested host notification types were ignored because host objects were not selected."));
+				"ホストオブジェクトが選択されていないため、要求されたホストの通知タイプは無視されました。"));
 		}
 	/* If one or more service notification types were selected, but 
 			service objects were not, notify the user but continue */
@@ -1852,7 +1842,7 @@ int validate_arguments(json_object *json_root, archive_json_cgi_data *cgi_data,
 				svm_get_string_from_value(cgi_data->query, valid_queries), 
 				get_query_status(query_status, cgi_data->query),
 				(time_t)-1, authinfo, result,
-				"The requested service notification types were ignored because service objects were not selected."));
+				"サービスオブジェクトが選択されていないため、要求されたサービスの通知タイプが無視されました。"));
 		}
 
 	return result;
@@ -3227,7 +3217,7 @@ int get_initial_nagios_state(au_linked_list *log_entries, time_t start_time,
 		else {
 			if(AU_STATE_NO_DATA != initial_state) {
 				/* Once we cross the threshold of the start time, if we have
-					an initial state, that is THE initial state */
+					an intial state, that is THE initial state */
 				return initial_state;
 				}
 			else {

@@ -246,7 +246,7 @@ int main(int argc, char **argv) {
 		/* left column of the first row */
 		printf("<td align=left valign=top width=33%%>\n");
 
-		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Alert Summary Report");
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "警報サマリーレポート");
 		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
 		display_info_table(temp_buffer, FALSE, &current_authdata);
 
@@ -259,18 +259,18 @@ int main(int argc, char **argv) {
 
 			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>\n");
 			if(display_type == REPORT_TOP_ALERTS)
-				printf("Top Alert Producers");
+				printf("トップ警報発生元");
 			else if(display_type == REPORT_ALERT_TOTALS || display_type == REPORT_HOSTGROUP_ALERT_TOTALS || display_type == REPORT_SERVICEGROUP_ALERT_TOTALS || display_type == REPORT_HOST_ALERT_TOTALS || display_type == REPORT_SERVICE_ALERT_TOTALS)
-				printf("Alert Totals");
+				printf("警報全体");
 			else
-				printf("Most Recent Alerts");
+				printf("最近の警報");
 
 			if(show_all_hostgroups == FALSE)
-				printf(" For Hostgroup '%s'", target_hostgroup_name);
+				printf(" ホストグループ '%s'", target_hostgroup_name);
 			else if(show_all_servicegroups == FALSE)
-				printf(" For Servicegroup '%s'", target_servicegroup_name);
+				printf(" サービスグループ '%s'", target_servicegroup_name);
 			else if(show_all_hosts == FALSE)
-				printf(" For Host '%s'", target_host_name);
+				printf(" ホスト '%s'", target_host_name);
 
 			printf("</DIV>\n");
 
@@ -278,10 +278,10 @@ int main(int argc, char **argv) {
 
 			get_time_string(&t1, start_timestring, sizeof(start_timestring) - 1, SHORT_DATE_TIME);
 			get_time_string(&t2, end_timestring, sizeof(end_timestring) - 1, SHORT_DATE_TIME);
-			printf("<div align=center class='reportRange'>%s to %s</div>\n", start_timestring, end_timestring);
+			printf("<div align=center class='reportRange'>%s から %s</div>\n", start_timestring, end_timestring);
 
 			get_time_breakdown((time_t)(t2 - t1), &days, &hours, &minutes, &seconds);
-			printf("<div align=center class='reportDuration'>Duration: %dd %dh %dm %ds</div>\n", days, hours, minutes, seconds);
+			printf("<div align=center class='reportDuration'>期間: %d日間と %d時間 %d分 %d秒</div>\n", days, hours, minutes, seconds);
 			}
 
 		printf("</td>\n");
@@ -294,75 +294,75 @@ int main(int argc, char **argv) {
 			printf("<table border=0>\n");
 
 			printf("<tr>\n");
-			printf("<td valign=top align=left class='optBoxTitle' colspan=2>Report Options Summary:</td>\n");
+			printf("<td valign=top align=left class='optBoxTitle' colspan=2>サマリーレポートオプション:</td>\n");
 			printf("</tr>\n");
 
 			printf("<tr>\n");
-			printf("<td valign=top align=left class='optBoxItem'>Alert Types:</td>\n");
+			printf("<td valign=top align=left class='optBoxItem'>警報の種類:</td>\n");
 			printf("<td valign=top align=left class='optBoxValue'>\n");
 			if(alert_types & AE_HOST_ALERT)
-				printf("Host");
+				printf("ホスト");
 			if(alert_types & AE_SERVICE_ALERT)
-				printf("%sService", (alert_types & AE_HOST_ALERT) ? " &amp; " : "");
-			printf(" Alerts</td>\n");
+				printf("%sサービス", (alert_types & AE_HOST_ALERT) ? "及び" : "");
+			printf("の警報</td>\n");
 			printf("</tr>\n");
 
 			printf("<tr>\n");
-			printf("<td valign=top align=left class='optBoxItem'>State Types:</td>\n");
+			printf("<td valign=top align=left class='optBoxItem'>状態の種類:</td>\n");
 			printf("<td valign=top align=left class='optBoxValue'>");
 			if(state_types & AE_SOFT_STATE)
-				printf("Soft");
+				printf("ソフト");
 			if(state_types & AE_HARD_STATE)
-				printf("%sHard", (state_types & AE_SOFT_STATE) ? " &amp; " : "");
-			printf(" States</td>\n");
+				printf("%sハード", (state_types & AE_SOFT_STATE) ? "及び" : "");
+			printf("状態</td>\n");
 			printf("</tr>\n");
 
 			printf("<tr>\n");
-			printf("<td valign=top align=left class='optBoxItem'>Host States:</td>\n");
+			printf("<td valign=top align=left class='optBoxItem'>ホストの状態:</td>\n");
 			printf("<td valign=top align=left class='optBoxValue'>");
 			x = 0;
 			if(host_states & AE_HOST_UP) {
-				printf("Up");
+				printf("稼働(UP)");
 				x = 1;
 				}
 			if(host_states & AE_HOST_DOWN) {
-				printf("%sDown", (x == 1) ? ", " : "");
+				printf("%s停止(DOWN)", (x == 1) ? ", " : "");
 				x = 1;
 				}
 			if(host_states & AE_HOST_UNREACHABLE)
-				printf("%sUnreachable", (x == 1) ? ", " : "");
+				printf("%s未到達(UNREACHABLE)", (x == 1) ? ", " : "");
 			if(x == 0)
-				printf("None");
+				printf("無し");
 			printf("</td>\n");
 			printf("</tr>\n");
 
 			printf("<tr>\n");
-			printf("<td valign=top align=left class='optBoxItem'>Service States:</td>\n");
+			printf("<td valign=top align=left class='optBoxItem'>サービスの状態:</td>\n");
 			printf("<td valign=top align=left class='optBoxValue'>");
 			x = 0;
 			if(service_states & AE_SERVICE_OK) {
-				printf("Ok");
+				printf("正常(OK)");
 				x = 1;
 				}
 			if(service_states & AE_SERVICE_WARNING) {
-				printf("%sWarning", (x == 1) ? ", " : "");
+				printf("%s警告(WARNING)", (x == 1) ? ", " : "");
 				x = 1;
 				}
 			if(service_states & AE_SERVICE_UNKNOWN) {
-				printf("%sUnknown", (x == 1) ? ", " : "");
+				printf("%s不明(UNKNOWN)", (x == 1) ? ", " : "");
 				x = 1;
 				}
 			if(service_states & AE_SERVICE_CRITICAL)
-				printf("%sCritical", (x == 1) ? ", " : "");
+				printf("%s異常(CRITICAL)", (x == 1) ? ", " : "");
 			if(x == 0)
-				printf("None");
+				printf("無し");
 			printf("</td>\n");
 			printf("</tr>\n");
 
 			printf("<tr>\n");
 			printf("<td valign=top align=left colspan=2 class='optBoxItem'>\n");
 			printf("<form action='%s' method='GET'>\n", SUMMARY_CGI);
-			printf("<input type='submit' name='btnSubmit' value='Generate New Report'>\n");
+			printf("<input type='submit' name='btnSubmit' value='新規レポート作成'>\n");
 			printf("</form>\n");
 			printf("</td>\n");
 			printf("</tr>\n");
@@ -426,7 +426,7 @@ int main(int argc, char **argv) {
 		end_day = t->tm_mday;
 		end_year = t->tm_year + 1900;
 
-		printf("<DIV ALIGN=CENTER CLASS='dateSelectTitle'>Standard Reports:</DIV>\n");
+		printf("<DIV ALIGN=CENTER CLASS='dateSelectTitle'>標準レポート:</DIV>\n");
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<form method=\"get\" action=\"%s\">\n", SUMMARY_CGI);
 
@@ -434,25 +434,25 @@ int main(int argc, char **argv) {
 
 		printf("<table border=0 cellpadding=5>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Report Type:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>レポートの種類:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='standardreport'>\n");
-		printf("<option value=%d>25 Most Recent Hard Alerts\n", SREPORT_RECENT_ALERTS);
-		printf("<option value=%d>25 Most Recent Hard Host Alerts\n", SREPORT_RECENT_HOST_ALERTS);
-		printf("<option value=%d>25 Most Recent Hard Service Alerts\n", SREPORT_RECENT_SERVICE_ALERTS);
-		printf("<option value=%d>Top 25 Hard Host Alert Producers\n", SREPORT_TOP_HOST_ALERTS);
-		printf("<option value=%d>Top 25 Hard Service Alert Producers\n", SREPORT_TOP_SERVICE_ALERTS);
+		printf("<option value=%d>最近のハード警報(25件)\n", SREPORT_RECENT_ALERTS);
+		printf("<option value=%d>最近のホストのハード警報(25件)\n", SREPORT_RECENT_HOST_ALERTS);
+		printf("<option value=%d>最近のサービスのハード警報(25件)\n", SREPORT_RECENT_SERVICE_ALERTS);
+		printf("<option value=%d>ホスト別ハード警報(上位25件)\n", SREPORT_TOP_HOST_ALERTS);
+		printf("<option value=%d>サービス別ハード警報(上位25件)\n", SREPORT_TOP_SERVICE_ALERTS);
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='Create Summary Report!'></td></tr>\n");
+		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='サマリーレポート作成'></td></tr>\n");
 
 		printf("</table>\n");
 
 		printf("</form>\n");
 		printf("</DIV>\n");
 
-		printf("<DIV ALIGN=CENTER CLASS='dateSelectTitle'>Custom Report Options:</DIV>\n");
+		printf("<DIV ALIGN=CENTER CLASS='dateSelectTitle'>カスタムレポートオプション:</DIV>\n");
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<form method=\"get\" action=\"%s\">\n", SUMMARY_CGI);
 
@@ -460,60 +460,63 @@ int main(int argc, char **argv) {
 
 		printf("<table border=0 cellpadding=5>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Report Type:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>レポートの種類:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='displaytype'>\n");
-		printf("<option value=%d>Most Recent Alerts\n", REPORT_RECENT_ALERTS);
-		printf("<option value=%d>Alert Totals\n", REPORT_ALERT_TOTALS);
-		printf("<option value=%d>Alert Totals By Hostgroup\n", REPORT_HOSTGROUP_ALERT_TOTALS);
-		printf("<option value=%d>Alert Totals By Host\n", REPORT_HOST_ALERT_TOTALS);
-		printf("<option value=%d>Alert Totals By Servicegroup\n", REPORT_SERVICEGROUP_ALERT_TOTALS);
-		printf("<option value=%d>Alert Totals By Service\n", REPORT_SERVICE_ALERT_TOTALS);
-		printf("<option value=%d>Top Alert Producers\n", REPORT_TOP_ALERTS);
+		printf("<option value=%d>最近の警報\n", REPORT_RECENT_ALERTS);
+		printf("<option value=%d>警報全体\n", REPORT_ALERT_TOTALS);
+		printf("<option value=%d>ホストグループ毎の警報全体\n", REPORT_HOSTGROUP_ALERT_TOTALS);
+		printf("<option value=%d>ホスト毎の警報全体\n", REPORT_HOST_ALERT_TOTALS);
+		printf("<option value=%d>サービスグループ毎の警報全体\n", REPORT_SERVICEGROUP_ALERT_TOTALS);
+		printf("<option value=%d>サービス毎の警報全体\n", REPORT_SERVICE_ALERT_TOTALS);
+		printf("<option value=%d>警報発生元トップ\n", REPORT_TOP_ALERTS);
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
 		printf("<tr>");
-		printf("<td valign=top class='reportSelectSubTitle'>Report Period:</td>\n");
+		printf("<td valign=top class='reportSelectSubTitle'>レポート期間:</td>\n");
 		printf("<td valign=top align=left class='optBoxItem'>\n");
 		printf("<select name='timeperiod'>\n");
-		printf("<option value=today>Today\n");
-		printf("<option value=last24hours>Last 24 Hours\n");
-		printf("<option value=yesterday>Yesterday\n");
-		printf("<option value=thisweek>This Week\n");
-		printf("<option value=last7days SELECTED>Last 7 Days\n");
-		printf("<option value=lastweek>Last Week\n");
-		printf("<option value=thismonth>This Month\n");
-		printf("<option value=last31days>Last 31 Days\n");
-		printf("<option value=lastmonth>Last Month\n");
-		printf("<option value=thisyear>This Year\n");
-		printf("<option value=lastyear>Last Year\n");
-		printf("<option value=custom>* CUSTOM REPORT PERIOD *\n");
+		printf("<option value=today>今日\n");
+		printf("<option value=last24hours>過去24時間\n");
+		printf("<option value=yesterday>昨日\n");
+		printf("<option value=thisweek>今週k\n");
+		printf("<option value=last7days SELECTED>過去7日間\n");
+		printf("<option value=lastweek>先週\n");
+		printf("<option value=thismonth>今月\n");
+		printf("<option value=last31days>過去31日間\n");
+		printf("<option value=lastmonth>先月\n");
+		printf("<option value=thisyear>今年\n");
+		printf("<option value=lastyear>去年\n");
+		printf("<option value=custom>* カスタム期間設定 *\n");
 		printf("</select>\n");
 		printf("</td>\n");
 		printf("</tr>\n");
 
-		printf("<tr><td valign=top class='reportSelectSubTitle'>If Custom Report Period...</td></tr>\n");
+		printf("<tr><td valign=top class='reportSelectSubTitle'>期間をカスタマイズ...</td></tr>\n");
 
 		printf("<tr>");
-		printf("<td valign=top class='reportSelectSubTitle'>Start Date (Inclusive):</td>\n");
+		printf("<td valign=top class='reportSelectSubTitle'>開始日(指定日を含む):</td>\n");
 		printf("<td align=left valign=top class='reportSelectItem'>");
-		printf("<select name='smon'>\n");
-		printf("<option value='1' %s>January\n", (t->tm_mon == 0) ? "SELECTED" : "");
-		printf("<option value='2' %s>February\n", (t->tm_mon == 1) ? "SELECTED" : "");
-		printf("<option value='3' %s>March\n", (t->tm_mon == 2) ? "SELECTED" : "");
-		printf("<option value='4' %s>April\n", (t->tm_mon == 3) ? "SELECTED" : "");
-		printf("<option value='5' %s>May\n", (t->tm_mon == 4) ? "SELECTED" : "");
-		printf("<option value='6' %s>June\n", (t->tm_mon == 5) ? "SELECTED" : "");
-		printf("<option value='7' %s>July\n", (t->tm_mon == 6) ? "SELECTED" : "");
-		printf("<option value='8' %s>August\n", (t->tm_mon == 7) ? "SELECTED" : "");
-		printf("<option value='9' %s>September\n", (t->tm_mon == 8) ? "SELECTED" : "");
-		printf("<option value='10' %s>October\n", (t->tm_mon == 9) ? "SELECTED" : "");
-		printf("<option value='11' %s>November\n", (t->tm_mon == 10) ? "SELECTED" : "");
-		printf("<option value='12' %s>December\n", (t->tm_mon == 11) ? "SELECTED" : "");
-		printf("</select>\n ");
-		printf("<input type='text' size='2' maxlength='2' name='sday' value='%d'> ", start_day);
 		printf("<input type='text' size='4' maxlength='4' name='syear' value='%d'>", start_year);
+		printf("年");
+		printf("<select name='smon'>\n");
+		printf("<option value='1' %s>1\n", (t->tm_mon == 0) ? "SELECTED" : "");
+		printf("<option value='2' %s>2\n", (t->tm_mon == 1) ? "SELECTED" : "");
+		printf("<option value='3' %s>3\n", (t->tm_mon == 2) ? "SELECTED" : "");
+		printf("<option value='4' %s>4\n", (t->tm_mon == 3) ? "SELECTED" : "");
+		printf("<option value='5' %s>5\n", (t->tm_mon == 4) ? "SELECTED" : "");
+		printf("<option value='6' %s>6\n", (t->tm_mon == 5) ? "SELECTED" : "");
+		printf("<option value='7' %s>7\n", (t->tm_mon == 6) ? "SELECTED" : "");
+		printf("<option value='8' %s>8\n", (t->tm_mon == 7) ? "SELECTED" : "");
+		printf("<option value='9' %s>9\n", (t->tm_mon == 8) ? "SELECTED" : "");
+		printf("<option value='10' %s>10\n", (t->tm_mon == 9) ? "SELECTED" : "");
+		printf("<option value='11' %s>11\n", (t->tm_mon == 10) ? "SELECTED" : "");
+		printf("<option value='12' %s>12\n", (t->tm_mon == 11) ? "SELECTED" : "");
+		printf("</select>\n ");
+		printf("月");
+		printf("<input type='text' size='2' maxlength='2' name='sday' value='%d'> ", start_day);
+		printf("日");
 		printf("<input type='hidden' name='shour' value='0'>\n");
 		printf("<input type='hidden' name='smin' value='0'>\n");
 		printf("<input type='hidden' name='ssec' value='0'>\n");
@@ -521,24 +524,27 @@ int main(int argc, char **argv) {
 		printf("</tr>\n");
 
 		printf("<tr>");
-		printf("<td valign=top class='reportSelectSubTitle'>End Date (Inclusive):</td>\n");
+		printf("<td valign=top class='reportSelectSubTitle'>終了日(指定日を含む):</td>\n");
 		printf("<td align=left valign=top class='reportSelectItem'>");
-		printf("<select name='emon'>\n");
-		printf("<option value='1' %s>January\n", (t->tm_mon == 0) ? "SELECTED" : "");
-		printf("<option value='2' %s>February\n", (t->tm_mon == 1) ? "SELECTED" : "");
-		printf("<option value='3' %s>March\n", (t->tm_mon == 2) ? "SELECTED" : "");
-		printf("<option value='4' %s>April\n", (t->tm_mon == 3) ? "SELECTED" : "");
-		printf("<option value='5' %s>May\n", (t->tm_mon == 4) ? "SELECTED" : "");
-		printf("<option value='6' %s>June\n", (t->tm_mon == 5) ? "SELECTED" : "");
-		printf("<option value='7' %s>July\n", (t->tm_mon == 6) ? "SELECTED" : "");
-		printf("<option value='8' %s>August\n", (t->tm_mon == 7) ? "SELECTED" : "");
-		printf("<option value='9' %s>September\n", (t->tm_mon == 8) ? "SELECTED" : "");
-		printf("<option value='10' %s>October\n", (t->tm_mon == 9) ? "SELECTED" : "");
-		printf("<option value='11' %s>November\n", (t->tm_mon == 10) ? "SELECTED" : "");
-		printf("<option value='12' %s>December\n", (t->tm_mon == 11) ? "SELECTED" : "");
-		printf("</select>\n ");
-		printf("<input type='text' size='2' maxlength='2' name='eday' value='%d'> ", end_day);
 		printf("<input type='text' size='4' maxlength='4' name='eyear' value='%d'>", end_year);
+		printf("年");
+		printf("<select name='emon'>\n");
+		printf("<option value='1' %s>1\n", (t->tm_mon == 0) ? "SELECTED" : "");
+		printf("<option value='2' %s>2\n", (t->tm_mon == 1) ? "SELECTED" : "");
+		printf("<option value='3' %s>3\n", (t->tm_mon == 2) ? "SELECTED" : "");
+		printf("<option value='4' %s>4\n", (t->tm_mon == 3) ? "SELECTED" : "");
+		printf("<option value='5' %s>5\n", (t->tm_mon == 4) ? "SELECTED" : "");
+		printf("<option value='6' %s>6\n", (t->tm_mon == 5) ? "SELECTED" : "");
+		printf("<option value='7' %s>7\n", (t->tm_mon == 6) ? "SELECTED" : "");
+		printf("<option value='8' %s>8\n", (t->tm_mon == 7) ? "SELECTED" : "");
+		printf("<option value='9' %s>9\n", (t->tm_mon == 8) ? "SELECTED" : "");
+		printf("<option value='10' %s>10\n", (t->tm_mon == 9) ? "SELECTED" : "");
+		printf("<option value='11' %s>11\n", (t->tm_mon == 10) ? "SELECTED" : "");
+		printf("<option value='12' %s>12\n", (t->tm_mon == 11) ? "SELECTED" : "");
+		printf("</select>\n ");
+		printf("月");
+		printf("<input type='text' size='2' maxlength='2' name='eday' value='%d'> ", end_day);
+		printf("日");
 		printf("<input type='hidden' name='ehour' value='24'>\n");
 		printf("<input type='hidden' name='emin' value='0'>\n");
 		printf("<input type='hidden' name='esec' value='0'>\n");
@@ -547,9 +553,9 @@ int main(int argc, char **argv) {
 
 		printf("<tr><td colspan=2><br></td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' valign=center>Limit To Hostgroup:</td><td align=left valign=center class='reportSelectItem'>\n");
+		printf("<tr><td class='reportSelectSubTitle' valign=center>対象ホストグループ:</td><td align=left valign=center class='reportSelectItem'>\n");
 		printf("<select name='hostgroup'>\n");
-		printf("<option value='all'>** ALL HOSTGROUPS **\n");
+		printf("<option value='all'>** 全てのホストグループ **\n");
 		for(temp_hostgroup = hostgroup_list; temp_hostgroup != NULL; temp_hostgroup = temp_hostgroup->next) {
 			if(is_authorized_for_hostgroup(temp_hostgroup, &current_authdata) == TRUE)
 				printf("<option value='%s'>%s\n", escape_string(temp_hostgroup->group_name), temp_hostgroup->group_name);
@@ -557,9 +563,9 @@ int main(int argc, char **argv) {
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' valign=center>Limit To Servicegroup:</td><td align=left valign=center class='reportSelectItem'>\n");
+		printf("<tr><td class='reportSelectSubTitle' valign=center>対象サービスグループ:</td><td align=left valign=center class='reportSelectItem'>\n");
 		printf("<select name='servicegroup'>\n");
-		printf("<option value='all'>** ALL SERVICEGROUPS **\n");
+		printf("<option value='all'>** 全てのサービスグループ **\n");
 		for(temp_servicegroup = servicegroup_list; temp_servicegroup != NULL; temp_servicegroup = temp_servicegroup->next) {
 			if(is_authorized_for_servicegroup(temp_servicegroup, &current_authdata) == TRUE)
 				printf("<option value='%s'>%s\n", escape_string(temp_servicegroup->group_name), temp_servicegroup->group_name);
@@ -567,9 +573,9 @@ int main(int argc, char **argv) {
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' valign=center>Limit To Host:</td><td align=left valign=center class='reportSelectItem'>\n");
+		printf("<tr><td class='reportSelectSubTitle' valign=center>対象ホスト:</td><td align=left valign=center class='reportSelectItem'>\n");
 		printf("<select name='host'>\n");
-		printf("<option value='all'>** ALL HOSTS **\n");
+		printf("<option value='all'>** 全てのホスト **\n");
 
 		for(temp_host = host_list; temp_host != NULL; temp_host = temp_host->next) {
 			if(is_authorized_for_host(temp_host, &current_authdata) == TRUE)
@@ -578,53 +584,53 @@ int main(int argc, char **argv) {
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Alert Types:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>警告の種類:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='alerttypes'>\n");
-		printf("<option value=%d %s>Host and Service Alerts\n", AE_HOST_ALERT + AE_SERVICE_ALERT, (alert_types == AE_HOST_ALERT + AE_SERVICE_ALERT) ? "SELECTED" : "");
-		printf("<option value=%d %s>Host Alerts\n", AE_HOST_ALERT, (alert_types == AE_HOST_ALERT) ? "SELECTED" : "");
-		printf("<option value=%d %s>Service Alerts\n", AE_SERVICE_ALERT, (alert_types == AE_SERVICE_ALERT) ? "SELECTED" : "");
+		printf("<option value=%d %s>ホストとサービス\n", AE_HOST_ALERT + AE_SERVICE_ALERT, (alert_types == AE_HOST_ALERT + AE_SERVICE_ALERT) ? "SELECTED" : "");
+		printf("<option value=%d %s>ホスト\n", AE_HOST_ALERT, (alert_types == AE_HOST_ALERT) ? "SELECTED" : "");
+		printf("<option value=%d %s>サービス\n", AE_SERVICE_ALERT, (alert_types == AE_SERVICE_ALERT) ? "SELECTED" : "");
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>State Types:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>状態の種類:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='statetypes'>\n");
-		printf("<option value=%d %s>Hard and Soft States\n", AE_HARD_STATE + AE_SOFT_STATE, (state_types == AE_HARD_STATE + AE_SOFT_STATE) ? "SELECTED" : "");
-		printf("<option value=%d %s>Hard States\n", AE_HARD_STATE, (state_types == AE_HARD_STATE) ? "SELECTED" : "");
-		printf("<option value=%d %s>Soft States\n", AE_SOFT_STATE, (state_types == AE_SOFT_STATE) ? "SELECTED" : "");
+		printf("<option value=%d %s>ハードとソフト\n", AE_HARD_STATE + AE_SOFT_STATE, (state_types == AE_HARD_STATE + AE_SOFT_STATE) ? "SELECTED" : "");
+		printf("<option value=%d %s>ハード\n", AE_HARD_STATE, (state_types == AE_HARD_STATE) ? "SELECTED" : "");
+		printf("<option value=%d %s>ソフト\n", AE_SOFT_STATE, (state_types == AE_SOFT_STATE) ? "SELECTED" : "");
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Host States:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>ホスト状態:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='hoststates'>\n");
-		printf("<option value=%d>All Host States\n", AE_HOST_UP + AE_HOST_DOWN + AE_HOST_UNREACHABLE);
-		printf("<option value=%d>Host Problem States\n", AE_HOST_DOWN + AE_HOST_UNREACHABLE);
-		printf("<option value=%d>Host Up States\n", AE_HOST_UP);
-		printf("<option value=%d>Host Down States\n", AE_HOST_DOWN);
-		printf("<option value=%d>Host Unreachable States\n", AE_HOST_UNREACHABLE);
+		printf("<option value=%d>全ての状態\n", AE_HOST_UP + AE_HOST_DOWN + AE_HOST_UNREACHABLE);
+		printf("<option value=%d>障害(UP以外)\n", AE_HOST_DOWN + AE_HOST_UNREACHABLE);
+		printf("<option value=%d>稼働(UP)\n", AE_HOST_UP);
+		printf("<option value=%d>停止(DOWN)\n", AE_HOST_DOWN);
+		printf("<option value=%d>未到達(UNREACHABLE)\n", AE_HOST_UNREACHABLE);
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Service States:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>サービス状態:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<select name='servicestates'>\n");
-		printf("<option value=%d>All Service States\n", AE_SERVICE_OK + AE_SERVICE_WARNING + AE_SERVICE_UNKNOWN + AE_SERVICE_CRITICAL);
-		printf("<option value=%d>Service Problem States\n", AE_SERVICE_WARNING + AE_SERVICE_UNKNOWN + AE_SERVICE_CRITICAL);
-		printf("<option value=%d>Service Ok States\n", AE_SERVICE_OK);
-		printf("<option value=%d>Service Warning States\n", AE_SERVICE_WARNING);
-		printf("<option value=%d>Service Unknown States\n", AE_SERVICE_UNKNOWN);
-		printf("<option value=%d>Service Critical States\n", AE_SERVICE_CRITICAL);
+		printf("<option value=%d>全ての状態\n", AE_SERVICE_OK + AE_SERVICE_WARNING + AE_SERVICE_UNKNOWN + AE_SERVICE_CRITICAL);
+		printf("<option value=%d>障害(OK以外)\n", AE_SERVICE_WARNING + AE_SERVICE_UNKNOWN + AE_SERVICE_CRITICAL);
+		printf("<option value=%d>正常(OK)\n", AE_SERVICE_OK);
+		printf("<option value=%d>警告(WARNING)\n", AE_SERVICE_WARNING);
+		printf("<option value=%d>不明(UNKNOWN)\n", AE_SERVICE_UNKNOWN);
+		printf("<option value=%d>異常(CRITICAL)\n", AE_SERVICE_CRITICAL);
 		printf("</select>\n");
 		printf("</td></tr>\n");
 
-		printf("<tr><td class='reportSelectSubTitle' align=right>Max List Items:</td>\n");
+		printf("<tr><td class='reportSelectSubTitle' align=right>一覧の最大表示数:</td>\n");
 		printf("<td class='reportSelectItem'>\n");
 		printf("<input type='text' name='limit' size='3' maxlength='3' value='%d'>\n", item_limit);
 		printf("</td></tr>\n");
 
-		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='Create Summary Report!'></td></tr>\n");
+		printf("<tr><td></td><td align=left class='dateSelectItem'><input type='submit' value='サマリーレポート作成'></td></tr>\n");
 
 		printf("</table>\n");
 
@@ -673,9 +679,11 @@ void document_header(int use_stylesheet) {
 
 	printf("<html>\n");
 	printf("<head>\n");
+	printf("<meta http-equiv='content-type' content='text/html;charset=UTF-8'>\n");
+	printf("<meta http-equiv='Pragma' content='no-cache'>\n");
 	printf("<link rel=\"shortcut icon\" href=\"%sfavicon.ico\" type=\"image/ico\">\n", url_images_path);
 	printf("<title>\n");
-	printf("Nagios Event Summary\n");
+	printf("イベントサマリー\n");
 	printf("</title>\n");
 
 	if(use_stylesheet == TRUE) {
@@ -1707,13 +1715,13 @@ void display_recent_alerts(void) {
 	printf("<BR>\n");
 
 	if(item_limit <= 0 || total_items <= item_limit || total_items == 0)
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Displaying all %d matching alerts\n", total_items);
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>全 %d 件の警報を表示しています\n", total_items);
 	else
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Displaying most recent %d of %d total matching alerts\n", item_limit, total_items);
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>%d / %d 件の最近の警報を表示しています\n", item_limit, total_items);
 
 	printf("<DIV ALIGN=CENTER>\n");
 	printf("<TABLE BORDER=0 CLASS='data'>\n");
-	printf("<TR><TH CLASS='data'>Time</TH><TH CLASS='data'>Alert Type</TH><TH CLASS='data'>Host</TH><TH CLASS='data'>Service</TH><TH CLASS='data'>State</TH><TH CLASS='data'>State Type</TH><TH CLASS='data'>Information</TH></TR>\n");
+	printf("<TR><TH CLASS='data'>時間</TH><TH CLASS='data'>警報の種類</TH><TH CLASS='data'>ホスト名</TH><TH CLASS='data'>サービス名</TH><TH CLASS='data'>状態</TH><TH CLASS='data'>状態の種類</TH><TH CLASS='data'>ステータス情報</TH></TR>\n");
 
 
 	for(temp_event = event_list; temp_event != NULL; temp_event = temp_event->next, current_item++) {
@@ -1735,7 +1743,7 @@ void display_recent_alerts(void) {
 		get_time_string(&temp_event->time_stamp, date_time, (int)sizeof(date_time), SHORT_DATE_TIME);
 		printf("<td CLASS='data%s'>%s</td>", bgclass, date_time);
 
-		printf("<td CLASS='data%s'>%s</td>", bgclass, (temp_event->event_type == AE_HOST_ALERT) ? "Host Alert" : "Service Alert");
+		printf("<td CLASS='data%s'>%s</td>", bgclass, (temp_event->event_type == AE_HOST_ALERT) ? "ホスト警報" : "サービス警報");
 
 		printf("<td CLASS='data%s'><a href='%s?type=%d&host=%s'>%s</a></td>", bgclass, EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_event->host_name), temp_event->host_name);
 
@@ -1749,41 +1757,41 @@ void display_recent_alerts(void) {
 		switch(temp_event->entry_type) {
 			case AE_HOST_UP:
 				status_bgclass = "hostUP";
-				status = "UP";
+				status = "稼働(UP)";
 				break;
 			case AE_HOST_DOWN:
 				status_bgclass = "hostDOWN";
-				status = "DOWN";
+				status = "停止(DOWN)";
 				break;
 			case AE_HOST_UNREACHABLE:
 				status_bgclass = "hostUNREACHABLE";
-				status = "UNREACHABLE";
+				status = "未到達(UNREACHABLE)";
 				break;
 			case AE_SERVICE_OK:
 				status_bgclass = "serviceOK";
-				status = "OK";
+				status = "正常(OK)";
 				break;
 			case AE_SERVICE_WARNING:
 				status_bgclass = "serviceWARNING";
-				status = "WARNING";
+				status = "警告(WARNING)";
 				break;
 			case AE_SERVICE_UNKNOWN:
 				status_bgclass = "serviceUNKNOWN";
-				status = "UNKNOWN";
+				status = "不明(UNKNOWN)";
 				break;
 			case AE_SERVICE_CRITICAL:
 				status_bgclass = "serviceCRITICAL";
-				status = "CRITICAL";
+				status = "異常(CRITICAL)";
 				break;
 			default:
 				status_bgclass = bgclass;
-				status = "???";
+				status = "未知の状態";
 				break;
 			}
 
 		printf("<td CLASS='%s'>%s</td>", status_bgclass, status);
 
-		printf("<td CLASS='data%s'>%s</td>", bgclass, (temp_event->state_type == AE_SOFT_STATE) ? "SOFT" : "HARD");
+		printf("<td CLASS='data%s'>%s</td>", bgclass, (temp_event->state_type == AE_SOFT_STATE) ? "ソフト" : "ハード");
 
 		printf("<td CLASS='data%s'>%s</td>", bgclass, html_encode(temp_event->event_info, 1));
 
@@ -1872,7 +1880,7 @@ void display_alert_totals(void) {
 	printf("<BR>\n");
 
 	printf("<DIV ALIGN=CENTER>\n");
-	printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Overall Totals</DIV>\n");
+	printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>総合</DIV>\n");
 	printf("<BR>\n");
 	printf("<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=0 CLASS='reportDataOdd'><TR><TD>\n");
 	printf("<TABLE BORDER=0>\n");
@@ -1882,16 +1890,16 @@ void display_alert_totals(void) {
 
 		printf("<TD ALIGN=CENTER VALIGN=TOP>\n");
 
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Host Alerts</DIV>\n");
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>ホスト警報</DIV>\n");
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>State</TH><TH CLASS='data'>Soft Alerts</TH><TH CLASS='data'>Hard Alerts</TH><TH CLASS='data'>Total Alerts</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>状態</TH><TH CLASS='data'>ソフト警報</TH><TH CLASS='data'>ハード警報</TH><TH CLASS='data'>警報全体の状況</TH></TR>\n");
 
-		printf("<TR CLASS='dataOdd'><TD CLASS='hostUP'>UP</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_up_alerts, hard_host_up_alerts, soft_host_up_alerts + hard_host_up_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='hostDOWN'>DOWN</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_host_down_alerts, hard_host_down_alerts, soft_host_down_alerts + hard_host_down_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='hostUNREACHABLE'>UNREACHABLE</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_unreachable_alerts, hard_host_unreachable_alerts, soft_host_unreachable_alerts + hard_host_unreachable_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='dataEven'>All States</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'><B>%d</B></TD></TR>\n", soft_host_up_alerts + soft_host_down_alerts + soft_host_unreachable_alerts, hard_host_up_alerts + hard_host_down_alerts + hard_host_unreachable_alerts, soft_host_up_alerts + hard_host_up_alerts + soft_host_down_alerts + hard_host_down_alerts + soft_host_unreachable_alerts + hard_host_unreachable_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='hostUP'>稼働(UP)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_up_alerts, hard_host_up_alerts, soft_host_up_alerts + hard_host_up_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='hostDOWN'>停止(DOWN)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_host_down_alerts, hard_host_down_alerts, soft_host_down_alerts + hard_host_down_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='hostUNREACHABLE'>未到達(UNREACHABLE)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_unreachable_alerts, hard_host_unreachable_alerts, soft_host_unreachable_alerts + hard_host_unreachable_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='dataEven'>全て</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'><B>%d</B></TD></TR>\n", soft_host_up_alerts + soft_host_down_alerts + soft_host_unreachable_alerts, hard_host_up_alerts + hard_host_down_alerts + hard_host_unreachable_alerts, soft_host_up_alerts + hard_host_up_alerts + soft_host_down_alerts + hard_host_down_alerts + soft_host_unreachable_alerts + hard_host_unreachable_alerts);
 
 		printf("</TABLE>\n");
 		printf("</DIV>\n");
@@ -1903,17 +1911,17 @@ void display_alert_totals(void) {
 
 		printf("<TD ALIGN=CENTER VALIGN=TOP>\n");
 
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Service Alerts</DIV>\n");
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>サービス警報</DIV>\n");
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>State</TH><TH CLASS='data'>Soft Alerts</TH><TH CLASS='data'>Hard Alerts</TH><TH CLASS='data'>Total Alerts</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>状態</TH><TH CLASS='data'>ソフト警報</TH><TH CLASS='data'>ハード警報</TH><TH CLASS='data'>警報全体の状況</TH></TR>\n");
 
-		printf("<TR CLASS='dataOdd'><TD CLASS='serviceOK'>OK</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_ok_alerts, hard_service_ok_alerts, soft_service_ok_alerts + hard_service_ok_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='serviceWARNING'>WARNING</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_warning_alerts, hard_service_warning_alerts, soft_service_warning_alerts + hard_service_warning_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='serviceUNKNOWN'>UNKNOWN</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_unknown_alerts, hard_service_unknown_alerts, soft_service_unknown_alerts + hard_service_unknown_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='serviceCRITICAL'>CRITICAL</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_critical_alerts, hard_service_critical_alerts, soft_service_critical_alerts + hard_service_critical_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='dataOdd'>All States</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'><B>%d</B></TD></TR>\n", soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts, hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts, soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts + hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='serviceOK'>正常(OK)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_ok_alerts, hard_service_ok_alerts, soft_service_ok_alerts + hard_service_ok_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='serviceWARNING'>警告(WARNING)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_warning_alerts, hard_service_warning_alerts, soft_service_warning_alerts + hard_service_warning_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='serviceUNKNOWN'>不明(UNKNOWN)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_unknown_alerts, hard_service_unknown_alerts, soft_service_unknown_alerts + hard_service_unknown_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='serviceCRITICAL'>異常(CRITICAL)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_critical_alerts, hard_service_critical_alerts, soft_service_critical_alerts + hard_service_critical_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='dataOdd'>全て</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'><B>%d</B></TD></TR>\n", soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts, hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts, soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts + hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts);
 
 		printf("</TABLE>\n");
 		printf("</DIV>\n");
@@ -1942,7 +1950,7 @@ void display_hostgroup_alert_totals(void) {
 	printf("<BR>\n");
 
 	printf("<DIV ALIGN=CENTER>\n");
-	printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Totals By Hostgroup</DIV>\n");
+	printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>ホストグループ毎の全体状況</DIV>\n");
 
 	if(show_all_hostgroups == FALSE)
 		display_specific_hostgroup_alert_totals(target_hostgroup);
@@ -2040,7 +2048,7 @@ void display_specific_hostgroup_alert_totals(hostgroup *grp) {
 	printf("<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=0 CLASS='reportDataEven'><TR><TD>\n");
 	printf("<TABLE BORDER=0>\n");
 
-	printf("<TR><TD COLSPAN=2 ALIGN=CENTER CLASS='dataSubTitle'>Hostgroup '%s' (%s)</TD></TR>\n", grp->group_name, grp->alias);
+	printf("<TR><TD COLSPAN=2 ALIGN=CENTER CLASS='dataSubTitle'>ホストグループ '%s' (%s)</TD></TR>\n", grp->group_name, grp->alias);
 
 	printf("<TR>\n");
 
@@ -2048,16 +2056,16 @@ void display_specific_hostgroup_alert_totals(hostgroup *grp) {
 
 		printf("<TD ALIGN=CENTER VALIGN=TOP>\n");
 
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Host Alerts</DIV>\n");
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>ホスト警報</DIV>\n");
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>State</TH><TH CLASS='data'>Soft Alerts</TH><TH CLASS='data'>Hard Alerts</TH><TH CLASS='data'>Total Alerts</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>状態</TH><TH CLASS='data'>ソフト警報</TH><TH CLASS='data'>ハード警報</TH><TH CLASS='data'>警報全体の状況</TH></TR>\n");
 
-		printf("<TR CLASS='dataOdd'><TD CLASS='hostUP'>UP</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_up_alerts, hard_host_up_alerts, soft_host_up_alerts + hard_host_up_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='hostDOWN'>DOWN</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_host_down_alerts, hard_host_down_alerts, soft_host_down_alerts + hard_host_down_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='hostUNREACHABLE'>UNREACHABLE</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_unreachable_alerts, hard_host_unreachable_alerts, soft_host_unreachable_alerts + hard_host_unreachable_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='dataEven'>All States</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'><B>%d</B></TD></TR>\n", soft_host_up_alerts + soft_host_down_alerts + soft_host_unreachable_alerts, hard_host_up_alerts + hard_host_down_alerts + hard_host_unreachable_alerts, soft_host_up_alerts + hard_host_up_alerts + soft_host_down_alerts + hard_host_down_alerts + soft_host_unreachable_alerts + hard_host_unreachable_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='hostUP'>稼働(UP)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_up_alerts, hard_host_up_alerts, soft_host_up_alerts + hard_host_up_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='hostDOWN'>停止(DOWN)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_host_down_alerts, hard_host_down_alerts, soft_host_down_alerts + hard_host_down_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='hostUNREACHABLE'>未到達(UNREACHABLE)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_unreachable_alerts, hard_host_unreachable_alerts, soft_host_unreachable_alerts + hard_host_unreachable_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='dataEven'>全て</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'><B>%d</B></TD></TR>\n", soft_host_up_alerts + soft_host_down_alerts + soft_host_unreachable_alerts, hard_host_up_alerts + hard_host_down_alerts + hard_host_unreachable_alerts, soft_host_up_alerts + hard_host_up_alerts + soft_host_down_alerts + hard_host_down_alerts + soft_host_unreachable_alerts + hard_host_unreachable_alerts);
 
 		printf("</TABLE>\n");
 		printf("</DIV>\n");
@@ -2069,17 +2077,17 @@ void display_specific_hostgroup_alert_totals(hostgroup *grp) {
 
 		printf("<TD ALIGN=CENTER VALIGN=TOP>\n");
 
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Service Alerts</DIV>\n");
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>サービス警報</DIV>\n");
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>State</TH><TH CLASS='data'>Soft Alerts</TH><TH CLASS='data'>Hard Alerts</TH><TH CLASS='data'>Total Alerts</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>状態</TH><TH CLASS='data'>ソフト警報</TH><TH CLASS='data'>ハード警報</TH><TH CLASS='data'>警報全体の状況</TH></TR>\n");
 
-		printf("<TR CLASS='dataOdd'><TD CLASS='serviceOK'>OK</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_ok_alerts, hard_service_ok_alerts, soft_service_ok_alerts + hard_service_ok_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='serviceWARNING'>WARNING</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_warning_alerts, hard_service_warning_alerts, soft_service_warning_alerts + hard_service_warning_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='serviceUNKNOWN'>UNKNOWN</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_unknown_alerts, hard_service_unknown_alerts, soft_service_unknown_alerts + hard_service_unknown_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='serviceCRITICAL'>CRITICAL</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_critical_alerts, hard_service_critical_alerts, soft_service_critical_alerts + hard_service_critical_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='dataOdd'>All States</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'><B>%d</B></TD></TR>\n", soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts, hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts, soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts + hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='serviceOK'>正常(OK)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_ok_alerts, hard_service_ok_alerts, soft_service_ok_alerts + hard_service_ok_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='serviceWARNING'>警告(WARNING)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_warning_alerts, hard_service_warning_alerts, soft_service_warning_alerts + hard_service_warning_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='serviceUNKNOWN'>不明(UNKNOWN)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_unknown_alerts, hard_service_unknown_alerts, soft_service_unknown_alerts + hard_service_unknown_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='serviceCRITICAL'>異常(CRITICAL)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_critical_alerts, hard_service_critical_alerts, soft_service_critical_alerts + hard_service_critical_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='dataOdd'>全て</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'><B>%d</B></TD></TR>\n", soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts, hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts, soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts + hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts);
 
 		printf("</TABLE>\n");
 		printf("</DIV>\n");
@@ -2108,7 +2116,7 @@ void display_host_alert_totals(void) {
 	printf("<BR>\n");
 
 	printf("<DIV ALIGN=CENTER>\n");
-	printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Totals By Host</DIV>\n");
+	printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>ホスト毎の全体状況</DIV>\n");
 
 	if(show_all_hosts == FALSE)
 		display_specific_host_alert_totals(target_host);
@@ -2209,7 +2217,7 @@ void display_specific_host_alert_totals(host *hst) {
 	printf("<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=0 CLASS='reportDataEven'><TR><TD>\n");
 	printf("<TABLE BORDER=0>\n");
 
-	printf("<TR><TD COLSPAN=2 ALIGN=CENTER CLASS='dataSubTitle'>Host '%s' (%s)</TD></TR>\n", hst->name, hst->alias);
+	printf("<TR><TD COLSPAN=2 ALIGN=CENTER CLASS='dataSubTitle'>ホスト '%s' (%s)</TD></TR>\n", hst->name, hst->alias);
 
 	printf("<TR>\n");
 
@@ -2217,16 +2225,16 @@ void display_specific_host_alert_totals(host *hst) {
 
 		printf("<TD ALIGN=CENTER VALIGN=TOP>\n");
 
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Host Alerts</DIV>\n");
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>ホスト警報</DIV>\n");
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>State</TH><TH CLASS='data'>Soft Alerts</TH><TH CLASS='data'>Hard Alerts</TH><TH CLASS='data'>Total Alerts</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>状態</TH><TH CLASS='data'>ソフト警報</TH><TH CLASS='data'>ハード警報</TH><TH CLASS='data'>警報全体の状況</TH></TR>\n");
 
-		printf("<TR CLASS='dataOdd'><TD CLASS='hostUP'>UP</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_up_alerts, hard_host_up_alerts, soft_host_up_alerts + hard_host_up_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='hostDOWN'>DOWN</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_host_down_alerts, hard_host_down_alerts, soft_host_down_alerts + hard_host_down_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='hostUNREACHABLE'>UNREACHABLE</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_unreachable_alerts, hard_host_unreachable_alerts, soft_host_unreachable_alerts + hard_host_unreachable_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='dataEven'>All States</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'><B>%d</B></TD></TR>\n", soft_host_up_alerts + soft_host_down_alerts + soft_host_unreachable_alerts, hard_host_up_alerts + hard_host_down_alerts + hard_host_unreachable_alerts, soft_host_up_alerts + hard_host_up_alerts + soft_host_down_alerts + hard_host_down_alerts + soft_host_unreachable_alerts + hard_host_unreachable_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='hostUP'>稼働(UP)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_up_alerts, hard_host_up_alerts, soft_host_up_alerts + hard_host_up_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='hostDOWN'>停止(DOWN)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_host_down_alerts, hard_host_down_alerts, soft_host_down_alerts + hard_host_down_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='hostUNREACHABLE'>未到達(UNREACHABLE)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_unreachable_alerts, hard_host_unreachable_alerts, soft_host_unreachable_alerts + hard_host_unreachable_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='dataEven'>全て</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'><B>%d</B></TD></TR>\n", soft_host_up_alerts + soft_host_down_alerts + soft_host_unreachable_alerts, hard_host_up_alerts + hard_host_down_alerts + hard_host_unreachable_alerts, soft_host_up_alerts + hard_host_up_alerts + soft_host_down_alerts + hard_host_down_alerts + soft_host_unreachable_alerts + hard_host_unreachable_alerts);
 
 		printf("</TABLE>\n");
 		printf("</DIV>\n");
@@ -2238,17 +2246,17 @@ void display_specific_host_alert_totals(host *hst) {
 
 		printf("<TD ALIGN=CENTER VALIGN=TOP>\n");
 
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Service Alerts</DIV>\n");
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>サービス警報</DIV>\n");
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>State</TH><TH CLASS='data'>Soft Alerts</TH><TH CLASS='data'>Hard Alerts</TH><TH CLASS='data'>Total Alerts</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>状態</TH><TH CLASS='data'>ソフト警報</TH><TH CLASS='data'>ハード警報</TH><TH CLASS='data'>警報全体の状況</TH></TR>\n");
 
-		printf("<TR CLASS='dataOdd'><TD CLASS='serviceOK'>OK</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_ok_alerts, hard_service_ok_alerts, soft_service_ok_alerts + hard_service_ok_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='serviceWARNING'>WARNING</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_warning_alerts, hard_service_warning_alerts, soft_service_warning_alerts + hard_service_warning_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='serviceUNKNOWN'>UNKNOWN</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_unknown_alerts, hard_service_unknown_alerts, soft_service_unknown_alerts + hard_service_unknown_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='serviceCRITICAL'>CRITICAL</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_critical_alerts, hard_service_critical_alerts, soft_service_critical_alerts + hard_service_critical_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='dataOdd'>All States</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'><B>%d</B></TD></TR>\n", soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts, hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts, soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts + hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='serviceOK'>正常(OK)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_ok_alerts, hard_service_ok_alerts, soft_service_ok_alerts + hard_service_ok_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='serviceWARNING'>警告(WARNING)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_warning_alerts, hard_service_warning_alerts, soft_service_warning_alerts + hard_service_warning_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='serviceUNKNOWN'>不明(UNKNOWN)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_unknown_alerts, hard_service_unknown_alerts, soft_service_unknown_alerts + hard_service_unknown_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='serviceCRITICAL'>異常(CRITICAL)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_critical_alerts, hard_service_critical_alerts, soft_service_critical_alerts + hard_service_critical_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='dataOdd'>全て</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'><B>%d</B></TD></TR>\n", soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts, hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts, soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts + hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts);
 
 		printf("</TABLE>\n");
 		printf("</DIV>\n");
@@ -2276,7 +2284,7 @@ void display_servicegroup_alert_totals(void) {
 	printf("<BR>\n");
 
 	printf("<DIV ALIGN=CENTER>\n");
-	printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Totals By Servicegroup</DIV>\n");
+	printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>サービスグループ毎の全体状況</DIV>\n");
 
 	if(show_all_servicegroups == FALSE)
 		display_specific_servicegroup_alert_totals(target_servicegroup);
@@ -2384,7 +2392,7 @@ void display_specific_servicegroup_alert_totals(servicegroup *grp) {
 	printf("<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=0 CLASS='reportDataEven'><TR><TD>\n");
 	printf("<TABLE BORDER=0>\n");
 
-	printf("<TR><TD COLSPAN=2 ALIGN=CENTER CLASS='dataSubTitle'>Servicegroup '%s' (%s)</TD></TR>\n", grp->group_name, grp->alias);
+	printf("<TR><TD COLSPAN=2 ALIGN=CENTER CLASS='dataSubTitle'>サービスグループ '%s' (%s)</TD></TR>\n", grp->group_name, grp->alias);
 
 	printf("<TR>\n");
 
@@ -2392,16 +2400,16 @@ void display_specific_servicegroup_alert_totals(servicegroup *grp) {
 
 		printf("<TD ALIGN=CENTER VALIGN=TOP>\n");
 
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Host Alerts</DIV>\n");
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>ホスト警報</DIV>\n");
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>State</TH><TH CLASS='data'>Soft Alerts</TH><TH CLASS='data'>Hard Alerts</TH><TH CLASS='data'>Total Alerts</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>状態</TH><TH CLASS='data'>ソフト警報</TH><TH CLASS='data'>ハード警報</TH><TH CLASS='data'>警報全体の状況</TH></TR>\n");
 
-		printf("<TR CLASS='dataOdd'><TD CLASS='hostUP'>UP</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_up_alerts, hard_host_up_alerts, soft_host_up_alerts + hard_host_up_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='hostDOWN'>DOWN</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_host_down_alerts, hard_host_down_alerts, soft_host_down_alerts + hard_host_down_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='hostUNREACHABLE'>UNREACHABLE</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_unreachable_alerts, hard_host_unreachable_alerts, soft_host_unreachable_alerts + hard_host_unreachable_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='dataEven'>All States</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'><B>%d</B></TD></TR>\n", soft_host_up_alerts + soft_host_down_alerts + soft_host_unreachable_alerts, hard_host_up_alerts + hard_host_down_alerts + hard_host_unreachable_alerts, soft_host_up_alerts + hard_host_up_alerts + soft_host_down_alerts + hard_host_down_alerts + soft_host_unreachable_alerts + hard_host_unreachable_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='hostUP'>稼働(UP)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_up_alerts, hard_host_up_alerts, soft_host_up_alerts + hard_host_up_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='hostDOWN'>停止(DOWN)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_host_down_alerts, hard_host_down_alerts, soft_host_down_alerts + hard_host_down_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='hostUNREACHABLE'>未到達(UNREACHABLE)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_host_unreachable_alerts, hard_host_unreachable_alerts, soft_host_unreachable_alerts + hard_host_unreachable_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='dataEven'>全て</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'><B>%d</B></TD></TR>\n", soft_host_up_alerts + soft_host_down_alerts + soft_host_unreachable_alerts, hard_host_up_alerts + hard_host_down_alerts + hard_host_unreachable_alerts, soft_host_up_alerts + hard_host_up_alerts + soft_host_down_alerts + hard_host_down_alerts + soft_host_unreachable_alerts + hard_host_unreachable_alerts);
 
 		printf("</TABLE>\n");
 		printf("</DIV>\n");
@@ -2413,17 +2421,17 @@ void display_specific_servicegroup_alert_totals(servicegroup *grp) {
 
 		printf("<TD ALIGN=CENTER VALIGN=TOP>\n");
 
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Service Alerts</DIV>\n");
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>サービス警報</DIV>\n");
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>State</TH><TH CLASS='data'>Soft Alerts</TH><TH CLASS='data'>Hard Alerts</TH><TH CLASS='data'>Total Alerts</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>状態</TH><TH CLASS='data'>ソフト警報</TH><TH CLASS='data'>ハード警報</TH><TH CLASS='data'>警報全体の状況</TH></TR>\n");
 
-		printf("<TR CLASS='dataOdd'><TD CLASS='serviceOK'>OK</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_ok_alerts, hard_service_ok_alerts, soft_service_ok_alerts + hard_service_ok_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='serviceWARNING'>WARNING</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_warning_alerts, hard_service_warning_alerts, soft_service_warning_alerts + hard_service_warning_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='serviceUNKNOWN'>UNKNOWN</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_unknown_alerts, hard_service_unknown_alerts, soft_service_unknown_alerts + hard_service_unknown_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='serviceCRITICAL'>CRITICAL</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_critical_alerts, hard_service_critical_alerts, soft_service_critical_alerts + hard_service_critical_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='dataOdd'>All States</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'><B>%d</B></TD></TR>\n", soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts, hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts, soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts + hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='serviceOK'>正常(OK)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_ok_alerts, hard_service_ok_alerts, soft_service_ok_alerts + hard_service_ok_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='serviceWARNING'>警告(WARNING)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_warning_alerts, hard_service_warning_alerts, soft_service_warning_alerts + hard_service_warning_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='serviceUNKNOWN'>不明(UNKNOWN)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_unknown_alerts, hard_service_unknown_alerts, soft_service_unknown_alerts + hard_service_unknown_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='serviceCRITICAL'>異常(CRITICAL)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_critical_alerts, hard_service_critical_alerts, soft_service_critical_alerts + hard_service_critical_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='dataOdd'>全て</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'><B>%d</B></TD></TR>\n", soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts, hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts, soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts + hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts);
 
 		printf("</TABLE>\n");
 		printf("</DIV>\n");
@@ -2452,7 +2460,7 @@ void display_service_alert_totals(void) {
 	printf("<BR>\n");
 
 	printf("<DIV ALIGN=CENTER>\n");
-	printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Totals By Service</DIV>\n");
+	printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>サービス毎の全体状況</DIV>\n");
 
 	for(temp_service = service_list; temp_service != NULL; temp_service = temp_service->next)
 		display_specific_service_alert_totals(temp_service);
@@ -2531,7 +2539,7 @@ void display_specific_service_alert_totals(service *svc) {
 	printf("<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=0 CLASS='reportDataEven'><TR><TD>\n");
 	printf("<TABLE BORDER=0>\n");
 
-	printf("<TR><TD COLSPAN=2 ALIGN=CENTER CLASS='dataSubTitle'>Service '%s' on Host '%s'</TD></TR>\n", svc->description, svc->host_name);
+	printf("<TR><TD COLSPAN=2 ALIGN=CENTER CLASS='dataSubTitle'>ホスト '%s' 上の '%s' サービス</TD></TR>\n", svc->host_name, svc->description);
 
 	printf("<TR>\n");
 
@@ -2539,17 +2547,17 @@ void display_specific_service_alert_totals(service *svc) {
 
 		printf("<TD ALIGN=CENTER VALIGN=TOP>\n");
 
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Service Alerts</DIV>\n");
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>サービス警報</DIV>\n");
 
 		printf("<DIV ALIGN=CENTER>\n");
 		printf("<TABLE BORDER=0 CLASS='data'>\n");
-		printf("<TR><TH CLASS='data'>State</TH><TH CLASS='data'>Soft Alerts</TH><TH CLASS='data'>Hard Alerts</TH><TH CLASS='data'>Total Alerts</TH></TR>\n");
+		printf("<TR><TH CLASS='data'>状態</TH><TH CLASS='data'>ソフト警報</TH><TH CLASS='data'>ハード警報</TH><TH CLASS='data'>警報全体の状況</TH></TR>\n");
 
-		printf("<TR CLASS='dataOdd'><TD CLASS='serviceOK'>OK</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_ok_alerts, hard_service_ok_alerts, soft_service_ok_alerts + hard_service_ok_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='serviceWARNING'>WARNING</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_warning_alerts, hard_service_warning_alerts, soft_service_warning_alerts + hard_service_warning_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='serviceUNKNOWN'>UNKNOWN</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_unknown_alerts, hard_service_unknown_alerts, soft_service_unknown_alerts + hard_service_unknown_alerts);
-		printf("<TR CLASS='dataEven'><TD CLASS='serviceCRITICAL'>CRITICAL</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_critical_alerts, hard_service_critical_alerts, soft_service_critical_alerts + hard_service_critical_alerts);
-		printf("<TR CLASS='dataOdd'><TD CLASS='dataOdd'>All States</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'><B>%d</B></TD></TR>\n", soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts, hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts, soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts + hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='serviceOK'>正常(OK)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_ok_alerts, hard_service_ok_alerts, soft_service_ok_alerts + hard_service_ok_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='serviceWARNING'>警告(WARNING)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_warning_alerts, hard_service_warning_alerts, soft_service_warning_alerts + hard_service_warning_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='serviceUNKNOWN'>不明(UNKNOWN)</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD></TR>\n", soft_service_unknown_alerts, hard_service_unknown_alerts, soft_service_unknown_alerts + hard_service_unknown_alerts);
+		printf("<TR CLASS='dataEven'><TD CLASS='serviceCRITICAL'>異常(CRITICAL)</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD><TD CLASS='dataEven'>%d</TD></TR>\n", soft_service_critical_alerts, hard_service_critical_alerts, soft_service_critical_alerts + hard_service_critical_alerts);
+		printf("<TR CLASS='dataOdd'><TD CLASS='dataOdd'>全て</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'>%d</TD><TD CLASS='dataOdd'><B>%d</B></TD></TR>\n", soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts, hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts, soft_service_ok_alerts + soft_service_warning_alerts + soft_service_unknown_alerts + soft_service_critical_alerts + hard_service_ok_alerts + hard_service_warning_alerts + hard_service_unknown_alerts + hard_service_critical_alerts);
 
 		printf("</TABLE>\n");
 		printf("</DIV>\n");
@@ -2717,13 +2725,13 @@ void display_top_alerts(void) {
 	printf("<BR>\n");
 
 	if(item_limit <= 0 || total_items <= item_limit || total_items == 0)
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Displaying all %d matching alert producers\n", total_items);
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>全 %d 件のマッチした警報発信元を表示しています\n", total_items);
 	else
-		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>Displaying top %d of %d total matching alert producers\n", item_limit, total_items);
+		printf("<DIV ALIGN=CENTER CLASS='dataSubTitle'>上位 %d / %d 件の警報発信元を表示しています\n", item_limit, total_items);
 
 	printf("<DIV ALIGN=CENTER>\n");
 	printf("<TABLE BORDER=0 CLASS='data'>\n");
-	printf("<TR><TH CLASS='data'>Rank</TH><TH CLASS='data'>Producer Type</TH><TH CLASS='data'>Host</TH><TH CLASS='data'>Service</TH><TH CLASS='data'>Total Alerts</TH></TR>\n");
+	printf("<TR><TH CLASS='data'>ランク</TH><TH CLASS='data'>警報の種類</TH><TH CLASS='data'>ホスト名</TH><TH CLASS='data'>サービス名</TH><TH CLASS='data'>警報全体の状況</TH></TR>\n");
 
 
 
@@ -2748,7 +2756,7 @@ void display_top_alerts(void) {
 
 		printf("<td CLASS='data%s'>#%d</td>", bgclass, current_item);
 
-		printf("<td CLASS='data%s'>%s</td>", bgclass, (temp_producer->producer_type == AE_HOST_PRODUCER) ? "Host" : "Service");
+		printf("<td CLASS='data%s'>%s</td>", bgclass, (temp_producer->producer_type == AE_HOST_PRODUCER) ? "ホスト" : "サービス");
 
 		printf("<td CLASS='data%s'><a href='%s?type=%d&host=%s'>%s</a></td>", bgclass, EXTINFO_CGI, DISPLAY_HOST_INFO, url_encode(temp_producer->host_name), temp_producer->host_name);
 

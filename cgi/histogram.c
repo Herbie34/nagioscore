@@ -119,11 +119,12 @@
 #define GRAPH_HARD_STATETYPES           2
 #define GRAPH_ALL_STATETYPES            3
 
-
+#define SMALL_FONT_SIZE                 10
 
 
 extern char main_config_file[MAX_FILENAME_LENGTH];
 extern char url_html_path[MAX_FILENAME_LENGTH];
+extern char ttf_file[MAX_FILENAME_LENGTH];
 extern char url_images_path[MAX_FILENAME_LENGTH];
 extern char url_stylesheets_path[MAX_FILENAME_LENGTH];
 extern char physical_images_path[MAX_FILENAME_LENGTH];
@@ -323,11 +324,11 @@ int main(int argc, char **argv) {
 		printf("<td align=left valign=top width=33%%>\n");
 
 		if(display_type == DISPLAY_HOST_HISTOGRAM)
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Host Alert Histogram");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "ホストの警報ヒストグラム");
 		else if(display_type == DISPLAY_SERVICE_HISTOGRAM)
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Service Alert Histogram");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "サービスの警報ヒストグラム");
 		else
-			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Host and Service Alert Histogram");
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "ホスト・サービスの警報ヒストグラム");
 		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
 		display_info_table(temp_buffer, FALSE, &current_authdata);
 
@@ -338,24 +339,24 @@ int main(int argc, char **argv) {
 
 			if(display_type == DISPLAY_HOST_HISTOGRAM) {
 #ifdef USE_TRENDS
-				printf("<a href='%s?host=%s&t1=%llu&t2=%llu&assumestateretention=%s'>View Trends For This Host</a><BR>\n", TRENDS_CGI, url_encode(host_name), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
+				printf("<a href='%s?host=%s&t1=%llu&t2=%llu&assumestateretention=%s'>このホストの傾向を見る</a><BR>\n", TRENDS_CGI, url_encode(host_name), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
 #endif
-				printf("<a href='%s?host=%s&t1=%llu&t2=%llu&assumestateretention=%s&show_log_entries'>View Availability Report For This Host</a><BR>\n", AVAIL_CGI, url_encode(host_name), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
-				printf("<a href='%s?host=%s'>View Status Detail For This Host</a><BR>\n", STATUS_CGI, url_encode(host_name));
-				printf("<a href='%s?host=%s'>View History For This Host</a><BR>\n", HISTORY_CGI, url_encode(host_name));
-				printf("<a href='%s?host=%s'>View Notifications For This Host</a><BR>\n", NOTIFICATIONS_CGI, url_encode(host_name));
+				printf("<a href='%s?host=%s&t1=%llu&t2=%llu&assumestateretention=%s&show_log_entries'>このホストの稼働レポートを表示</a><BR>\n", AVAIL_CGI, url_encode(host_name), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
+				printf("<a href='%s?host=%s'>このホストのステータス詳細を見る</a><BR>\n", STATUS_CGI, url_encode(host_name));
+				printf("<a href='%s?host=%s'>このホストの履歴を見る</a><BR>\n", HISTORY_CGI, url_encode(host_name));
+				printf("<a href='%s?host=%s'>このホストの通知履歴を見る</a><BR>\n", NOTIFICATIONS_CGI, url_encode(host_name));
 				}
 			else {
 #ifdef USE_TRENDS
 				printf("<a href='%s?host=%s", TRENDS_CGI, url_encode(host_name));
 #endif
-				printf("&service=%s&t1=%llu&t2=%llu&assumestateretention=%s'>View Trends For This Service</a><BR>\n", url_encode(svc_description), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
+				printf("&service=%s&t1=%llu&t2=%llu&assumestateretention=%s'>このサービスの傾向を見る</a><BR>\n", url_encode(svc_description), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
 				printf("<a href='%s?host=%s", AVAIL_CGI, url_encode(host_name));
-				printf("&service=%s&t1=%llu&t2=%llu&assumestateretention=%s&show_log_entries'>View Availability Report For This Service</a><BR>\n", url_encode(svc_description), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
+				printf("&service=%s&t1=%llu&t2=%llu&assumestateretention=%s&show_log_entries'>このサービスの稼働レポートを見る</a><BR>\n", url_encode(svc_description), (unsigned long long)t1, (unsigned long long)t2, (assume_state_retention == TRUE) ? "yes" : "no");
 				printf("<A HREF='%s?host=%s&", HISTORY_CGI, url_encode(host_name));
-				printf("service=%s'>View History For This Service</A><BR>\n", url_encode(svc_description));
+				printf("service=%s'>このサービスの履歴を見る</A><BR>\n", url_encode(svc_description));
 				printf("<A HREF='%s?host=%s&", NOTIFICATIONS_CGI, url_encode(host_name));
-				printf("service=%s'>View Notifications For This Service</A><BR>\n", url_encode(svc_description));
+				printf("service=%s'>このサービスの通知履歴を見る</A><BR>\n", url_encode(svc_description));
 				}
 
 			printf("</TD></TR>\n");
@@ -371,23 +372,23 @@ int main(int argc, char **argv) {
 
 			printf("<DIV ALIGN=CENTER CLASS='dataTitle'>\n");
 			if(display_type == DISPLAY_HOST_HISTOGRAM)
-				printf("Host '%s'", host_name);
+				printf("ホスト '%s'", host_name);
 			else if(display_type == DISPLAY_SERVICE_HISTOGRAM)
-				printf("Service '%s' On Host '%s'", svc_description, host_name);
+				printf("ホスト '%s' 上の '%s' サービス", host_name, svc_description);
 			printf("</DIV>\n");
 
 			printf("<BR>\n");
 
-			printf("<IMG SRC='%s%s' BORDER=0 ALT='%s Event Histogram' TITLE='%s Event Histogram'>\n", url_images_path, TRENDS_ICON, (display_type == DISPLAY_HOST_HISTOGRAM) ? "Host" : "Service", (display_type == DISPLAY_HOST_HISTOGRAM) ? "Host" : "Service");
+			printf("<IMG SRC='%s%s' BORDER=0 ALT='%sイベントヒストグラム' TITLE='%sイベントヒストグラム'>\n", url_images_path, TRENDS_ICON, (display_type == DISPLAY_HOST_HISTOGRAM) ? "ホスト" : "サービス", (display_type == DISPLAY_HOST_HISTOGRAM) ? "ホスト" : "サービス");
 
 			printf("<BR CLEAR=ALL>\n");
 
 			get_time_string(&t1, start_timestring, sizeof(start_timestring) - 1, SHORT_DATE_TIME);
 			get_time_string(&t2, end_timestring, sizeof(end_timestring) - 1, SHORT_DATE_TIME);
-			printf("<div align=center class='reportRange'>%s to %s</div>\n", start_timestring, end_timestring);
+			printf("<div align=center class='reportRange'>%s から %s</div>\n", start_timestring, end_timestring);
 
 			get_time_breakdown((time_t)(t2 - t1), &days, &hours, &minutes, &seconds);
-			printf("<div align=center class='reportDuration'>Duration: %dd %dh %dm %ds</div>\n", days, hours, minutes, seconds);
+			printf("<div align=center class='reportDuration'>期間: %d日間と %d時間 %d分 %d秒</div>\n", days, hours, minutes, seconds);
 			}
 
 		printf("</td>\n");
@@ -400,7 +401,7 @@ int main(int argc, char **argv) {
 
 		if(display_type != DISPLAY_NO_HISTOGRAM && input_type == GET_INPUT_NONE) {
 
-			printf("<tr><td CLASS='optBoxItem' valign=top align=left>Report period:</td><td CLASS='optBoxItem' valign=top align=left>Assume state retention:</td></tr>\n");
+			printf("<tr><td CLASS='optBoxItem' valign=top align=left>レポート期間:</td><td CLASS='optBoxItem' valign=top align=left>保存状態を考慮:</td></tr>\n");
 			printf("<tr><td CLASS='optBoxItem' valign=top align=left>\n");
 
 			printf("<input type='hidden' name='t1' value='%lu'>\n", (unsigned long)t1);
@@ -410,76 +411,76 @@ int main(int argc, char **argv) {
 				printf("<input type='hidden' name='service' value='%s'>\n", escape_string(svc_description));
 
 			printf("<select name='timeperiod'>\n");
-			printf("<option value=custom>[ Current time range ]\n");
-			printf("<option value=today %s>Today\n", (timeperiod_type == TIMEPERIOD_TODAY) ? "SELECTED" : "");
-			printf("<option value=last24hours %s>Last 24 Hours\n", (timeperiod_type == TIMEPERIOD_LAST24HOURS) ? "SELECTED" : "");
-			printf("<option value=yesterday %s>Yesterday\n", (timeperiod_type == TIMEPERIOD_YESTERDAY) ? "SELECTED" : "");
-			printf("<option value=thisweek %s>This Week\n", (timeperiod_type == TIMEPERIOD_THISWEEK) ? "SELECTED" : "");
-			printf("<option value=last7days %s>Last 7 Days\n", (timeperiod_type == TIMEPERIOD_LAST7DAYS) ? "SELECTED" : "");
-			printf("<option value=lastweek %s>Last Week\n", (timeperiod_type == TIMEPERIOD_LASTWEEK) ? "SELECTED" : "");
-			printf("<option value=thismonth %s>This Month\n", (timeperiod_type == TIMEPERIOD_THISMONTH) ? "SELECTED" : "");
-			printf("<option value=last31days %s>Last 31 Days\n", (timeperiod_type == TIMEPERIOD_LAST31DAYS) ? "SELECTED" : "");
-			printf("<option value=lastmonth %s>Last Month\n", (timeperiod_type == TIMEPERIOD_LASTMONTH) ? "SELECTED" : "");
-			printf("<option value=thisyear %s>This Year\n", (timeperiod_type == TIMEPERIOD_THISYEAR) ? "SELECTED" : "");
-			printf("<option value=lastyear %s>Last Year\n", (timeperiod_type == TIMEPERIOD_LASTYEAR) ? "SELECTED" : "");
+			printf("<option value=custom>[ 現在の期間 ]\n");
+			printf("<option value=today %s>今日\n", (timeperiod_type == TIMEPERIOD_TODAY) ? "SELECTED" : "");
+			printf("<option value=last24hours %s>過去24時間\n", (timeperiod_type == TIMEPERIOD_LAST24HOURS) ? "SELECTED" : "");
+			printf("<option value=yesterday %s>昨日\n", (timeperiod_type == TIMEPERIOD_YESTERDAY) ? "SELECTED" : "");
+			printf("<option value=thisweek %s>今週\n", (timeperiod_type == TIMEPERIOD_THISWEEK) ? "SELECTED" : "");
+			printf("<option value=last7days %s>過去7日間\n", (timeperiod_type == TIMEPERIOD_LAST7DAYS) ? "SELECTED" : "");
+			printf("<option value=lastweek %s>先週\n", (timeperiod_type == TIMEPERIOD_LASTWEEK) ? "SELECTED" : "");
+			printf("<option value=thismonth %s>今月\n", (timeperiod_type == TIMEPERIOD_THISMONTH) ? "SELECTED" : "");
+			printf("<option value=last31days %s>過去31日間\n", (timeperiod_type == TIMEPERIOD_LAST31DAYS) ? "SELECTED" : "");
+			printf("<option value=lastmonth %s>先月\n", (timeperiod_type == TIMEPERIOD_LASTMONTH) ? "SELECTED" : "");
+			printf("<option value=thisyear %s>今年\n", (timeperiod_type == TIMEPERIOD_THISYEAR) ? "SELECTED" : "");
+			printf("<option value=lastyear %s>去年\n", (timeperiod_type == TIMEPERIOD_LASTYEAR) ? "SELECTED" : "");
 			printf("</select>\n");
 			printf("</td><td CLASS='optBoxItem' valign=top align=left>\n");
 			printf("<select name='assumestateretention'>\n");
-			printf("<option value=yes %s>yes\n", (assume_state_retention == TRUE) ? "SELECTED" : "");
-			printf("<option value=no %s>no\n", (assume_state_retention == TRUE) ? "" : "SELECTED");
+			printf("<option value=yes %s>する\n", (assume_state_retention == TRUE) ? "SELECTED" : "");
+			printf("<option value=no %s>しない\n", (assume_state_retention == TRUE) ? "" : "SELECTED");
 			printf("</select>\n");
 			printf("</td></tr>\n");
 
-			printf("<tr><td CLASS='optBoxItem' valign=top align=left>Breakdown type:</td><td CLASS='optBoxItem' valign=top align=left>Initial states logged:</td></tr>\n");
+			printf("<tr><td CLASS='optBoxItem' valign=top align=left>表示区分:</td><td CLASS='optBoxItem' valign=top align=left>初期状態を考慮:</td></tr>\n");
 			printf("<tr><td CLASS='optBoxItem' valign=top align=left>\n");
 			printf("<select name='breakdown'>\n");
-			printf("<option value=monthly %s>Month\n", (breakdown_type == BREAKDOWN_MONTHLY) ? "SELECTED" : "");
-			printf("<option value=dayofmonth %s>Day of the Month\n", (breakdown_type == BREAKDOWN_DAY_OF_MONTH) ? "SELECTED" : "");
-			printf("<option value=dayofweek %s>Day of the Week\n", (breakdown_type == BREAKDOWN_DAY_OF_WEEK) ? "SELECTED" : "");
-			printf("<option value=hourly %s>Hour of the Day\n", (breakdown_type == BREAKDOWN_HOURLY) ? "SELECTED" : "");
+			printf("<option value=monthly %s>月別\n", (breakdown_type == BREAKDOWN_MONTHLY) ? "SELECTED" : "");
+			printf("<option value=dayofmonth %s>日別\n", (breakdown_type == BREAKDOWN_DAY_OF_MONTH) ? "SELECTED" : "");
+			printf("<option value=dayofweek %s>週別\n", (breakdown_type == BREAKDOWN_DAY_OF_WEEK) ? "SELECTED" : "");
+			printf("<option value=hourly %s>時間別\n", (breakdown_type == BREAKDOWN_HOURLY) ? "SELECTED" : "");
 			printf("</select>\n");
 			printf("</td><td CLASS='optBoxItem' valign=top align=left>\n");
 			printf("<select name='initialstateslogged'>\n");
-			printf("<option value=yes %s>yes\n", (initial_states_logged == TRUE) ? "SELECTED" : "");
-			printf("<option value=no %s>no\n", (initial_states_logged == TRUE) ? "" : "SELECTED");
+			printf("<option value=yes %s>する\n", (initial_states_logged == TRUE) ? "SELECTED" : "");
+			printf("<option value=no %s>しない\n", (initial_states_logged == TRUE) ? "" : "SELECTED");
 			printf("</select>\n");
 			printf("</td></tr>\n");
 
-			printf("<tr><td CLASS='optBoxItem' valign=top align=left>Events to graph:</td><td CLASS='optBoxItem' valign=top align=left>Ignore repeated states:</td></tr>\n");
+			printf("<tr><td CLASS='optBoxItem' valign=top align=left>グラフにするイベント:</td><td CLASS='optBoxItem' valign=top align=left>繰り返しを無視:</td></tr>\n");
 			printf("<tr><td CLASS='optBoxItem' valign=top align=left>\n");
 			printf("<select name='graphevents'>\n");
 			if(display_type == DISPLAY_HOST_HISTOGRAM) {
-				printf("<option value=%d %s>All host events\n", GRAPH_HOST_ALL, (graph_events == GRAPH_HOST_ALL) ? "SELECTED" : "");
-				printf("<option value=%d %s>Host problem events\n", GRAPH_HOST_PROBLEMS, (graph_events == GRAPH_HOST_PROBLEMS) ? "SELECTED" : "");
-				printf("<option value=%d %s>Host up events\n", GRAPH_HOST_UP, (graph_events == GRAPH_HOST_UP) ? "SELECTED" : "");
-				printf("<option value=%d %s>Host down events\n", GRAPH_HOST_DOWN, (graph_events == GRAPH_HOST_DOWN) ? "SELECTED" : "");
-				printf("<option value=%d %s>Host unreachable events\n", GRAPH_HOST_UNREACHABLE, (graph_events == GRAPH_HOST_UNREACHABLE) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの全てのイベント\n", GRAPH_HOST_ALL, (graph_events == GRAPH_HOST_ALL) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの障害状態\n", GRAPH_HOST_PROBLEMS, (graph_events == GRAPH_HOST_PROBLEMS) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの稼働状態(UP)\n", GRAPH_HOST_UP, (graph_events == GRAPH_HOST_UP) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの停止状態(DOWN)\n", GRAPH_HOST_DOWN, (graph_events == GRAPH_HOST_DOWN) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの未到達状態(UNREACHABLE)\n", GRAPH_HOST_UNREACHABLE, (graph_events == GRAPH_HOST_UNREACHABLE) ? "SELECTED" : "");
 				}
 			else {
-				printf("<option value=%d %s>All service events\n", GRAPH_SERVICE_ALL, (graph_events == GRAPH_SERVICE_ALL) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service problem events\n", GRAPH_SERVICE_PROBLEMS, (graph_events == GRAPH_SERVICE_PROBLEMS) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service ok events\n", GRAPH_SERVICE_OK, (graph_events == GRAPH_SERVICE_OK) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service warning events\n", GRAPH_SERVICE_WARNING, (graph_events == GRAPH_SERVICE_WARNING) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service unknown events\n", GRAPH_SERVICE_UNKNOWN, (graph_events == GRAPH_SERVICE_UNKNOWN) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service critical events\n", GRAPH_SERVICE_CRITICAL, (graph_events == GRAPH_SERVICE_CRITICAL) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの全てのイベント\n", GRAPH_SERVICE_ALL, (graph_events == GRAPH_SERVICE_ALL) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの障害状態\n", GRAPH_SERVICE_PROBLEMS, (graph_events == GRAPH_SERVICE_PROBLEMS) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの正常状態(OK)\n", GRAPH_SERVICE_OK, (graph_events == GRAPH_SERVICE_OK) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの警告状態(WARNING)\n", GRAPH_SERVICE_WARNING, (graph_events == GRAPH_SERVICE_WARNING) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの不明状態(UNKNOWN)\n", GRAPH_SERVICE_UNKNOWN, (graph_events == GRAPH_SERVICE_UNKNOWN) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの異常状態(CRITICAL)\n", GRAPH_SERVICE_CRITICAL, (graph_events == GRAPH_SERVICE_CRITICAL) ? "SELECTED" : "");
 				}
 			printf("</select>\n");
 			printf("</td><td CLASS='optBoxItem' valign=top align=left>\n");
 			printf("<select name='newstatesonly'>\n");
-			printf("<option value=yes %s>yes\n", (new_states_only == TRUE) ? "SELECTED" : "");
-			printf("<option value=no %s>no\n", (new_states_only == TRUE) ? "" : "SELECTED");
+			printf("<option value=yes %s>する\n", (new_states_only == TRUE) ? "SELECTED" : "");
+			printf("<option value=no %s>しない\n", (new_states_only == TRUE) ? "" : "SELECTED");
 			printf("</select>\n");
 			printf("</td></tr>\n");
 
-			printf("<tr><td CLASS='optBoxItem' valign=top align=left>State types to graph:</td><td CLASS='optBoxItem' valign=top align=left></td></tr>\n");
+			printf("<tr><td CLASS='optBoxItem' valign=top align=left>グラフにするステータスタイプ:</td><td CLASS='optBoxItem' valign=top align=left></td></tr>\n");
 			printf("<tr><td CLASS='optBoxItem' valign=top align=left>\n");
 			printf("<select name='graphstatetypes'>\n");
-			printf("<option value=%d %s>Hard states\n", GRAPH_HARD_STATETYPES, (graph_statetypes == GRAPH_HARD_STATETYPES) ? "SELECTED" : "");
-			printf("<option value=%d %s>Soft states\n", GRAPH_SOFT_STATETYPES, (graph_statetypes == GRAPH_SOFT_STATETYPES) ? "SELECTED" : "");
-			printf("<option value=%d %s>Hard and soft states\n", GRAPH_ALL_STATETYPES, (graph_statetypes == GRAPH_ALL_STATETYPES) ? "SELECTED" : "");
+			printf("<option value=%d %s>ハード\n", GRAPH_HARD_STATETYPES, (graph_statetypes == GRAPH_HARD_STATETYPES) ? "SELECTED" : "");
+			printf("<option value=%d %s>ソフト\n", GRAPH_SOFT_STATETYPES, (graph_statetypes == GRAPH_SOFT_STATETYPES) ? "SELECTED" : "");
+			printf("<option value=%d %s>ハードおよびソフト\n", GRAPH_ALL_STATETYPES, (graph_statetypes == GRAPH_ALL_STATETYPES) ? "SELECTED" : "");
 			printf("</select>\n");
 			printf("</td><td CLASS='optBoxItem' valign=top align=left>\n");
-			printf("<input type='submit' value='Update'>\n");
+			printf("<input type='submit' value='更新'>\n");
 			printf("</td></tr>\n");
 			}
 
@@ -529,7 +530,7 @@ int main(int argc, char **argv) {
 	if(is_authorized == FALSE) {
 
 		if(mode == CREATE_HTML)
-			printf("<P><DIV ALIGN=CENTER CLASS='errorMessage'>It appears as though you are not authorized to view information for the specified %s...</DIV></P>\n", (display_type == DISPLAY_HOST_HISTOGRAM) ? "host" : "service");
+			printf("<P><DIV ALIGN=CENTER CLASS='errorMessage'>%sの情報を見る権限がありません</DIV></P>\n", (display_type == DISPLAY_HOST_HISTOGRAM) ? "ホスト" : "サービス");
 
 		document_footer();
 		free_memory();
@@ -597,7 +598,7 @@ int main(int argc, char **argv) {
 			read_archived_state_data();
 
 #ifdef DEBUG
-			printf("Done reading archived state data.\n");
+			printf("アーカイブされた状態情報を読み込みました。\n");
 #endif
 
 			/* location of image template */
@@ -614,7 +615,7 @@ int main(int argc, char **argv) {
 				histogram_image = gdImageCreate(image_width, image_height);
 			if(histogram_image == NULL) {
 #ifdef DEBUG
-				printf("Error: Could not allocate memory for image\n");
+				printf("エラー: 画像を表示するためのメモリの割り当てが出来ませんでした\n");
 #endif
 				return ERROR;
 				}
@@ -636,14 +637,14 @@ int main(int argc, char **argv) {
 			gdImageInterlace(histogram_image, 1);
 
 #ifdef DEBUG
-			printf("Starting to graph data...\n");
+			printf("データをグラフ化しています...\n");
 #endif
 
 			/* graph archived state histogram data */
 			graph_all_histogram_data();
 
 #ifdef DEBUG
-			printf("Done graphing data.\n");
+			printf("完了しました。\n");
 #endif
 
 			/* use STDOUT for writing the image data... */
@@ -676,7 +677,7 @@ int main(int argc, char **argv) {
 		if(input_type == GET_INPUT_HOST_TARGET) {
 
 			printf("<P><DIV ALIGN=CENTER>\n");
-			printf("<DIV CLASS='reportSelectTitle'>Step 2: Select Host</DIV>\n");
+			printf("<DIV CLASS='reportSelectTitle'>ステップ2: ホストの選択</DIV>\n");
 			printf("</DIV></P>\n");
 
 			printf("<P><DIV ALIGN=CENTER>\n");
@@ -685,7 +686,7 @@ int main(int argc, char **argv) {
 			printf("<input type='hidden' name='input' value='getoptions'>\n");
 
 			printf("<TABLE BORDER=0 cellspacing=0 cellpadding=10>\n");
-			printf("<tr><td class='reportSelectSubTitle' valign=center>Host:</td>\n");
+			printf("<tr><td class='reportSelectSubTitle' valign=center>ホスト:</td>\n");
 			printf("<td class='reportSelectItem' valign=center>\n");
 			printf("<select name='host'>\n");
 
@@ -698,7 +699,7 @@ int main(int argc, char **argv) {
 			printf("</td></tr>\n");
 
 			printf("<tr><td></td><td class='reportSelectItem'>\n");
-			printf("<input type='submit' value='Continue to Step 3'>\n");
+			printf("<input type='submit' value='ステップ3へ'>\n");
 			printf("</td></tr>\n");
 
 			printf("</TABLE>\n");
@@ -732,7 +733,7 @@ int main(int argc, char **argv) {
 
 
 			printf("<P><DIV ALIGN=CENTER>\n");
-			printf("<DIV CLASS='reportSelectTitle'>Step 2: Select Service</DIV>\n");
+			printf("<DIV CLASS='reportSelectTitle'>ステップ2: サービスの選択</DIV>\n");
 			printf("</DIV></P>\n");
 
 			printf("<P><DIV ALIGN=CENTER>\n");
@@ -742,7 +743,7 @@ int main(int argc, char **argv) {
 			printf("<input type='hidden' name='host' value='%s'>\n", (first_service == NULL) ? "unknown" : (char *)escape_string(first_service));
 
 			printf("<TABLE BORDER=0 cellpadding=5>\n");
-			printf("<tr><td class='reportSelectSubTitle'>Service:</td>\n");
+			printf("<tr><td class='reportSelectSubTitle'>サービス:</td>\n");
 			printf("<td class='reportSelectItem'>\n");
 			printf("<select name='service' onFocus='document.serviceform.host.value=gethostname(this.selectedIndex);' onChange='document.serviceform.host.value=gethostname(this.selectedIndex);'>\n");
 
@@ -755,7 +756,7 @@ int main(int argc, char **argv) {
 			printf("</td></tr>\n");
 
 			printf("<tr><td></td><td class='reportSelectItem'>\n");
-			printf("<input type='submit' value='Continue to Step 3'>\n");
+			printf("<input type='submit' value='ステップ3へ'>\n");
 			printf("</td></tr>\n");
 
 			printf("</TABLE>\n");
@@ -776,7 +777,7 @@ int main(int argc, char **argv) {
 			end_year = t->tm_year + 1900;
 
 			printf("<P><DIV ALIGN=CENTER>\n");
-			printf("<DIV CLASS='reportSelectTitle'>Step 3: Select Report Options</DIV>\n");
+			printf("<DIV CLASS='reportSelectTitle'>ステップ3: レポートオプションの選択</DIV>\n");
 			printf("</DIV></P>\n");
 
 			printf("<P><DIV ALIGN=CENTER>\n");
@@ -787,45 +788,48 @@ int main(int argc, char **argv) {
 				printf("<input type='hidden' name='service' value='%s'>\n", escape_string(svc_description));
 
 			printf("<TABLE BORDER=0 cellpadding=5>\n");
-			printf("<tr><td class='reportSelectSubTitle' align=right>Report Period:</td>\n");
+			printf("<tr><td class='reportSelectSubTitle' align=right>レポート期間:</td>\n");
 			printf("<td class='reportSelectItem'>\n");
 			printf("<select name='timeperiod'>\n");
-			printf("<option value=today>Today\n");
-			printf("<option value=last24hours>Last 24 Hours\n");
-			printf("<option value=yesterday>Yesterday\n");
-			printf("<option value=thisweek>This Week\n");
-			printf("<option value=last7days SELECTED>Last 7 Days\n");
-			printf("<option value=lastweek>Last Week\n");
-			printf("<option value=thismonth>This Month\n");
-			printf("<option value=last31days>Last 31 Days\n");
-			printf("<option value=lastmonth>Last Month\n");
-			printf("<option value=thisyear>This Year\n");
-			printf("<option value=lastyear>Last Year\n");
-			printf("<option value=custom>* CUSTOM REPORT PERIOD *\n");
+			printf("<option value=today>今日\n");
+			printf("<option value=last24hours>過去24時間\n");
+			printf("<option value=yesterday>昨日\n");
+			printf("<option value=thisweek>今週\n");
+			printf("<option value=last7days SELECTED>過去7日間\n");
+			printf("<option value=lastweek>先週\n");
+			printf("<option value=thismonth>今月\n");
+			printf("<option value=last31days>過去31日間\n");
+			printf("<option value=lastmonth>先月\n");
+			printf("<option value=thisyear>今年\n");
+			printf("<option value=lastyear>去年\n");
+			printf("<option value=custom>* カスタム期間設定 *\n");
 			printf("</select>\n");
 			printf("</td></tr>\n");
 
-			printf("<tr><td valign=top class='reportSelectSubTitle'>If Custom Report Period...</td></tr>\n");
+			printf("<tr><td valign=top class='reportSelectSubTitle'>期間をカスタマイズ...</td></tr>\n");
 
 			printf("<tr>");
-			printf("<td valign=top class='reportSelectSubTitle'>Start Date (Inclusive):</td>\n");
+			printf("<td valign=top class='reportSelectSubTitle'>開始日(指定日を含む):</td>\n");
 			printf("<td align=left valign=top class='reportSelectItem'>");
-			printf("<select name='smon'>\n");
-			printf("<option value='1' %s>January\n", (t->tm_mon == 0) ? "SELECTED" : "");
-			printf("<option value='2' %s>February\n", (t->tm_mon == 1) ? "SELECTED" : "");
-			printf("<option value='3' %s>March\n", (t->tm_mon == 2) ? "SELECTED" : "");
-			printf("<option value='4' %s>April\n", (t->tm_mon == 3) ? "SELECTED" : "");
-			printf("<option value='5' %s>May\n", (t->tm_mon == 4) ? "SELECTED" : "");
-			printf("<option value='6' %s>June\n", (t->tm_mon == 5) ? "SELECTED" : "");
-			printf("<option value='7' %s>July\n", (t->tm_mon == 6) ? "SELECTED" : "");
-			printf("<option value='8' %s>August\n", (t->tm_mon == 7) ? "SELECTED" : "");
-			printf("<option value='9' %s>September\n", (t->tm_mon == 8) ? "SELECTED" : "");
-			printf("<option value='10' %s>October\n", (t->tm_mon == 9) ? "SELECTED" : "");
-			printf("<option value='11' %s>November\n", (t->tm_mon == 10) ? "SELECTED" : "");
-			printf("<option value='12' %s>December\n", (t->tm_mon == 11) ? "SELECTED" : "");
-			printf("</select>\n ");
-			printf("<input type='text' size='2' maxlength='2' name='sday' value='%d'> ", start_day);
 			printf("<input type='text' size='4' maxlength='4' name='syear' value='%d'>", start_year);
+			printf("年");
+			printf("<select name='smon'>\n");
+			printf("<option value='1' %s>1\n", (t->tm_mon == 0) ? "SELECTED" : "");
+			printf("<option value='2' %s>2\n", (t->tm_mon == 1) ? "SELECTED" : "");
+			printf("<option value='3' %s>3\n", (t->tm_mon == 2) ? "SELECTED" : "");
+			printf("<option value='4' %s>4\n", (t->tm_mon == 3) ? "SELECTED" : "");
+			printf("<option value='5' %s>5\n", (t->tm_mon == 4) ? "SELECTED" : "");
+			printf("<option value='6' %s>6\n", (t->tm_mon == 5) ? "SELECTED" : "");
+			printf("<option value='7' %s>7\n", (t->tm_mon == 6) ? "SELECTED" : "");
+			printf("<option value='8' %s>8\n", (t->tm_mon == 7) ? "SELECTED" : "");
+			printf("<option value='9' %s>9\n", (t->tm_mon == 8) ? "SELECTED" : "");
+			printf("<option value='10' %s>10\n", (t->tm_mon == 9) ? "SELECTED" : "");
+			printf("<option value='11' %s>11\n", (t->tm_mon == 10) ? "SELECTED" : "");
+			printf("<option value='12' %s>12\n", (t->tm_mon == 11) ? "SELECTED" : "");
+			printf("</select>\n ");
+			printf("月");
+			printf("<input type='text' size='2' maxlength='2' name='sday' value='%d'> ", start_day);
+			printf("日");
 			printf("<input type='hidden' name='shour' value='0'>\n");
 			printf("<input type='hidden' name='smin' value='0'>\n");
 			printf("<input type='hidden' name='ssec' value='0'>\n");
@@ -833,24 +837,27 @@ int main(int argc, char **argv) {
 			printf("</tr>\n");
 
 			printf("<tr>");
-			printf("<td valign=top class='reportSelectSubTitle'>End Date (Inclusive):</td>\n");
+			printf("<td valign=top class='reportSelectSubTitle'>終了日(指定日を含む):</td>\n");
 			printf("<td align=left valign=top class='reportSelectItem'>");
-			printf("<select name='emon'>\n");
-			printf("<option value='1' %s>January\n", (t->tm_mon == 0) ? "SELECTED" : "");
-			printf("<option value='2' %s>February\n", (t->tm_mon == 1) ? "SELECTED" : "");
-			printf("<option value='3' %s>March\n", (t->tm_mon == 2) ? "SELECTED" : "");
-			printf("<option value='4' %s>April\n", (t->tm_mon == 3) ? "SELECTED" : "");
-			printf("<option value='5' %s>May\n", (t->tm_mon == 4) ? "SELECTED" : "");
-			printf("<option value='6' %s>June\n", (t->tm_mon == 5) ? "SELECTED" : "");
-			printf("<option value='7' %s>July\n", (t->tm_mon == 6) ? "SELECTED" : "");
-			printf("<option value='8' %s>August\n", (t->tm_mon == 7) ? "SELECTED" : "");
-			printf("<option value='9' %s>September\n", (t->tm_mon == 8) ? "SELECTED" : "");
-			printf("<option value='10' %s>October\n", (t->tm_mon == 9) ? "SELECTED" : "");
-			printf("<option value='11' %s>November\n", (t->tm_mon == 10) ? "SELECTED" : "");
-			printf("<option value='12' %s>December\n", (t->tm_mon == 11) ? "SELECTED" : "");
-			printf("</select>\n ");
-			printf("<input type='text' size='2' maxlength='2' name='eday' value='%d'> ", end_day);
 			printf("<input type='text' size='4' maxlength='4' name='eyear' value='%d'>", end_year);
+			printf("年");
+			printf("<select name='emon'>\n");
+			printf("<option value='1' %s>1\n", (t->tm_mon == 0) ? "SELECTED" : "");
+			printf("<option value='2' %s>2\n", (t->tm_mon == 1) ? "SELECTED" : "");
+			printf("<option value='3' %s>3\n", (t->tm_mon == 2) ? "SELECTED" : "");
+			printf("<option value='4' %s>4\n", (t->tm_mon == 3) ? "SELECTED" : "");
+			printf("<option value='5' %s>5\n", (t->tm_mon == 4) ? "SELECTED" : "");
+			printf("<option value='6' %s>6\n", (t->tm_mon == 5) ? "SELECTED" : "");
+			printf("<option value='7' %s>7\n", (t->tm_mon == 6) ? "SELECTED" : "");
+			printf("<option value='8' %s>8\n", (t->tm_mon == 7) ? "SELECTED" : "");
+			printf("<option value='9' %s>9\n", (t->tm_mon == 8) ? "SELECTED" : "");
+			printf("<option value='10' %s>10\n", (t->tm_mon == 9) ? "SELECTED" : "");
+			printf("<option value='11' %s>11\n", (t->tm_mon == 10) ? "SELECTED" : "");
+			printf("<option value='12' %s>12\n", (t->tm_mon == 11) ? "SELECTED" : "");
+			printf("</select>\n ");
+			printf("月");
+			printf("<input type='text' size='2' maxlength='2' name='eday' value='%d'> ", end_day);
+			printf("日");
 			printf("<input type='hidden' name='ehour' value='24'>\n");
 			printf("<input type='hidden' name='emin' value='0'>\n");
 			printf("<input type='hidden' name='esec' value='0'>\n");
@@ -859,71 +866,71 @@ int main(int argc, char **argv) {
 
 			printf("<tr><td colspan=2><br></td></tr>\n");
 
-			printf("<tr><td class='reportSelectSubTitle' align=right>Statistics Breakdown:</td>\n");
+			printf("<tr><td class='reportSelectSubTitle' align=right>表示区分:</td>\n");
 			printf("<td class='reportSelectItem'>\n");
 			printf("<select name='breakdown'>\n");
-			printf("<option value=monthly>Month\n");
-			printf("<option value=dayofmonth SELECTED>Day of the Month\n");
-			printf("<option value=dayofweek>Day of the Week\n");
-			printf("<option value=hourly>Hour of the Day\n");
+			printf("<option value=monthly>月別\n");
+			printf("<option value=dayofmonth SELECTED>日別\n");
+			printf("<option value=dayofweek>週別\n");
+			printf("<option value=hourly>時間別\n");
 			printf("</select>\n");
 			printf("</td></tr>\n");
 
-			printf("<tr><td class='reportSelectSubTitle' align=right>Events To Graph:</td>\n");
+			printf("<tr><td class='reportSelectSubTitle' align=right>グラフにするイベント:</td>\n");
 			printf("<td class='reportSelectItem'>\n");
 			printf("<select name='graphevents'>\n");
 			if(display_type == DISPLAY_HOST_HISTOGRAM) {
-				printf("<option value=%d %s>All host events\n", GRAPH_HOST_ALL, (graph_events == GRAPH_HOST_ALL) ? "SELECTED" : "");
-				printf("<option value=%d %s>Host problem events\n", GRAPH_HOST_PROBLEMS, (graph_events == GRAPH_HOST_PROBLEMS) ? "SELECTED" : "");
-				printf("<option value=%d %s>Host up events\n", GRAPH_HOST_UP, (graph_events == GRAPH_HOST_UP) ? "SELECTED" : "");
-				printf("<option value=%d %s>Host down events\n", GRAPH_HOST_DOWN, (graph_events == GRAPH_HOST_DOWN) ? "SELECTED" : "");
-				printf("<option value=%d %s>Host unreachable events\n", GRAPH_HOST_UNREACHABLE, (graph_events == GRAPH_HOST_UNREACHABLE) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの全てのイベント\n", GRAPH_HOST_ALL, (graph_events == GRAPH_HOST_ALL) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの障害状態\n", GRAPH_HOST_PROBLEMS, (graph_events == GRAPH_HOST_PROBLEMS) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの稼働状態(UP)\n", GRAPH_HOST_UP, (graph_events == GRAPH_HOST_UP) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの停止状態(DOWN)\n", GRAPH_HOST_DOWN, (graph_events == GRAPH_HOST_DOWN) ? "SELECTED" : "");
+				printf("<option value=%d %s>ホストの未到達状態(UNREACHABLE)\n", GRAPH_HOST_UNREACHABLE, (graph_events == GRAPH_HOST_UNREACHABLE) ? "SELECTED" : "");
 				}
 			else {
-				printf("<option value=%d %s>All service events\n", GRAPH_SERVICE_ALL, (graph_events == GRAPH_SERVICE_ALL) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service problem events\n", GRAPH_SERVICE_PROBLEMS, (graph_events == GRAPH_SERVICE_PROBLEMS) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service ok events\n", GRAPH_SERVICE_OK, (graph_events == GRAPH_SERVICE_OK) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service warning events\n", GRAPH_SERVICE_WARNING, (graph_events == GRAPH_SERVICE_WARNING) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service unknown events\n", GRAPH_SERVICE_UNKNOWN, (graph_events == GRAPH_SERVICE_UNKNOWN) ? "SELECTED" : "");
-				printf("<option value=%d %s>Service critical events\n", GRAPH_SERVICE_CRITICAL, (graph_events == GRAPH_SERVICE_CRITICAL) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの全てのイベント\n", GRAPH_SERVICE_ALL, (graph_events == GRAPH_SERVICE_ALL) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの障害状態\n", GRAPH_SERVICE_PROBLEMS, (graph_events == GRAPH_SERVICE_PROBLEMS) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの正常状態(OK)\n", GRAPH_SERVICE_OK, (graph_events == GRAPH_SERVICE_OK) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの警告状態(WARNING)\n", GRAPH_SERVICE_WARNING, (graph_events == GRAPH_SERVICE_WARNING) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの不明状態(UNKNOWN)\n", GRAPH_SERVICE_UNKNOWN, (graph_events == GRAPH_SERVICE_UNKNOWN) ? "SELECTED" : "");
+				printf("<option value=%d %s>サービスの異常状態(CRITICAL)\n", GRAPH_SERVICE_CRITICAL, (graph_events == GRAPH_SERVICE_CRITICAL) ? "SELECTED" : "");
 				}
 			printf("</select>\n");
 			printf("</td></tr>\n");
 
-			printf("<tr><td class='reportSelectSubTitle' align=right>State Types To Graph:</td>\n");
+			printf("<tr><td class='reportSelectSubTitle' align=right>グラフにするステータスタイプ:</td>\n");
 			printf("<td class='reportSelectItem'>\n");
 			printf("<select name='graphstatetypes'>\n");
-			printf("<option value=%d>Hard states\n", GRAPH_HARD_STATETYPES);
-			printf("<option value=%d>Soft states\n", GRAPH_SOFT_STATETYPES);
-			printf("<option value=%d SELECTED>Hard and soft states\n", GRAPH_ALL_STATETYPES);
+			printf("<option value=%d>ハード\n", GRAPH_HARD_STATETYPES);
+			printf("<option value=%d>ソフト\n", GRAPH_SOFT_STATETYPES);
+			printf("<option value=%d SELECTED>ハードおよびソフト\n", GRAPH_ALL_STATETYPES);
 			printf("</select>\n");
 			printf("</td></tr>\n");
 
-			printf("<tr><td class='reportSelectSubTitle' align=right>Assume State Retention:</td>\n");
+			printf("<tr><td class='reportSelectSubTitle' align=right>保存状態を考慮:</td>\n");
 			printf("<td class='reportSelectItem'>\n");
 			printf("<select name='assumestateretention'>\n");
-			printf("<option value='yes'>Yes\n");
-			printf("<option value='no'>No\n");
+			printf("<option value='yes'>する\n");
+			printf("<option value='no'>しない\n");
 			printf("</select>\n");
 			printf("</td></tr>\n");
 
-			printf("<tr><td class='reportSelectSubTitle' align=right>Initial States Logged:</td>\n");
+			printf("<tr><td class='reportSelectSubTitle' align=right>初期状態を考慮:</td>\n");
 			printf("<td class='reportSelectItem'>\n");
 			printf("<select name='initialstateslogged'>\n");
-			printf("<option value='yes'>Yes\n");
-			printf("<option value='no' SELECTED>No\n");
+			printf("<option value='yes'>する\n");
+			printf("<option value='no' SELECTED>しない\n");
 			printf("</select>\n");
 			printf("</td></tr>\n");
 
-			printf("<tr><td class='reportSelectSubTitle' align=right>Ignore Repeated States:</td>\n");
+			printf("<tr><td class='reportSelectSubTitle' align=right>繰り返しを無視:</td>\n");
 			printf("<td class='reportSelectItem'>\n");
 			printf("<select name='newstatesonly'>\n");
-			printf("<option value='yes'>Yes\n");
-			printf("<option value='no' SELECTED>No\n");
+			printf("<option value='yes'>する\n");
+			printf("<option value='no' SELECTED>しない\n");
 			printf("</select>\n");
 			printf("</td></tr>\n");
 
-			printf("<tr><td></td><td class='reportSelectItem'><input type='submit' value='Create Report'></td></tr>\n");
+			printf("<tr><td></td><td class='reportSelectItem'><input type='submit' value='レポートを作成'></td></tr>\n");
 
 			printf("</TABLE>\n");
 			printf("</form>\n");
@@ -934,23 +941,23 @@ int main(int argc, char **argv) {
 		/* as the user whether they want a graph for a host or service */
 		else {
 			printf("<P><DIV ALIGN=CENTER>\n");
-			printf("<DIV CLASS='reportSelectTitle'>Step 1: Select Report Type</DIV>\n");
+			printf("<DIV CLASS='reportSelectTitle'>ステップ1: レポートタイプ選択</DIV>\n");
 			printf("</DIV></P>\n");
 
 			printf("<P><DIV ALIGN=CENTER>\n");
 
 			printf("<form method=\"GET\" action=\"%s\">\n", HISTOGRAM_CGI);
 			printf("<TABLE BORDER=0 cellpadding=5>\n");
-			printf("<tr><td class='reportSelectSubTitle' align=right>Type:</td>\n");
+			printf("<tr><td class='reportSelectSubTitle' align=right>種類:</td>\n");
 			printf("<td class='reportSelectItem'>\n");
 			printf("<select name='input'>\n");
-			printf("<option value=gethost>Host\n");
-			printf("<option value=getservice>Service\n");
+			printf("<option value=gethost>ホスト\n");
+			printf("<option value=getservice>サービス\n");
 			printf("</select>\n");
 			printf("</td></tr>\n");
 
 			printf("<tr><td></td><td class='reportSelectItem'>\n");
-			printf("<input type='submit' value='Continue to Step 2'>\n");
+			printf("<input type='submit' value='ステップ2へ'>\n");
 			printf("</td></tr>\n");
 
 			printf("</TABLE>\n");
@@ -994,6 +1001,7 @@ void document_header(int use_stylesheet) {
 
 		printf("<html>\n");
 		printf("<head>\n");
+		printf("<meta http-equiv='content-type' content='text/html;charset=UTF-8'>\n");
 		printf("<link rel=\"shortcut icon\" href=\"%sfavicon.ico\" type=\"image/ico\">\n", url_images_path);
 		printf("<title>\n");
 		printf("Nagios Histogram\n");
@@ -1077,7 +1085,7 @@ int process_cgivars(void) {
 
 			if((host_name = (char *)strdup(variables[x])) == NULL)
 				host_name = "";
-			strip_html_brackets(host_name);
+			strip_html_brackets(host_name); /* XXX: old patch: replaced with "else" */
 
 			display_type = DISPLAY_HOST_HISTOGRAM;
 			}
@@ -1514,10 +1522,10 @@ void graph_all_histogram_data(void) {
 	char temp_buffer[MAX_INPUT_BUFFER];
 	int string_width;
 	int string_height;
-	char *days[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-	char *months[12] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-	char start_time[32]; // ctime
-	char end_time[32]; // ctime
+	char *days[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+	char *months[12] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+	char start_time[MAX_INPUT_BUFFER];
+	char end_time[MAX_INPUT_BUFFER];
 
 	unsigned long state1_max = 0L;
 	unsigned long state1_min = 0L;
@@ -1540,9 +1548,10 @@ void graph_all_histogram_data(void) {
 	unsigned long state4_sum = 0L;
 	double state4_avg = 0.0;
 
+	int brect[8];
 
 #ifdef DEBUG
-	printf("Total Buckets: %d\n", total_buckets);
+	printf("合計バケット: %d\n", total_buckets);
 #endif
 
 	/* determine max value in the buckets (for scaling) */
@@ -1664,48 +1673,99 @@ void graph_all_histogram_data(void) {
 		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
 		string_width = gdFontSmall->w * strlen(temp_buffer);
 
-		gdImageStringUp(histogram_image, gdFontSmall, DRAWING_X_OFFSET + (current_unit * x_units) - (string_height / 2), DRAWING_Y_OFFSET + 5 + string_width, (unsigned char *)temp_buffer, color_black);
+		if( (breakdown_type == BREAKDOWN_MONTHLY) || (breakdown_type == BREAKDOWN_DAY_OF_MONTH) || (breakdown_type == BREAKDOWN_DAY_OF_WEEK) ) {
+			gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + (current_unit * x_units) - (string_width / 2), DRAWING_Y_OFFSET + 5, (unsigned char *)temp_buffer, color_black); //EDIT
+		} else {
+			gdImageStringUp(histogram_image, gdFontSmall, DRAWING_X_OFFSET + (current_unit * x_units) - (string_height / 2), DRAWING_Y_OFFSET + 5 + string_width, (unsigned char *)temp_buffer, color_black);
+		}
 		}
 
 	/* draw y unit measure */
-	snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Number of Events");
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageStringUp(histogram_image, gdFontSmall, 0, DRAWING_Y_OFFSET - (DRAWING_HEIGHT / 2) + (string_width / 2), (unsigned char *)temp_buffer, color_black);
+	if( (strlen(ttf_file) > 5) && (access(ttf_file, F_OK) == 0) ) {
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "回");
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageStringFT(histogram_image, &brect[0], color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET - (string_width * 4), DRAWING_Y_OFFSET - (DRAWING_HEIGHT / 2) - 15, (char *)temp_buffer);
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "数");
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageStringFT(histogram_image, &brect[0], color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET - (string_width * 4), DRAWING_Y_OFFSET - (DRAWING_HEIGHT / 2) + 5, (char *)temp_buffer);
+	} else {
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "イベント数");
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageStringUp(histogram_image, gdFontSmall, 0, DRAWING_Y_OFFSET - (DRAWING_HEIGHT / 2) + (string_width / 2), (unsigned char *)temp_buffer, color_black);
+	}
 
 	/* draw x unit measure */
-	if(breakdown_type == BREAKDOWN_MONTHLY)
-		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Month");
-	else if(breakdown_type == BREAKDOWN_DAY_OF_MONTH)
-		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Day of the Month");
-	else if(breakdown_type == BREAKDOWN_DAY_OF_WEEK)
-		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Day of the Week");
-	else
-		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Hour of the Day (15 minute increments)");
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + (DRAWING_WIDTH / 2) - (string_width / 2), DRAWING_Y_OFFSET + 70, (unsigned char *)temp_buffer, color_black);
+	if( (strlen(ttf_file) > 5) && (access(ttf_file, F_OK) == 0) ) {
+		if(breakdown_type == BREAKDOWN_MONTHLY)
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "［ 月別 ］");   //EDIT
+		else if(breakdown_type == BREAKDOWN_DAY_OF_MONTH)
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "［ 日別 ］");   //EDIT
+		else if(breakdown_type == BREAKDOWN_DAY_OF_WEEK)
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "［ 週別 ］");   //EDIT
+		else
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "［ 時間別 (15分間隔) ］");  //EDIT
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		if( (breakdown_type == BREAKDOWN_MONTHLY) || (breakdown_type == BREAKDOWN_DAY_OF_MONTH) || (breakdown_type == BREAKDOWN_DAY_OF_WEEK) ) {
+			gdImageStringFT(histogram_image, &brect[0], color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + (DRAWING_WIDTH / 2) - (string_width / 2), DRAWING_Y_OFFSET + 50, (char *)temp_buffer);  //EDIT
+		} else {
+			gdImageStringFT(histogram_image, &brect[0], color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + (DRAWING_WIDTH / 2) - (string_width / 2), DRAWING_Y_OFFSET + 75, (char *)temp_buffer);  //EDIT
+		}
+	} else {
+		if(breakdown_type == BREAKDOWN_MONTHLY)
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Month");
+		else if(breakdown_type == BREAKDOWN_DAY_OF_MONTH)
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Day of the Month");
+		else if(breakdown_type == BREAKDOWN_DAY_OF_WEEK)
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Day of the Week");
+		else
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Hour of the Day (15 minute increments)");
+		temp_buffer[sizeof(temp_buffer)-1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + (DRAWING_WIDTH / 2) - (string_width / 2), DRAWING_Y_OFFSET + 70, (unsigned char *)temp_buffer, color_black);
+	}
 
 	/* draw title */
-	snprintf(start_time, sizeof(start_time) - 1, "%s", ctime(&t1));
-	start_time[sizeof(start_time) - 1] = '\x0';
-	start_time[strlen(start_time) - 1] = '\x0';
-	snprintf(end_time, sizeof(end_time) - 1, "%s", ctime(&t2));
-	end_time[sizeof(end_time) - 1] = '\x0';
-	end_time[strlen(end_time) - 1] = '\x0';
+	if( (strlen(ttf_file) > 5) && (access(ttf_file, F_OK) == 0) ) {
+		get_time_string(&t1, start_time, sizeof(start_time) - 1, LONG_DATE_TIME);
+		get_time_string(&t1, end_time, sizeof(end_time) - 1, LONG_DATE_TIME);
 
-	if(display_type == DISPLAY_HOST_HISTOGRAM)
-		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Event History For Host '%s'", host_name);
-	else
-		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Event History For Service '%s' On Host '%s'", svc_description, host_name);
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + (DRAWING_WIDTH / 2) - (string_width / 2), 0, (unsigned char *)temp_buffer, color_black);
+		if(display_type == DISPLAY_HOST_HISTOGRAM)
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "ホスト '%s' のイベント履歴", host_name);
+		else
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "ホスト '%s' 上の '%s' サービスのイベント履歴", host_name,svc_description);
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageStringFT(histogram_image, &brect[0], color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + (DRAWING_WIDTH / 2) - (string_width / 2), string_height, (char *)temp_buffer);  //EDIT
 
-	snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%s to %s", start_time, end_time);
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + (DRAWING_WIDTH / 2) - (string_width / 2), string_height + 5, (unsigned char *)temp_buffer, color_black);
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%s から %s", start_time, end_time);
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageStringFT(histogram_image, &brect[0], color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + (DRAWING_WIDTH / 2) - (string_width / 2), (string_height * 2) + 5, (char *)temp_buffer);    //EDIT
+	} else {
+		snprintf(start_time, sizeof(start_time) - 1, "%s", ctime(&t1));
+		start_time[sizeof(start_time)-1] = '\x0';
+		start_time[strlen(start_time)-1] = '\x0';
+		snprintf(end_time, sizeof(end_time) - 1, "%s", ctime(&t2));
+		end_time[sizeof(end_time)-1] = '\x0';
+		end_time[strlen(end_time)-1] = '\x0';
+
+		if(display_type == DISPLAY_HOST_HISTOGRAM)
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Event History For Host '%s'", host_name);
+		else
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Event History For Service '%s' On Host '%s'", svc_description, host_name);
+		temp_buffer[sizeof(temp_buffer)-1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + (DRAWING_WIDTH / 2) - (string_width / 2), 0, (unsigned char *)temp_buffer, color_black);
+
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%s to %s", start_time, end_time);
+		temp_buffer[sizeof(temp_buffer)-1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + (DRAWING_WIDTH / 2) - (string_width / 2), string_height + 5, (unsigned char *)temp_buffer, color_black);
+	}
 
 
 #ifdef DEBUG
@@ -1955,63 +2015,122 @@ void graph_all_histogram_data(void) {
 
 
 	/* graph stats */
-	snprintf(temp_buffer, sizeof(temp_buffer) - 1, "EVENT TYPE");
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT, (unsigned char *)temp_buffer, color_black);
-
-	snprintf(temp_buffer, sizeof(temp_buffer) - 1, "  MIN   MAX   SUM   AVG");
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 115, DRAWING_Y_OFFSET - DRAWING_HEIGHT, (unsigned char *)temp_buffer, color_black);
-
-	draw_line(DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + string_height + 2, DRAWING_X_OFFSET + DRAWING_WIDTH + 275, DRAWING_Y_OFFSET - DRAWING_HEIGHT + string_height + 2, color_black);
-
-	snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Recovery (%s):", (display_type == DISPLAY_SERVICE_HISTOGRAM) ? "Ok" : "Up");
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 1), (unsigned char *)temp_buffer, color_green);
-
-	state1_avg = (double)((double)state1_sum / (double)total_buckets);
-	snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu   %.2f", state1_min, state1_max, state1_sum, state1_avg);
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 115, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 1), (unsigned char *)temp_buffer, color_black);
-
-	snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%s:", (display_type == DISPLAY_SERVICE_HISTOGRAM) ? "Warning" : "Down");
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 2), (unsigned char *)temp_buffer, (display_type == DISPLAY_SERVICE_HISTOGRAM) ? color_yellow : color_red);
-
-	state2_avg = (double)((double)state2_sum / (double)total_buckets);
-	snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu   %.2f", state2_min, state2_max, state2_sum, state2_avg);
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 115, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 2), (unsigned char *)temp_buffer, color_black);
-
-	snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%s:", (display_type == DISPLAY_SERVICE_HISTOGRAM) ? "Unknown" : "Unreachable");
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 3), (unsigned char *)temp_buffer, (display_type == DISPLAY_SERVICE_HISTOGRAM) ? color_orange : color_darkred);
-
-	state3_avg = (double)((double)state3_sum / (double)total_buckets);
-	snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu   %.2f", state3_min, state3_max, state3_sum, state3_avg);
-	temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
-	string_width = gdFontSmall->w * strlen(temp_buffer);
-	gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 115, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 3), (unsigned char *)temp_buffer, color_black);
-
-	if(display_type == DISPLAY_SERVICE_HISTOGRAM) {
-
-		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Critical:");
+	if( (strlen(ttf_file) > 5) && (access(ttf_file, F_OK) == 0) ) {
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "[ イベントの種類 ]");
 		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
 		string_width = gdFontSmall->w * strlen(temp_buffer);
-		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 4), (unsigned char *)temp_buffer, color_red);
+		gdImageStringFT(histogram_image, &brect[0], color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT - 10, (char *)temp_buffer);
 
-		state4_avg = (double)((double)state4_sum / (double)total_buckets);
-		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu   %.2f", state4_min, state4_max, state4_sum, state4_avg);
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "  最小  最大  合計    平均");
 		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
 		string_width = gdFontSmall->w * strlen(temp_buffer);
-		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 115, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 4), (unsigned char *)temp_buffer, color_black);
+		gdImageStringFT(histogram_image, &brect[0], color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + DRAWING_WIDTH + 100, DRAWING_Y_OFFSET - DRAWING_HEIGHT + 10, (char *)temp_buffer);
+
+		draw_line(DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + string_height + 2, DRAWING_X_OFFSET + DRAWING_WIDTH + 275, DRAWING_Y_OFFSET - DRAWING_HEIGHT + string_height + 2, color_black);
+
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "復旧(%s):", (display_type == DISPLAY_SERVICE_HISTOGRAM) ? "正常" : "稼動");
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageStringFT(histogram_image, &brect[0], color_green, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 2), (char *)temp_buffer);
+
+		state1_avg = (double)((double)state1_sum / (double)total_buckets);
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu    %.2f", state1_min, state1_max, state1_sum, state1_avg);
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageStringFT(histogram_image, &brect[0], color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + DRAWING_WIDTH + 105, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 2), (char *)temp_buffer);
+
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%s:", (display_type == DISPLAY_SERVICE_HISTOGRAM) ? "警告" : "停止");
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageStringFT(histogram_image, &brect[0], (display_type == DISPLAY_SERVICE_HISTOGRAM) ? color_yellow : color_red, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 3), (char *)temp_buffer);
+
+		state2_avg = (double)((double)state2_sum / (double)total_buckets);
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu    %.2f", state2_min, state2_max, state2_sum, state2_avg);
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageStringFT(histogram_image, &brect[0], color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + DRAWING_WIDTH + 105, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 3), (char *)temp_buffer);
+
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%s:", (display_type == DISPLAY_SERVICE_HISTOGRAM) ? "不明" : "未到達");
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageStringFT(histogram_image, &brect[0], (display_type == DISPLAY_SERVICE_HISTOGRAM) ? color_orange : color_darkred, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 4), (char *)temp_buffer);
+
+		state3_avg = (double)((double)state3_sum / (double)total_buckets);
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu    %.2f", state3_min, state3_max, state3_sum, state3_avg);
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageStringFT(histogram_image, &brect[0], color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + DRAWING_WIDTH + 105, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 4), (char *)temp_buffer);
+
+		if(display_type == DISPLAY_SERVICE_HISTOGRAM) {
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "異常:");
+			temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+			string_width = gdFontSmall->w * strlen(temp_buffer);
+			gdImageStringFT(histogram_image, &brect[0],color_red, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 5), (char *)temp_buffer);
+
+			state4_avg=(double)((double)state4_sum / (double)total_buckets);
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu    %.2f", state4_min, state4_max, state4_sum, state4_avg);
+			temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+			string_width = gdFontSmall->w * strlen(temp_buffer);
+			gdImageStringFT(histogram_image, &brect[0],color_black, ttf_file, SMALL_FONT_SIZE, 0.0, DRAWING_X_OFFSET + DRAWING_WIDTH + 105, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 5), (char *)temp_buffer);
+		}
+	} else {
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "EVENT TYPE");
+		temp_buffer[sizeof(temp_buffer)-1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT, (unsigned char *)temp_buffer, color_black);
+
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "  MIN   MAX   SUM   AVG");
+		temp_buffer[sizeof(temp_buffer)-1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 115, DRAWING_Y_OFFSET - DRAWING_HEIGHT, (unsigned char *)temp_buffer, color_black);
+
+		draw_line(DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + string_height + 2, DRAWING_X_OFFSET + DRAWING_WIDTH + 275, DRAWING_Y_OFFSET - DRAWING_HEIGHT + string_height + 2, color_black);
+
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Recovery (%s):", (display_type == DISPLAY_SERVICE_HISTOGRAM) ? "Ok" : "Up");
+		temp_buffer[sizeof(temp_buffer)-1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 1), (unsigned char *)temp_buffer, color_green);
+
+		state1_avg = (double)((double)state1_sum / (double)total_buckets);
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu   %.2f", state1_min, state1_max, state1_sum, state1_avg);
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 115, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 1), (unsigned char *)temp_buffer, color_black);
+
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%s:", (display_type == DISPLAY_SERVICE_HISTOGRAM) ? "Warning" : "Down");
+		temp_buffer[sizeof(temp_buffer) - 1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 2), (unsigned char *)temp_buffer, (display_type == DISPLAY_SERVICE_HISTOGRAM) ? color_yellow : color_red);
+
+		state2_avg = (double)((double)state2_sum / (double)total_buckets);
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu   %.2f", state2_min, state2_max, state2_sum, state2_avg);
+		temp_buffer[sizeof(temp_buffer)-1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 115, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 2), (unsigned char *)temp_buffer, color_black);
+
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%s:", (display_type == DISPLAY_SERVICE_HISTOGRAM) ? "Unknown" : "Unreachable");
+		temp_buffer[sizeof(temp_buffer)-1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 3), (unsigned char *)temp_buffer, (display_type == DISPLAY_SERVICE_HISTOGRAM) ? color_orange : color_darkred);
+
+		state3_avg = (double)((double)state3_sum / (double)total_buckets);
+		snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu   %.2f", state3_min, state3_max, state3_sum, state3_avg);
+		temp_buffer[sizeof(temp_buffer)-1] = '\x0';
+		string_width = gdFontSmall->w * strlen(temp_buffer);
+		gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 115, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 3), (unsigned char *)temp_buffer, color_black);
+
+		if(display_type == DISPLAY_SERVICE_HISTOGRAM) {
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "Critical:");
+			temp_buffer[sizeof(temp_buffer)-1] = '\x0';
+			string_width = gdFontSmall->w * strlen(temp_buffer);
+			gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 15, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 4), (unsigned char *)temp_buffer, color_red);
+
+			state4_avg = (double)((double)state4_sum / (double)total_buckets);
+			snprintf(temp_buffer, sizeof(temp_buffer) - 1, "%5lu %5lu %5lu   %.2f", state4_min, state4_max, state4_sum, state4_avg);
+			temp_buffer[sizeof(temp_buffer)-1] = '\x0';
+			string_width = gdFontSmall->w * strlen(temp_buffer);
+			gdImageString(histogram_image, gdFontSmall, DRAWING_X_OFFSET + DRAWING_WIDTH + 115, DRAWING_Y_OFFSET - DRAWING_HEIGHT + ((string_height + 5) * 4), (unsigned char *)temp_buffer, color_black);
+			}
 		}
 
 	return;
